@@ -19,8 +19,21 @@
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<?php foreach($results as $row):?>
 		<tr>
-			<td align="center"><?php echo ($row->is_out == 0 ? anchor('#','&nbsp;','class="arrow_down" id="arrow_down"') : anchor('#','&nbsp;','class="arrow_up" id="arrow_up"'));?></td>
-			<td><?php echo ($row->job_order_fk == null ? anchor('distribution/view/'.$row->id,'Референца') : anchor('job_orders/view/'.$row->job_order_fk,'Референца'));?></td>
+			<td align="center">
+			<?php 
+				if(!is_null($row->is_out))
+				{$class = 'arrow_up'; $page ='out';}
+					
+				if(is_null($row->is_out) AND is_null($row->is_return))
+				{$class = 'arrow_down'; $page ='in';}
+					
+				elseif(!is_null($row->is_return))
+				{$class = 'arrow_rot'; $page ='ret';}
+
+				echo anchor('#','&nbsp;',"class='{$class}' id='{$class}'");
+			?>	
+			</td>
+			<td><?php echo anchor("distribution/view/{$page}/{$row->id}",'Референца');?></td>
 			<td><?php echo ($row->quantity>0)?$row->quantity. ' '. $row->uname : '-';?></td>
 			<td><?php echo ($row->quantity<0)?$row->quantity. ' '. $row->uname : '-';?></td>
 			<td><?php echo $row->quantity+$row->qty_current . ' '. $row->uname;?></td>	

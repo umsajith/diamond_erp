@@ -23,7 +23,7 @@
 			<?php 
 				echo (($row->warehouse_fk == null) ? 
 				anchor("inventory/view/$row->type/$row->id",'Референца') : 
-				anchor('distribution/view/'.$row->warehouse_fk,'Референца'));
+				anchor('distribution/view/in/'.$row->warehouse_fk,'Референца'));
 			?>
 			</td>
 			<td><?php echo ($row->quantity > 0) ? $row->quantity.' '.$row->uname:'-';?></td>

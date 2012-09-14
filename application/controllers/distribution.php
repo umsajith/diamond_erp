@@ -45,7 +45,7 @@ class Distribution extends MY_Controller {
 			if($warehouse_id = $this->Warehouse_model->insert($_POST))
 			{
 				$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
-				$this->utilities->flash('add','distribution/inbounds');
+				$this->utilities->flash('add','distribution');
 			}		
 			else
 				$this->utilities->flash('error','distribution/inbounds');
@@ -84,7 +84,7 @@ class Distribution extends MY_Controller {
 			
 			//Inserts into databse and reports outcome
 			if($this->Warehouse_model->insert($_POST))
-				$this->utilities->flash('add','distribution/outbounds');
+				$this->utilities->flash('add','distribution');
 			else
 				$this->utilities->flash('error','distribution/outbounds');
 		}
@@ -95,8 +95,50 @@ class Distribution extends MY_Controller {
 		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 	
-	public function edit($id = false, $redirect = false)
+	public function insert_return()
 	{
+		/*
+		 * Inserts entries into the
+		 * finished Goods warehouse
+		 * eg. Storing finished goods
+		 */
+		//Load form validation library
+		$this->load->library('form_validation');
+		
+		//Defining Validation Rules
+		$this->form_validation->set_rules('prodname_fk','product','trim|required');
+		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+		$this->form_validation->set_rules('ext_doc','external document','trim');
+		$this->form_validation->set_rules('note','comments','trim');
+		
+		//Check if form has been submited
+		if ($this->form_validation->run())
+		{	
+			$_POST['is_return'] = 1;
+			$_POST['is_out'] = null;
+			
+			//Inserts into databse and reports outcome
+			if($this->Warehouse_model->insert($_POST))
+				$this->utilities->flash('add','distribution');		
+			else
+				$this->utilities->flash('error','distribution/returns');
+		}
+
+		//Heading
+		$this->data['heading'] = 'Повраток во Магацин';
+	}
+	
+	public function edit($page = false, $id = false)
+	{
+		/*
+		 * Checks if valid page has been passed
+		 */
+		$pages = array('in','out','ret');
+		
+		if(!in_array($page, $pages))
+			$this->utilities->flash('void','distribution');		
+
+		$this->data['page'] = $page;
 		/*
 		 * Edits inbounds/outbound entry 
 		 * into the warehouse, and then redirects
@@ -106,23 +148,33 @@ class Distribution extends MY_Controller {
 		if(!$this->data['result'])
 			$this->utilities->flash('void','distribution');
 		
-		
-		//Heading
-		if($this->data['result']->is_out == 0)
+		if($page == 'out')
 		{
-			$this->data['heading'] = 'Корекција на Приемница';
-			$redirect = 'inbounds';
-		}
-		else
-		{
+			
 			$this->data['heading'] = 'Корекција на Испратница';
 			$this->data['distributors'] = $this->utilities->get_distributors();
 			$redirect = 'outbounds';
 		}
+		
+		if($page == 'in')
+		{
+			$this->data['heading'] = 'Корекција на Приемница';
+			$redirect = 'inbounds';
+		}
+		
+		if($page == 'ret')
+		{
+			
+			$this->data['heading'] = 'Корекција на Повратница';
+			$this->data['distributors'] = $this->utilities->get_distributors();
+			$redirect = 'returns';
+		}
+		
 		//Load form validation library
 		$this->load->library('form_validation');
 		
 		//Defining Validation Rules
+		$this->form_validation->set_rules('id','product','required');
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
 		$this->form_validation->set_rules('note','comments','trim');
 		$this->form_validation->set_rules('ext_doc','external document','trim');
@@ -132,7 +184,7 @@ class Distribution extends MY_Controller {
 		if ($this->form_validation->run())
 		{	
 			//Inserts into databse and reports outcome
-			if($this->Warehouse_model->update($id,$_POST))
+			if($this->Warehouse_model->update($_POST['id'],$_POST,$page))
 			{
 				/*
 				 * If an inbound entry has been modified,
@@ -140,8 +192,8 @@ class Distribution extends MY_Controller {
 				 * inventory deductions again for the new quantity
 				 * according to the Bill of Materials
 				 */
-				if(($this->data['result']->is_out == 0) && $redirect == 'inbounds')
-					$this->_inventory_use($id, $_POST['prodname_fk'], $_POST['quantity']);
+				if($redirect == 'inbounds')
+					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
 				
 				$this->utilities->flash('add','distribution/'.$redirect);
 			}
@@ -163,7 +215,7 @@ class Distribution extends MY_Controller {
 		if(!$temp)
 			$this->utilities->flash('void','distribution');
 				
-		//Retreive data from Model
+		//Get product name to be displayed in heading
 		$this->data['product'] = $this->Products_model->select_single($id);
 		
 		//Results
@@ -184,7 +236,7 @@ class Distribution extends MY_Controller {
 		$this->data['pagination'] = $this->pagination->create_links(); 
 	}
 	
-	public function view($id = false, $type = false)
+	public function view($page = false, $id = false)
 	{
 		/*
 		 * Retreives and displayes only
@@ -197,20 +249,34 @@ class Distribution extends MY_Controller {
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','distribution');
+			
+		$pages = array('in','out','ret');
+		
+		if(!in_array($page, $pages))
+			$this->utilities->flash('void','distribution');
+		
+		/*
+		 * Pass the page in the view
+		 */
+		$this->data['page'] = $page;
 		
 		/*
 		 * If this is an Inbound warehouse movement,
 		 * details will be present, and contain all
 		 * raw material deductions from Inventory
-		 */
-		if($this->data['master']->is_out == 0)
+		 */			
+		if($page == 'in')
 		{
 			$this->load->model('procurement/Inventory_model');
 			$this->data['details'] = $this->Inventory_model->select_use($this->data['master']->id);
 			$this->data['heading'] = 'Приемница';
 		}
-		else
+		
+		if($page == 'out')
 			$this->data['heading'] = 'Испратница';
+		
+		if($page == 'ret')
+			$this->data['heading'] = 'Повратница';		
 	}
 	
 	public function inbounds($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -360,24 +426,100 @@ class Distribution extends MY_Controller {
 		redirect("distribution/outbounds/$query_id");
 	}
 	
-	public function delete($id = false)
+	public function returns($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		/*
+		 * Retreives all returned entires
+		 * into the warehouse
+		 */
+			
+		//Heading
+		$this->data['heading'] = 'Повраток во Магацин';
+		
+		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
+		
+		//Limit Per Page
+		$limit = 25;
+		
+		//Columns which can be sorted by
+		$this->data['columns'] = array (	
+			'dateoforigin'=>'Датум',
+			'prodname_fk'=>'Производ',
+			'quantity'=>'Влез',
+			'qty_current'=>'Старо Салдо',
+			'qty_new'=>'Ново Салдо',
+			'dateofentry'=>'Внес'
+		);
+		
+		$this->input->load_query($query_id);
+		
+		$query_array = array(
+			'prodname_fk' => $this->input->get('prodname_fk')
+		);
+
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('dateoforigin','prodname_fk','quantity','qty_current',
+								'qty_new','dateofentry');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
+		
+		//Retreive data from Model
+		$temp = $this->Warehouse_model->select_all_returns($query_array, $sort_by, $sort_order, $limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("distribution/returns/$query_id/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 6;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links(); 
+				
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
+		$this->data['query_id'] = $query_id;
+	}
+	
+	public function return_search()
+	{
+		$query_array = array(
+			'prodname_fk' => $this->input->post('prodname_fk'),
+			'distributor_fk' => $this->input->post('distributor_fk')
+		);	
+		$query_id = $this->input->save_query($query_array);
+		redirect("distribution/returns/$query_id");
+	}
+	
+	public function delete($page = false, $id = false)
+	{
+		$pages = array('in','out','ret');
+		
+		if(!in_array($page, $pages))
+			$this->utilities->flash('void','distribution');
+			
+		if($page == 'in')
+			$redirect = 'inbounds';
+		if($page == 'out')
+			$redirect = 'outbounds';
+		if($page == 'ret')
+			$redirect = 'returns';
+		
+		/*
 		 * Deletes the passed ID,
-		 * and redirects based on the type
-		 * of warehouse entry: 
-		 *  1. is_out = 0, inbound entry
-		 *  2. is_out = 1, outbound entry
+		 * and redirects
 		 */
 		$this->data['result'] = $this->Warehouse_model->select_single($id);
 		if(!$this->data['result'])
 			$this->utilities->flash('void','distribution');
-			
-		if($this->data['result']->is_out == 0)
-			$redirect = 'inbounds';
-		else
-			$redirect = 'outbounds';
-			
+				
 		if($this->Warehouse_model->delete($id))
 			$this->utilities->flash('delete','distribution/'.$redirect);
 		else

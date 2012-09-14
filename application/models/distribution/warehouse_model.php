@@ -67,7 +67,8 @@ class Warehouse_model extends CI_Model {
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
 		
-		$this->db->where('w.is_out',0);
+		$this->db->where('w.is_out',null);
+		$this->db->where('w.is_return',null);
 		
 		$data['results'] = $this->db->get()->result();
 		
@@ -143,6 +144,65 @@ class Warehouse_model extends CI_Model {
 			$this->db->where_in('distributor_fk',$query_array['distributor_fk']);
 			
 		$this->db->where('is_out',1);
+		
+		$temp = $this->db->get()->row();
+		$data['num_rows'] = $temp->count;
+		//--------------------------------------------------------------------------------------------
+		
+		//Returns the whole data array containing $results and $num_rows
+		return $data;
+	}
+	
+	function select_all_returns($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	{
+		$this->db->select('w.*,p.prodname,u.uname');
+		
+		$this->db->from('exp_cd_warehouse as w');
+		
+		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
+		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		
+		/*
+		 * Search Filters
+		 */
+		if(strlen($query_array['prodname_fk']))
+			$this->db->where_in('w.prodname_fk',$query_array['prodname_fk']);
+
+		/*
+		 * If sorting by product, changes from sorting
+		 * by foreign key, to sorting by product name. (alphabeticaly)
+		 */
+		if($sort_by == 'prodname_fk')
+			$sort_by = 'p.prodname';
+		/*
+		 * If sorting by is by new quantity (novo saldo),
+		 * since qty_new does not exist, and its calculated
+		 * by adding quantity to the qty_current, sorting
+		 * is done in same fashion
+		 */
+		if($sort_by == 'qty_new')
+			$sort_by = 'qty_current + quantity';
+		
+		//Sort by and Sort Order
+		$this->db->order_by($sort_by ,$sort_order);
+		
+		//Pagination Limit and Offset
+		$this->db->limit($limit , $offset);
+		
+		$this->db->where('w.is_return',1);
+		
+		$data['results'] = $this->db->get()->result();
+		
+		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
+		
+		$this->db->select('COUNT(*) as count',false);
+		$this->db->from($this->table);
+		
+		if(strlen($query_array['prodname_fk']))
+			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
+			
+		$this->db->where('is_out',0);
+		$this->db->where('is_return',1);
 		
 		$temp = $this->db->get()->row();
 		$data['num_rows'] = $temp->count;
@@ -265,23 +325,33 @@ class Warehouse_model extends CI_Model {
 			return false;
 	}
 	
-	function update($id,$data = array())
+	function update($id,$data = array(),$page)
 	{	
 		/*
 		 * If an outbound entry has been modified,
 		 * this makes sure negative quantity (deducation)
 		 * is inserted
 		 */
-		if(isset($data['is_out']) && $data['is_out'] == 1 && $data['quantity'] > 0)
-			$data['quantity'] = $data['quantity'] * -1;
-
+		if($page == 'out')
+		{
+			if($data['quantity'] > 0)
+				$data['quantity'] = $data['quantity'] * -1;
+			
+			$data['is_out'] = 1;
+			$data['is_return'] = null;			
+		}
 		/*
 		 * Deletes all raw materials deductions for this inbound entry,
 		 * so the new ones will be inserted according to new quantity
 		 */
-		if(isset($data['is_out']) && $data['is_out'] == 0 
-			&& isset($data['quantity']) && $data['quantity'] > 0)
-			$this->_delete_inventory_ids($id);
+		if($page == 'in')
+		{
+			if(isset($data['quantity']) AND $data['quantity'] > 0)
+				$this->_delete_inventory_ids($id);
+				
+			$data['is_out'] = null;
+			$data['is_return'] = null;
+		}
 		
 		/*
 		 * If dateoforigin has been unset (deleted)

@@ -843,6 +843,11 @@ a:hover.button, a:hover.button_wide{
 	text-indent:38px;
 	display:block;
 }
+.lorry_go{
+	background:url(../assets/lorry_go.png) no-repeat 14px 5px;
+	text-indent:38px;
+	display:block;
+}
 .print{
 	background:url(../assets/printer.png) no-repeat 10px 5px;
 	text-indent:33px;

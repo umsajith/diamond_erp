@@ -2,6 +2,7 @@
 <hr>
 	<a href="<?php echo site_url('distribution/insert_inbound');?>" class="button"><span class="lorry_add">Влез</span></a>
 	<a href="<?php echo site_url('distribution/insert_outbound');?>" class="button"><span class="lorry_delete">Излез</span></a>
+	<a href="<?php echo site_url('distribution/insert_return');?>" class="button"><span class="lorry_go">Врати</span></a>
 <table class="master_table">
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<tr>

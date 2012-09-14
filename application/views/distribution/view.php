@@ -5,8 +5,8 @@
 			<p><?php echo $master->dateofentry;?></p>
 		</div>
 	<div id="buttons">
-		<a href="<?php echo site_url('distribution/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
-		<a href="<?php echo site_url('distribution/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
+		<a href="<?php echo site_url("distribution/edit/{$page}/{$master->id}");?>" class="button"><span class="edit">Корекција</span></a>
+		<a href="<?php echo site_url("distribution/delete/{$page}/{$master->id}");?>" class="button" id="delete"><span class="delete">Бришење</span></a>
 	</div>	
 <hr>
 	<dl>
@@ -42,7 +42,5 @@
 	</tr>
 	<?php endforeach;?>
 	</table>
-<?php elseif(isset($details) && !count($details)):?>
-	<?php echo 'Нема дефинирано норматив за овој прозивод!';?>
 <?php endif;?>
 <?php $this->load->view('includes/_del_dialog');?>
