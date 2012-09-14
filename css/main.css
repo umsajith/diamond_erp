@@ -1,0 +1,1151 @@
+@CHARSET "UTF-8";
+
+*{padding:0;outline:0;}
+h1,h2,h3,h4,h5,h6,p,ul,ol{margin:8px 0 8px 0;}
+
+hr {margin:0;outline:0;margin-top:3px;margin-bottom:3px;}
+
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 100%;
+}
+body {
+	 font-family: Verdana, sans-serif;
+	 font-size: 0.7em;
+	 background: #F2F2E6;
+	 margin: 0;
+	 padding: 0;
+}
+
+/* CONTENT WRAPPER*/
+#wrapper { 
+	 margin: 0 auto;
+}
+
+/* NAVIGATION and MODNAV */
+div#navigation {
+	background: url('../assets/nav_back.png') repeat-x;
+    position: relative;
+    z-index: 1;
+    height: 34px;
+    padding: 0;
+    padding-left: 180px;
+    min-width: 850px;
+}
+div#navigation ul {
+	margin: 0;
+	padding: 0;
+	overflow:hidden;
+}
+div#navigation li {
+	float: left;
+	list-style-type:none;
+	text-align: center;	
+}
+div#navigation a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	padding: 5px;
+	line-height: 25px;
+}
+div#navigation a:link,a:visited {
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 110px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+div#navigation a:hover {
+	background: url('../assets/hover.png') repeat-x;
+}
+.split {
+    background: url('../assets/nav_split.png') center right no-repeat;
+}
+div#modnav { 
+	 color: #333;
+	 border: 1px solid #ccc;
+	 background: white;
+	 margin-top: 2px;
+	 margin-left: 2px;
+	 width: 175px;
+	 float: left;
+	 position: absolute;
+	 height: auto;
+}
+div#modnav .modnavtitle{ 
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: center;
+	color: #0073ea;
+	margin-right: 15px;
+	
+}
+div#modnav a { 
+	 color: #0073ea;
+	 padding-left: 20px;
+   	 background: transparent url(../assets/right.gif) no-repeat center left;
+}
+div#modnav a:link,a:visited { 
+	color: #0073ea;
+	text-decoration: underline;
+}
+div#modnav a:hover { 
+	color: #F52887;
+	text-decoration: none;
+}
+div#modnav ul {
+	padding-left: 15px;
+	list-style-type: none;
+
+}
+div#modnav ul li{
+	padding-bottom: 5px;	
+}
+
+
+/* MAIN CONTENT */
+div#content { 
+	 margin-top: 2px;
+	 margin-right: 2px;
+	 margin-left: 180px;
+	 overflow: auto;
+	 border: 1px solid #ccc;
+	 background: #fff;
+	 padding: 0px 10px 10px 10px;
+	 min-width: 850px;
+	 
+}
+
+/* HEADER */
+div#header {
+    height: 56px;
+    background: url('../assets/header.png') repeat-x;
+    min-width: 850px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+div#header .erp {
+	float: left;
+	margin-top: 10px;
+
+}
+div#header .user_info {
+	margin-top: 7px;
+	float: right;
+	text-align: right;
+	color: white;
+}
+div#header div#clock {
+	font-weight: bold;
+}
+div.left {
+	width: 100%;
+	text-align: right;
+}
+div#header .user_info a,a:visited { 
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+}
+div#header .user_info a:hover { 
+	color: #F52887;
+	text-decoration: underline;
+}
+
+/* FOOTER */
+div#footer {
+	font-size: 7pt;
+	height: 30px;	
+    text-align: center;
+    margin-top: 15px;
+}
+div#footer a {
+	color: black;	
+}
+/* FIELDSET DATA FORMS*/
+fieldset.data_form {
+	float:left;
+	width: 660px;
+	margin:0;
+	padding: 10px;
+	border: 2px solid #dcc;	
+}
+fieldset.data_form legend {
+	font-size: 9pt;
+	padding: 2px;
+}
+div#west {
+	width: 690px;
+	float: left;
+}
+div#east {
+	width: 690px;
+	float: left;
+}
+/* FIELDSET REPORT FORMS*/
+fieldset.report {
+	margin-bottom: 5px;
+	padding: 10px;
+	border: 2px solid #ccc;	
+}
+fieldset.report legend {
+	font-size: 9pt;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+/* INSERT and EDIT FORMS (possition,task,products,partners,employees) */
+table.data_forms {
+	border-collapse:collapse;
+}
+table.data_forms td {
+	padding: 0;
+	border: 1px solid #ccc;
+	height: 20px;
+}
+table.data_forms input[type=text] {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms select {
+	width: 210px;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms input[type=password] {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms textarea {
+	width: 100%;
+	height: 50px;
+	border:0;
+	margin: 0;
+}
+
+table.data_forms textarea.wide {
+	width: 650px;
+	max-width: 650px;
+	min-width: 650px;
+}
+table.data_forms .label {
+	text-align: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/* INSERT and EDIT FORMS WIDE (partners,employees) */
+table.data_forms_wide {
+	border-collapse:collapse;
+	width: 100%;	
+}
+table.data_forms_wide td {
+	padding: 0;
+	border: 1px solid #ccc;
+	height: 20px;
+}
+table.data_forms_wide input[type=text] {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms_wide select {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms_wide input[type=password] {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms_wide textarea {
+	width: 100%;
+	height: 75px;
+	border:0;
+	margin: 0;
+}
+
+table.data_forms_wide textarea.wide {
+	width: 650px;
+	max-width: 650px;
+	min-width: 650px;
+}
+table.data_forms_wide .label {
+	text-align: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/* INSERT/EDIT FORMS of JOB ORDERS*/
+table.data_forms_jo{
+	margin-top: 5px;
+	float: left;
+	border-collapse:collapse;
+}
+table.data_forms_jo td {
+	border: 1px solid #ccc;
+	padding: 0;
+	height: 20px;
+}
+table.data_forms_jo input[type=text] {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms_jo select {
+	width: 100%;
+	border:0;
+	height: 20px;
+	margin: 0;
+}
+table.data_forms_jo textarea {
+	width: 250px;
+	height: 60px;
+	border: 0;
+	margin: 0;
+}
+table.data_forms_jo .label {
+	text-align: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/* ORDERS DETAILS GRID */
+table#order_grid{
+    border-collapse:collapse;
+    width: 650px;
+}
+
+table#order_grid.details{
+    width:684px;
+}
+
+table#order_grid th{
+	text-align: center;
+	color: red;
+}
+table#order_grid tr{
+	height: 25px;
+	
+}
+table#order_grid td{
+	border-color: #9EC6F0;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    text-align: right;
+    padding-right: 10px;
+}
+
+table#order_grid th{
+	color: white;
+	font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: right;
+    background-color: #5F7C9C;
+}
+table#order_grid tr:nth-child(even) {background: #FFF}
+table#order_grid tr:nth-child(odd) {background: #E6EFF7}
+
+/* MASTER GRID TABLES */
+table.master_table{
+	width:100%;
+    border-collapse:collapse;
+	
+}
+table.master_table tr {
+	height: 31px;	
+}
+table.master_table td{
+	border-color: #9EC6F0;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    text-align: right;
+    padding-right: 10px;
+}
+
+table.master_table td select{
+	padding:0;
+	width: 100px;
+	height: 20px;
+}
+
+table.master_table th{
+	color: white;
+	font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: right;
+    background-color: #5F7C9C;
+}
+
+table.master_table th a {
+	color: white;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+table.master_table th a:visited {
+	color: white;
+	font-weight: bold;
+}
+
+table.master_table th a:hover {
+	color: white;
+    text-decoration: underline;
+}
+
+table.master_table a{
+	color: #0073ea;
+	text-decoration: none;
+	font-size: 7pt;
+	font-weight: bold;
+}
+table.master_table a:visited { 
+	color: #0073ea;
+	text-decoration: none;
+}
+table.master_table_calc {
+	width: 100%;
+	text-align: right;
+	font-size: 9pt;
+	font-weight: bold;
+	
+}
+
+table.master_table td.no_records  {
+	border: 1px solid red;
+	color: red;
+	text-align: center;
+	font-size: 9pt;	
+	height: 45px;
+	background-color: #FFDEE0;
+	margin-top: 10px;
+}
+table.master_table tr:hover td.no_records {
+	background-color: #FFDEE0;
+}
+
+table.master_table tr:nth-child(even) {background: #FFF}
+table.master_table tr:nth-child(odd) {background: #E6EFF7}
+
+.desc:after {
+	content: "▲";
+}
+.asc:after {
+	content: "▼";
+	
+}
+table.master_table .code {
+	width: 30px;
+	text-align: center;	
+}
+.functions {
+	width: 55px;
+	text-align: center;	
+}
+/* FILTERS BAR */
+.filers {
+	float: right;
+	margin:0;
+	margin-bottom: 3px;
+}
+.filers select {
+	width: 125px;
+}
+.red {
+	color: red;	
+}
+.lock_td {
+	width: 30px;
+	text-align: center;	
+}
+p#total_rows {
+	margin: 0;
+	padding:0;
+	float:left;
+	margin-top: 7px;	
+	margin-left: 5px;
+	font-style: oblique;
+	color: #C43F74;
+	 	
+}
+/* QUICK MESSAGES */
+.quick_message {
+	float: right;
+	margin-top: 8px;
+	margin-right: 5px;
+	color: red;
+	border: 1px solid red;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-weight:bold;
+}
+.quick_message_filter {
+	float: right;
+	margin-top: 8px;
+	margin-right: 5px;
+	color: green;
+	border: 1px solid green;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-weight:bold;
+}
+
+/* META SECTIONS */
+
+#meta{
+	float: right;
+}
+#meta p{
+	text-align: right;
+	margin: 0;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+/* PAGINATION */
+.pagination {
+	text-align: right;
+	margin-top: 10px;
+}
+div.pagination a,a:visited {
+	color: black;
+	padding-right: 2px;	
+}
+
+
+/* NO RECORDS WARNING */
+td.no_records .warning {
+	background:url(../assets/warning.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	width: 180px;
+	margin: 0 auto;
+	display:block;
+}
+
+
+/* DETAIL TABLE */
+.detail_header {
+	text-align: left;
+	font-weight: bold;
+}
+td.label {
+	text-align:right;
+}
+
+/* MASTER-DETAIL FORM PAGES */
+
+div.master_detail {
+	margin: 0 auto;
+}
+div.master_detail table {
+	width: 750px;	
+}
+dd, dt {
+	padding: 1px;	
+}
+dt {
+	font-weight: bold;
+	float: left;
+	padding-right: 1em;
+}
+.comments {
+	width: 400px;
+	height: 70px;	
+}
+
+/* LOGIN PAGE */
+div#loginpage {
+	width: 400px;
+	margin: 0 auto;
+	text-align: center;
+	height: 185px;
+	background-color: white;
+	border-width: 1px;
+	border-style: solid;
+	border-color: gray;
+}
+div#flash {
+	width: 400px;
+	margin: 0 auto;
+	margin-top: 2px;
+	background-color: white;
+	color: red;
+	text-align: center;
+	height: 20px;
+	padding-top: 5px;
+	font-weight: bold;
+	border-width: 1px;
+	border-style: solid;
+	border-color: red;
+}
+
+div#erp_login_logo {
+    margin: 0 auto;
+    background-color: #F2F2E6;
+    padding-top: 4px;
+    background: url('../assets/header.png') repeat-x;
+    padding-bottom: 10px;
+}
+body#login_body {
+    padding-top: 50px;
+    background-color: #E0E0DC;
+}
+div#login_footer {
+	width: 400px;
+	margin: 0px auto;
+	font-size: 7pt;
+	text-align: center;
+	padding-top: 5px;
+}
+table#login {
+	width: 250px;
+	margin: 0 auto;
+}
+table#login td input[type=text]{
+	padding: 0;
+	margin: 0;
+	width: 200px;
+	height: 20px;
+}
+table#login input[type=password]{
+	padding: 0;
+	margin: 0;
+	width: 200px;
+	height: 20px;
+}
+
+/* DASHBOARD */
+div#dashboard_wrapper {
+	position: relative;
+	height: 700px;
+	margin: 0;
+	padding: 0;
+}
+div#dashboard_wrapper div#dash_title {
+	background-color: #F2F2E6;
+	border: 1px solid #ccc;
+	font-size: 12pt;
+	font-weight: bold;
+	position: absolute;
+	width: 98%;
+	height: 30px;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 7px;
+	line-height: 30px;
+	
+}
+#dash_title {
+	background:url(../assets/house.png) no-repeat 10px 7px;
+	text-indent:33px;
+	display:block;
+}
+div#dashboard_wrapper div#dash_stats {
+	//background-color: #F2F2E6;
+	border: 1px solid #ccc;
+	position: absolute;
+	width: 31%;
+	height: 240px;
+	left: 15px;
+	top: 50px;
+	
+}
+div#dashboard_wrapper div#dash_job_orders {
+	background-color: #F2F2E6;
+	position: absolute;
+	width: 65%;
+	right: 15px;
+	top: 50px;
+}
+div#dashboard_wrapper div#dash_orders {
+	position: absolute;
+	margin: 0 auto;
+	left: 15px;
+	right: 15px;
+	top: 305px;
+	height: 400px;
+}
+div#dashboard_wrapper div#dash_orders caption {
+	outline: 1px solid #ccc;
+	background-color: #F2F2E6;
+	height: 20px;
+	margin-bottom: 3px;
+}
+div#dashboard_wrapper div#dash_orders tr {
+	height: 25px;
+}
+div#dashboard_wrapper div#dash_orders td,th {
+	padding-right: 10px;
+}
+div#dashboard_wrapper div#dash_job_orders caption {
+	outline: 1px solid #ccc;
+	background-color: #F2F2E6;
+	height: 20px;
+	margin-bottom: 3px;
+}
+div#dashboard_wrapper div#dash_job_orders tr {
+	height: 25px;
+}
+div#dashboard_wrapper div#dash_job_orders td,th {
+	padding-right: 10px;
+}
+div#dashboard_wrapper div#dash_stats table#dash_stats_table{
+	width: 100%;
+	border-collapse:collapse;
+		
+}
+div#dashboard_wrapper div#dash_stats table#dash_stats_table td{
+	border-bottom: 1px dotted #ccc;
+	padding-left: 20px;
+	padding-right: 15px;	
+}
+div#dashboard_wrapper div#dash_stats table#dash_stats_table tr{
+	height: 26px;		
+}
+div#dashboard_wrapper  div#dash_stats table#dash_stats_table caption {
+	outline: 1px solid #ccc;
+	background-color: #F2F2E6;
+	height: 20px;
+	margin-bottom:10px;
+}
+.dash_caption {
+	font-size: 9pt;
+	font-weight: bold;
+	float: left;
+	margin-left: 10px;
+	margin-top: 3px;
+}
+/* FORM ELEMENTS */
+select {
+	border: 1px solid #ccc;
+	background-color: white;
+	color: #004D9E;
+	font-size: 9pt;
+	margin: 0;
+	padding: 0;
+	width: 225px;
+}
+select[name=rp] {
+	width: 40px;/*FlexiGrid PerPage select menu*/
+}
+input, textarea {
+	border: 1px solid #ccc;
+	background-color: white;
+	padding: 0;
+	color: #004D9E;
+	font-size: 9pt;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+input[disabled] {
+	background-color: #ddd;
+	color: #004D9E;
+}
+input[type=submit], input[type=button] {
+	margin:0;
+	font-weight: bold;
+	height: 27px;
+	width: 100px;
+}
+input[type=submit]:hover, input[type=button]:hover {
+	background-color: #004D9E;
+	color: white;
+}
+
+/* BUTTONS */
+a.button{
+	float: left;
+	display:block;
+	border: 1px solid #ccc;
+	color: #004D9E;
+	font-weight:bold;
+	line-height:25px;
+	text-decoration:none;
+	width:100px;
+	margin:0;
+	margin-right: 2px;
+	margin-bottom: 2px;
+}
+a.button_wide{
+	float: left;
+	display:block;
+	border: 1px solid #ccc;
+	color: #004D9E;
+	font-weight:bold;
+	line-height:25px;
+	text-decoration:none;
+	width:150px;
+	margin:0;
+	margin-right: 2px;
+	margin-bottom: 2px;
+}
+a:hover.button, a:hover.button_wide{
+	background-color: #004D9E;
+	color: white;
+}
+.add{
+	background:url(../assets/add.png) no-repeat 20px 5px;
+	text-indent:40px;
+	display:block;
+}
+
+.calculator{
+	background:url(../assets/calculator.png) no-repeat 20px 5px;
+	text-indent:40px;
+	display:block;
+}
+.delete{
+	background:url(../assets/delete.png) no-repeat 8px 5px;
+	text-indent:30px;
+	display:block;
+}
+.edit{
+	background:url(../assets/page_white_edit.png) no-repeat 8px 5px;
+	text-indent:30px;
+	display:block;
+}
+.lock{
+	background:url(../assets/lock_add.png) no-repeat 10px 5px;
+	text-indent:33px;
+	display:block;
+}
+.unlock{
+	background:url(../assets/lock_delete.png) no-repeat 10px 5px;
+	text-indent:33px;
+	display:block;
+}
+.lorry_add{
+	background:url(../assets/lorry_add.png) no-repeat 14px 5px;
+	text-indent:38px;
+	display:block;
+}
+.lorry_delete{
+	background:url(../assets/lorry_delete.png) no-repeat 14px 5px;
+	text-indent:38px;
+	display:block;
+}
+.print{
+	background:url(../assets/printer.png) no-repeat 10px 5px;
+	text-indent:33px;
+	display:block;
+}
+.pdf{
+	background:url(../assets/pdf.png) no-repeat 12px 5px;
+	text-indent:40px;
+	display:block;
+}
+
+.complete{
+	background:url(../assets/tick.png) no-repeat 10px 5px;
+	text-indent:33px;
+	display:block;
+}
+.receive{
+	background:url(../assets/package_go.png) no-repeat 10px 5px;
+	text-indent:33px;
+	display:block;
+}
+.approved{
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/approved.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: default;
+}
+.pending{
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/pending.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: default;
+}
+.redjected{
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/redjected.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: default;
+}
+#buttons {
+	height: 27px;	
+}
+.save {
+	background:url(../assets/disk.png) no-repeat 15px 5px;
+	text-indent:15px;
+	display:block;
+}
+.removeprod {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/delete.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;	
+}
+.del_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/delete.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.del_icon :hover {
+	text-decoration: none;	
+}
+.editprod {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/pencil.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.edit_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/pencil.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;	
+    
+}
+.receive_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/package_go.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;	
+    
+}
+.complete_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/tick.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;	
+    
+}
+.view_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/page_view.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.zoom_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/zoom.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+   	height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.lock_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/lock.png) no-repeat scroll right center;
+    height: 16px;
+    width: 16px;
+    color:#000000;
+    display:inline-block;
+    cursor: default;
+}
+.medal1_gold {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/medal1_gold.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    padding-right:15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: default;
+}
+.tick_icon {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/tick.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: default;
+}
+.arrow_up {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/arrow_up.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    padding-right:15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: default;
+}
+.arrow_down {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/arrow_down.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    padding-right:15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: default;
+}
+.arrow_rot {
+	-moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:transparent url(../assets/arrow_rotate_clockwise.png) no-repeat scroll right center;
+    color:#000000;
+    display:inline-block;
+    padding-right:15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: default;
+}
+/* Edit of Orders */
+.add_icon{
+	background:url(../assets/add.png) no-repeat scroll right center;
+	color:#000000;
+    display:inline-block;
+    padding-right:15px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+/* FLEXIGRID BUTTONS */
+.add_fg{
+	background:url(../assets/add.png) no-repeat 7px 2px;
+	text-indent:8px;
+	display:block;
+}
+.edit_fg{
+	background:url(../assets/pencil.png) no-repeat 7px 2px;
+	text-indent:8px;
+	display:block;
+}
+.delete_fg{
+	background:url(../assets/delete.png) no-repeat 7px 2px;
+	text-indent:8px;
+	display:block;
+}
+
+/*TEST AREA*/
+
+p.ci_error{
+	overflow: hidden;
+	margin: 0;
+	margin-top: 3px;
+	border: 1px solid #FF6666;
+	width: 285px;	
+	padding: 3px;
+	text-align: center;
+	color: red;
+}
+span.req {
+	color: red;
+	font-size: 9pt;
+}
+
+dl {
+	padding: 0;
+	margin: 0;
+	width: 350px;
+}
+dl dt {
+	min-width: 160px;
+	text-align: left;
+	border-bottom: 1px dotted #ccc;
+}
+
+dl dd {
+	margin-bottom: 2px;
+	border-bottom: 1px dotted #ccc;
+	margin-left: 160px;
+	min-width: 300px;
+}
+
+
+.last_job_order {
+	padding: 5px;
+	width: 350px;
+	float: left;
+}
+
+.last_job_order dl {
+	margin-top: 5px;
+}
+.last_job_order h3 {
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	color: white;
+	background-color: #5F7C9C;
+}

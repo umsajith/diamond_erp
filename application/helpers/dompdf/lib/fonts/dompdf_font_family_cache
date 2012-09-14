@@ -1,0 +1,9 @@
+<?php return array (
+  'verdana' => 
+  array (
+    'normal' => DOMPDF_FONT_DIR . 'Verdana',
+    'bold' => DOMPDF_FONT_DIR . 'Verdana_Bold',
+    'italic' => DOMPDF_FONT_DIR . 'Verdana_Italic',
+    'bold_italic' => DOMPDF_FONT_DIR . 'Verdana_Bold_Italic',
+  )
+) ?>
