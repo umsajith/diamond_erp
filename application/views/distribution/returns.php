@@ -4,6 +4,7 @@
 <div class="filers">
     <?php echo form_open('distribution/return_search');?>
     <?php echo form_dropdown('prodname_fk', $products, set_value('prodname_fk')); ?>
+    <?php echo form_dropdown('distributor_fk', $distributors, set_value('distributor_fk')); ?>
     <?php echo form_submit('','Филтрирај');?>
     <?php echo form_close();?>
 </div>

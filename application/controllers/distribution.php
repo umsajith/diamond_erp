@@ -439,6 +439,7 @@ class Distribution extends MY_Controller {
 		$this->data['heading'] = 'Повраток во Магацин';
 		
 		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
+		$this->data['distributors'] = $this->utilities->get_distributors();
 		
 		//Limit Per Page
 		$limit = 25;
@@ -457,13 +458,14 @@ class Distribution extends MY_Controller {
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
-			'prodname_fk' => $this->input->get('prodname_fk')
+			'prodname_fk' => $this->input->get('prodname_fk'),
+			'distributor_fk' => $this->input->get('distributor_fk')
 		);
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
 		$sort_by_array = array('dateoforigin','prodname_fk','quantity','qty_current',
-								'qty_new','dateofentry');
+								'qty_new','distributor_fk','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model

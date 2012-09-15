@@ -17,7 +17,7 @@
     <td class="label"><?php echo form_label('Единица Мерка: ');?></td>
     <td><?php echo form_input(array('id'=>'uname','value'=> $result->uname));?></td>
 </tr>
-<?php if($result->is_out==1):?>
+<?php if(in_array($page, array('out','ret'))):?>
 <tr>
 	<td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
     <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk',$result->distributor_fk)); ?></td>
@@ -47,7 +47,7 @@
 	$.getJSON("<?php echo site_url('products/dropdown/salable'); ?>", function(result) {
 	    var optionsValues = "<select id='product'>";
 	    JSONObject = result;
-	    optionsValues += '<option value="">' + '--' + '</option>';
+	    optionsValues += '<option value="">' + '- Производ -' + '</option>';
 	    $.each(result, function() {
 		    if(<?php echo $result->prodname_fk;?> == this.id){
 		       optionsValues += '<option value="' + this.id + '" selected="selected">' + this.prodname + '</option>';

@@ -176,6 +176,8 @@ class Warehouse_model extends CI_Model {
 		 */
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('w.prodname_fk',$query_array['prodname_fk']);
+		if(strlen($query_array['distributor_fk']))
+			$this->db->where_in('w.distributor_fk',$query_array['distributor_fk']);
 
 		/*
 		 * If sorting by product, changes from sorting
@@ -209,6 +211,8 @@ class Warehouse_model extends CI_Model {
 		
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
+		if(strlen($query_array['distributor_fk']))
+			$this->db->where_in('distributor_fk',$query_array['distributor_fk']);
 			
 		$this->db->where('is_out',0);
 		$this->db->where('is_return',1);
@@ -367,12 +371,6 @@ class Warehouse_model extends CI_Model {
 			$data['is_out'] = null;
 			$data['is_return'] = null;
 		}
-		
-		/*
-		 * Updated 'updated_at' field
-		 */
-		$data['updated_at'] = date("Y-m-d H:i:s", time());
-		
 		
 		/*
 		 * If dateoforigin has been unset (deleted)
