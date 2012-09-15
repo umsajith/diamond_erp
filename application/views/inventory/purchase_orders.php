@@ -3,7 +3,7 @@
 	<a href="<?php echo site_url('inventory/insert_po');?>" class="button"><span class="add">Внес</span></a>
 	<a href="#" class="button"><span class="receive">Прими</span></a>
 <div class="filers">
-    <?php echo form_open('inventory/purchase_orders');?>
+    <?php echo form_open('inventory/po_search');?>
     <?php echo form_dropdown('prodname_fk', $products, set_value('prodname_fk')); ?>
     <?php echo form_dropdown('pcname_fk',$categories, set_value('pcname_fk')); ?>
     <?php echo form_submit('','Филтрирај');?>
@@ -15,13 +15,11 @@
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
-		<th>Нарачано</th>
-		<th>Сировина</th>
-		<th>Количина</th>
-		<th>Добавувач</th>
-		<th>Задолжение</th>
-		<th>Начин</th>
-		<th>Статус</th>
+		<?php foreach ($columns as $col_name => $col_display):?>
+	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
+	    			<?php echo anchor("inventory/purchase_orders/$query_id/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    		</th>
+	    <?php endforeach;?>
 		<th>&nbsp;</th>
 	</tr>
 	<?php foreach($results as $row):?>
@@ -51,7 +49,7 @@
 			<td><?php echo $row->prodname;?></td>
 			<td><?php echo ($row->quantity == 0) ? '-' : $row->quantity.' '.$row->uname;?></td>
 			<td><?php echo ($row->company) ? $row->company : '-' ;?></td>
-			<td><?php echo ($row->assigned_to == null) ? '-' : $row->assignfname.' '.$row->assignlname;?></td>
+			<td><?php echo ($row->assigned_to == null) ? '-' : $row->assigned;?></td>
 			<td>
 				<?php 
 					switch ($row->purchase_method) 
@@ -69,6 +67,7 @@
 				?>
 			</td>
 			<td><?php echo $status;?></td>
+			<td><?php echo mdate('%d/%m/%Y',mysql_to_unix($row->dateoforder)); ?></td>
 			<td class="functions">
 				<?php echo anchor('inventory/edit/po/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
 				<?php echo anchor('inventory/delete/po/'.$row->id,'&nbsp;','class="del_icon"');?>

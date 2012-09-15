@@ -126,6 +126,8 @@ class Distribution extends MY_Controller {
 
 		//Heading
 		$this->data['heading'] = 'Повраток во Магацин';
+		
+		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 	
 	public function edit($page = false, $id = false)
@@ -448,6 +450,7 @@ class Distribution extends MY_Controller {
 			'quantity'=>'Влез',
 			'qty_current'=>'Старо Салдо',
 			'qty_new'=>'Ново Салдо',
+			'distributor_fk'=>'Дистрибутер',
 			'dateofentry'=>'Внес'
 		);
 		

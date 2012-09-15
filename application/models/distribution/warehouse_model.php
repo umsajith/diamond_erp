@@ -33,12 +33,14 @@ class Warehouse_model extends CI_Model {
 	
 	function select_all_inbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
-		$this->db->select('w.*,p.prodname,u.uname');
+		$this->db->select("w.*,p.prodname,u.uname,
+				CONCAT(e.fname,' ',e.lname) AS operator",false);
 		
 		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		$this->db->join('exp_cd_employees AS e','e.id = w.inserted_by','LEFT');
 		
 		/*
 		 * Search Filters
@@ -92,13 +94,16 @@ class Warehouse_model extends CI_Model {
 	
 	function select_all_outbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
-		$this->db->select('w.*,p.prodname,u.uname,e.fname,e.lname');
+		$this->db->select("w.*,p.prodname,u.uname,
+				CONCAT(e.fname,' ',e.lname) AS distributor,
+				CONCAT(em.fname,' ',em.lname) AS operator",false);
 		
 		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		$this->db->join('exp_cd_employees AS e','e.id = w.distributor_fk','LEFT');
+		$this->db->join('exp_cd_employees AS em','em.id = w.inserted_by','LEFT');
 		
 		/*
 		 * Search Filters
@@ -155,12 +160,16 @@ class Warehouse_model extends CI_Model {
 	
 	function select_all_returns($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
-		$this->db->select('w.*,p.prodname,u.uname');
+		$this->db->select("w.*,p.prodname,u.uname, 
+				CONCAT(e.fname,' ',e.lname) AS distributor,
+				CONCAT(em.fname,' ',em.lname) AS operator",false);
 		
 		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		$this->db->join('exp_cd_employees AS e','e.id = w.distributor_fk','LEFT');
+		$this->db->join('exp_cd_employees AS em','em.id = w.inserted_by','LEFT');
 		
 		/*
 		 * Search Filters

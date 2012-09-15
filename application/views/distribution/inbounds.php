@@ -17,6 +17,9 @@
 	    			<?php echo anchor("distribution/inbounds/$query_id/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
 	    	<?php endforeach;?>
+	    	<?php if($this->session->userdata('admin')):?>
+				<th>Oператор</th>
+			<?php endif;?>
 	    	<th>&nbsp;</th>
     	</tr>
     </thead>
@@ -30,6 +33,9 @@
 			<td><?php echo $row->quantity.' '.$row->uname;?></td>	
 			<td><?php echo $row->quantity+$row->qty_current.' '.$row->uname;?></td>
 			<td><?php echo ($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
+			<?php if($this->session->userdata('admin')):?>
+				<td><?php echo $row->operator;?></td>
+			<?php endif;?>
 			<td class="functions">
 				<?php echo anchor('distribution/edit/in/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
 				<?php echo anchor('distribution/delete/in/'.$row->id,'&nbsp;','class="del_icon"');?>

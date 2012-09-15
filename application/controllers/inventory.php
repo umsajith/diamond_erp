@@ -23,30 +23,73 @@ class Inventory extends MY_Controller {
 		$this->data['results'] = $this->Inventory_model->levels();
 	}
 	
-	function purchase_orders()
+	function purchase_orders($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
 		$this->data['heading'] = 'Нарачки';
 		
 		//Generate dropdown menu data
-		$this->data['products'] = $this->utilities->get_products('purchasable',true,true,'- Артикл -');
+		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		
-		//Pagination
-		$offset =  $this->uri->segment(3,0);
+		//Columns which can be sorted by
+		$this->data['columns'] = array (	
+			'dateoforder'=>'Нарачано',
+			'prodname_fk'=>'Артикл',
+			'quantity'=>'Количина',
+			'partner_fk'=>'Добавувач',
+			'assigned_to'=>'Задолжение',
+			'purchase_method'=>'Начин',
+			'po_status'=>'Статус',
+			'dateofentry'=>'Внес'
+		);
 		
-		//Retreive only Purchase Orders
-		$_POST['type'] = 'po';
+		$this->input->load_query($query_id);
 		
-		$config['base_url'] = site_url('inventory/purchase_orders');
-		$config['total_rows'] = count($this->Inventory_model->select($_POST));
-		$config['per_page'] = $this->limit;
+		$query_array = array(
+			'prodname_fk' => $this->input->get('prodname_fk'),
+			'pcname_fk' => $this->input->get('pcname_fk')
+		);
 		
-		$this->pagination->initialize($config);
-		$this->data['pagination'] = $this->pagination->create_links(); 
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('dateoforder','prodname_fk','partner_fk','quantity',
+								'assigned_to','purchase_method','po_status','dateofentry');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$this->data['results'] = $this->Inventory_model->select($_POST, $config['per_page'],$offset);
+		$temp = $this->Inventory_model->select_all_po($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("inventory/purchase_orders/$query_id/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $this->limit;
+		$config['uri_segment'] = 6;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links(); 
+				
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
+		$this->data['query_id'] = $query_id;
+	}
+	
+	function po_search()
+	{
+		$query_array = array(
+			'prodname_fk' => $this->input->post('prodname_fk'),
+			'pcname_fk' => $this->input->post('pcname_fk')
+		);	
+		$query_id = $this->input->save_query($query_array);
+		redirect("inventory/purchase_orders/$query_id");
 	}
 	
 	function goods_receipts($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -55,7 +98,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Приемници';
 				
 		//Generate dropdown menu data
-		$this->data['products'] = $this->utilities->get_products('purchasable',true,true,'- Артикл -');
+		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
 		$this->data['vendors'] = $this->Partners_model->dropdown('vendors');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		

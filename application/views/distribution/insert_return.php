@@ -17,6 +17,10 @@
     <td><?php echo form_input(array('id'=>'uname'));?></td>
 </tr>
 <tr>
+	<td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
+    <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk')); ?></td>
+</tr>
+<tr>
     <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
     <td><?php echo form_input('dateoforigin',set_value('dateoforigin')); ?></td>
 </tr>

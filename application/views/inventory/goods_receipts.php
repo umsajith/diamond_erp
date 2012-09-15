@@ -55,7 +55,6 @@
 			</td>
 		</tr>
 	<?php endforeach;?>
-
 <?php else:?>
 	<?php $this->load->view('includes/_no_records');?>
 <?php endif;?>

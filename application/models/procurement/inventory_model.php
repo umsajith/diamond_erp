@@ -57,6 +57,71 @@ class Inventory_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
+	function select_all_po($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	{
+		//Selects results by supplied criteria----------------------------------------------------------------
+		$this->db->select("i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
+			CONCAT(e.fname,' ',e.lname) AS assigned",false);	
+		
+		$this->db->from($this->table.' AS i');
+		
+		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
+		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
+		$this->db->join('exp_cd_employees AS e','e.id = i.assigned_to','LEFT');
+		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		
+		/*
+		 * Search Filters
+		 */
+		if(strlen($query_array['prodname_fk']))
+			$this->db->where_in('i.prodname_fk',$query_array['prodname_fk']);
+		if(strlen($query_array['pcname_fk']))
+			$this->db->where_in('p.pcname_fk',$query_array['pcname_fk']);
+			
+		if($sort_by == 'partner_fk')
+			$sort_by = 't.company';
+			
+		if($sort_by == 'prodname_fk')
+			$sort_by = 'p.prodname';
+			
+		if($sort_by == 'pcname_fk')
+			$sort_by = 'pc.pcname';
+			
+		if($sort_by == 'assigned_to')
+			$sort_by = 'assigned';
+			
+		//Sort by and Sort Order
+		$this->db->order_by($sort_by ,$sort_order);
+		
+		//Pagination Limit and Offset
+		$this->db->limit($limit , $offset);
+		
+		$this->db->where('i.type','po');
+		
+		$data['results'] = $this->db->get()->result();
+		
+		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
+		$this->db->select('COUNT(i.id) as count',false);
+		$this->db->from($this->table.' AS i');
+		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
+		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+		
+		if(strlen($query_array['prodname_fk']))
+			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
+		if(strlen($query_array['pcname_fk']))
+			$this->db->where_in('pcname_fk',$query_array['pcname_fk']);
+			
+		$this->db->where('type','po');
+		
+		$temp = $this->db->get()->row();
+		$data['num_rows'] = $temp->count;
+		//--------------------------------------------------------------------------------------------
+		
+		//Returns the whole data array containing $results and $num_rows
+		return $data;
+	}
+	
 	function select_all_gr($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects results by supplied criteria----------------------------------------------------------------
