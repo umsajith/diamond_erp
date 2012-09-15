@@ -86,12 +86,12 @@
 			  //VALIDATION: Checks if the product or quantity has not been selected
 			  if (quantity == '' || prodname_fk == '')
 			  {
-			    alert("Please select product and quantity!");
+			    alert("Внесете производ и количина!");
 			    return false;
 			  }
 			  else if (quantity <= 0)
 			  {
-				alert("Please enter valid quantity!");
+				alert("Внесете валидна количина!");
 				$("#quantity").focus();
 				return false;
 			  }
@@ -207,33 +207,21 @@
 
 		  if (partner_fk == '')
 		  {
-		    $("div.quick_message").text('Полето Купувач е задожително');
-			 $(".quick_message").fadeIn();
-				  setTimeout(function() {
-					  $(".quick_message").fadeOut();	
-				}, 2750);
+		    alert('Полето Купувач е задожително');
 		    $("select[name=partner_fk]").focus();
 		    return false;
 		  }
 		  
 		  if (dateshipped == '')
 		  {
-		    $("div.quick_message").text('Полето Испорачано на е задожително');
-			 $(".quick_message").fadeIn();
-				  setTimeout(function() {
-					  $(".quick_message").fadeOut();	
-				}, 2750);
+		    alert('Полето Испорачано на е задожително');
 		    $("input[name=dateshipped]").focus();
 		    return false;
 		  }
 
 		  if (distributor_fk == '')
 		  {
-		    $("div.quick_message").text('Полето Дистрибутер е задожително');
-			 $(".quick_message").fadeIn();
-				  setTimeout(function() {
-					  $(".quick_message").fadeOut();	
-				}, 2750);
+		    alert('Полето Дистрибутер е задожително');
 		    $("select[name=distributor_fk]").focus();
 		    return false;
 		  }
@@ -266,7 +254,7 @@
 	$.getJSON("<?php echo site_url('products/dropdown/salable'); ?>", function(result) {
         var optionsValues = "<select id='products'>";
         JSONObject = result;
-        optionsValues += '<option value="">' + '--' + '</option>';
+        optionsValues += '<option value="">' + '- Производ -' + '</option>';
         $.each(result, function() {
                 optionsValues += '<option value="' + this.id + '">' + this.prodname + '</option>';
         });

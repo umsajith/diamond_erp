@@ -29,7 +29,7 @@
     	<th>&nbsp;</th>
     </tr>
 	<?php foreach($details as $row):?>
-		<tr id="<?php echo $row->id;?>">
+		<tr id="<?php echo $row->prodname_fk;?>" class="<?php echo $row->id; ?>">
 			<td><?php echo $row->prodname;?></td>
 			<td><?php echo $row->pcname;?></td>
 			<td class="quantity" id="<?php echo $row->id;?>"><?php echo round($row->quantity,6);?></td>
@@ -51,13 +51,9 @@
 		$.post("<?php echo site_url('boms/remove_product'); ?>",
 				   {id:id},
 				   function(data){
-					   	  $('#' + toremove).remove();
-						  $("div.quick_message").text(data.message);
-						  setTimeout(function() {
-							  $("div.quick_message").empty();	
-							}, 4000);
-				   },"json"
-				   
+					   	  $('tr.' + toremove).remove();
+						  alert("Ставката е успешно избришана!");
+				   },"json"			   
 			   );
 		return false;	
 	}
@@ -71,34 +67,24 @@
 
 		if (prodname_fk == '')
 		  {
-			$("div.quick_message").text('Внесете производ.');
-			$(".quick_message").fadeIn();
-			  setTimeout(function() {
-				  $("div.quick_message").fadeOut();	
-				}, 2750);
+			alert('Внесете производ.');
 		    $("select[name=newprod]").focus();
 		    return false;
 		  }
 		if (quantity == '' || quantity <= 0)
 		  {
-			$("div.quick_message").text('Внесете валидна количина.');
-			$(".quick_message").fadeIn();
-			  setTimeout(function() {
-				  $("div.quick_message").fadeOut();	
-				}, 2750);
+			alert('Внесете валидна количина.');
 		    $("input[name=qty]").focus();
 		    return false;
 		  }
 
 		//Searches if product alredy exists
-		var exists = $(".master_table").find("#"+prodname_fk);
+		var exists = $(".master_table").find("tr#"+prodname_fk);
 
-		if(exists.size() == 1){
-			$("div.quick_message").text('Производот веќе постои. Корегирај количина.');
-			$(".quick_message").fadeIn();
-			  setTimeout(function() {
-				  $("div.quick_message").fadeOut();	
-				}, 2750);
+		//alert(exists.size()); return false;
+
+		if(exists.size() != 0){
+			alert('Производот веќе постои. Корегирај количина.');
 			   $("select[name=newprod]").val(" ");
 			   $("input[name=qty]").val(" ");
 			   $("select[name=newprod]").focus();

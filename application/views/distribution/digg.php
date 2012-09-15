@@ -5,9 +5,10 @@
 <tr>
 	<th>&nbsp;</th>
 	<th>Документ</th>
+	<th>Старо Салдо</th>
 	<th>Влез</th>
 	<th>Излез</th>
-	<th>Салдо</th>
+	<th>Ново Салдо</th>
 	<th>Документ</th>
 	<th>Внес</th>
 	<?php if($this->session->userdata('admin')):?>
@@ -34,9 +35,10 @@
 			?>	
 			</td>
 			<td><?php echo anchor("distribution/view/{$page}/{$row->id}",'Референца');?></td>
+			<td><?php echo $row->qty_current .' '. $row->uname;?></td>	
 			<td><?php echo ($row->quantity>0)?$row->quantity. ' '. $row->uname : '-';?></td>
 			<td><?php echo ($row->quantity<0)?$row->quantity. ' '. $row->uname : '-';?></td>
-			<td><?php echo $row->quantity+$row->qty_current . ' '. $row->uname;?></td>	
+			<td><?php echo $row->quantity + $row->qty_current .' '. $row->uname;?></td>	
 			<td><?php echo ($row->ext_doc) ? $row->ext_doc : '-' ;?></td>
 			<td><?php echo $row->dateofentry;?></td>
 			<?php if($this->session->userdata('admin')):?>

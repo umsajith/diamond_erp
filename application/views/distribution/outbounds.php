@@ -25,9 +25,9 @@
 		<tr>
 			<td class="code" align="center"><?php echo anchor('distribution/view/out/'.$row->id,'&nbsp;','class="view_icon"');?></td>
 			<td><?php echo ($row->dateoforigin == null) ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateoforigin)); ?></td>	
-			<td><?php echo $row->prodname;?></td>
-			<td><?php echo $row->quantity.' '.$row->uname;?></td>
+			<td><?php echo $row->prodname;?></td>		
 			<td><?php echo $row->qty_current.' '.$row->uname;?></td>
+			<td><?php echo $row->quantity.' '.$row->uname;?></td>
 			<td><?php echo $row->quantity+$row->qty_current.' '.$row->uname;?></td>
 			<td><?php echo ($row->distributor_fk == null ? '-' : $row->fname. ' '.$row->lname); ?></td>
 			<td><?php echo ($row->ext_doc == '' ? '-' : $row->ext_doc); ?></td>

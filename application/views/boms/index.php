@@ -30,5 +30,5 @@
 	<?php $this->load->view('includes/_no_records');?>
 <?php endif;?>
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php //$this->load->view('includes/_pagination');?>
 <?php $this->load->view('includes/_del_dialog');?>

@@ -298,8 +298,8 @@ class Distribution extends MY_Controller {
 		$this->data['columns'] = array (	
 			'dateoforigin'=>'Датум',
 			'prodname_fk'=>'Производ',
-			'quantity'=>'Влез',
 			'qty_current'=>'Старо Салдо',
+			'quantity'=>'Влез',	
 			'qty_new'=>'Ново Салдо',
 			'dateofentry'=>'Внес'
 		);
@@ -370,8 +370,8 @@ class Distribution extends MY_Controller {
 		$this->data['columns'] = array (	
 			'dateoforigin'=>'Датум',
 			'prodname_fk'=>'Производ',
-			'quantity'=>'Излез',
 			'qty_current'=>'Старо Салдо',
+			'quantity'=>'Излез',	
 			'qty_new'=>'Ново Салдо',
 			'distributor_fk'=>'Дистрибутер',
 			'ext_doc'=>'Документ',

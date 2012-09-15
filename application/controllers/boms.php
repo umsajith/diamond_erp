@@ -36,9 +36,6 @@ class Boms extends MY_Controller {
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{
-			//echo "<pre>";
-			//print_r($_POST); die();
-			
 			$id = $this->Boms_model->insert($_POST);
 			
 			if($id)
@@ -121,7 +118,7 @@ class Boms extends MY_Controller {
 		//Heading
 		$this->data['heading'] = "Корекција на Норматив";
 		
-		$this->data['products'] = $this->utilities->get_products('purchasable');
+		$this->data['products'] = $this->utilities->get_products('purchasable',false,true);
 	}
 	
 	//AJAX - Adds New Product in Bom Details

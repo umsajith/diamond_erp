@@ -337,6 +337,9 @@ class Warehouse_model extends CI_Model {
 			if($data['quantity'] > 0)
 				$data['quantity'] = $data['quantity'] * -1;
 			
+			if(isset($data['quantity']) AND $data['quantity'] > 0)
+				$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+			
 			$data['is_out'] = 1;
 			$data['is_return'] = null;			
 		}
@@ -349,9 +352,18 @@ class Warehouse_model extends CI_Model {
 			if(isset($data['quantity']) AND $data['quantity'] > 0)
 				$this->_delete_inventory_ids($id);
 				
+			if(isset($data['quantity']) AND $data['quantity'] > 0)
+				$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+				
 			$data['is_out'] = null;
 			$data['is_return'] = null;
 		}
+		
+		/*
+		 * Updated 'updated_at' field
+		 */
+		$data['updated_at'] = date("Y-m-d H:i:s", time());
+		
 		
 		/*
 		 * If dateoforigin has been unset (deleted)

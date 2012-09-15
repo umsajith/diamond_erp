@@ -5,9 +5,10 @@
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 	<th>Документ</th>
+	<th>Старо Салдо</th>
 	<th>Влез</th>
 	<th>Излез</th>
-	<th>Салдо</th>
+	<th>Ново Салдо</th>
 	<th>Внес</th>
 	<?php if($this->session->userdata('admin')):?>
 		<th>Oператор</th>
@@ -26,6 +27,7 @@
 				anchor('distribution/view/in/'.$row->warehouse_fk,'Референца'));
 			?>
 			</td>
+			<td><?php echo $row->qty_current.' '.$row->uname;?></td>
 			<td><?php echo ($row->quantity > 0) ? $row->quantity.' '.$row->uname:'-';?></td>
 			<td><?php echo ($row->quantity < 0) ? $row->quantity.' '.$row->uname:'-';?></td>
 			<td><?php echo $row->quantity+$row->qty_current.' '.$row->uname;?></td>

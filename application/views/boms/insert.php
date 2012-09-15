@@ -6,8 +6,7 @@
 <div id="west">
     <fieldset class="data_form">
 	<legend>Основни Информации</legend>
-    <table class="data_forms_wide">
-        
+    <table class="data_forms_wide">    
 		<tr>
 		    <td class="label"><?php echo form_label('Назив:');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('name', set_value('name'));?></td>
@@ -47,7 +46,7 @@
 	$.getJSON("<?php echo site_url('products/dropdown/salable'); ?>", function(result) {
 	    var optionsValues = "<select id='product'>";
 	    JSONObject2 = result;
-	    optionsValues += '<option value="">' + '--' + '</option>';
+	    optionsValues += '<option value="">' + '- Производ -' + '</option>';
 	    $.each(result, function() {
 	            optionsValues += '<option value="' + this.id + '">' + this.prodname + '</option>';
 	    });
