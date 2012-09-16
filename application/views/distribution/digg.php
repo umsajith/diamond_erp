@@ -1,7 +1,6 @@
 <h2><?php echo $heading . ' на Производ: ' .$product->prodname; ?></h2>
 <hr>
 <table class="master_table">
-
 <tr>
 	<th>&nbsp;</th>
 	<th>Документ</th>
@@ -16,7 +15,6 @@
 	<?php endif;?>
 	<th>&nbsp;</th>
 </tr>
-
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<?php foreach($results as $row):?>
 		<tr>
@@ -31,7 +29,7 @@
 				elseif(!is_null($row->is_return))
 				{$class = 'arrow_rot'; $page ='ret';}
 
-				echo anchor('#','&nbsp;',"class='{$class}' id='{$class}'");
+				echo "<span id='{$class}' class='{$class}' ></span>";			
 			?>	
 			</td>
 			<td><?php echo anchor("distribution/view/{$page}/{$row->id}",'Референца');?></td>

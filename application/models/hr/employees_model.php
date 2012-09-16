@@ -9,7 +9,7 @@ class Employees_model extends CI_Model {
 		parent::__construct();
 	}
 	
-	function select($options = array(),$limit=null,$offset=null)
+	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table
 		$this->db->select('e.*,u.name as ugroup,c.name,pc.postalcode,d.department,p.position');
@@ -21,23 +21,49 @@ class Employees_model extends CI_Model {
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 		
 		//Filter Qualifications
-		if(isset($options['poss_fk']) && $options['poss_fk'] != '')
-			$this->db->where_in('e.poss_fk',$options['poss_fk']);
-		if(isset($options['ugroup_fk']) && $options['ugroup_fk'] != '')
-			$this->db->where_in('e.ugroup_fk',$options['ugroup_fk']);
+		if(strlen($query_array['poss_fk']))
+			$this->db->where_in('e.poss_fk',$query_array['poss_fk']);
+		if(strlen($query_array['ugroup_fk']))
+			$this->db->where_in('e.ugroup_fk',$query_array['ugroup_fk']);
 
 		//Sort
-		if (isset($options['sory_by']) && isset($options['sort_direction']))
-			$this->db->order_by($options['sort_by'],$options['sort_direction']);
-		else
-			$this->db->order_by('e.fname');
+		if($sort_by == 'employee')
+			$sort_by = "e.fname";
+			
+		$this->db->order_by($sort_by,$sort_order);
 			
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
-
+			
+		//Retreives only the ACTIVE records, unless otherwise set	
 		$this->db->where('e.status !=','deleted');
 		
-		return $this->db->get()->result();
+		$data['results'] = $this->db->get()->result();
+		
+		//Counts the TOTAL rows in the Table------------------------------------------------------------
+		
+		$this->db->select('COUNT(e.id) AS count');
+		$this->db->from('exp_cd_employees AS e');
+		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
+		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
+		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
+		$this->db->join('exp_cd_postalcode AS pc','pc.id = e.postcode_fk','LEFT');
+		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
+
+		//Filter Qualifications
+		if(strlen($query_array['poss_fk']))
+			$this->db->where_in('e.poss_fk',$query_array['poss_fk']);
+		if(strlen($query_array['ugroup_fk']))
+			$this->db->where_in('e.ugroup_fk',$query_array['ugroup_fk']);
+		
+		$this->db->where('e.status !=','deleted');
+		
+		$temp = $this->db->get()->row();
+		
+		$data['num_rows'] = $temp->count;
+		//-----------------------------------------------------------------------------------------------
+		//Returns the whole data array containing $results and $num_rows
+		return $data;
 	}
 	
 	function select_single($id)

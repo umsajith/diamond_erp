@@ -2,8 +2,8 @@
 <hr>
 	<a href="<?php echo site_url('payroll/calculate');?>" class="button_wide"><span class="calculator">Калкулација</span></a>
 <div class="filers"> 
-    <?php echo form_open('payroll/index');?>
-    <?php echo form_dropdown('employee_fk', $employees, set_value('assigned_to')); ?>
+    <?php echo form_open('payroll/search');?>
+    <?php echo form_dropdown('employee_fk', $employees, set_value('employee_fk')); ?>
     <?php echo form_dropdown('for_month', $G_months, set_value('for_month')); ?>
     <?php echo form_submit('','Филтрирај');?>
     <?php echo form_close();?>
@@ -12,19 +12,11 @@
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<tr>
 		<th>&nbsp;</th>
-		<th>Работник</th>
-		<th>Месец</th>
-		<th>Од</th>
-		<th>До</th>
-		<th>Учинок</th>
-		<th>Придонеси</th>
-		<th>Тел.Суб.</th>
-		<th>Додатоци</th>
-		<th>Бруто Плата</th>
-		<th>Фиксна Плата</th>
-		<th>Трошоци</th>
-		<th>Доплата</th>
-		<th>Внес</th>
+		<?php foreach ($columns as $col_name => $col_display):?>
+			<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
+    			<?php echo anchor("payroll/index/$query_id/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+			</th>
+    	<?php endforeach;?>
 		<th>&nbsp;</th>
 	</tr>
 	<?php foreach($results as $row):?>

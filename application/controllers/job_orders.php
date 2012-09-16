@@ -239,9 +239,6 @@ class Job_orders extends MY_Controller {
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','job_orders');
-		
-		//Retreives data from DETAIL Model
-		$this->data['details'] = $this->Inventory_model->select_use(array('job_order_fk'=>$id));
 
 		//Heading
 		$this->data['heading'] = 'Работен Налог';

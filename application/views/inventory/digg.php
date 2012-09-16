@@ -18,8 +18,10 @@
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<?php foreach($results as $row):?>
 		<tr>
-			<td align="center"><?php echo ($row->is_use == 0 ? anchor('#','&nbsp;','class="arrow_down" id="arrow_down"') : anchor('#','&nbsp;','class="arrow_up" id="arrow_up"'));?></td>
-			<td align="center"><?php echo ($row->type == 'adj' ? anchor("#",'&nbsp;','class="arrow_rot" id="arrow_rot"') : '' ); ?></td>
+			<td align="center"><?php echo ($row->is_use == 0) ?
+				 "<span id='arrow_down' class='arrow_down' ></span>" :
+				 "<span id='arrow_up' class='arrow_up' ></span>"; ?></td>
+			<td align="center"><?php echo ($row->type == 'adj' ? "<span id='arrow_rot' class='arrow_rot' ></span>" : '' ); ?></td>
 			<td>
 			<?php 
 				echo (($row->warehouse_fk == null) ? 

@@ -1039,39 +1039,36 @@ a:hover.button, a:hover.button_wide{
     cursor: default;
 }
 .arrow_up {
-	-moz-background-clip:border;
+    -moz-background-clip:border;
     -moz-background-inline-policy:continuous;
     -moz-background-origin:padding;
     background:transparent url(../assets/arrow_up.png) no-repeat scroll right center;
+    height: 16px;
+    width: 16px;
     color:#000000;
     display:inline-block;
-    padding-right:15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
     cursor: default;
 }
 .arrow_down {
-	-moz-background-clip:border;
+    -moz-background-clip:border;
     -moz-background-inline-policy:continuous;
     -moz-background-origin:padding;
-    background:transparent url(../assets/arrow_down.png) no-repeat scroll right center;
+     background:transparent url(../assets/arrow_down.png) no-repeat scroll right center;
+    height: 16px;
+    width: 16px;
     color:#000000;
     display:inline-block;
-    padding-right:15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
     cursor: default;
 }
 .arrow_rot {
-	-moz-background-clip:border;
+    -moz-background-clip:border;
     -moz-background-inline-policy:continuous;
     -moz-background-origin:padding;
     background:transparent url(../assets/arrow_rotate_clockwise.png) no-repeat scroll right center;
+    height: 16px;
+    width: 16px;
     color:#000000;
     display:inline-block;
-    padding-right:15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
     cursor: default;
 }
 /* Edit of Orders */

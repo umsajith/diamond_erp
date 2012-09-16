@@ -13,7 +13,6 @@ class Co_model extends CI_Model {
 	
 	function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
-		
 		//Selects and returns all records from table----------------------------------------------------
 		$this->db->select('o.*,p.company,e.fname,e.lname,pm.name');
 		$this->db->from('exp_cd_orders AS o');
@@ -199,6 +198,25 @@ class Co_model extends CI_Model {
 		$this->db->where('distributor_fk',$id);
 		$this->db->where('dateshipped >=',$datefrom);
 		$this->db->where('dateshipped <=',$dateto);
+		$this->db->where('status','active');
+		
+		$results =  $this->db->get()->result();	
+		
+		$ids = array();
+		
+		foreach($results as $id)
+			array_push($ids, $id->id);
+			
+		return $ids;
+	}
+	
+	function get_by_payroll($id)
+	{
+		$this->db->select('id');
+		
+		$this->db->from($this->table);
+		
+		$this->db->where('payroll_fk',$id);
 		$this->db->where('status','active');
 		
 		$results =  $this->db->get()->result();	

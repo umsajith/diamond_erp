@@ -50,7 +50,7 @@
 		 * Disables icons that are contained into "a" tags to
 		 * be clicked
 		 */
-		$(".arrow_up, .arrow_down, .arrow_rot").click(function(){
+		$(".arrow_up, .arrow_down, .arrow_rot, #lock_icon").click(function(){
 			return false;
 		});
 		

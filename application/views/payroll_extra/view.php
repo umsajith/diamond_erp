@@ -1,5 +1,9 @@
 <h2><?php echo $heading; ?></h2>
 <hr>
+	<div id="meta">
+		<p>бр.<?php echo $master->id;?></p>
+		<p><?php echo $master->dateofentry;?></p>
+	</div>
 <?php if($master->locked != 1):?>
 	<div id="buttons">
 	<a href="<?php echo site_url('payroll_extra/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
@@ -14,11 +18,11 @@
         <dd><?php echo $master->name;?></dd>
         <dt>Износ:</dt>
         <dd><?php echo $master->amount;?></dd>
-        <dt>За Месец:</dt>
+        <dt>Месец:</dt>
         <dd><?php echo ($master->for_month == NULL ? '-' : $master->for_month);?></dd>
-        <dt>Опис:</dt>
+        <dt>Забелешка:</dt>
         <dd><?php echo ($master->description == NULL ? '-' : $master->description);?></dd>
-        <dt>Датум на Внес:</dt>
+        <dt>Внес:</dt>
         <dd><?php echo $master->dateofentry;?></dd>
 	</dl>
 <?php if($master->payroll_fk != NULL):?>	

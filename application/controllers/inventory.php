@@ -2,9 +2,9 @@
 
 class Inventory extends MY_Controller {
 	
-	protected $limit = 25;
+	private $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
@@ -14,7 +14,7 @@ class Inventory extends MY_Controller {
 		$this->load->model('products/Products_model');
     }
 	
-	function index()
+	public function index()
 	{	
 		//Heading
 		$this->data['heading'] = 'Магацин: Сировини';
@@ -23,7 +23,7 @@ class Inventory extends MY_Controller {
 		$this->data['results'] = $this->Inventory_model->levels();
 	}
 	
-	function purchase_orders($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
+	public function purchase_orders($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
 		$this->data['heading'] = 'Нарачки';
@@ -82,7 +82,7 @@ class Inventory extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function po_search()
+	public function po_search()
 	{
 		$query_array = array(
 			'prodname_fk' => $this->input->post('prodname_fk'),
@@ -92,7 +92,7 @@ class Inventory extends MY_Controller {
 		redirect("inventory/purchase_orders/$query_id");
 	}
 	
-	function goods_receipts($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
+	public function goods_receipts($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
 		$this->data['heading'] = 'Приемници';
@@ -153,7 +153,7 @@ class Inventory extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function gr_search()
+	public function gr_search()
 	{
 		$query_array = array(
 			'prodname_fk' => $this->input->post('prodname_fk'),
@@ -164,7 +164,7 @@ class Inventory extends MY_Controller {
 		redirect("inventory/goods_receipts/$query_id");
 	}
 	
-	function adjustments()
+	public function adjustments($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
 		$this->data['heading'] = 'Порамнување';
@@ -173,21 +173,59 @@ class Inventory extends MY_Controller {
 		$this->data['products'] = $this->utilities->get_products('purchasable',true,true,'- Артикл -');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		
-		//Pagination
-		$offset =  $this->uri->segment(3,0);
+		//Columns which can be sorted by
+		$this->data['columns'] = array (
+			'dateofentry'=>'Внес',	
+			'prodname_fk'=>'Артикл',
+			'pcname_fk'=>'Категорија',
+			'quantity'=>'Количина'
+		);
 		
-		//Request only ADJUSTMENTS from the Inventory table
-		$_POST['type'] = 'adj';
+		$this->input->load_query($query_id);
 		
-		$config['base_url'] = site_url('inventory/adjustments');
-		$config['total_rows'] = count($this->Inventory_model->select($_POST));
-		$config['per_page'] = 25;
+		$query_array = array(
+			'prodname_fk' => $this->input->get('prodname_fk'),
+			'pcname_fk' => $this->input->get('pcname_fk')
+		);
 		
-		$this->pagination->initialize($config);
-		$this->data['pagination'] = $this->pagination->create_links(); 
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('prodname_fk','pcname_fk','quantity','dateofentry');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$this->data['results'] = $this->Inventory_model->select($_POST, $config['per_page'],$offset);
+		$temp = $this->Inventory_model->select_all_adj($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("inventory/adjustments/$query_id/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $this->limit;
+		$config['uri_segment'] = 6;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links(); 
+				
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
+		$this->data['query_id'] = $query_id;
+	}
+	
+	public function adj_search()
+	{
+		$query_array = array(
+			'prodname_fk' => $this->input->post('prodname_fk'),
+			'pcname_fk' => $this->input->post('pcname_fk')
+		);	
+		$query_id = $this->input->save_query($query_array);
+		redirect("inventory/adjustments/$query_id");
 	}
 	
 	public function digg($id = false,$offset=null)

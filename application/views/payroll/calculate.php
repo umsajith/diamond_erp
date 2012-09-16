@@ -44,8 +44,9 @@
 	</dl>
 <?php endif;?>
 
+<!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 <?php if(isset($fixed_wage_only) && $fixed_wage_only == 0):?>
-<hr>
+<hr/>
 	<table class="master_table">
 	<?php if (isset($job_orders) && is_array($job_orders) && count($job_orders)):?>
 		<tr>
@@ -82,7 +83,9 @@
 			</tr>
 		</table>	
 	<?php endif;?>
-<?php elseif(isset($fixed_wage_only) && $fixed_wage_only == 1):?>
+<?php endif;?>
+<!-- ======================================FIXED WAGE ONLY EMPLYOEES====================================== -->
+<?php if(isset($fixed_wage_only) && $fixed_wage_only == 1):?>
 	<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
 	<?php if(isset($fixed_wage)):?>
 		<table class="master_table_calc">
@@ -93,9 +96,9 @@
 			</tr>
 		</table>	
 	<?php endif;?>
-<?php endif;?>
-
-<?php if(isset($distribution) && is_array($distribution)):?>
+<?php endif;?>	
+<!-- ======================================FOR DISTRIBUTORS====================================== -->
+<?php if(isset($distribution) AND is_array($distribution)):?>
 	<table class="master_table">
 		<tr>
 			<th>Производ</th>
@@ -126,6 +129,7 @@
 	</table>	
 <?php endif;?>
 
+<!-- ======================================GENEARAL CALCULATIONS====================================== -->
 <?php if(isset($social_cont) || isset($comp_mobile_sub)):?>
 <table class="master_table">
 	<tr>
@@ -273,7 +277,7 @@
 <hr>
 	<table class="master_table_calc">
 		<tr>	
-				<td><strong>ЗА ИСПЛАТА:</strong></td>
+				<td><strong>ДОПЛАТА:</strong></td>
 				<td width="100px" align="center"><?php echo $paid_wage; ?></td>
 				<td width="10px">&nbsp;</td>
 		</tr>

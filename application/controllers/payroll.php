@@ -2,6 +2,8 @@
 
 class Payroll extends MY_Controller {
 	
+	private $limit = 25;
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -13,7 +15,7 @@ class Payroll extends MY_Controller {
 		$this->load->helper('date');
 	}
 	
-	public function index()
+	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
 		$this->data['heading'] = 'Преглед на Плати';
@@ -21,18 +23,70 @@ class Payroll extends MY_Controller {
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->utilities->get_employees();
 		
-		//Pagination
-		$offset =  $this->uri->segment(3,0);
-		
-		$config['base_url'] = site_url('payroll/index');
-		$config['total_rows'] = count($this->Payroll_model->select($_POST));
-		$config['per_page'] = 100;
-		
-		$this->pagination->initialize($config);
-		$this->data['pagination'] = $this->pagination->create_links();
+		//Columns which can be sorted by
+		$this->data['columns'] = array (	
+			'employee'=>'Работник',
+			'for_month'=>'Месец',
+			'date_from'=>'Од',
+			'date_to'=>'До',
+			'acc_wage'=>'Учинок',
+			'social_cont'=>'Придонеси',
+			'comp_mobile_sub'=>'Тел.Суб',
+			'bonuses'=>'Бонуси',
+			'gross_wage'=>'Бруто',
+			'fixed_wage'=>'Фиксна Плата',
+			'expenses'=>'Трошоци',
+			'paid_wage'=>'Доплата',
+			'dateofentry'=>'Внес'
+		);
 
-		//AA - Present the Products from the database
-		$this->data['results'] = $this->Payroll_model->select($_POST, $config['per_page'],$offset);
+		$this->input->load_query($query_id);
+		
+		$query_array = array(
+			'employee_fk' => $this->input->get('employee_fk'),
+			'for_month' => $this->input->get('for_month')
+		);
+		
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('employee','for_month','date_from','date_to',
+								'acc_wage','social_cont','comp_mobile_sub','bonuses',
+								'gross_wage','fixed_wage','expenses','paid_wage','dateofentry');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
+
+		//Retreive data from Model
+		$temp = $this->Payroll_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("payroll/index/$query_id/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $this->limit;
+		$config['uri_segment'] = 6;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links();
+		
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
+		$this->data['query_id'] = $query_id;
+	}
+	
+	public function search()
+	{
+		$query_array = array(
+			'employee_fk' => $this->input->post('employee_fk'),
+			'for_month' => $this->input->post('for_month')
+		);	
+		$query_id = $this->input->save_query($query_array);
+		redirect("payroll/index/$query_id");
 	}
 	
 	public function insert()
@@ -86,6 +140,8 @@ class Payroll extends MY_Controller {
 		$this->load->model('production/Joborders_model');
 		$this->load->model('hr/Payroll_extra_model');
 		$this->load->model('hr/Task_model');
+		$this->load->model('orders/Co_model');
+		$this->load->model('orders/Cod_model');
 
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->Payroll_model->select_single($id);
@@ -93,6 +149,17 @@ class Payroll extends MY_Controller {
 		//If there is nothing, redirects
 		if(!$this->data['master'])
 			$this->utilities->flash('void','payroll');
+
+		if($this->data['master']->is_distributer == 1)
+		{
+			/*
+			 * Retreives all the customer Orders which
+			 * this distributor has distributed them,by
+			 * payroll id
+			 */
+			$ids = $this->Co_model->get_by_payroll($this->data['master']->id);
+			$this->data['distribution'] = $this->Cod_model->total_distributed($ids);
+		}
 
 		//Shows the basis for the Wage calculation (Job Orders)
 		$this->data['results'] = $this->Joborders_model->select_by_payroll($id);
@@ -192,7 +259,11 @@ class Payroll extends MY_Controller {
 				$this->data['fixed_wage_only'] = $this->data['employee_master']->fixed_wage_only;
 				$this->data['acc_wage'] = 0;
 				$this->data['is_distributer'] = $this->data['employee_master']->is_distributer;
-				if(!$this->data['fixed_wage_only'] && !$this->data['is_distributer'])
+				
+				/*
+				 * Calcuation for Job Orders Employees
+				 */
+				if(!$this->data['fixed_wage_only'] AND !$this->data['is_distributer'])
 				{
 					$this->data['job_orders'] = $this->Joborders_model->payroll(array(
 								'assigned_to' => $this->data['employee'],
@@ -208,7 +279,10 @@ class Payroll extends MY_Controller {
 					foreach ($this->data['job_orders'] as $row)
 						$this->data['acc_wage'] += round($row->rate_per_unit * $row->final_quantity,2);
 				}
-
+				
+				/*
+				 * Calcuation for Distributors
+				 */
 				if($this->data['is_distributer'])
 				{
 					/*

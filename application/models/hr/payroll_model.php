@@ -8,33 +8,53 @@ class Payroll_model extends CI_Model {
 		parent::__construct();
 	}
 	
-	public function select($options = array(),$limit=null,$offset=null)
+	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table
 		$this->db->select('p.*,e.fname,e.lname,e.id as eid');
 		$this->db->from('exp_cd_payroll AS p');
 		$this->db->join('exp_cd_employees AS e','e.id = p.employee_fk','LEFT');
-			
+		
 		//Filter Qualifications
-		if(isset($options['employee_fk']) && $options['employee_fk'] != '')
-			$this->db->where_in('p.employee_fk',$options['employee_fk']);
-		if(isset($options['for_month']) && $options['for_month'] != '')
-			$this->db->where_in('p.for_month',$options['for_month']);
+		if(strlen($query_array['employee_fk']))
+			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);
+		if(strlen($query_array['for_month']))
+			$this->db->where_in('p.for_month',$query_array['for_month']);
 
 		//Sort
-		if (isset($options['sory_by']) && isset($options['sort_direction']))
-			$this->db->order_by($options['sort_by'],$options['sort_direction']);
-		else
-			$this->db->order_by('p.dateofentry','desc');
+		if($sort_by == 'employee')
+			$sort_by = "e.fname";
+			
+		$this->db->order_by($sort_by,$sort_order);
 			
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
 			
 		//Retreives only the ACTIVE records, unless otherwise set	
-		if(!isset($options['status'])) 
-			$this->db->where('p.status','active');
-
-		return $query = $this->db->get()->result();
+		$this->db->where('p.status','active');
+		
+		$data['results'] = $this->db->get()->result();
+		
+		//Counts the TOTAL rows in the Table------------------------------------------------------------
+		
+		$this->db->select('COUNT(p.id) as count',false);
+		$this->db->from('exp_cd_payroll AS p');
+		$this->db->join('exp_cd_employees AS e','e.id = p.employee_fk','LEFT');
+		
+		//Filter Qualifications
+		if(strlen($query_array['employee_fk']))
+			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);
+		if(strlen($query_array['for_month']))
+			$this->db->where_in('p.for_month',$query_array['for_month']);
+		
+		$this->db->where('p.status','active');
+		
+		$temp = $this->db->get()->row();
+		
+		$data['num_rows'] = $temp->count;
+		//-----------------------------------------------------------------------------------------------
+		//Returns the whole data array containing $results and $num_rows
+		return $data;
 	}
 	
 	public function select_single($id)

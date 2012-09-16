@@ -2,6 +2,8 @@
 
 class Employees extends MY_Controller {
 	
+	private $limit = 25;
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -11,7 +13,7 @@ class Employees extends MY_Controller {
 		$this->load->model('hr/Emp_tasks_model');		
 	}
 	
-	function index()
+	public function index($query_id = 0,$sort_by = 'employee', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
 		$this->data['heading'] = 'Вработени';
@@ -20,18 +22,65 @@ class Employees extends MY_Controller {
 		$this->data['possitions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
 		$this->data['ugroups'] = $this->utilities->get_dropdown('id', 'name','exp_cd_user_groups','- Корисничка Група -',false);
 		
-		//Pagination
-		$offset =  $this->uri->segment(3,0);
-		
-		$config['base_url'] = site_url('employees/index');
-		$config['total_rows'] = count($this->Employees_model->select($_POST));
-		$config['per_page'] = 30;
-		
-		$this->pagination->initialize($config);
-		$this->data['pagination'] = $this->pagination->create_links();
+		//Columns which can be sorted by
+		$this->data['columns'] = array (	
+			'employee'=>'Работник',
+			'comp_mobile'=>'Мобилен',
+			'position'=>'Работно Место',
+			'department'=>'Сектор',
+			'is_manager'=>'Менаџер',
+			'is_distributer'=>'Дистрибутер',
+			'fixed_wage'=>'Фиксна Плата',
+			'comp_mobile_sub'=>'Тел.Суб.',
+			'status'=>'Статус'
+		);
 
-		//AA - Present the Products from the database
-		$this->data['results'] = $this->Employees_model->select($_POST, $config['per_page'],$offset);
+		$this->input->load_query($query_id);
+		
+		$query_array = array(
+			'poss_fk' => $this->input->get('poss_fk'),
+			'ugroup_fk' => $this->input->get('ugroup_fk')
+		);
+		
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('employee','comp_mobile','position','department',
+								'is_manager','is_distributer','fixed_wage','comp_mobile_sub','status');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'employee';
+
+		//Retreive data from Model
+		$temp = $this->Employees_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("employees/index/$query_id/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $this->limit;
+		$config['uri_segment'] = 6;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links();
+		
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
+		$this->data['query_id'] = $query_id;
+	}
+	
+	public function search()
+	{
+		$query_array = array(
+			'poss_fk' => $this->input->post('poss_fk'),
+			'ugroup_fk' => $this->input->post('ugroup_fk')
+		);	
+		$query_id = $this->input->save_query($query_array);
+		redirect("employees/index/$query_id");
 	}
 	
 	function insert()
@@ -147,14 +196,14 @@ class Employees extends MY_Controller {
 	
 	function view($id = false)
 	{
+		//Heading
+		$this->data['heading'] = 'Работник';
+		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->Employees_model->select_single($id);
 		
 		if(!$this->data['master']) 
-			$this->utilities->flash('void','employees');
-
-		//Heading
-		$this->data['heading'] = 'Работник';
+			$this->utilities->flash('void','employees');	
 	}
 	
 	function delete($id = false)
