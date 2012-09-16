@@ -4,9 +4,7 @@
 	<?php $this->load->view('includes/_total_rows');?>
 <div class="filers"> 
     <?php echo form_open('partners/search');?>
-    	<?php echo form_label('Тип: ');?>
 	    <?php echo form_dropdown('partner_type',array(''=>'- Тип -','cus'=>'Купувачи','ven'=>'Добавувачи','cus_ven'=>'Купувачи/Добавувачи'),set_value('partner_type'));?>
-	    <?php echo form_label('Град: ');?>
 	    <?php echo form_dropdown('postalcode_fk',$postalcodes,set_value('postalcode_fk'));?>
 	    <?php echo form_submit('','Филтрирај');?>
     <?php echo form_close();?>
