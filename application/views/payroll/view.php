@@ -1,7 +1,7 @@
 <h2><?php echo $heading; ?></h2>
 <hr>
 	<div id="meta">
-		<p>#<?php echo $master->code;?></p>
+		<p>бр.<?php echo $master->id;?></p>
 		<p><?php echo $master->dateofentry;?></p>
 	</div>
 	<div id="buttons">
@@ -46,6 +46,8 @@
         <dd><?php echo $master->expenses;?></dd>
         <dt>Доплата:</dt>
         <dd><strong><?php echo '= '.$master->paid_wage; ?></strong></dd>
+        <dt>Код:</dt>
+        <dd><?php echo $master->code;?></dd>
 	</dl>
 	
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->

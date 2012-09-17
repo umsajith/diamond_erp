@@ -285,9 +285,7 @@ class Inventory_model extends CI_Model {
 		$this->db->where('p.stockable',1);
 		
 		//All entries but the Purchase Orders
-		$this->db->where('i.type','gr');
-		$this->db->or_where('i.type','adj');
-		$this->db->or_where('i.type','0');
+		$this->db->where_in('i.type',array('gr','adj',0));
 		
 		$this->db->group_by('i.prodname_fk');
 		$this->db->order_by('p.pcname_fk','desc');
@@ -315,11 +313,11 @@ class Inventory_model extends CI_Model {
 		 * and Price to NULL if the value has not
 		 * been set
 		 */
-		if(isset($data['dateoforder']) && !strlen($data['dateoforder']))
+		if(isset($data['dateoforder']) AND !strlen($data['dateoforder']))
 			$data['dateoforder'] = null;
-		if(isset($data['dateofexpiration']) && !strlen($data['dateofexpiration']))
+		if(isset($data['dateofexpiration']) AND !strlen($data['dateofexpiration']))
 			$data['dateofexpiration'] = null;
-		if(isset($data['price']) && !strlen($data['price']))
+		if(isset($data['price']) AND !strlen($data['price']))
 			$data['price'] = null;
 				
 		/*

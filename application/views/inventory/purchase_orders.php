@@ -47,6 +47,7 @@
 			</td>
 			<td><?php echo (!$row->dateoforder) ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateoforder)); ?></td>
 			<td><?php echo $row->prodname;?></td>
+			<td><?php echo ($row->qty_current == 0) ? '-' : $row->qty_current.' '.$row->uname;?></td>
 			<td><?php echo ($row->quantity == 0) ? '-' : $row->quantity.' '.$row->uname;?></td>
 			<td><?php echo ($row->company) ? $row->company : '-' ;?></td>
 			<td><?php echo ($row->assigned_to == null) ? '-' : $row->assigned;?></td>

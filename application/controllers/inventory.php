@@ -36,6 +36,7 @@ class Inventory extends MY_Controller {
 		$this->data['columns'] = array (	
 			'dateoforder'=>'Нарачано',
 			'prodname_fk'=>'Артикл',
+			'qty_current'=>'Лагер',
 			'quantity'=>'Количина',
 			'partner_fk'=>'Добавувач',
 			'assigned_to'=>'Задолжение',
@@ -53,7 +54,7 @@ class Inventory extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('dateoforder','prodname_fk','partner_fk','quantity',
+		$sort_by_array = array('dateoforder','prodname_fk','partner_fk','quantity','qty_current',
 								'assigned_to','purchase_method','po_status','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
