@@ -27,7 +27,7 @@
 	</dl>
 <hr/>
 <?php if (isset($details) && is_array($details) && count($details)):?>
-	<h3>Употребени Сировини</h3>
+	<h3>Употребени Репро-Материјали</h3>
 	<table class="master_table">
     <tr>
     	<th>Производ</th>

@@ -3,13 +3,13 @@
 <table class="master_table">
 <tr>
 	<th>&nbsp;</th>
-	<th>Документ</th>
+	<th>Датум</th>
+	<th>Линк</th>
 	<th>Старо Салдо</th>
 	<th>Влез</th>
 	<th>Излез</th>
 	<th>Ново Салдо</th>
 	<th>Документ</th>
-	<th>Внес</th>
 	<?php if($this->session->userdata('admin')):?>
 		<th>Oператор</th>
 	<?php endif;?>
@@ -32,13 +32,13 @@
 				echo "<span id='{$class}' class='{$class}' ></span>";			
 			?>	
 			</td>
+			<td><?php echo ($row->dateoforigin == null) ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateoforigin)); ?></td>	
 			<td><?php echo anchor("distribution/view/{$page}/{$row->id}",'Референца');?></td>
 			<td><?php echo $row->qty_current .' '. $row->uname;?></td>	
 			<td><?php echo ($row->quantity>0)?$row->quantity. ' '. $row->uname : '-';?></td>
 			<td><?php echo ($row->quantity<0)?$row->quantity. ' '. $row->uname : '-';?></td>
 			<td><?php echo $row->quantity + $row->qty_current .' '. $row->uname;?></td>	
 			<td><?php echo ($row->ext_doc) ? $row->ext_doc : '-' ;?></td>
-			<td><?php echo $row->dateofentry;?></td>
 			<?php if($this->session->userdata('admin')):?>
 				<td><?php echo $row->assignfname. ' ' . $row->assignlname;?></td>
 			<?php endif;?>

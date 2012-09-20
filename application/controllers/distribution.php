@@ -270,7 +270,7 @@ class Distribution extends MY_Controller {
 		if($page == 'in')
 		{
 			$this->load->model('procurement/Inventory_model');
-			$this->data['details'] = $this->Inventory_model->select_use($this->data['master']->id);
+			$this->data['details'] = $this->Inventory_model->select_use('warehouse_fk',$this->data['master']->id);
 			$this->data['heading'] = 'Приемница';
 		}
 		

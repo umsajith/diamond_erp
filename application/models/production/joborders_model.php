@@ -35,8 +35,6 @@ class Joborders_model extends CI_Model {
 		
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
-	
-		$this->db->where('j.status','active');
 		
 		$data['results'] = $this->db->get()->result();
 		
@@ -53,8 +51,6 @@ class Joborders_model extends CI_Model {
 			$this->db->where_in('job_order_status',$query_array['job_order_status']);
 		if(strlen($query_array['shift']))
 			$this->db->where_in('shift',$query_array['shift']);
-			
-		$this->db->where('status','active');
 		
 		$temp = $this->db->get()->row();
 		$data['num_rows'] = $temp->count;
@@ -76,8 +72,6 @@ class Joborders_model extends CI_Model {
 		$this->db->join('exp_cd_tasks AS t','t.id = j.task_fk','LEFT');
 		$this->db->join('exp_cd_employees AS e','e.id = j.assigned_to','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
-
-		$this->db->where('j.status','active');
 		
 		$this->db->where('j.payroll_fk',$payroll_id);
 		$this->db->where('j.locked',1);
@@ -97,7 +91,6 @@ class Joborders_model extends CI_Model {
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
 
 		$this->db->where('j.id',$id);
-		$this->db->where('j.status','active');
 		
 		return $this->db->get()->row();
 	}
@@ -110,8 +103,6 @@ class Joborders_model extends CI_Model {
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
 		
 		$this->db->from('exp_cd_job_orders AS j');
-		
-		$this->db->where('j.status','active');
 		
 		return $this->db->get()->last_row();
 	}
@@ -145,7 +136,7 @@ class Joborders_model extends CI_Model {
 			switch ($data['job_order_status']) 
 			{
 			    case $data['job_order_status']=='completed':
-					if(strlen($data['final_quantity']) && $this->has_final($id))
+					if(strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Updated Final Qty.
@@ -155,7 +146,7 @@ class Joborders_model extends CI_Model {
 						$data['job_order_status'] = 'completed';
 						break;
 			    	}
-			    	if(strlen($data['final_quantity']) && !$this->has_final($id))
+			    	if(strlen($data['final_quantity']) AND !$this->has_final($id))
 			    	{
 			    		/*
 			    		 * Inserted Final Qty.
@@ -165,7 +156,7 @@ class Joborders_model extends CI_Model {
 						$data['job_order_status'] = 'completed';
 						break;
 			    	}
-					if(!strlen($data['final_quantity']) && !$this->has_final($id))
+					if(!strlen($data['final_quantity']) AND !$this->has_final($id))
 			    	{
 			    		/*
 			    		 * Final Qty not supplied by Job Order completed,
@@ -177,7 +168,7 @@ class Joborders_model extends CI_Model {
 						$data['job_order_status'] = 'completed';
 						break;
 			    	}
-			    	if(!strlen($data['final_quantity']) && $this->has_final($id))
+			    	if(!strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Deleted Final Qty.
@@ -189,7 +180,7 @@ class Joborders_model extends CI_Model {
 			    		break;
 			    	}
 			    case $data['job_order_status']=='pending':
-			    	if(strlen($data['final_quantity']) && $this->has_final($id))
+			    	if(strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Status changed from Completed to
@@ -201,7 +192,7 @@ class Joborders_model extends CI_Model {
 			    		$data['job_order_status'] = 'pending';
 			    		break;
 			    	}
-					if(!strlen($data['final_quantity']) && $this->has_final($id))
+					if(!strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Deleted Final Qty.
@@ -212,7 +203,7 @@ class Joborders_model extends CI_Model {
 						$data['job_order_status'] = 'pending';
 			    		break;
 			    	}
-					if(strlen($data['final_quantity']) && !$this->has_final($id))
+					if(strlen($data['final_quantity']) AND !$this->has_final($id))
 			    	{
 			    		/*
 			    		 * Inserted Final Qty.
@@ -223,7 +214,7 @@ class Joborders_model extends CI_Model {
 						break;
 			    	}
 				case $data['job_order_status']=='canceled':
-			    	if(strlen($data['final_quantity']) && $this->has_final($id))
+			    	if(strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Status changed from Completed to
@@ -235,7 +226,7 @@ class Joborders_model extends CI_Model {
 			    		$data['job_order_status'] = 'canceled';
 			    		break;
 			    	}
-					if(!strlen($data['final_quantity']) && $this->has_final($id))
+					if(!strlen($data['final_quantity']) AND $this->has_final($id))
 			    	{
 			    		/*
 			    		 * Deleted Final Qty.
@@ -246,7 +237,7 @@ class Joborders_model extends CI_Model {
 						$data['job_order_status'] = 'canceled';
 			    		break;
 			    	}
-					if(strlen($data['final_quantity']) && !$this->has_final($id))
+					if(strlen($data['final_quantity']) AND !$this->has_final($id))
 			    	{
 			    		/*
 			    		 * Inserted Final Qty.
@@ -298,8 +289,7 @@ class Joborders_model extends CI_Model {
 		
 		//Updating
 		$this->db->update($this->table);	
-
-
+		
 		return $this->db->affected_rows();	
 	}
 	
@@ -376,7 +366,6 @@ class Joborders_model extends CI_Model {
 		$this->db->where('jo.assigned_to',$options['assigned_to']);
 		$this->db->where('jo.datedue >=',$options['datefrom']);
 		$this->db->where('jo.datedue <=',$options['dateto']);
-		$this->db->where('jo.status','active');
 		$this->db->where('jo.is_completed',1);
 		$this->db->where('jo.locked',0);
 
@@ -412,7 +401,6 @@ class Joborders_model extends CI_Model {
 		if(strlen($options['shift']))
 			$this->db->where('jo.shift',$options['shift']);
 		
-		$this->db->where('jo.status','active');
 		$this->db->where('jo.is_completed',1);
 		$this->db->where('t.status','active');
 		
@@ -425,9 +413,8 @@ class Joborders_model extends CI_Model {
 	
 	function delete($id)
 	{	
-		$data['status'] = 'deleted';
 		$this->db->where('id',$id);
-		$this->db->update($this->table,$data);
+		$this->db->delete($this->table);
 
 		return $this->db->affected_rows();	
 	}

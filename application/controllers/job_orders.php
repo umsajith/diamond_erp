@@ -102,10 +102,24 @@ class Job_orders extends MY_Controller {
 
 		//Check if form has been submited
 		if ($this->form_validation->run())
-		{		
+		{	
+			$this->load->model('hr/Task_model');
 			//Successful validation insets into the DB
-			if($this->Joborders_model->insert($_POST))
+			if($job_order_id = $this->Joborders_model->insert($_POST))
+			{
+				/*
+				 * Check if this task is production and has
+				 * assigned BOM
+				 */
+				$production = $this->Task_model->select_single($_POST['task_fk']);
+				if($production->is_production AND !is_null($production->bom_fk))
+				{
+					$this->_inventory_use($job_order_id,$production->id,$_POST['assigned_quantity']);
+				}
+				
 				$this->utilities->flash('add','job_orders');
+			}
+				
 			else
 				$this->utilities->flash('error','job_orders');
 		}
@@ -156,11 +170,15 @@ class Job_orders extends MY_Controller {
 			{
 				$this->load->model('hr/Task_model');
 				
-				//Checks if this Task has BOM and is Production
-				$production = $this->Task_model->find_bom($_POST['task_fk']);
-				
-				if($production)
-					$this->inventory_use($_POST['id'],$production->bom_fk,$_POST['final_quantity']);
+				/*
+				 * Check if this task is production and has
+				 * assigned BOM
+				 */
+				$production = $this->Task_model->select_single($_POST['task_fk']);
+				if($production->is_production AND !is_null($production->bom_fk))
+				{
+					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
+				}
 
 				$this->utilities->flash('update','job_orders');
 			}
@@ -174,22 +192,7 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Корекција на Работен Налог';
 	}
-	
-	/*AJAX - Changes the Job Order status
-	function set_status()
-	{
-		if($this->Joborders_model->update($_POST['id'],$_POST))
-		{
-			echo json_encode(array('success'=>true,'message'=>'Статусот е успешно ажуриран'));
-			exit;
-		}
-		else
-		{
-			echo json_encode(array('success'=>false,'message'=>'Грешка при ажурирање'));
-			exit;
-		}
-	}
-	*/
+
 	//AJAX - Completes Job Orders, and sets Final Qty if not set to Default Qty
 	function complete()
 	{	
@@ -200,24 +203,8 @@ class Job_orders extends MY_Controller {
 			//Checks if there is Final Qty entered already
 			$has = $this->Joborders_model->has_fqty($id);
 			
-			if(!$has->final_quantity && !$has->is_completed)
+			if(!$has->final_quantity AND !$has->is_completed)
 			{
-				//Get the Default Assigned Quatntity
-				$qty = $this->Joborders_model->get_qty($id);
-				
-				$this->load->model('hr/Task_model');
-				//Get the Task Id
-				$task_id = $this->Joborders_model->get_task($id);
-
-				//Get Bom ID if exists
-				$production = $this->Task_model->find_bom($task_id->task_fk);
-	
-				//Saves BOM_FK and unsets it from POST
-				if($production)
-				{
-					$this->inventory_use($id,$production->bom_fk,$qty->assigned_quantity);
-				}
-				
 				/*
 				 * If Job Order is successfully completed,
 				 * sets the outcome of the action to TRUE
@@ -225,7 +212,7 @@ class Job_orders extends MY_Controller {
 				if($this->Joborders_model->complete($id,$qty->assigned_quantity))
 					$success = true;
 			}	
-		}
+		}	
 		if($success)
 			echo 1;
 			
@@ -236,6 +223,7 @@ class Job_orders extends MY_Controller {
 	{
 		//Retreives data from MASTER Model //Gets the ID of the selected entry from the URL
 		$this->data['master'] = $this->Joborders_model->select_single($id);
+		$this->data['details'] = $this->Inventory_model->select_use('job_order_fk',$this->data['master']->id);
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','job_orders');
@@ -324,5 +312,47 @@ class Job_orders extends MY_Controller {
 			$this->utilities->flash('delete','job_orders');
 		else
 			$this->utilities->flash('error','job_orders');
-	}	
+	}
+
+	private function _inventory_use($job_order_id,$task_id,$quantity)
+	{
+		//Loading Models
+		$this->load->model('hr/Task_model');
+		$this->load->model('production/Bomdetails_model');
+		$this->load->model('production/Boms_model');
+		
+		$bom_id = $this->Task_model->find_bom($task_id);
+		
+		if(!$bom_id)
+			return false;
+
+		$results = $this->Inventory_model->has_deducation($job_order_id);
+		
+		if($results)
+		{
+			foreach ($results as $row )
+				$this->Inventory_model->delete($row['id']);
+		}
+
+		/*
+		 * Retreive all components for specific Bill of Materials (bom_id) 
+		 */
+		$bom_components = $this->Bomdetails_model->select(array('id'=>$bom_id));
+							
+		foreach ($bom_components as $component)
+		{
+			$options = array(
+				'prodname_fk'=> $component->prodname_fk,
+				'job_order_fk'=> $job_order_id,
+				'quantity' => (($component->quantity * $quantity) * -1),
+				'received_by' => $this->session->userdata('userid'),
+				'type' => '0',
+				'is_use' => 1
+			);
+
+			unset($_POST);
+				
+			$this->Inventory_model->insert($options);
+		}		
+	}
 }

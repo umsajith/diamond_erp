@@ -112,13 +112,14 @@ class Task_model extends CI_Model {
 	{
 		//Selects and returns all records from table
 		$this->db->select('bom_fk');
-		$this->db->from('exp_cd_tasks');
-		$this->db->where('id',$id);
-		$this->db->where('is_production',1);
-		$this->db->where('status','active');
-		$this->db->limit(1);
+			$this->db->from('exp_cd_tasks');
+			$this->db->where('id',$id);
+			$this->db->where('is_production',1);
+			$this->db->where('status','active');
+			$this->db->limit(1);
 		
-		return $this->db->get()->row();
+		$result = $this->db->get()->row();
+		return $result->bom_fk;
 	}
 	
 }

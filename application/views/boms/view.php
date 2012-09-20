@@ -9,7 +9,7 @@
         <dt>Назив:</dt>
         <dd><?php echo $master->name;?></dd>
         <dt>Производ:</dt>
-        <dd><?php echo $master->prodname;?></dd>
+        <dd><?php echo ($master->prodname) ? $master->prodname : '-';?></dd>
         <dt>Количина:</dt>
         <dd><?php echo $master->quantity.' '.$master->uname2;?></dd>
         <dt>Конверзија:</dt>

@@ -393,7 +393,7 @@ class Inventory_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 	
-	function select_use($warehouse_fk)
+	function select_use($key, $value)
 	{
 		
 		//Selects and returns all records from table
@@ -407,7 +407,7 @@ class Inventory_model extends CI_Model {
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		
 		//Selects this specific Job Order Inventory Entries
-		$this->db->where('i.warehouse_fk',$warehouse_fk);
+		$this->db->where('i.'.$key,$value);
 		
 		//Retreives only the INVENTORY DEDUCTION records
 		$this->db->where('i.is_use',1);

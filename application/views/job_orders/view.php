@@ -5,7 +5,6 @@
 		<p><?php echo $master->dateofentry;?></p>
 	</div>	
 <?php if($master->locked != 1):?>
-	
 	<div id="buttons">
 		<a href="<?php echo site_url('job_orders/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
 		<a href="<?php echo site_url('job_orders/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>	
@@ -40,11 +39,12 @@
         <dt>Опис:</dt>
         <dd><?php echo ($master->description == NULL ? '-' : $master->description);?></dd>  
 	</dl>
+<hr/>
 <?php if($master->payroll_fk != null):?>
 	<h4>Ставката е заклучена по калкулација за плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
 <?php endif;?>
+
 <?php if (isset($details) && is_array($details) && count($details)):?>
-	<hr/>
 	<h3>Употребени Сировини</h3>
 	<table class="master_table">
     <tr>
@@ -54,11 +54,10 @@
     </tr>
 	<?php foreach($details as $row):?>
 	<tr>
-			<td><?php echo $row->prodname;?></td>
-			<td><?php echo $row->pcname;?></td>
-			<td><?php echo $row->quantity. ' ' .$row->uname;?></td>
+		<td><?php echo $row->prodname;?></td>
+		<td><?php echo $row->pcname;?></td>
+		<td><?php echo $row->quantity. ' ' .$row->uname;?></td>
 	</tr>
 	<?php endforeach;?>
 	</table>
 <?php endif;?>
-<hr/>

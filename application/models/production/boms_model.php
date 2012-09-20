@@ -67,6 +67,9 @@ class Boms_model extends CI_Model {
 	
 	function insert ($data = array())
 	{			
+		if(!strlen($data['prodname_fk']))
+			$data['prodname_fk'] = null;
+			
 		// Inserts the whole data array into the database table
 		$this->db->insert($this->table,$data);
 		

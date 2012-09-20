@@ -28,9 +28,9 @@ class Boms extends MY_Controller {
 		//Defining Validation Rules
 		$this->form_validation->set_rules('name','name','trim|required');
 		$this->form_validation->set_rules('quantity','quantity','trim|required');
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
+		$this->form_validation->set_rules('prodname_fk','product','trim');
 		$this->form_validation->set_rules('uname_fk','uom','trim|required');
-		$this->form_validation->set_rules('conversion','conversion','trim|required');
+		$this->form_validation->set_rules('conversion','conversion','trim');
 		$this->form_validation->set_rules('description','description','trim');
 		
 		//Check if form has been submited
