@@ -19,7 +19,7 @@
         <dt>Статус:</dt>
         <dd><?php echo ($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>      
 	</dl>
-
+<hr/>
 <table class="master_table">
     <tr>
     	<th>Производ</th>
@@ -38,5 +38,4 @@
 	<?php $this->load->view('includes/_no_records');?>
 <?php endif;?>
 </table>
-<hr>
 <?php $this->load->view('includes/_del_dialog');?>

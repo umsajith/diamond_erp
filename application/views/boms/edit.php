@@ -14,11 +14,11 @@
         <dt>Статус:</dt>
         <dd><?php echo ($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>   
 	</dl>
-<hr>
+<hr/>
 	Производ: <?php echo form_dropdown('newprod',$products,'id="newprod"')?>
     Количина: <?php echo form_input('qty')?>
    <span class="add_icon" onclick="addProduct(<?php echo $master->id;?>);">&nbsp;&nbsp;&nbsp;</span>
-<hr>
+<hr/>
 <?php if (isset($details) && is_array($details) && count($details) > 0):?>
 <table class="master_table">
     <tr>
@@ -38,7 +38,7 @@
 		</tr>
 	<?php endforeach;?>
 </table>
-<hr/>
+
 <?php endif;?>
 <?php $this->load->view('includes/_del_dialog');?>
 
