@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-    <title><?php echo $G_title; ?></title>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
+    <title><?php echo $G_title; ?></title> 
     <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/favicon.ico">
     <link rel="stylesheet" href="<?php echo base_url(); ?>css/main.css" type="text/css" media="screen" /> 
 </head>
@@ -34,9 +34,11 @@
 		<?php $this->session->unset_userdata('flash');?>
 	</div>
 <div id="login_footer">Copyright © 2011 Marko Aleksic. All Rights Reserved.</div>
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(function() {
 		$("#flash").hide();
 		$("#username").val("");
 		$("#password").val("");
@@ -75,5 +77,6 @@
 		});
 	});
 </script>
+
 </body>
 </html>

@@ -50,7 +50,7 @@
 		 * Disables icons that are contained into "a" tags to
 		 * be clicked
 		 */
-		$(".arrow_up, .arrow_down, .arrow_rot, #lock_icon").click(function(){
+		$(".arrow_up, .arrow_down, .arrow_rot, #lock_icon, .medal1_gold").click(function(){
 			return false;
 		});
 		
@@ -60,6 +60,7 @@
 		$(".check_all").on('click',function(){
 			$(this).parents('table.master_table').find(':checkbox').attr('checked', this.checked);
 		});
+
 })();
 
 $(document).keypress(function(e){

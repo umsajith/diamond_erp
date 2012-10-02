@@ -1,19 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Products_model extends CI_Model {
+class Products_model extends MY_Model {
 	
-	//Database table of the Model
-	protected $table = 'exp_cd_products';
+	protected $_table = 'exp_cd_products';
 	
-	function __construct()
-	{
-		parent::__construct();
-	}
-	
-	function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects results by supplied criteria----------------------------------------------------------------
 		$this->db->select('p.*,u.uname,pc.pcname,pt.ptname,w.wname,tr.rate');
-		$this->db->from('exp_cd_products AS p');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		$this->db->join('exp_cd_tax_rates AS tr','tr.id = p.tax_rate_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
@@ -38,12 +31,11 @@ class Products_model extends CI_Model {
 	
 		$this->db->where('p.status','active');
 		
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS p')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->from($this->table);
 		
 		if(strlen($query_array['ptname_fk']))
 			$this->db->where_in('ptname_fk',$query_array['ptname_fk']);
@@ -54,7 +46,7 @@ class Products_model extends CI_Model {
 			
 		$this->db->where('status','active');
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -62,11 +54,10 @@ class Products_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		//Query
 		$this->db->select('p.*,u.uname,pc.pcname,pt.ptname,w.wname,tr.rate');
-		$this->db->from('exp_cd_products AS p');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		$this->db->join('exp_cd_tax_rates AS tr','tr.id = p.tax_rate_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
@@ -79,16 +70,16 @@ class Products_model extends CI_Model {
 
 		$this->db->where('p.status','active');
 		
-		return $this->db->get()->row();
+		return $this->db->get($this->_table.' AS p')->row();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{		
-		$this->db->insert($this->table,$data);
+		$this->db->insert($this->_table,$data);
 		return $this->db->insert_id();
 	}
 	
-	function update ($id,$data = array())
+	public function update ($id,$data = array())
 	{
 		if(!$data['salable'])
 				$data['salable'] = 0;			
@@ -101,29 +92,28 @@ class Products_model extends CI_Model {
 		$this->db->where('id',$id);
 		
 		//Updating
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 		
 		return $this->db->affected_rows();	
 	}
 	
-	function delete($id)
+	public function delete($id)
 	{
 		//Updates the status to 'deleted'
 		$data['status'] = 'deleted';
 		$this->db->where('id',$id);
-		$this->db->update($this->table,$data); 
+		$this->db->update($this->_table,$data); 
 		
 		return $this->db->affected_rows();
 	}
 	
-	function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
+	public function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
 	{
 		if(!in_array($type,array('salable','purchasable')))
 			die();
 			
 		//Query
 		$this->db->select('p.id,p.prodname,u.uname,pc.pcname');
-		$this->db->from('exp_cd_products AS p');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 
@@ -146,7 +136,7 @@ class Products_model extends CI_Model {
 
 		$this->db->order_by('p.prodname','asc');
 		
-		$results = $this->db->get()->result();
+		$results = $this->db->get($this->_table.' AS p')->result();
 		
 		/*
 		 * If the option DROPDOWN (third paramenter) has

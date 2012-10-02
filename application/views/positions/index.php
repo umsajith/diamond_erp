@@ -2,17 +2,15 @@
 <hr>
 	<a href="<?php echo site_url('positions/insert');?>" class="button"><span class="add">Внес</span></a>
 <table class="master_table">
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
+<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
 	<tr>
-		<th></th>
-		<th>Работно Место</th>
-		<th>Сектор</th>
-		<th>Основна Плата</th>
-		<th>Бонус</th>
-		<th>Провизија</th>
-		<th>Квалификации</th>
-		<th>Статус</th>
-		<th></th>
+		<th>&nbsp;</th>
+		<?php foreach ($columns as $col_name => $col_display):?>
+    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
+    			<?php echo anchor("positions/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		</th>
+    	<?php endforeach;?>
+		<th>&nbsp;</th>
 	</tr>
 	<?php foreach($results as $row):?>
 		<tr>
@@ -22,8 +20,6 @@
 			<td align="center"><?php echo ($row->base_salary == 0 ? '-' : $row->base_salary); ?></td>
             <td align="center"><?php echo ($row->bonus == 0 ? '-' : $row->bonus . '%'); ?></td>
             <td align="center"><?php echo ($row->commision == 0 ? '-' : $row->commision . '%'); ?></td>
-			<td><?php echo $row->requirements;?></td>
-			<td align="center"><?php echo $row->status;?></td>
 			<td class="functions">
 				<?php echo anchor('positions/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
 				<?php echo anchor('positions/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
@@ -35,4 +31,3 @@
 <?php endif;?>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-<?php $this->load->view('includes/_del_dialog');?>

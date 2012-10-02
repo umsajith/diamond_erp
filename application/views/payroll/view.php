@@ -9,6 +9,7 @@
 		<a href="<?php echo site_url('payroll/payroll_pdf/'.$master->id);?>" class="button"><span class="pdf">PDF</span></a>
 	</div>
 <hr>
+<div class="f_left">
 	<dl>
         <dt>Работник:</dt>
         <dd><?php echo anchor("employees/view/$master->eid",$master->fname . ' ' . $master->lname); ?></dd>
@@ -49,17 +50,18 @@
         <dt>Код:</dt>
         <dd><?php echo $master->code;?></dd>
 	</dl>
-	
+</div>
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
-<hr/>
-<table class="master_table">
+<div class="f_right">
+	<h3>Детален Преглед на Калкулација за Плата</h3>
 <?php if (isset($results) && is_array($results) && count($results)):?>
+<table class="master_table">
 	<tr>
 		<th>Работна Задача</th>
 		<th>Работни Налози</th>
-		<th>Вкупна Количина</th>
-		<th>Единечна Цена</th>
 		<th>Вкупно</th>
+		<th>Цена</th>
+		<th>Износ</th>
 		<th>&nbsp;</th>	
 	</tr>
 <?php foreach($results as $row):?>
@@ -67,9 +69,17 @@
 			<td><?php echo $row->taskname;?></td>
 			<td><?php echo $row->count;?></td>
 			<td><?php echo $row->final_quantity . ' ' . $row->uname;?></td>
-			<td><?php echo $row->rate_per_unit;?></td>
-			<td><?php 
-					echo $row->rate_per_unit * $row->final_quantity;
+			<td>
+				<?php 
+					echo (is_null($row->calculation_rate))  
+						? $row->rate_per_unit 
+						: $row->calculation_rate ;?>
+			</td>
+			<td>
+				<?php 
+					echo (is_null($row->calculation_rate)) 
+						? $row->rate_per_unit* $row->final_quantity 
+						: $row->calculation_rate* $row->final_quantity;
 				?>
 			</td>
 			<td width="25px">&nbsp;</td>		
@@ -109,7 +119,7 @@
 			<th>Категорија</th>
 			<th>Вкупна Количина</th>
 			<th>&nbsp;</th>
-			<th>Вкупно</th>
+			<th>Износ</th>
 			<th>&nbsp;</th>
 		</tr>
 		<?php foreach($distribution as $row):?>
@@ -137,10 +147,10 @@
 <table class="master_table">
 	<tr>
 		<th>Категорија</th>
-		<th></th>
-		<th></th>
-		<th>Вкупно</th>
-		<th></th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+		<th>Износ</th>
+		<th>&nbsp;</th>
 	</tr>
 <!-- SOCIAL CONTRIBUTION -->
 <?php if($master->social_cont>0):?>
@@ -206,7 +216,7 @@
 		<th>Категорија</th>
 		<th></th>
 		<th></th>
-		<th>Вкупно</th>
+		<th>Износ</th>
 		<th></th>
 	</tr>
 <?php endif;?>
@@ -261,7 +271,7 @@
 </table>
 <?php endif;?>
 
-<?php if (isset($master->fixed_wage) || isset($master->expenses)):?>
+<?php if (isset($master->fixed_wage) OR isset($master->expenses)):?>
 <table class="master_table_calc">
 	<tr>	
 			<td><strong>ТРОШОЦИ:</strong></td>
@@ -283,3 +293,4 @@
 	</table>
 <?php endif;?>
 <hr>
+</div>

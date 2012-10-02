@@ -1,14 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Emp_tasks_model extends CI_Model {
+class Emp_tasks_model extends MY_Model {
 	
-	//Database table of the Model
-	var $table = 'exp_cd_employees_tasks';
-	
-	function __construct()
-	{
-		parent::__construct();
-		
-	}
+	protected $_table = 'exp_cd_employees_tasks';
 	
 	function select($emp_id)
 	{

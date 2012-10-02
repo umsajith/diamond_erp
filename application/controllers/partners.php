@@ -1,29 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Partners extends MY_Controller {
+
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('partners/Partners_model');	
+		$this->load->model('partners/partners_model','par');	
 	}
     
-	function index($query_id = 0,$sort_by = 'company', $sort_order = 'asc', $offset = 0)
+	public function index($query_id = 0,$sort_by = 'company', $sort_order = 'asc', $offset = 0)
 	{	
-
 		//Heading
 		$this->data['heading'] = 'Партнери';
 		
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
 		
-		//Limit Per Page
-		$limit = 25;
-		
 		//------------
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = array (
+			'id'=>'Код',	
 			'company'=>'Фирма',
 			'contperson'=>'Контакт Лице',
 			'postalcode_fk' => 'Град'
@@ -33,16 +32,17 @@ class Partners extends MY_Controller {
 		
 		$query_array = array(
 			'partner_type' => $this->input->get('partner_type'),
-			'postalcode_fk' => $this->input->get('postalcode_fk')
+			'postalcode_fk' => $this->input->get('postalcode_fk'),
+			'q' => $this->input->get('q')
 		);
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'asc') ? 'asc' : 'desc';
-		$sort_by_array = array('company','contperson','postalcode_fk');
+		$sort_by_array = array('id','company','contperson','postalcode_fk');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'company';
 
 		//Retreive data from Model
-		$temp = $this->Partners_model->select($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->par->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -50,9 +50,9 @@ class Partners extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("partners/index/$query_id/$sort_by/$sort_order");
+		$config['base_url'] = site_url("partners/index/{$query_id}/{$sort_by}/{$sort_order}");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -66,17 +66,23 @@ class Partners extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function search()
+	public function search()
 	{
+		(strlen($_POST['q'])) ? $_POST['partner_type'] = '' : '';
+		(strlen($_POST['q'])) ? $_POST['postalcode_fk'] = '' : '';
+		(strlen($_POST['partner_type'])) ? $_POST['q'] = '' : '';
+		(strlen($_POST['postalcode_fk'])) ? $_POST['q'] = '' : '';
+
 		$query_array = array(
 			'partner_type' => $this->input->post('partner_type'),
-			'postalcode_fk' => $this->input->post('postalcode_fk')
+			'postalcode_fk' => $this->input->post('postalcode_fk'),
+			'q' => $this->input->post('q')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("partners/index/$query_id");
+		redirect("partners/index/{$query_id}");
 	}
 	
-	function insert()
+	public function insert()
 	{
 		if($_POST)
 		{
@@ -110,7 +116,7 @@ class Partners extends MY_Controller {
 			if ($this->form_validation->run())
 			{						
 				//Returns TRUE(id) if insertion successfull
-				if($this->Partners_model->insert($_POST))
+				if($this->par->insert($_POST))
 				{
 					if($ajax)
 					{
@@ -137,15 +143,15 @@ class Partners extends MY_Controller {
 		
 		// Generating dropdown menu's
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
-		$this->data['customers'] = $this->Partners_model->dropdown('customers',true);
+		$this->data['customers'] = $this->par->dropdown('customers',true);
 
 		//Heading
 		$this->data['heading'] = 'Внес на Партнер';
 	}
 	
-	function edit($id = false)
+	public function edit($id = false)
 	{
-		$this->data['partner'] = $this->Partners_model->select_single($id);	
+		$this->data['partner'] = $this->par->select_single($id);	
 		if(!$this->data['partner'])
 			$this->utilities->flash('void','partners');
 
@@ -172,7 +178,7 @@ class Partners extends MY_Controller {
 			if ($this->form_validation->run())
 			{
 				//If Successfull, runs Model function	
-				if($this->Partners_model->update($_POST['id'],$_POST))
+				if($this->par->update($_POST['id'],$_POST))
 					$this->utilities->flash('update','partners');
 				else
 					$this->utilities->flash('error','partners');
@@ -181,56 +187,85 @@ class Partners extends MY_Controller {
 		
 		// Generating dropdown menu's	
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();
-		$this->data['customers'] = $this->Partners_model->dropdown('customers',true);
+		$this->data['customers'] = $this->par->dropdown('customers',true);
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Партнер';
 	}
 	
-	function view($id = false)
+	public function view($id = false)
 	{
-		//Load Models
-		$this->load->model('orders/Co_model');
-		
-		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Partners_model->select_single($id);
-		
-		if(!$this->data['master'])
-			$this->utilities->flash('void','partners');
-		
-		if($this->data['master']->is_customer == 1)
-			$this->data['orders'] = $this->Co_model->last_partner_orders($id);
-			
 		//Heading
 		$this->data['heading'] = 'Партнер';
+
+		//Load Models
+		$this->load->model('orders/co_model','co');
+		
+		//Retreives data from MASTER Model
+		$this->data['master'] = $this->par->select_single($id);
+		if(!$this->data['master'])
+			$this->utilities->flash('void','partners');
+		/**
+		 * If partner is Mother(has subsidiaries),
+		 * get all the subsidiaries
+		 */
+		if($this->data['master']->is_mother == 1)
+			$this->data['subs'] = $this->par->select_sub($id);
+		/**
+		 * If partner is also marked as customer (is_customer==1),
+		 * get last 10 sales orders
+		 */
+		if($this->data['master']->is_customer == 1)
+			$this->data['orders'] = $this->co->last_partner_orders($id);	
 	}
-	
-	function delete($id = false)
+
+	/**
+	 * Delete partner by provided ID.
+	 * @param  integer $id primary_key
+	 * @return redirect     redirect wit success/error message
+	 */
+	public function delete($id)
 	{
-		$this->data= $this->Partners_model->select_single($id);
+		$this->data= $this->par->select_single($id);
 		if(!$this->data)
 			$this->utilities->flash('void','partners');
 			
-		if($this->Partners_model->delete($id))
+		if($this->par->delete($id))
 			$this->utilities->flash('delete','partners');
 		else
 			$this->utilities->flash('error','partners');	
 	}
 	
-	function live_search() 
+	/**
+	 * For use with jQuery autocomplete. 
+	 * @return JSON
+	 */
+	public function ajx_search()
 	{
-		if(isset($_POST['q']) && $_POST['q']!='')
-			$pid = $_POST['q'];
-		else
-			return false;
-		
-		$rows = $this->Partners_model->search($pid);
-		
-		echo "<ul id=\"autocomplete\">";
-		foreach($rows as $row)
-		{
-			echo "<li><a href=\"#\" title=\"".$row['company']."\" id=\"".$row['id']."\" onClick=fill(this.id,this.title);>" . $row['company'] . "</a></li>";	
-		}
-		echo "</ul>";
+		$term = $this->input->post('term',TRUE);
+
+		if (strlen($term) < 2) break;
+
+		/**
+		 * Restriction options array:
+		 *  is_customer = 1 (include customers)
+		 *  is_mother = 0 (do not show mother companies)
+		 * @var array
+		 */
+		$options = array(
+				'is_customer'=>1,
+				'is_mother'=>0
+			);
+
+		$rows = $this->par->partners_search($term, $options);
+
+		$json_array = array();
+
+		foreach ($rows as $row)
+			 array_push($json_array, array('label'=>$row->company,'value'=>$row->id)); 
+
+		header('Content-Type: application/json');
+		echo json_encode($json_array);
+		exit;
 	}
 }

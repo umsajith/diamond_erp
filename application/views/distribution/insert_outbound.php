@@ -5,6 +5,10 @@
 <hr>
 <table class="data_forms">
 <tr>
+    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
+    <td><?php echo form_input('dateoforigin',set_value('dateoforigin')); ?></td>
+</tr>
+<tr>
     <td class="label"><?php echo form_label('Производ:');?><span class='req'>*</span></td>
     <td><select id="product"></select></td>
 </tr>
@@ -19,10 +23,6 @@
 <tr>
 	<td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
     <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk')); ?></td>
-</tr>
-<tr>
-    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
-    <td><?php echo form_input('dateoforigin',set_value('dateoforigin')); ?></td>
 </tr>
 <tr>
     <td class="label"><?php echo form_label('Документ:');?></td>

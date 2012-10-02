@@ -369,7 +369,7 @@ class Inventory extends MY_Controller {
 			$heading = 'Нарачка';
 			$redirect = 'purchase_orders';
 			
-			$this->data['employees'] = $this->utilities->get_employees('variable');
+			$this->data['employees'] = $this->utilities->get_employees();
 		}	
 		if($page == 'gr')
 		{

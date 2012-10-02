@@ -8,26 +8,26 @@
 <hr>
 	<?php echo form_open('payroll/calculate');?>
 	<table id="calculation">
-	<tr>
-	    <td class="label"><?php echo form_label('Работник:');?></td>
-	    <td><?php echo form_dropdown('employee',$employees, set_value('employee')); ?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Од:');?></td>
-	    <td><?php echo form_input('datefrom',(!isset($datefrom) ? '' : $datefrom),'id="datefrom"'); ?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('До:');?></td>
-	    <td><?php echo form_input('dateto',(!isset($dateto) ? '' : $dateto),'id="dateto"'); ?></td>
-	</tr>
-	<tr>    
-	    <td class="label"><?php echo form_label('Плата за месец:');?></td>
-	    <td><?php echo form_dropdown('for_month',$G_months, set_value('for_month')); ?></td>
-	</tr>
-	<tr>
-	    <td>&nbsp;</td>
-		<td><?php echo form_submit('','Пресметај');?></td>
-	</tr>
+		<tr>
+		    <td class="label"><?php echo form_label('Работник:');?></td>
+		    <td><?php echo form_dropdown('employee',$employees, set_value('employee')); ?></td>
+		</tr>
+		<tr>
+		    <td class="label"><?php echo form_label('Од:');?></td>
+		    <td><?php echo form_input('datefrom',(!isset($datefrom) ? '' : $datefrom),'id="datefrom"'); ?></td>
+		</tr>
+		<tr>
+		    <td class="label"><?php echo form_label('До:');?></td>
+		    <td><?php echo form_input('dateto',(!isset($dateto) ? '' : $dateto),'id="dateto"'); ?></td>
+		</tr>
+		<tr>    
+		    <td class="label"><?php echo form_label('Месец:');?></td>
+		    <td><?php echo form_dropdown('for_month',$G_months, set_value('for_month')); ?></td>
+		</tr>
+		<tr>
+		    <td>&nbsp;</td>
+			<td><?php echo form_submit('','Пресметај');?></td>
+		</tr>
 	</table>
 	<?php echo form_close();?>
 
@@ -39,16 +39,16 @@
 		<dd><?php echo $datefrom;?></dd>
 		<dt>До:</dt>
 		<dd><?php echo $dateto;?></dd>
-		<dt>За Месец:</dt>
+		<dt>Месец:</dt>
 		<dd><?php echo $for_month;?></dd>
 	</dl>
 <?php endif;?>
 
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
-<?php if(isset($fixed_wage_only) && $fixed_wage_only == 0):?>
+<?php if(isset($fixed_wage_only) AND $fixed_wage_only == 0):?>
 <hr/>
 	<table class="master_table">
-	<?php if (isset($job_orders) && is_array($job_orders) && count($job_orders)):?>
+	<?php if (isset($job_orders) AND is_array($job_orders) AND count($job_orders)):?>
 		<tr>
 			<th>Работна Задача</th>
 			<th>Работни Налози</th>
@@ -85,7 +85,7 @@
 	<?php endif;?>
 <?php endif;?>
 <!-- ======================================FIXED WAGE ONLY EMPLYOEES====================================== -->
-<?php if(isset($fixed_wage_only) && $fixed_wage_only == 1):?>
+<?php if(isset($fixed_wage_only) AND $fixed_wage_only == 1):?>
 	<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
 	<?php if(isset($fixed_wage)):?>
 		<table class="master_table_calc">
@@ -142,7 +142,7 @@
 <?php endif; ?>
 
 <!-- SOCIAL CONTRIBUTION -->
-<?php if(isset($social_cont) && $social_cont>0 ):?>
+<?php if(isset($social_cont) AND $social_cont>0 ):?>
 	<tr>
 		<td>Придонеси + Здравствено Осигурување</td>
 		<td>&nbsp;</td>
@@ -157,7 +157,7 @@
 <?php endif;?>
 
 <!-- COMPANY MOBILE SUBSIDY -->
-<?php if(isset($comp_mobile_sub) && $comp_mobile_sub>0):?>
+<?php if(isset($comp_mobile_sub) AND $comp_mobile_sub>0):?>
 	<tr>
 		<td>Телефонска Субвенција</td>
 		<td>&nbsp;</td>
@@ -172,7 +172,7 @@
 <?php endif;?>
 
 <!-- BONUSES -->
-<?php if (isset($extras_plus) && is_array($extras_plus) && count($extras_plus)):?>
+<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
 	<?php foreach($extras_plus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>
@@ -215,7 +215,7 @@
 <?php endif;?>
 	
 <!-- FIXED WAGE -->
-<?php if(isset($fixed_wage) && $fixed_wage>0):?>
+<?php if(isset($fixed_wage) AND $fixed_wage>0):?>
 	<tr>
 		<td>Фиксна Плата на Сметка</td>
 		<td>&nbsp;</td>
@@ -230,7 +230,7 @@
 <?php endif;?>
 
 <!-- SOCIAL CONTRIBUTION -->
-<?php if(isset($social_cont) && $social_cont>0):?>
+<?php if(isset($social_cont) AND $social_cont>0):?>
 	<tr>
 		<td>Придонеси + Здравствено Осигурување</td>
 		<td>&nbsp;</td>
@@ -245,7 +245,7 @@
 <?php endif;?>
 
 <!-- EXPENSES -->
-<?php if (isset($extras_minus) && is_array($extras_minus) && count($extras_minus)):?>
+<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 	<?php foreach($extras_minus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>

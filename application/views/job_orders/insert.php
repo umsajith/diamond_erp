@@ -5,23 +5,23 @@
 <hr>
 <table class="data_forms_jo">
 	<tr>
-	    <td class="label"><?php echo form_label('Работник:');?><span class='req'>*</span></td>
-	    <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to'));?></td>
+	    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
+	    <td><?php echo form_input('datedue',set_value('datedue')); ?></td>
 	</tr>
 	<tr>
-	    <td class="label"><?php echo form_label('За Датум:');?><span class='req'>*</span></td>
-	    <td><?php echo form_input('datedue',set_value('datedue')); ?></td>
+	    <td class="label"><?php echo form_label('Работник:');?><span class='req'>*</span></td>
+	    <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to'));?></td>
 	</tr>
 	<tr>
 	    <td class="label"><?php echo form_label('Работна Задача:');?><span class='req'>*</span></td>
 	    <td><select id="tasks"></select></td>
 	</tr>
 	<tr>
-	    <td class="label"><?php echo form_label('Зададена Кол.:');?><span class='req'>*</span></td>
+	    <td class="label"><?php echo form_label('Количина:');?><span class='req'>*</span></td>
 	    <td><?php echo form_input('assigned_quantity',set_value('assigned_quantity'));?></td>
 	</tr>
 	<tr>
-	    <td class="label"><?php echo form_label('Растур Кол.: ');?></td>
+	    <td class="label"><?php echo form_label('Растур: ');?></td>
 	    <td><?php echo form_input('defect_quantity',set_value('defect_quantity'));?></td>
 	</tr>
 	<tr>

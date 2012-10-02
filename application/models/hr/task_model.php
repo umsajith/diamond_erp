@@ -1,37 +1,40 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Task_model extends CI_Model {
+
+	protected $_table = 'exp_cd_tasks';
 	
-	
-	function __construct()
+	public function select($sort_by, $sort_order, $limit=null, $offset=null)
 	{
-		parent::__construct();
-		
-	}
-	
-	function select($options = array())
-	{
-		
 		//Selects and returns all records from table
 		$this->db->select('t.*,u.uname,b.name');
-		$this->db->from('exp_cd_tasks AS t');
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
 		$this->db->join('exp_cd_bom AS b','b.id = t.bom_fk','LEFT');
-
-		//Sort
-		if (isset($options['sory_by']) && isset($options['sort_direction']))
-			$this->db->order_by($options['sort_by'],$options['sort_direction']);
 			
-		//Retreives only the ACTIVE records, unless otherwise set	
-		if(!isset($options['status'])) 
-			$this->db->where('t.status','active');
-			
-		$this->db->order_by('t.taskname');
+		//Sort by and Sort Order
+		$this->db->order_by($sort_by ,$sort_order);
 		
-		$query = $this->db->get();
-		return $query->result();
+		//Pagination Limit and Offset
+		$this->db->limit($limit, $offset);
+	
+		$this->db->where('t.status','active');
+		
+		$data['results'] = $this->db->get($this->_table.' AS t')->result();
+		
+		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
+		
+		$this->db->select('COUNT(*) as count',false);
+			
+		$this->db->where('status','active');
+		
+		$temp = $this->db->get($this->_table)->row();
+		$data['num_rows'] = $temp->count;
+		//--------------------------------------------------------------------------------------------
+		
+		//Returns the whole data array containing $results and $num_rows
+		return $data;
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		//Selects and returns all records from table
 		$this->db->select('t.*,u.uname,b.name');
@@ -47,11 +50,11 @@ class Task_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{
 		//Sets Bom_fk to NULL if this task does not produce
-		if(!isset($data['bom_fk']) || $data['bom_fk'] == '')
-			$data['bom_fk'] = NULL;
+		if(!isset($data['bom_fk']) OR $data['bom_fk'] == '')
+			$data['bom_fk'] = null;
 		else
 			$data['is_production'] = 1;
 			
@@ -61,7 +64,7 @@ class Task_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{
 		//If Bom_Fk is unset, or empty, deletes BOM_FK in db, and sets production bit to 0
 		if(isset($data['bom_fk']) && $data['bom_fk'] == '')
@@ -85,7 +88,7 @@ class Task_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 	
-	function delete($id)
+	public function delete($id)
 	{
 		//Updates the status to 'deleted'
 		$data['status'] = 'deleted';
@@ -96,7 +99,7 @@ class Task_model extends CI_Model {
 		
 	}
 	
-	function dropdown()
+	public function dropdown()
 	{
 		//Query
 		$this->db->select('t.id,t.taskname,u.uname');
@@ -108,18 +111,16 @@ class Task_model extends CI_Model {
 		return $this->db->get()->result();	 
 	}
 	
-	function find_bom($id)
+	public function find_bom($id)
 	{
 		//Selects and returns all records from table
 		$this->db->select('bom_fk');
-			$this->db->from('exp_cd_tasks');
-			$this->db->where('id',$id);
-			$this->db->where('is_production',1);
-			$this->db->where('status','active');
-			$this->db->limit(1);
+		$this->db->where('id',$id);
+		$this->db->where('is_production',1);
+		$this->db->where('status','active');
+		$this->db->limit(1);
 		
-		$result = $this->db->get()->row();
+		$result = $this->db->get($this->_table)->row();
 		return $result->bom_fk;
 	}
-	
 }

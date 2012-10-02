@@ -3,12 +3,13 @@
 	<div id="meta">
 			<p>бр.<?php echo $master->id;?></p>
 			<p><?php echo $master->dateofentry;?></p>
-		</div>
+	</div>
 	<div id="buttons">
 		<a href="<?php echo site_url("distribution/edit/{$page}/{$master->id}");?>" class="button"><span class="edit">Корекција</span></a>
 		<a href="<?php echo site_url("distribution/delete/{$page}/{$master->id}");?>" class="button" id="delete"><span class="delete">Бришење</span></a>
 	</div>	
 <hr>
+<div class="f_left">
 	<dl>
         <dt>Производ:</dt>
         <dd><?php echo $master->prodname;?></dd>
@@ -25,8 +26,9 @@
         <dt>Забелешка:</dt>
         <dd><?php echo ($master->note) ? $master->note : '-';?></dd>
 	</dl>
-<hr/>
+</div>
 <?php if (isset($details) && is_array($details) && count($details)):?>
+<div class="f_right">
 	<h3>Употребени Репро-Материјали</h3>
 	<table class="master_table">
     <tr>
@@ -42,5 +44,6 @@
 	</tr>
 	<?php endforeach;?>
 	</table>
+</div>
 <?php endif;?>
 <?php $this->load->view('includes/_del_dialog');?>

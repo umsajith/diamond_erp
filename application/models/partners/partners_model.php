@@ -1,19 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Partners_model extends CI_Model {
+class Partners_model extends MY_Model {
 	
 	//Database table of the Model
-	var $table = 'exp_cd_partners';
+	protected $_table = 'exp_cd_partners';
 	
-	function __construct()
-	{
-		parent::__construct();	
-	}
-	
-	function select($query_array,$sort_by,$sort_order,$limit = null, $offset = null)
+	public function select($query_array,$sort_by,$sort_order,$limit = null, $offset = null)
 	{
 		//Selects and returns all records from table-----------------------------------------------
 		$this->db->select('p.*,u.name as ugroup,c.name,pc.postalcode, pt.company as mother_name, pt.id as mother_id');
-		$this->db->from('exp_cd_partners AS p');
 		$this->db->join('exp_cd_partners AS pt','pt.id = p.mother_fk','LEFT');
 		$this->db->join('exp_cd_user_groups AS u','u.id = p.ugroup_fk','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
@@ -39,9 +33,15 @@ class Partners_model extends CI_Model {
 			{
 				$this->db->where('p.is_customer',1);
 				$this->db->where('p.is_vendor',1);
-			}
-				
+			}	
 		}
+		//Search Query
+		if(strlen($query_array['q']))
+		{
+			$this->db->like('p.id',$query_array['q']);
+			$this->db->or_like('p.company',$query_array['q']);
+		}
+
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
 			
@@ -50,11 +50,10 @@ class Partners_model extends CI_Model {
 		
 		$this->db->order_by($sort_by,$sort_order);
 
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS p')->result();
 		
 		//Counts the TOTAL rows in the Table-------------------------------------------------------
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->from($this->table);
 		$this->db->where('status','active');
 
 		if(strlen($query_array['postalcode_fk']))
@@ -76,11 +75,16 @@ class Partners_model extends CI_Model {
 			{
 				$this->db->where('is_customer',1);
 				$this->db->where('is_vendor',1);
-			}
-				
+			}		
+		}
+		//Search Query
+		if(strlen($query_array['q']))
+		{
+			$this->db->like('id',$query_array['q']);
+			$this->db->or_like('company',$query_array['q']);
 		}
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		
 		$data['num_rows'] = $temp->count;
 		//-----------------------------------------------------------------------------------------
@@ -88,10 +92,9 @@ class Partners_model extends CI_Model {
 		return $data;
 	}
 	
-	function dropdown($partner_type = null, $mothers = false)
+	public function dropdown($partner_type = null, $mothers = false)
 	{
 		$this->db->select('p.id,p.company,c.name as city');
-		$this->db->from('exp_cd_partners AS p');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 		
@@ -125,7 +128,7 @@ class Partners_model extends CI_Model {
 		$this->db->order_by('p.postalcode_fk','asc');
 		$this->db->order_by('p.company','asc');
 		
-		$query = $this->db->get();
+		$query = $this->db->get($this->_table.' AS p');
 		
 		$options = array();
 		$options[''] = $empty;  // first item in list is 'empty'
@@ -149,12 +152,32 @@ class Partners_model extends CI_Model {
 		}
 		return $options;
 	}
+	/**
+	 * Searches for partners match by term provided.
+	 * Limit search results by options restrictions.
+	 * @param  string $term    search term
+	 * @param  Array  $options restriction options
+	 * @return Array of Objects          
+	 */
+	public function partners_search($term, Array $options)
+	{
+		$this->db->select('id, company')
+	    	->like('company', $term, 'after');
+
+	    if(isset($options['is_vendor']))
+	    	$this->db->where('is_vendor',$options['is_vendor']);
+	   	if(isset($options['is_mother']))
+	    	$this->db->where('is_mother',$options['is_mother']);
+	    if(isset($options['is_customer']))
+	    	$this->db->where('is_customer',$options['is_customer']);
+
+   		return $this->db->get($this->_table)->result();
+	}			
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		//Selects and returns all records from table
 		$this->db->select('p.*,u.name as ugroup,c.name,pc.postalcode');
-		$this->db->from('exp_cd_partners AS p');
 		$this->db->join('exp_cd_user_groups AS u','u.id = p.ugroup_fk','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
@@ -164,27 +187,40 @@ class Partners_model extends CI_Model {
 		//Retreives only the ACTIVE records	
 		$this->db->where('p.status','active');
 		
-		return $this->db->get()->row();
+		return $this->db->get($this->_table.' AS p')->row();
+	}
+
+	public function select_sub($mother_id)
+	{
+		//Selects and returns all records from table
+		$this->db->select('p.*,c.name,pc.postalcode');
+		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
+		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
+			
+		//Retreives only the record where MOTHER_FK=$ID
+		$this->db->where('p.mother_fk',$mother_id);
+
+		//Retreives only the ACTIVE records	
+		$this->db->where('p.status','active');
+		
+		return $this->db->get($this->_table.' AS p')->result();
 	}
 	
-	function insert ($data = array())
-	{
-		if(isset($data['password']) && $data['password'] != '')
-			$data['password']= sha1($data['password']);
-		
+	public function insert ($data = array())
+	{	
 		if(!isset($data['postalcode_fk']))
 			$data['postalcode_fk'] = 1;
 			
-		if(isset($data['mother_fk']) && $data['mother_fk'] == '')
+		if(isset($data['mother_fk']) AND $data['mother_fk'] == '')
 			$data['mother_fk'] = null;
 			
 		// Inserts the whole data array into the database table
-		$this->db->insert($this->table,$data);
+		$this->db->insert($this->_table,$data);
 		
 		return $this->db->insert_id();
 	}
 	
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{	
 		/*
 		 * If after update, is_customer, is_vendor, is_mother
@@ -203,42 +239,24 @@ class Partners_model extends CI_Model {
 		 *  If Mother_fk has been set, and its empty,
 		 *  sets the corresponding attribute to null (default)
 		 */
-		if(isset($data['mother_fk']) && $data['mother_fk'] == '')
+		if(isset($data['mother_fk']) AND $data['mother_fk'] == '')
 				$data['mother_fk'] = null;
-						
-		/*
-		 * If password has been changed,
-		 * hashes it and passes it forward
-		 */
-		if(isset($data['password']) && $data['password']!='')
-			$data['password']= sha1($data['password']);
 		
 		//This ID
 		$this->db->where('id',$id);
 		
 		//Updating
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 		
 		return $this->db->affected_rows();
 	}
 	
-	function search($pid)
-	{
-		$this->db->select('id,company');
-		$this->db->from($this->table);
-		$this->db->like('company',$pid);
-		$this->db->order_by('company');
-		$this->db->where('status','active');
-		
-		return $this->db->get()->result_array();
-	}
-	
-	function delete($id)
+	public function delete($id)
 	{
 		//Updates the status to 'deleted'
 		$data['status'] = 'deleted';
 		$this->db->where('id',$id);
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 
 		return $this->db->affected_rows();
 	}	

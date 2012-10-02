@@ -1,10 +1,17 @@
-<div class="quick_message"></div>
 <h2><?php echo $heading; ?></h2>
-<?php echo form_open("distribution/edit/{$page}/{$result->id}","id='form'");?>
+	<?php echo form_open("distribution/edit/{$page}/{$result->id}","id='form'");?>
+	<div id="meta">
+			<p>бр.<?php echo $result->id;?></p>
+			<p><?php echo $result->dateofentry;?></p>
+	</div>
 <hr>
 	<?php echo form_submit('','Сними','class="save"');?>
 <hr>
 <table class="data_forms">
+<tr>
+    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
+    <td><?php echo form_input('dateoforigin',set_value('dateoforigin',$result->dateoforigin)); ?></td>
+</tr>
 <tr>
     <td class="label"><?php echo form_label('Производ:');?><span class='req'>*</span></td>
     <td><select id="product" name="prodname_fk"></select></td>
@@ -23,10 +30,6 @@
     <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk',$result->distributor_fk)); ?></td>
 </tr>
 <?php endif;?>
-<tr>
-    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
-    <td><?php echo form_input('dateoforigin',set_value('dateoforigin',$result->dateoforigin)); ?></td>
-</tr>
 <tr>
     <td class="label"><?php echo form_label('Документ:');?></td>
     <td><?php echo form_input('ext_doc',set_value('ext_doc',$result->ext_doc));?></td>

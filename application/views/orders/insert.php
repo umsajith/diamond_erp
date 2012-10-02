@@ -1,25 +1,25 @@
-<div id="new_partner" style="display: none;" title="Внес на Нов Купувач">
+<!-- <div id="new_partner" style="display: none;" title="Внес на Нов Купувач">
 	<?php echo form_label('Фирма:');?>
     <?php echo form_input('company');?>
     <?php echo form_label('Град:');?>
     <?php echo form_dropdown('city',$cities);?>
-</div>
+</div> -->
 <h2><?php echo $heading; ?></h2>
-<?php echo form_open('',array('id'=>'order'));?>
+<?php echo form_open('orders_list/insert',array('id'=>'order'));?>
 <hr>
 <div id="buttons">
-	<input type="button" value="Сними" class="save" onClick="submit_form();">
+	<?php echo form_submit('','Сними',"class='save'"); ?>
 </div>
 <hr>
 <div id="west">
 <fieldset class="data_form">
 	<legend>Основни Информации</legend>
     <table class="data_forms_wide">  
-		<tr>
+<!-- 		<tr>
 		    <td class="label"><?php echo form_label('Купувач:');?><span class='req'>*</span></td>
 		    <td><?php echo form_dropdown('partner_fk',$customers);?></td>
 		    <td><span class="add_icon" onclick="new_partner();">&nbsp;</span></td>
-		</tr>
+		</tr> -->
         <tr>
             <td class="label" ><?php echo form_label('Испорачано на:');?><span class='req'>*</span></td>
             <td><?php echo form_input('dateshipped'); ?></td>
@@ -27,13 +27,13 @@
             <td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
             <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk')); ?></td>
         </tr>
-        <tr>
+       <!--  <tr>
             <td class="label"><?php echo form_label('Плаќање:');?><span class='req'>*</span></td>
             <td><?php echo form_dropdown('payment_mode_fk', $modes_payment,set_value('payment_mode_fk')); ?></td>
-        </tr>
+        </tr> -->
 	</table >
 </fieldset>
-<fieldset class="data_form">
+<!-- <fieldset class="data_form">
 <legend>Продизводи</legend>
 	<table>
 		<tr>
@@ -70,7 +70,7 @@
         </tr> 
 	</table >
 </fieldset>
-</div>
+</div> -->
 <?php echo form_close();?>
 
 <script type="text/javascript">
@@ -205,12 +205,12 @@
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 		var comments = $("textarea[name=comments]").val();
 
-		  if (partner_fk == '')
-		  {
-		    alert('Полето Купувач е задожително');
-		    $("select[name=partner_fk]").focus();
-		    return false;
-		  }
+		  // if (partner_fk == '')
+		  // {
+		  //   alert('Полето Купувач е задожително');
+		  //   $("select[name=partner_fk]").focus();
+		  //   return false;
+		  // }
 		  
 		  if (dateshipped == '')
 		  {
@@ -226,27 +226,27 @@
 		    return false;
 		  }
 		  
-		  if(products.length === 0)
-		  {
-			  alert("Нарачката е празна. Минимум еден производ е потребен");
-			  $("select#products").focus();
-		      return false;
-		  }
+		  // if(products.length === 0)
+		  // {
+			 //  alert("Нарачката е празна. Минимум еден производ е потребен");
+			 //  $("select#products").focus();
+		  //     return false;
+		  // }
 
 		  $("input.save").attr("disabled", true);
 
 			//Converts the JavaScript array into JSON object
-			var components = JSON.stringify(products);
-			//POSTs the JSON object (with components) along with partner_fk(master) and desiredshipping(master)
-			$.post("<?php echo site_url('orders/insert'); ?>",
-				   {components:components,distributor_fk:distributor_fk,partner_fk:partner_fk,
-				    dateshipped:dateshipped,payment_mode_fk:payment_mode_fk,comments:comments},
-				   function(data){
-					   //Upon execution of the php scirpt, redirects to Orders, with corresponding success/error message (Flash)
-					   location.replace("<?php echo site_url('orders'); ?>");
-				   },"json"
+			// var components = JSON.stringify(products);
+			// //POSTs the JSON object (with components) along with partner_fk(master) and desiredshipping(master)
+			// $.post("<?php echo site_url('orders/insert'); ?>",
+			// 	   {components:components,distributor_fk:distributor_fk,partner_fk:partner_fk,
+			// 	    dateshipped:dateshipped,payment_mode_fk:payment_mode_fk,comments:comments},
+			// 	   function(data){
+			// 		   //Upon execution of the php scirpt, redirects to Orders, with corresponding success/error message (Flash)
+			// 		   location.replace("<?php echo site_url('orders'); ?>");
+			// 	   },"json"
 				   
-			   );
+			//    );
 		return false;
 	}
 

@@ -1,16 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Products extends MY_Controller {
+
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
 		//Load Models
-		$this->load->model('products/Products_model');	
+		$this->load->model('products/products_model','prod');	
 	}
 
-	function index($query_id = 0,$sort_by = 'prodname', $sort_order = 'asc', $offset = 0)
+	public function index($query_id = 0,$sort_by = 'prodname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
 		$this->data['heading'] = 'Артикли';
@@ -19,9 +21,6 @@ class Products extends MY_Controller {
 		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
 		$this->data['types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
-
-		//Limit Per Page
-		$limit = 25;
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -55,7 +54,7 @@ class Products extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'prodname';
 		
 		//Retreive data from Model
-		$temp = $this->Products_model->select($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->prod->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -65,7 +64,7 @@ class Products extends MY_Controller {
 		//Pagination
 		$config['base_url'] = site_url("products/index/$query_id/$sort_by/$sort_order");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -79,7 +78,7 @@ class Products extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function search()
+	public function search()
 	{
 		$query_array = array(
 			'ptname_fk' => $this->input->post('ptname_fk'),
@@ -90,7 +89,7 @@ class Products extends MY_Controller {
 		redirect("products/index/$query_id");
 	}
 	
-	function insert()
+	public function insert()
 	{
 		//Load Validation Library
 		$this->load->library('form_validation');
@@ -113,7 +112,7 @@ class Products extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful validation insets into the DB
-			if($this->Products_model->insert($_POST))
+			if($this->prod->insert($_POST))
 				$this->utilities->flash('add','products');
 			else
 				$this->utilities->flash('error','products');
@@ -130,10 +129,10 @@ class Products extends MY_Controller {
 		$this->data['heading'] = 'Внес на Артикл';
 	}
 	
-	function edit($id = false)
+	public function edit($id = false)
 	{
 		//Retreives ONE product from the database
-		$this->data['product'] = $this->Products_model->select_single($id);
+		$this->data['product'] = $this->prod->select_single($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['product'])
@@ -163,7 +162,7 @@ class Products extends MY_Controller {
 			if ($this->form_validation->run())
 			{
 				//Successful validation insets into the DB
-				if($this->Products_model->update($id,$_POST))
+				if($this->prod->update($id,$_POST))
 					$this->utilities->flash('update','products');
 				else
 					$this->utilities->flash('error','products');	
@@ -181,10 +180,10 @@ class Products extends MY_Controller {
 		$this->data['heading'] = 'Корекција на Артикл';
 	}
 	
-	function view($id)
+	public function view($id)
 	{
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Products_model->select_single($id);
+		$this->data['master'] = $this->prod->select_single($id);
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','products');
@@ -193,17 +192,17 @@ class Products extends MY_Controller {
 		$this->data['heading'] = 'Артикл';
 	}
 	
-	function delete($id)
+	public function delete($id)
 	{
-		if($this->Products_model->delete($id))
+		if($this->prod->delete($id))
 			$this->utilities->flash('delete','products');
 		else
 			$this->utilities->flash('error','products');
 	}
 
-	function dropdown($type)
+	public function dropdown($type)
 	{
-		$this->data = $this->Products_model->get_products($type);
+		$this->data = $this->prod->get_products($type);
 		header('Content-Type: application/json',true);     
 		echo json_encode($this->data);
 		exit;

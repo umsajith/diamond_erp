@@ -2,15 +2,15 @@
 <hr>
 	<a href="<?php echo site_url('tasks/insert');?>" class="button"><span class="add">Внес</span></a>
 <table class="master_table">
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
+<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
 	<tr>
-		<th></th>
-		<th>Работна Задача</th>
-		<th>Норматив</th>
-		<th>Основна Единица</th>
-		<th>Основна Цена</th>
-		<th>Бонус Цена</th>
-		<th></th>
+		<th>&nbsp;</th>
+		<?php foreach ($columns as $col_name => $col_display):?>
+    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
+    			<?php echo anchor("tasks/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		</th>
+    	<?php endforeach;?>
+		<th>&nbsp;</th>
 	</tr>
 	<?php foreach($results as $row):?>
 		<tr>
@@ -31,4 +31,3 @@
 <?php endif;?>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-<?php $this->load->view('includes/_del_dialog');?>

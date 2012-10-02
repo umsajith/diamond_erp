@@ -28,12 +28,12 @@
 </tr>
 <?php if($goods_receipt->type!='po'):?>
 	<tr>
-	    <td class="label"><?php echo form_label('Цена (без ДДВ): ');?></td>
-	    <td><?php echo form_input('price', set_value('price',$goods_receipt->price));?></td>
-	</tr>
-	<tr>
 	    <td class="label"><?php echo form_label('Документ:');?></td>
 	    <td><?php echo form_input('ext_doc',set_value('ext_doc',$goods_receipt->ext_doc));?></td>
+	</tr>
+	<tr>
+	    <td class="label"><?php echo form_label('Цена (без ДДВ): ');?></td>
+	    <td><?php echo form_input('price', set_value('price',$goods_receipt->price));?></td>
 	</tr>
 	<tr>
 	    <td class="label"><?php echo form_label('Траење:');?></td>

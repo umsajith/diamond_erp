@@ -1,20 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Inventory_model extends CI_Model {
+class Inventory_model extends MY_Model {
 	
-	//Database table of the Model
-	protected $table = 'exp_cd_inventory';
+	protected $_table = 'exp_cd_inventory';
 	
-	function __construct()
-	{
-		parent::__construct();
-	}
-	
-	function select($options = array(),$limit=null,$offset=null)
+	public function select($options = array(),$limit=null,$offset=null)
 	{
 		$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
 							e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
 		
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
@@ -57,13 +51,13 @@ class Inventory_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function select_all_po($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_po($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects results by supplied criteria----------------------------------------------------------------
 		$this->db->select("i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
 			CONCAT(e.fname,' ',e.lname) AS assigned",false);	
 		
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
@@ -103,7 +97,7 @@ class Inventory_model extends CI_Model {
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('COUNT(i.id) as count',false);
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 		
@@ -122,11 +116,11 @@ class Inventory_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_all_gr($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_gr($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects results by supplied criteria----------------------------------------------------------------
 		$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,e.fname,e.lname');	
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
 		$this->db->join('exp_cd_employees AS e','e.id = i.received_by','LEFT');
@@ -164,7 +158,7 @@ class Inventory_model extends CI_Model {
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('COUNT(i.id) as count',false);
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 		
@@ -185,13 +179,13 @@ class Inventory_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_all_adj($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_adj($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects results by supplied criteria----------------------------------------------------------------
 		$this->db->select("i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
 			CONCAT(e.fname,' ',e.lname) AS assigned",false);	
 		
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
@@ -225,7 +219,7 @@ class Inventory_model extends CI_Model {
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('COUNT(i.id) as count',false);
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 		
@@ -244,12 +238,10 @@ class Inventory_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
-		$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,
-					p.id AS pid,e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
-		
-		$this->db->from($this->table.' AS i');
+		$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
+			tr.rate,e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
@@ -257,13 +249,14 @@ class Inventory_model extends CI_Model {
 		$this->db->join('exp_cd_employees AS emp','emp.id = i.assigned_to','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		$this->db->join('exp_cd_tax_rates AS tr','tr.id = p.tax_rate_fk','LEFT');
 
 		$this->db->where('i.id',$id);
 		
-		return $this->db->get()->row();
+		return $this->db->get($this->_table.' AS i')->row();
 	}
 	
-	function levels()
+	public function levels()
 	{
 		$this->db->select('i.id,p.prodname,pc.pcname,u.uname,p.alert_quantity,p.id AS pid');
 		
@@ -271,8 +264,6 @@ class Inventory_model extends CI_Model {
 		$this->db->select_max('i.dateofentry');
 		$this->db->select_avg('i.price');
 		$this->db->select_max('i.price','maxprice');
-		
-		$this->db->from($this->table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
@@ -288,12 +279,12 @@ class Inventory_model extends CI_Model {
 		$this->db->where_in('i.type',array('gr','adj',0));
 		
 		$this->db->group_by('i.prodname_fk');
-		$this->db->order_by('p.pcname_fk','desc');
+		$this->db->order_by('i.dateofentry','desc');
 
-		return $this->db->get()->result();
+		return $this->db->get($this->_table.' AS i')->result();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{	
 		/*
 		 * If Goods Receipt has been inserted,
@@ -329,7 +320,7 @@ class Inventory_model extends CI_Model {
 			
 		$data['received_by'] = $this->session->userdata('userid');
 		
-		$this->db->insert($this->table,$data);
+		$this->db->insert($this->_table,$data);
 		
 		return $this->db->insert_id();
 	}
@@ -338,7 +329,7 @@ class Inventory_model extends CI_Model {
 	{
 		$this->db->select_sum('quantity');
 		
-		$this->db->from($this->table);
+		$this->db->from($this->_table);
 		
 		$this->db->where('prodname_fk',$product_id);
 		
@@ -350,7 +341,7 @@ class Inventory_model extends CI_Model {
 			return false;
 	}
 	
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{	
 		/*
 		 * Sets Date of Order, Date of Expiration
@@ -370,12 +361,12 @@ class Inventory_model extends CI_Model {
 				
 		$this->db->where('id',$id);		
 
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 		
 		return $this->db->affected_rows();
 	}
 	
-	function receive_po($options = array())
+	public function receive_po($options = array())
 	{
 		/*
 		 * Transfers the Purchase Order into
@@ -388,19 +379,19 @@ class Inventory_model extends CI_Model {
 
 		$this->db->where_in('id',$options['ids']);
 		
-		$this->db->update($this->table);
+		$this->db->update($this->_table);
 		
 		return $this->db->affected_rows();
 	}
 	
-	function select_use($key, $value)
+	public function select_use($key, $value)
 	{
 		
 		//Selects and returns all records from table
 		$this->db->select('i.id,i.quantity,i.prodname_fk,i.dateofentry,
 							p.prodname,pc.pcname,u.uname');
 		
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
@@ -415,12 +406,12 @@ class Inventory_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function select_item($id,$limit=null,$offset=null)
+	public function select_item($id,$limit=null,$offset=null)
 	{
 		//Selects and returns all records from table
 		$this->db->select('i.*,u.uname,t.company,p.id AS pid,e.fname,e.lname');
 		
-		$this->db->from($this->table.' AS i');
+		$this->db->from($this->_table.' AS i');
 		
 		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
 		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
@@ -446,7 +437,7 @@ class Inventory_model extends CI_Model {
 				
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('prodname_fk, type, COUNT(id) as count',false);
-		$this->db->from($this->table);
+		$this->db->from($this->_table);
 		
 		$this->db->where_not_in('type','po');
 		
@@ -460,20 +451,13 @@ class Inventory_model extends CI_Model {
 		return $data;
 	}
 
-	function has_deducation($jo_id)
+	public function has_deducation($jo_id)
 	{
 		//Checks if there are already Inventory Deductions for this Job Order
 		$this->db->select('id');
-		$this->db->from($this->table);
+		$this->db->from($this->_table);
 		$this->db->where('job_order_fk',$jo_id);
 		
 		return $this->db->get()->result_array();
-	}
-	
-	function delete($id)
-	{
-		$this->db->where('id',$id);
-		$this->db->delete($this->table);
-		return $this->db->affected_rows();	
 	}
 }

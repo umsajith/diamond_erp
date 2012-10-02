@@ -1,11 +1,11 @@
 <h2><?php echo $heading?></h2>
 <hr>
 	<a href="<?php echo site_url('payroll/calculate');?>" class="button_wide"><span class="calculator">Калкулација</span></a>
-<div class="filers"> 
+<div class="filters"> 
     <?php echo form_open('payroll/search');?>
     <?php echo form_dropdown('employee_fk', $employees, set_value('employee_fk')); ?>
     <?php echo form_dropdown('for_month', $G_months, set_value('for_month')); ?>
-    <?php echo form_submit('','Филтрирај');?>
+    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">

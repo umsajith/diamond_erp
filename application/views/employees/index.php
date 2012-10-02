@@ -1,12 +1,11 @@
 <h2><?php echo $heading?></h2>
 <hr>
 	<a href="<?php echo site_url('employees/insert');?>" class="button"><span class="add">Внес</span></a>
-	<?php echo $this->load->view('includes/_total_rows');?>
-<div class="filers">
+<div class="filters">
     <?php echo form_open('employees/search');?>
 	    <?php echo form_dropdown('poss_fk', $possitions, set_value('poss_fk')); ?>
 	    <?php echo form_dropdown('ugroup_fk', $ugroups, set_value('ugroup_fk')); ?>
-	    <?php echo form_submit('','Филтрирај');?>
+	    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">
@@ -27,6 +26,7 @@
 			<td><?php echo ($row->comp_mobile) ? $row->comp_mobile : '-';?></td>
 			<td><?php echo $row->position;?></td>
 			<td><?php echo $row->department;?></td>
+			<td><?php echo ($row->fixed_wage_only) ?'Да':'-';?></td>
 			<td><?php echo ($row->is_manager) ?'Да':'-';?></td>
 			<td><?php echo ($row->is_distributer) ?'Да':'-';?></td>
 			<td><?php echo ($row->fixed_wage != 0) ? $row->fixed_wage.$G_currency:'-';?></td>

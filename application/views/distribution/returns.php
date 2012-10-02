@@ -1,11 +1,11 @@
 <h2><?php echo $heading?></h2>
 <hr>
 <a href="<?php echo site_url('distribution/insert_return');?>" class="button"><span class="lorry_go">Врати</span></a>
-<div class="filers">
+<div class="filters">
     <?php echo form_open('distribution/return_search');?>
     <?php echo form_dropdown('prodname_fk', $products, set_value('prodname_fk')); ?>
     <?php echo form_dropdown('distributor_fk', $distributors, set_value('distributor_fk')); ?>
-    <?php echo form_submit('','Филтрирај');?>
+    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">
@@ -30,8 +30,8 @@
 			<td class="code" align="center"><?php echo anchor('distribution/view/ret/'.$row->id,'&nbsp;','class="view_icon"');?></td>
 			<td><?php echo ($row->dateoforigin == null) ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateoforigin)); ?></td>	
 			<td><?php echo $row->prodname;?></td>
-			<td><?php echo $row->quantity.' '.$row->uname;?></td>
 			<td><?php echo $row->qty_current.' '.$row->uname;?></td>
+			<td><?php echo $row->quantity.' '.$row->uname;?></td>
 			<td><?php echo $row->quantity+$row->qty_current.' '.$row->uname;?></td>
 			<td><?php echo ($row->distributor_fk == null ? '-' : $row->distributor); ?></td>
 			<td><?php echo ($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>

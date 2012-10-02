@@ -1,11 +1,11 @@
 <h2><?php echo $heading?></h2>
 <hr>
 	<a href="<?php echo site_url('payroll_extra/insert_bonus');?>" class="button"><span class="add">Внес</span></a>
-<div class="filers"> 
+<div class="filters"> 
     <?php echo form_open('payroll_extra/search');?>
 	    <?php echo form_dropdown('employee_fk', $employees, set_value('employee_fk')); ?>
 	    <?php echo form_dropdown('payroll_extra_cat_fk', $categories, set_value('payroll_extra_cat_fk')); ?>
-	    <?php echo form_submit('','Филтрирај');?>
+	    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">

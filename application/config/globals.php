@@ -32,7 +32,7 @@ $config['company_phone1'] = '031 453 905';
 $config['company_phone2'] = '031 453 906';
 $config['company_fax'] = '031 412 715';
 $config['company_email'] = 'agro.pro.mk@gmail.com';
-$config['company_web'] = 'www.kumanovskikori.com';
+$config['company_web'] = 'www.kumanovskikori.mk';
 $config['company_logo'] = '/assets/logo.jpg';
 
 /*

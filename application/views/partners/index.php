@@ -1,14 +1,19 @@
 <h2><?php echo $heading?></h2>
+	<?php echo form_open('partners/search'); ?>
+		<div id="searchBox">
+			<?php echo form_input('q',set_value('q'),"placeholder='Код/Назив'"); ?>
+			<?php echo form_submit('','',"class='search'");  ?>
+		</div>
+	<?php echo form_close(); ?>
 <hr>
 	<a href="<?php echo site_url('partners/insert');?>" class="button"><span class="add">Внес</span></a>
-	<?php $this->load->view('includes/_total_rows');?>
-<div class="filers"> 
-    <?php echo form_open('partners/search');?>
-	    <?php echo form_dropdown('partner_type',array(''=>'- Тип -','cus'=>'Купувачи','ven'=>'Добавувачи','cus_ven'=>'Купувачи/Добавувачи'),set_value('partner_type'));?>
-	    <?php echo form_dropdown('postalcode_fk',$postalcodes,set_value('postalcode_fk'));?>
-	    <?php echo form_submit('','Филтрирај');?>
-    <?php echo form_close();?>
-</div>
+	<div class="filters"> 
+	    <?php echo form_open('partners/search');?>
+		    <?php echo form_dropdown('partner_type',array(''=>'- Тип -','cus'=>'Купувачи','ven'=>'Добавувачи','cus_ven'=>'Купувачи/Добавувачи'),set_value('partner_type'));?>
+		    <?php echo form_dropdown('postalcode_fk',$postalcodes,set_value('postalcode_fk'));?>
+		    <?php echo form_submit('','',"class='filter'");?>
+	    <?php echo form_close();?>
+	</div>
 <table class="master_table">
 <?php if (isset($results) && is_array($results) && count($results) > 0):?>
 	<tr>
@@ -27,7 +32,8 @@
 	<?php foreach($results as $row):?>
 		<tr>
 			<td class="code" align="center"><?php echo anchor('partners/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td class="code" align="center"><?php echo ($row->is_mother == 0 ? '' : anchor('#','&nbsp;','class="medal1_gold" id="medal1_gold"'));?></td>
+			<td class="code" align="center"><?php echo ($row->is_mother == 0)	 ? '' : "<span class='medal1_gold'></span>";?></td>
+			<td><?php echo $row->id;?></td>
 			<td><?php echo $row->company;?></td>
 			<td><?php echo ($row->contperson)?$row->contperson:'-';?></td>		
 			<td><?php echo $row->name;?></td>
@@ -50,12 +56,3 @@
 <?php endif;?>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-<?php $this->load->view('includes/_del_dialog');?>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("a#medal1_gold").click(function(){
-			return false;
-		});
-	});
-</script>

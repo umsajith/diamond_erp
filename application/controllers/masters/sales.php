@@ -9,7 +9,7 @@ class Sales extends MY_Controller {
 
 	function index()
 	{	
-		redirect('orders');
+		redirect('orders_list');
 	}
 	
 }

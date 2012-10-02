@@ -114,7 +114,7 @@ class Utilities {
         return $data;
     }
     
-	function get_employees($type = false)
+	function get_employees($type = 'all')
     {	
     	//Generating Querry
     	$this->CI->db->select('e.id,e.fname,e.lname');
@@ -122,9 +122,15 @@ class Utilities {
     	$this->CI->db->order_by('e.fname');
     	
     	if($type == 'fixed')
+        {
     		$this->CI->db->where('fixed_wage_only',1);
+            $this->CI->db->where('is_distributer',0);
+        }
     	if($type == 'variable')
-    		$this->CI->db->where('fixed_wage_only',0);
+		{
+            $this->CI->db->where('fixed_wage_only',0);
+            $this->CI->db->where('is_distributer',0);
+        }
     	
     	$this->CI->db->where('status','active');
     	

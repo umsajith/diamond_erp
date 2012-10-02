@@ -2,7 +2,7 @@
 	<h3>Последен работен налог</h3>
 	<dl>
 	        <dt>Работник:</dt>
-	        <dd><?php echo $last->lname.' '.$last->fname;?></dd>
+	        <dd><?php echo $last->fname.' '.$last->lname;?></dd>
 	        <dt>Работна Задача:</dt>
 	        <dd><?php echo $last->taskname;?></dd>
 	        <dt>За Датум:</dt>

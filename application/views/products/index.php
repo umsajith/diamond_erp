@@ -1,12 +1,12 @@
 <h2><?php echo $heading?></h2>
 <hr>
 	<a href="<?php echo site_url('products/insert');?>" class="button"><span class="add">Внес</span></a>
-<div class="filers">
+<div class="filters">
     <?php echo form_open('products/search');?>
     <?php echo form_dropdown('ptname_fk', $types, set_value('ptname_fk')); ?>
     <?php echo form_dropdown('pcname_fk',$categories, set_value('pcname_fk')); ?>
     <?php echo form_dropdown('wname_fk', $warehouses, set_value('wname_fk')); ?>
-    <?php echo form_submit('','Филтрирај');?>
+    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">
@@ -50,4 +50,3 @@
 	</tbody>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-<?php $this->load->view('includes/_del_dialog');?>

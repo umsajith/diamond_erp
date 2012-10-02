@@ -107,15 +107,16 @@ div#modnav ul li{
 
 
 /* MAIN CONTENT */
-div#content { 
-	 margin-top: 2px;
-	 margin-right: 2px;
-	 margin-left: 180px;
-	 overflow: auto;
-	 border: 1px solid #ccc;
-	 background: #fff;
-	 padding: 0px 10px 10px 10px;
-	 min-width: 850px;
+div#content {
+	position: relative;
+	margin-top: 2px;
+	margin-right: 2px;
+	margin-left: 180px;
+	overflow: auto;
+	border: 1px solid #ccc;
+	background: #fff;
+	padding: 0px 10px 10px 10px;
+	min-width: 850px;
 	 
 }
 
@@ -325,11 +326,13 @@ table.data_forms_jo .label {
 /* ORDERS DETAILS GRID */
 table#order_grid{
     border-collapse:collapse;
-    width: 650px;
+    width: 100%;
 }
 
 table#order_grid.details{
-    width:684px;
+    width:100%;
+    margin-top: 5px;
+    border: 1px solid #ccc;
 }
 
 table#order_grid th{
@@ -456,15 +459,6 @@ table.master_table .code {
 	width: 55px;
 	text-align: center;	
 }
-/* FILTERS BAR */
-.filers {
-	float: right;
-	margin:0;
-	margin-bottom: 3px;
-}
-.filers select {
-	width: 125px;
-}
 .red {
 	color: red;	
 }
@@ -511,7 +505,9 @@ p#total_rows {
 /* META SECTIONS */
 
 #meta{
-	float: right;
+	position: absolute;
+	right: 10px;
+	top: 40px;
 }
 #meta p{
 	text-align: right;
@@ -523,13 +519,12 @@ p#total_rows {
 /* PAGINATION */
 .pagination {
 	text-align: right;
-	margin-top: 10px;
+	margin-top: 5px;
 }
-div.pagination a,a:visited {
+.pagination a,a:visited {
 	color: black;
-	padding-right: 2px;	
+	padding: 2px;
 }
-
 
 /* NO RECORDS WARNING */
 td.no_records .warning {
@@ -739,7 +734,6 @@ select {
 	border: 1px solid #ccc;
 	background-color: white;
 	color: #004D9E;
-	font-size: 9pt;
 	margin: 0;
 	padding: 0;
 	width: 225px;
@@ -752,9 +746,11 @@ input, textarea {
 	background-color: white;
 	padding: 0;
 	color: #004D9E;
-	font-size: 9pt;
 	margin-top: 1px;
 	margin-bottom: 1px;
+}
+input:focus, textarea:focus, select:focus {
+	border: 1px solid #E691B3;
 }
 input[disabled] {
 	background-color: #ddd;
@@ -801,6 +797,16 @@ a.button_wide{
 a:hover.button, a:hover.button_wide{
 	background-color: #004D9E;
 	color: white;
+}
+.search{
+	background:url(../assets/magnifier.png) no-repeat 10px 2px;
+	text-indent:20px;
+	display:block;
+}
+.filter{
+	background:url(../assets/magnifier_zoom_in.png) no-repeat 10px 2px;
+	text-indent:20px;
+	display:block;
 }
 .add{
 	background:url(../assets/add.png) no-repeat 20px 5px;
@@ -903,7 +909,10 @@ a:hover.button, a:hover.button_wide{
     cursor: default;
 }
 #buttons {
-	height: 27px;	
+	height: 27px;
+}
+#buttons a {
+	width: 107px;
 }
 .save {
 	background:url(../assets/disk.png) no-repeat 15px 5px;
@@ -1022,9 +1031,8 @@ a:hover.button, a:hover.button_wide{
     background:transparent url(../assets/medal1_gold.png) no-repeat scroll right center;
     color:#000000;
     display:inline-block;
-    padding-right:15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    height: 16px;
+    width: 16px;
     cursor: default;
 }
 .tick_icon {
@@ -1077,7 +1085,6 @@ a:hover.button, a:hover.button_wide{
 	color:#000000;
     display:inline-block;
     padding-right:15px;
-    padding-top: 2px;
     cursor: pointer;
 }
 
@@ -1115,13 +1122,79 @@ span.req {
 	font-size: 9pt;
 }
 
-dl {
+#searchBox {
+	position: absolute;
+	right: 5px;
+	top: 0;
+	padding: 5px 5px;
+}
+
+#searchBox input {
+	float: left;
+}
+
+#searchBox input[type=text] {
+	height: 18px;
+	margin-top: 5px;
+	margin-right: 5px;
+	width: 135px;
+}
+
+#searchBox input::-webkit-input-placeholder {
+    color:    #999;
+}
+#searchBox input:-moz-placeholder {
+    color:    #999;
+}
+#searchBox input:-ms-input-placeholder {
+    color:    #999;
+}
+
+
+#searchBox input[type=submit] {
+	font-weight: bold;
+	height: 20px;
+	width: 40px;
+	border: 1px solid #ccc;
+	background-color: white;
 	padding: 0;
+	color: #004D9E;
+	margin-top: 5px;
+}
+#searchBox input[type=submit]:hover {
+	background-color: #004D9E;
+	color: white;
+}
+
+/* FILTERS BAR */
+.filters {
+	position: absolute;
+	right: 10px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+.filters input,select {
+	float: left;
+}
+input[type=submit].filter {
+	width: 40px;
+	height: 20px;
+}
+.filters select {
+	width: 135px;
+	margin-right: 5px;
+
+}
+/* ------------------------ */
+
+dl {
+	padding: 10px;
 	margin: 0;
-	width: 350px;
+	border: 1px solid #ccc;
+	width: 440px;
 }
 dl dt {
-	min-width: 160px;
+	width: 140px;
 	text-align: left;
 	border-bottom: 1px dotted #ccc;
 }
@@ -1129,14 +1202,67 @@ dl dt {
 dl dd {
 	margin-bottom: 2px;
 	border-bottom: 1px dotted #ccc;
-	margin-left: 160px;
-	min-width: 300px;
+	margin-left: 140px;
+	width: 300px;
+}
+
+.f_left {
+	float: left;
+	width: 460px;
+}
+
+.f_left button {
+	float: right;
+	font-weight: bold;
+	height: 27px;
+	width: 140px;
+	border: 1px solid #ccc;
+	background-color: white;
+	padding: 0;
+	color: #004D9E;
+	font-size: 9pt;
+	margin-top: 5px;
+}
+.f_left button:hover {
+	background-color: #004D9E;
+	color: white;
+}
+.f_left button:focus {
+	background-color: #004D9E;
+	color: white;
+}
+.f_right{
+	float: right;
+	width: 664px;
+	border: 1px solid #ccc;
+	padding: 3px 8px;
+}
+
+#partner_product_ol {
+	width: 100%;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+}
+
+#partner_product_ol td {
+	padding: 5px 0 0px 20px;
+}
+
+#partner_product_ol caption {
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 2px;
+}
+
+#partner_product_ol input[type=text], select {
+	height: 20px;
+	width: 250px;
 }
 
 
 .last_job_order {
 	padding: 5px;
-	width: 350px;
 	float: left;
 }
 

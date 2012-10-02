@@ -9,31 +9,23 @@
 <hr>
 <table class="data_forms_jo">
 <tr>
-    <td class="label"><?php echo form_label('Работник: ');?><span class='req'>*</span></td>
-    <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to',$job_order->assigned_to));?></td>
-</tr>
-<tr>
-    <td class="label"><?php echo form_label('За Датум:');?><span class='req'>*</span></td>
+    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
     <td><?php echo form_input('datedue',set_value('datedue',$job_order->datedue)); ?></td>
 </tr>
 <tr>
-    <td class="label"><?php echo form_label('Завршен на:');?></td>
-    <td><?php echo form_input('datecompleted',set_value('datecompleted',$job_order->datecompleted)); ?></td>
+    <td class="label"><?php echo form_label('Работник: ');?><span class='req'>*</span></td>
+    <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to',$job_order->assigned_to));?></td>
 </tr>
 <tr>
     <td class="label"><?php echo form_label('Работна Задача: ');?><span class='req'>*</span></td>
     <td><select id="tasks"></select></td>
 </tr>
 <tr>
-    <td class="label"><?php echo form_label('Зададена Кол.: ');?><span class='req'>*</span></td>
+    <td class="label"><?php echo form_label('Количина: ');?><span class='req'>*</span></td>
     <td><?php echo form_input('assigned_quantity',set_value('assigned_quantity',$job_order->assigned_quantity));?></td>
 </tr>
 <tr>
-    <td class="label"><?php echo form_label('Реализирана Кол.: ');?></td>
-    <td><?php echo form_input('final_quantity',set_value('final_quantity',$job_order->final_quantity));?></td>
-</tr>
-<tr>
-    <td class="label"><?php echo form_label('Растур Кол.: ');?></td>
+    <td class="label"><?php echo form_label('Растур: ');?></td>
     <td><?php echo form_input('defect_quantity',set_value('defect_quantity',$job_order->defect_quantity));?></td>
 </tr>
 <tr>
@@ -47,14 +39,10 @@
 <tr>
     <td class="label"><?php echo form_label('Смена: ');?></td>
     <td>
-    	1<?php echo form_radio('shift','1',(isset($job_order->shift) && $job_order->shift=='1')?TRUE:FALSE);?> 
-    	2<?php echo form_radio('shift','2',(isset($job_order->shift) && $job_order->shift=='2')?TRUE:FALSE);?>
-    	3 <?php echo form_radio('shift','3',(isset($job_order->shift) && $job_order->shift=='3')?TRUE:FALSE);?>
+    	1<?php echo form_radio('shift','1',(isset($job_order->shift) && $job_order->shift=='1')?true:false);?> 
+    	2<?php echo form_radio('shift','2',(isset($job_order->shift) && $job_order->shift=='2')?true:false);?>
+    	3 <?php echo form_radio('shift','3',(isset($job_order->shift) && $job_order->shift=='3')?true:false);?>
     </td>
-</tr>
-<tr>
-    <td class="label"><?php echo form_label('Статус: ');?></td>
-    <td><?php echo form_dropdown('job_order_status',array('completed'=>'Завршен','pending'=>'Во Тек','canceled'=>'Откажан'),set_value('job_order_status',$job_order->job_order_status)); ?></td>
 </tr>
 <tr>
     <td class="label"><?php echo form_label('Забелешка: ');?></td>
@@ -77,7 +65,7 @@
 	$.get("<?php echo site_url('employees_tasks/dropdown'); ?>", {emp_id:emp_id}, function(result) {
 	    var optionsValues = "<select id='tasks'>";
 	    data_obj = result;
-	    optionsValues += "<option value=''>" + "--" + "</option>";
+	    optionsValues += "<option value=''>" + "- Работна Задача -" + "</option>";
 	    $.each(result, function() {
 		        //Selected the correct value retreived from the database
 	            if (this.id == <?php echo $job_order->task_fk;?>){
@@ -97,13 +85,10 @@
 	
 	$(function() {
 		
-		$("#date, #uname").attr("disabled", "disabled");
+		$("#uname").attr("disabled", "disabled");
 		$("input#uname").val("");
 		
-		$( "input[name=datedue]" ).datepicker({
-			dateFormat: "yy-mm-dd"
-		});
-		$( "input[name=datecompleted]" ).datepicker({
+		$("input[name=datedue]").datepicker({
 			dateFormat: "yy-mm-dd"
 		});
 		
@@ -130,7 +115,7 @@
 			$.get("<?php echo site_url('employees_tasks/dropdown'); ?>", {emp_id:emp_id}, function(result) {
 				 var optionsValues = "<select id='tasks'>";
 				    data_obj = result;
-				    optionsValues += "<option value=''>" + "--" + "</option>";
+				    optionsValues += "<option value=''>" + "- Работна Задача -" + "</option>";
 				    $.each(result, function() {
 				            optionsValues += "<option value='" + this.id + "'>" + this.taskname + "</option>";
 				    });

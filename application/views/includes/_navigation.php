@@ -7,7 +7,7 @@
 		 *  method (if present) to the controller (default)
 		 */
 		$link = '';
-		if($module->folder && $module != '')
+		if($module->folder AND $module != '')
 		{
 			$link = $module->folder.'/';
 		}	

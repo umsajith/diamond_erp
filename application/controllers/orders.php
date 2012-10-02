@@ -1,29 +1,29 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Orders extends MY_Controller {
+
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('orders/Co_model');
-		$this->load->model('orders/Cod_model');
+		$this->load->model('orders/co_model','co');
+		$this->load->model('orders/cod_model','cod');
 		$this->load->model('partners/Partners_model');
 	}
 	
-	function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
+	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = "Извештаи";
+		$this->data['heading'] = "Налози за Продажба";
 		
 		//Generate dropdown menu data
 		$this->data['customers'] = $this->Partners_model->dropdown('customers');
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
-		
-		$limit = 25;
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -32,7 +32,7 @@ class Orders extends MY_Controller {
 			'distributor_fk'=>'Дистрибутер',
 			'payment_mode_fk'=>'Плаќање',
 			'dateofentry'=>'Внес',
-			'оstatus'=>'Статус'
+			'order_list_id'=>'Извештај'
 		);
 
 		$this->input->load_query($query_id);
@@ -47,11 +47,11 @@ class Orders extends MY_Controller {
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
 		$sort_by_array = array('dateshipped','partner_fk','distributor_fk','payment_mode_fk',
-								'dateofentry','оstatus');
+								'dateofentry','order_list_id');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
-		$temp = $this->Co_model->select($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->co->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -61,7 +61,7 @@ class Orders extends MY_Controller {
 		//Pagination
 		$config['base_url'] = site_url("orders/index/$query_id/$sort_by/$sort_order");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -75,7 +75,7 @@ class Orders extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function search()
+	public function search()
 	{
 		$query_array = array(
 			'partner_fk' => $this->input->post('partner_fk'),
@@ -87,27 +87,27 @@ class Orders extends MY_Controller {
 		redirect("orders/index/$query_id");
 	}
 	
-	function insert()
+	public function insert()
 	{	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('partner_fk','partner','trim|required');
+		$this->form_validation->set_rules('partner_fk','partner','trim|required|callback_partner_exist');
 		$this->form_validation->set_rules('dateshipped','date shipped','trim|required');
 		$this->form_validation->set_rules('distributor_fk','distributer','trim|required');
 		$this->form_validation->set_rules('payment_mode_fk','payment mode','trim');
-		$this->form_validation->set_rules('comments','comments','trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{
 			//Inserts Master details
-			$master = array('dateshipped'=>$_POST['dateshipped'],
+			$master = array(
+							'order_list_id'=>$_POST['order_list_id'],
+							'dateshipped'=>$_POST['dateshipped'],
 						 	'partner_fk'=>$_POST['partner_fk'],
 							'distributor_fk'=>$_POST['distributor_fk'],
 							'payment_mode_fk'=>$_POST['payment_mode_fk'],
-							'comments'=>$_POST['comments'],
 							'inserted_by'=>$this->session->userdata('userid'));
 			
-			$order_fk = $this->Co_model->insert($master);
+			$order_fk = $this->co->insert($master);
 			
 			if($order_fk)
 			{
@@ -115,40 +115,36 @@ class Orders extends MY_Controller {
 				foreach (json_decode($_POST['components'],true) as $detail)
 				{
 					//Inserts all Detail records into the database
-					$this->Cod_model->insert(array(
+					$this->cod->insert(array(
 							'order_fk'=>$order_fk,
 							'prodname_fk'=>$detail['id'],
 							'quantity'=>$detail['quantity'],
 							'returned_quantity'=>$detail['returned_quantity']));
 				}
-				$this->utilities->flash('add','',false);
+
+				//$this->utilities->flash('add','',false);
 				echo 1;
-				exit;
 			}
-			else
-			{
-				$this->utilities->flash('error','',false);
-				exit;	
-			}	
 		}
 
-		//Dropdown Menus
-		$this->data['customers'] = $this->Partners_model->dropdown('customers');
-		$this->data['cities'] = $this->utilities->get_postalcodes();
-		$this->data['distributors'] = $this->utilities->get_distributors();
-		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');	
+		exit;
+	}
 
-		//Heading
-		$this->data['heading'] = "Внес на Извештај";
+	public function partner_exist($id)
+	{
+		if($this->Partners_model->select_single($id))
+			return true;
+
+		return false;
 	}
 	
-	function edit($id = false)
+	public function edit($id = false)
 	{
 		/*
 		 * Retreives the record from the database, if
 		 * does not exists, reports void error and redirects
 		 */
-		$this->data['master'] = $this->Co_model->select_single($id);
+		$this->data['master'] = $this->co->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','orders');
 			
@@ -169,8 +165,8 @@ class Orders extends MY_Controller {
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
 			{
-				//If Successfull, runs Model function
-				if($this->Co_model->update($_POST['id'],$_POST))
+				//If Successfull, runs Model public function
+				if($this->co->update($_POST['id'],$_POST))
 					$this->utilities->flash('update','orders');
 				else
 					$this->utilities->flash('error','orders');
@@ -178,12 +174,12 @@ class Orders extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = "Корекција на Извештај";
+		$this->data['heading'] = "Корекција na Налог за Продажба";
 			
 		$this->load->model('products/Products_model');
 		
 		//Retreives data from DETAIL Model
-		$this->data['details'] = $this->Cod_model->select(array('id'=>$id));
+		$this->data['details'] = $this->cod->select(array('id'=>$id));
 		
 		//Dropdown Menus
 		$this->data['customers'] = $this->Partners_model->dropdown('customers');
@@ -193,56 +189,56 @@ class Orders extends MY_Controller {
 	}
 	
 	//AJAX - Locks Orders
-	function lock()
+	public function lock()
 	{
 		$data['ids'] = json_decode($_POST['ids']);
 		
-		if($this->Co_model->lock($data))
+		if($this->co->lock($data))
 			echo 1;
 
 		exit;	
 	}
 
 	//AJAX - Unlock Orders
-	function unlock()
+	public function unlock()
 	{
 		$data['ids'] = json_decode($_POST['ids']);
 		
-		if($this->Co_model->unlock($data))
+		if($this->co->unlock($data))
 			echo 1;
 
 		exit;	
 	}
 	
 	//AJAX - Adds New Product in Order Details
-	function add_product()
+	public function add_product()
 	{
 		$data['order_fk'] = $_POST['order_fk'];
 		$data['prodname_fk'] = $_POST['prodname_fk'];
 		$data['quantity'] = $_POST['quantity'];
 
-		if($this->Cod_model->insert($data))
+		if($this->cod->insert($data))
 			echo 1;
 			
 		exit;		
 	}
 	
 	//AJAX - Removes Products from an Order
-	function remove_product()
+	public function remove_product()
 	{
-		if($this->Cod_model->delete(json_decode($_POST['id'])))
+		if($this->cod->delete(json_decode($_POST['id'])))
 			echo json_encode(array('message'=>'Производот е успешно избришан'));
 		
 		exit;
 	}
 	
 	//AJAX - Edits the Quantity of Products from an Order
-	function edit_qty()
+	public function edit_qty()
 	{
 		$id = json_decode($_POST['id']);
 		$data['quantity'] = json_decode($_POST['quantity']);
 		
-		if($this->Cod_model->update($id,$data))
+		if($this->cod->update($id,$data))
 		{
 			echo json_encode($data['quantity']);
 			exit;
@@ -252,12 +248,12 @@ class Orders extends MY_Controller {
 	}
 	
 	//AJAX - Edits the Returned Quantity of Products from an Order
-	function edit_ret_qty()
+	public function edit_ret_qty()
 	{	
 		$id = json_decode($_POST['id']);
 		$data['returned_quantity'] = json_decode($_POST['returned_quantity']);
 		
-		if($this->Cod_model->update($id,$data))
+		if($this->cod->update($id,$data))
 		{
 			echo json_encode($data['returned_quantity']);
 			exit;
@@ -266,17 +262,17 @@ class Orders extends MY_Controller {
 			exit;		
 	}
 	
-	function view($id = false)
+	public function view($id = false)
 	{	
-		$this->data['master'] = $this->Co_model->select_single($id);
+		$this->data['master'] = $this->co->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','orders');
 
 		//Retreives data from DETAIL Model
-		$this->data['details'] = $this->Cod_model->select(array('id'=>$id));
+		$this->data['details'] = $this->cod->select(array('id'=>$id));
 
 		//Heading
-		$this->data['heading'] = "Преглед на Извештај";
+		$this->data['heading'] = "Налог за Продажба";
 	}
 	
 	public function report()
@@ -291,7 +287,7 @@ class Orders extends MY_Controller {
 			
 			if ($this->form_validation->run())
 			{
-				$this->data['results'] = $this->Co_model->report($_POST);
+				$this->data['results'] = $this->co->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
 				$this->data['submited'] = 1;	
@@ -314,7 +310,7 @@ class Orders extends MY_Controller {
 			$this->load->helper('dompdf');
 			$this->load->helper('file');
 			
-			$report_data['results'] = $this->Co_model->report($_POST);
+			$report_data['results'] = $this->co->report($_POST);
 			$report_data['datefrom'] = $_POST['datefrom'];
 			$report_data['dateto'] = $_POST['dateto'];
 			
@@ -351,13 +347,13 @@ class Orders extends MY_Controller {
 		}
 	}
 	
-	function delete($id = false)
+	public function delete($id = false)
 	{
-		$this->data['master'] = $this->Co_model->select_single($id);
+		$this->data['master'] = $this->co->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','orders');
 
-		if($this->Co_model->delete($id))
+		if($this->co->delete($id))
 			$this->utilities->flash('delete','orders');
 		else
 			$this->utilities->flash('error','orders');

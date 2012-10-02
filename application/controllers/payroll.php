@@ -2,15 +2,15 @@
 
 class Payroll extends MY_Controller {
 	
-	private $limit = 25;
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
 		$this->load->model('hr/Employees_model');
-		$this->load->model('hr/Payroll_model');	
+		$this->load->model('hr/payroll_model','pr');
 
 		$this->load->helper('date');
 	}
@@ -55,7 +55,7 @@ class Payroll extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
-		$temp = $this->Payroll_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->pr->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -121,7 +121,7 @@ class Payroll extends MY_Controller {
 			 * takes the ID inserted stored in the
 			 * POST var. for further use
 			 */
-			$_POST['payroll_fk'] = $this->Payroll_model->insert($_POST);
+			$_POST['payroll_fk'] = $this->pr->insert($_POST);
 			
 			if($_POST['payroll_fk'])
 			{
@@ -137,14 +137,14 @@ class Payroll extends MY_Controller {
 	public function view($id = false)
 	{		
 		//Loading Models
-		$this->load->model('production/Joborders_model');
+		$this->load->model('production/joborders_model','jo');
 		$this->load->model('hr/Payroll_extra_model');
 		$this->load->model('hr/Task_model');
-		$this->load->model('orders/Co_model');
-		$this->load->model('orders/Cod_model');
+		$this->load->model('orders/co_model','co');
+		$this->load->model('orders/cod_model','cod');
 
 		//Retreives data from MASTER Model - Payroll info
-		$this->data['master'] = $this->Payroll_model->select_single($id);
+		$this->data['master'] = $this->pr->select_single($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['master'])
@@ -157,12 +157,13 @@ class Payroll extends MY_Controller {
 			 * this distributor has distributed them,by
 			 * payroll id
 			 */
-			$ids = $this->Co_model->get_by_payroll($this->data['master']->id);
-			$this->data['distribution'] = $this->Cod_model->total_distributed($ids);
+			$ids = $this->co->get_by_payroll($this->data['master']->id);
+			if($ids)
+				$this->data['distribution'] = $this->cod->total_distributed($ids);
 		}
 
 		//Shows the basis for the Wage calculation (Job Orders)
-		$this->data['results'] = $this->Joborders_model->select_by_payroll($id);
+		$this->data['results'] = $this->jo->select_by_payroll($id);
 								
 		//Retrevies all Payroll extras where Is_expense = 0
 		$this->data['extras_plus'] = $this->Payroll_extra_model->select_by_payroll($id,0);
@@ -183,7 +184,7 @@ class Payroll extends MY_Controller {
 		$this->load->model('hr/Payroll_extra_model');
 			
 		//Retreives data from MASTER Model - Payroll info
-		$this->data['master'] = $this->Payroll_model->select_single($id);
+		$this->data['master'] = $this->pr->select_single($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['master'])
@@ -247,8 +248,10 @@ class Payroll extends MY_Controller {
 				$this->data['submited'] = 1;
 				
 				$this->data['employee_master'] = $this->Employees_model->select_single($_POST['employee']);
-					if(!$this->data['employee_master'])
-						$this->utilities->flash('void','payroll/calculate');
+
+				if(!$this->data['employee_master'])
+					$this->utilities->flash('void','payroll/calculate');
+
 				$this->data['employee'] = $this->data['employee_master']->id;
 				
 				/*
@@ -395,13 +398,17 @@ class Payroll extends MY_Controller {
 		
 		$this->data['employees'] = $this->utilities->get_employees();
 	}
-	
+	/**
+	 * Deletes payroll entry.
+	 * @param  integer $id 
+	 * @return redirects with success or error message.
+	 */
 	public function delete($id = false)
 	{
-		if(!$this->Payroll_model->select_single($id))
+		if(!$this->pr->select_single($id))
 			$this->utilities->flash('void','payroll');
 			
-		if($this->Payroll_model->delete($id))
+		if($this->pr->delete($id))
 			$this->utilities->flash('delete','payroll');
 		else
 			$this->utilities->flash('error','payroll');

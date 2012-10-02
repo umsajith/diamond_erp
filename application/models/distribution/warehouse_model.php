@@ -4,11 +4,6 @@ class Warehouse_model extends CI_Model {
 	//Database table of the Model
 	protected $table = 'exp_cd_warehouse';
 	
-	function __construct()
-	{
-		parent::__construct();
-	}
-	
 	function select($options = array())
 	{
 		$this->db->select('w.*,p.prodname,u.uname,e.fname,e.lname,p.id as pid');

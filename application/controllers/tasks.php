@@ -1,28 +1,63 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Tasks extends MY_Controller {
+
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('hr/Task_model');
+		$this->load->model('hr/task_model','tsk');
 	}
     
-	function index()
+	public function index($sort_by = 'taskname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
 		$this->data['heading'] = 'Работни Задачи';
+
+		//Columns which can be sorted by
+		$this->data['columns'] = array (	
+			'taskname'=>'Назив',
+			'is_production'=>'Производство',
+			'base_unit'=>'Основна Единица',
+			'rate_per_unit'=>'Цена/ЕМ',
+			'rate_per_unit_bonus'=>'Цена/ЕМ Бонус'
+		);
+		
+		//Validates Sort by and Sort Order
+		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
+		$sort_by_array = array('taskname','is_production','base_unit',
+						'rate_per_unit','rate_per_unit_bonus');
+		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'taskname';
 		
 		//Retreive data from Model
-		$this->data['results'] = $this->Task_model->select();
+		$temp = $this->tsk->select($sort_by, $sort_order, $this->limit, $offset);
+		
+		//Results
+		$this->data['results'] = $temp['results'];
+		//Total Number of Rows in this Table
+		$this->data['num_rows'] = $temp['num_rows'];
+		
+		//Pagination
+		$config['base_url'] = site_url("tasks/index/$sort_by/$sort_order");
+		$config['total_rows'] = $this->data['num_rows'];
+		$config['per_page'] = $this->limit;
+		$config['uri_segment'] = 5;
+		$config['num_links'] = 3;
+		$config['first_link'] = 'Прва';
+		$config['last_link'] = 'Последна';
+			$this->pagination->initialize($config);
+		
+		$this->data['pagination'] = $this->pagination->create_links(); 
+				
+		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_order'] = $sort_order;
 	}
     
-	function insert()
+	public function insert()
 	{
-		$this->load->library('form_validation');
-	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('taskname','task name','trim|required');
 		$this->form_validation->set_rules('rate_per_unit','unit rate','trim|required|numeric');
@@ -35,7 +70,7 @@ class Tasks extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful validation
-			if($this->Task_model->insert($_POST))
+			if($this->tsk->insert($_POST))
 				$this->utilities->flash('add','tasks');
 			else
 				$this->utilities->flash('error','tasks');
@@ -49,33 +84,26 @@ class Tasks extends MY_Controller {
 		$this->data['heading'] = 'Внес на Работна Задача';
 	}
     
-	function edit($id = false)
+	public function edit($id)
 	{
-		//Retreives ONE product from the database
-		$this->data['task'] = $this->Task_model->select_single($id);
-		
-		//If there is nothing, redirects
-		if(!$this->data['task']) redirect('tasks');
-		
-		if($_POST)
-		{		
-			$this->load->library('form_validation');
-	
-			//Defining Validation Rules
-			$this->form_validation->set_rules('taskname','task name','trim|required');
-			$this->form_validation->set_rules('rate_per_unit','unit rate','trim|required|numeric');
-			$this->form_validation->set_rules('rate_per_unit_bonus','unit rate bonus','trim|numeric');
-			$this->form_validation->set_rules('base_unit','base unit','trim|required|numeric');
-			$this->form_validation->set_rules('description','description','trim|xss_clean');
-				
-			if ($this->form_validation->run())
-				{
-					//Successful validation
-					if($this->Task_model->update($id,$_POST))
-						$this->utilities->flash('update','tasks');
-					else
-						$this->utilities->flash('error','tasks');
-				}
+		$this->data['task'] = $this->tsk->select_single($id);
+		if(!$this->data['task'])
+			$this->utilities->flash('void','tasks');
+
+		//Defining Validation Rules
+		$this->form_validation->set_rules('taskname','task name','trim|required');
+		$this->form_validation->set_rules('rate_per_unit','unit rate','trim|required|numeric');
+		$this->form_validation->set_rules('rate_per_unit_bonus','unit rate bonus','trim|numeric');
+		$this->form_validation->set_rules('base_unit','base unit','trim|required|numeric');
+		$this->form_validation->set_rules('description','description','trim|xss_clean');
+			
+		if ($this->form_validation->run())
+		{
+			//Successful validation
+			if($this->tsk->update($id,$_POST))
+				$this->utilities->flash('update','tasks');
+			else
+				$this->utilities->flash('error','tasks');
 		}
 
 		// Generating dropdown menu's
@@ -86,33 +114,30 @@ class Tasks extends MY_Controller {
 		$this->data['heading'] = 'Корекција на Работна Задача';
 	}
 	
-	function view($id = false)
-	{	
-		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Task_model->select_single($id);
+	public function view($id)
+	{
+		$this->data['master'] = $this->tsk->select_single($id);
+		if(!$this->data['master'])
+			$this->utilities->flash('void','tasks');
 
 		//Heading
 		$this->data['heading'] = 'Работна Задача';
 	}
     
-	function delete($id = false)
+	public function delete($id)
 	{
-		//Takes the ID (third segment) of the URL, delets the corresponding db entry
-		if($this->Task_model->delete($id))
-		{
-			$this->session->set_flashdata('flash','Record successfuly deleted!');
-			redirect('tasks');
-		}
+		if(!$this->tsk->select_single($id))
+			$this->utilities->flash('void','tasks');
+
+		if($this->tsk->delete($id))
+			$this->utilities->flash('delete','tasks');
 		else
-		{
-			$this->session->set_flashdata('flash','Database error');
-			redirect('tasks');
-		}
+			$this->utilities->flash('error','tasks');
 	}
 	
-	function dropdown()
+	public function dropdown()
 	{
-		$this->data = $this->Task_model->dropdown();
+		$this->data = $this->tsk->dropdown();
 		
 		header('Content-Type: application/json',true); 
 		echo json_encode($this->data);

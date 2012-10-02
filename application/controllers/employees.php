@@ -28,6 +28,7 @@ class Employees extends MY_Controller {
 			'comp_mobile'=>'Мобилен',
 			'position'=>'Работно Место',
 			'department'=>'Сектор',
+			'fixed_wage_only'=>'Само ФП',
 			'is_manager'=>'Менаџер',
 			'is_distributer'=>'Дистрибутер',
 			'fixed_wage'=>'Фиксна Плата',
@@ -44,7 +45,7 @@ class Employees extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','comp_mobile','position','department',
+		$sort_by_array = array('employee','comp_mobile','position','department','fixed_wage_only',
 								'is_manager','is_distributer','fixed_wage','comp_mobile_sub','status');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'employee';
 

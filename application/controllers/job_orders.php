@@ -1,17 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Job_orders extends MY_Controller {
+
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('production/Joborders_model');
-		$this->load->model('procurement/Inventory_model');
+		$this->load->model('production/joborders_model','jo');
+		$this->load->model('procurement/inventory_model','inv');
     }
 	
-	function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
+	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{		
 		//Page Title Segment and Heading
 		$this->data['heading'] = 'Работни Налози';
@@ -20,18 +22,14 @@ class Job_orders extends MY_Controller {
 		$this->data['employees'] = $this->utilities->get_employees();
 		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
 		
-		//Limit Per Page
-		$limit = 25;
-		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
 			'datedue'=>'Датум',
-			'task_fk'=>'Работна Задача',
 			'assigned_to'=>'Работник',
-			'assigned_quantity'=>'Кол./Траење',
+			'task_fk'=>'Работна Задача',
+			'assigned_quantity'=>'Количина/Траење',
 			'work_hours'=>'Раб.Часови',
 			'shift'=>'Смена',
-			'final_quantity'=>'Резализ. Кол.',
 			'dateofentry'=>'Внес'
 		);
 
@@ -40,18 +38,17 @@ class Job_orders extends MY_Controller {
 		$query_array = array(
 			'task_fk' => $this->input->get('task_fk'),
 			'assigned_to' => $this->input->get('assigned_to'),
-			'shift' => $this->input->get('shift'),
-			'job_order_status' => $this->input->get('job_order_status')	
+			'shift' => $this->input->get('shift')
 		);
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
 		$sort_by_array = array('datedue','task_fk','assigned_to','assigned_quantity',
-								'work_hours','shift','final_quantity','dateofentry');
+								'work_hours','shift','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Joborders_model->select($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->jo->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -61,7 +58,7 @@ class Job_orders extends MY_Controller {
 		//Pagination
 		$config['base_url'] = site_url("job_orders/index/$query_id/$sort_by/$sort_order");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -75,19 +72,18 @@ class Job_orders extends MY_Controller {
 		$this->data['query_id'] = $query_id;
 	}
 	
-	function search()
+	public function search()
 	{
 		$query_array = array(
 			'task_fk' => $this->input->post('task_fk'),
 			'assigned_to' => $this->input->post('assigned_to'),
-			'shift' => $this->input->post('shift'),
-			'job_order_status' => $this->input->post('job_order_status')
+			'shift' => $this->input->post('shift')
 		);	
 		$query_id = $this->input->save_query($query_array);
 		redirect("job_orders/index/$query_id");
 	}
 
-	function insert()
+	public function insert()
 	{		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('assigned_to','employee','trim|required');
@@ -103,15 +99,15 @@ class Job_orders extends MY_Controller {
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{	
-			$this->load->model('hr/Task_model');
+			$this->load->model('hr/task_model','tsk');
 			//Successful validation insets into the DB
-			if($job_order_id = $this->Joborders_model->insert($_POST))
+			if($job_order_id = $this->jo->insert($_POST))
 			{
 				/*
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
-				$production = $this->Task_model->select_single($_POST['task_fk']);
+				$production = $this->tsk->select_single($_POST['task_fk']);
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($job_order_id,$production->id,$_POST['assigned_quantity']);
@@ -119,7 +115,6 @@ class Job_orders extends MY_Controller {
 				
 				$this->utilities->flash('add','job_orders');
 			}
-				
 			else
 				$this->utilities->flash('error','job_orders');
 		}
@@ -128,19 +123,19 @@ class Job_orders extends MY_Controller {
 		$this->data['employees'] = $this->utilities->get_employees('variable');
 				
 		//Retreives the Last Inserted Job Order
-		$this->data['last'] = $this->Joborders_model->get_last();
+		$this->data['last'] = $this->jo->get_last();
 
 		//Heading
 		$this->data['heading'] = 'Внес на Работен Налог';
 	}
 	
-	function edit($id = false)
+	public function edit($id = false)
 	{
 		/*
 		 * Retreives the record from the database, if
 		 * does not exists, reports void error and redirects
 		 */
-		$this->data['job_order'] = $this->Joborders_model->select_single($id);
+		$this->data['job_order'] = $this->jo->select_single($id);
 		if(!$this->data['job_order'])
 			$this->utilities->flash('void','job_orders');
 				
@@ -152,13 +147,10 @@ class Job_orders extends MY_Controller {
 		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('assigned_to','employee','trim|required');
-		$this->form_validation->set_rules('job_order_status','job order status','trim|required');
 		$this->form_validation->set_rules('shift','shift','trim');
 		$this->form_validation->set_rules('work hours','shift','trim|greater_than[0]');
-		$this->form_validation->set_rules('prodname_fk','product','trim');
 		$this->form_validation->set_rules('task_fk','task','trim|required');
 		$this->form_validation->set_rules('assigned_quantity','assigned quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('final_quantity','final quantity','greater_than[0]');
 		$this->form_validation->set_rules('datedue','due date','trim|required');
 		$this->form_validation->set_rules('description','description','trim');
 		
@@ -166,15 +158,15 @@ class Job_orders extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful validation
-			if($this->Joborders_model->update($_POST['id'],$_POST))
+			if($this->jo->update($_POST['id'],$_POST))
 			{
-				$this->load->model('hr/Task_model');
+				$this->load->model('hr/task_model','tsk');
 				
 				/*
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
-				$production = $this->Task_model->select_single($_POST['task_fk']);
+				$production = $this->tsk->select_single($_POST['task_fk']);
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
@@ -194,42 +186,37 @@ class Job_orders extends MY_Controller {
 	}
 
 	//AJAX - Completes Job Orders, and sets Final Qty if not set to Default Qty
-	function complete()
+	public function ajx_complete()
 	{	
 		$this->data['ids'] = json_decode($_POST['ids']);
 
 		foreach($this->data['ids'] as &$id)
 		{
-			//Checks if there is Final Qty entered already
-			$has = $this->Joborders_model->has_fqty($id);
-			
-			if(!$has->final_quantity AND !$has->is_completed)
-			{
-				/*
-				 * If Job Order is successfully completed,
-				 * sets the outcome of the action to TRUE
-				 */
-				if($this->Joborders_model->complete($id,$qty->assigned_quantity))
-					$success = true;
-			}	
+			if(!$this->jo->complete($id))
+				$error = true;
+			else
+				$error = false;
 		}	
-		if($success)
-			echo 1;
-			
+
+		if(!$error)
+			echo 1;			
+		
 		exit;	
 	}
 	
-	function view($id = false)
+	public function view($id = false)
 	{
+		//Heading
+		$this->data['heading'] = 'Работен Налог';
+
 		//Retreives data from MASTER Model //Gets the ID of the selected entry from the URL
-		$this->data['master'] = $this->Joborders_model->select_single($id);
-		$this->data['details'] = $this->Inventory_model->select_use('job_order_fk',$this->data['master']->id);
+		$this->data['master'] = $this->jo->select_single($id);
+		$this->data['details'] = $this->inv->select_use('job_order_fk',$this->data['master']->id);
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','job_orders');
 
-		//Heading
-		$this->data['heading'] = 'Работен Налог';
+		
 	}
 
 	public function report()
@@ -244,7 +231,7 @@ class Job_orders extends MY_Controller {
 			
 			if ($this->form_validation->run())
 			{
-				$this->data['results'] = $this->Joborders_model->report($_POST);
+				$this->data['results'] = $this->jo->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
 				$this->data['submited'] = 1;	
@@ -283,7 +270,7 @@ class Job_orders extends MY_Controller {
 	        
 	        $this->data['graph'] = $graph_file_location;
 			*/
-			//Runs model functions and retreives results
+			//Runs model public functions and retreives results
 			
 			//Passes the results
 			
@@ -297,9 +284,9 @@ class Job_orders extends MY_Controller {
 		$this->data['heading'] = 'Извештај на Производство';
 	}
 	
-	function delete($id = false)
+	public function delete($id = false)
 	{
-		$this->data['job_order'] = $this->Joborders_model->select_single($id);
+		$this->data['job_order'] = $this->jo->get($id);
 		if(!$this->data['job_order'])
 			$this->utilities->flash('void','job_orders');
 		/*
@@ -308,7 +295,7 @@ class Job_orders extends MY_Controller {
 		if($this->data['job_order']->locked == 1)
 			$this->utilities->flash('deny','job_orders');
 			
-		if($this->Joborders_model->delete($id))
+		if($this->jo->delete($id))
 			$this->utilities->flash('delete','job_orders');
 		else
 			$this->utilities->flash('error','job_orders');
@@ -317,27 +304,25 @@ class Job_orders extends MY_Controller {
 	private function _inventory_use($job_order_id,$task_id,$quantity)
 	{
 		//Loading Models
-		$this->load->model('hr/Task_model');
-		$this->load->model('production/Bomdetails_model');
-		$this->load->model('production/Boms_model');
+		$this->load->model('hr/task_model','tsk');
+		$this->load->model('production/bomdetails_model','bomd');
+		$this->load->model('production/boms_model','bom');
 		
-		$bom_id = $this->Task_model->find_bom($task_id);
-		
-		if(!$bom_id)
+		if(!$bom_id = $this->tsk->find_bom($task_id))
 			return false;
 
-		$results = $this->Inventory_model->has_deducation($job_order_id);
+		$results = $this->inv->has_deducation($job_order_id);
 		
 		if($results)
 		{
 			foreach ($results as $row )
-				$this->Inventory_model->delete($row['id']);
+				$this->inv->delete($row['id']);
 		}
 
 		/*
 		 * Retreive all components for specific Bill of Materials (bom_id) 
 		 */
-		$bom_components = $this->Bomdetails_model->select(array('id'=>$bom_id));
+		$bom_components = $this->bomd->select_by_bom_id($bom_id);
 							
 		foreach ($bom_components as $component)
 		{
@@ -352,7 +337,7 @@ class Job_orders extends MY_Controller {
 
 			unset($_POST);
 				
-			$this->Inventory_model->insert($options);
+			$this->inv->insert($options);
 		}		
 	}
 }

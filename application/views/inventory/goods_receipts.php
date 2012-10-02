@@ -1,12 +1,12 @@
 <h2><?php echo $heading?></h2>
 <hr>
 	<a href="<?php echo site_url('inventory/insert_gr');?>" class="button"><span class="add">Внес</span></a>
-<div class="filers">
+<div class="filters">
     <?php echo form_open('inventory/gr_search');?>
     <?php echo form_dropdown('prodname_fk', $products, set_value('prodname_fk')); ?>
     <?php echo form_dropdown('partner_fk', $vendors, set_value('partner_fk')); ?>
     <?php echo form_dropdown('pcname_fk',$categories, set_value('pcname_fk')); ?>
-    <?php echo form_submit('','Филтрирај');?>
+    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">

@@ -4,13 +4,13 @@ class Distribution extends MY_Controller {
 	
 	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 			
 		//Load Models
-		$this->load->model('distribution/Warehouse_model');
-		$this->load->model('products/Products_model');
+		$this->load->model('distribution/warehouse_model','whr');
+		$this->load->model('products/products_model','prod');
 	}
 	
 	public function index()
@@ -18,8 +18,7 @@ class Distribution extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Магацин: Готови Производи';
 		
-		$this->data['results'] = $this->Warehouse_model->levels();
-		
+		$this->data['results'] = $this->whr->levels();
 	}
 	
 	public function insert_inbound()
@@ -29,8 +28,6 @@ class Distribution extends MY_Controller {
 		 * finished Goods warehouse
 		 * eg. Storing finished goods
 		 */
-		//Load form validation library
-		$this->load->library('form_validation');
 		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
@@ -42,7 +39,7 @@ class Distribution extends MY_Controller {
 		if ($this->form_validation->run())
 		{	
 			//Inserts into databse and reports outcome
-			if($warehouse_id = $this->Warehouse_model->insert($_POST))
+			if($warehouse_id = $this->whr->insert($_POST))
 			{
 				$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
 				$this->utilities->flash('add','distribution');
@@ -62,9 +59,6 @@ class Distribution extends MY_Controller {
 		 * finished Goods warehouse
 		 * eg. Distributor reservations,direct sales,deduction etc.
 		 */
-		//Load formvalidation library
-		$this->load->library('form_validation');
-		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
 		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
@@ -83,7 +77,7 @@ class Distribution extends MY_Controller {
 			$_POST['is_out'] = 1;
 			
 			//Inserts into databse and reports outcome
-			if($this->Warehouse_model->insert($_POST))
+			if($this->whr->insert($_POST))
 				$this->utilities->flash('add','distribution');
 			else
 				$this->utilities->flash('error','distribution/outbounds');
@@ -102,9 +96,6 @@ class Distribution extends MY_Controller {
 		 * finished Goods warehouse
 		 * eg. Storing finished goods
 		 */
-		//Load form validation library
-		$this->load->library('form_validation');
-		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
 		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
@@ -118,7 +109,7 @@ class Distribution extends MY_Controller {
 			$_POST['is_out'] = null;
 			
 			//Inserts into databse and reports outcome
-			if($this->Warehouse_model->insert($_POST))
+			if($this->whr->insert($_POST))
 				$this->utilities->flash('add','distribution');		
 			else
 				$this->utilities->flash('error','distribution/returns');
@@ -146,7 +137,7 @@ class Distribution extends MY_Controller {
 		 * into the warehouse, and then redirects
 		 * if set, or defaults
 		 */
-		$this->data['result'] = $this->Warehouse_model->select_single($id);
+		$this->data['result'] = $this->whr->select_single($id);
 		if(!$this->data['result'])
 			$this->utilities->flash('void','distribution');
 		
@@ -172,9 +163,6 @@ class Distribution extends MY_Controller {
 			$redirect = 'returns';
 		}
 		
-		//Load form validation library
-		$this->load->library('form_validation');
-		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('id','product','required');
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
@@ -186,7 +174,7 @@ class Distribution extends MY_Controller {
 		if ($this->form_validation->run())
 		{	
 			//Inserts into databse and reports outcome
-			if($this->Warehouse_model->update($_POST['id'],$_POST,$page))
+			if($this->whr->update($_POST['id'],$_POST,$page))
 			{
 				/*
 				 * If an inbound entry has been modified,
@@ -213,12 +201,12 @@ class Distribution extends MY_Controller {
 		 * If $id is not supplied, or does not exist
 		 * redirect to this controllers index
 		 */	
-		$temp = $this->Warehouse_model->select_item($id,$this->limit,$offset);
+		$temp = $this->whr->select_item($id,$this->limit,$offset);
 		if(!$temp)
 			$this->utilities->flash('void','distribution');
 				
 		//Get product name to be displayed in heading
-		$this->data['product'] = $this->Products_model->select_single($id);
+		$this->data['product'] = $this->prod->select_single($id);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -247,7 +235,7 @@ class Distribution extends MY_Controller {
 		 * Type defines whether view to display
 		 * Inbound or Outbound
 		 */
-		$this->data['master'] = $this->Warehouse_model->select_single($id);
+		$this->data['master'] = $this->whr->select_single($id);
 		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','distribution');
@@ -269,8 +257,8 @@ class Distribution extends MY_Controller {
 		 */			
 		if($page == 'in')
 		{
-			$this->load->model('procurement/Inventory_model');
-			$this->data['details'] = $this->Inventory_model->select_use('warehouse_fk',$this->data['master']->id);
+			$this->load->model('procurement/inventory_model','inv');
+			$this->data['details'] = $this->inv->select_use('warehouse_fk',$this->data['master']->id);
 			$this->data['heading'] = 'Приемница';
 		}
 		
@@ -292,9 +280,6 @@ class Distribution extends MY_Controller {
 		$this->data['heading'] = 'Влез во Магацин';
 		
 		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
-		
-		//Limit Per Page
-		$limit = 25;
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -319,7 +304,7 @@ class Distribution extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Warehouse_model->select_all_inbound($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->whr->select_all_inbound($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -329,7 +314,7 @@ class Distribution extends MY_Controller {
 		//Pagination
 		$config['base_url'] = site_url("distribution/inbounds/$query_id/$sort_by/$sort_order");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -365,9 +350,6 @@ class Distribution extends MY_Controller {
 		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		
-		//Limit Per Page
-		$limit = 25;
-		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
 			'dateoforigin'=>'Датум',
@@ -394,7 +376,7 @@ class Distribution extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Warehouse_model->select_all_outbound($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->whr->select_all_outbound($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -404,7 +386,7 @@ class Distribution extends MY_Controller {
 		//Pagination
 		$config['base_url'] = site_url("distribution/outbounds/$query_id/$sort_by/$sort_order");
 		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
+		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
 		$config['num_links'] = 3;
 		$config['first_link'] = 'Прва';
@@ -448,8 +430,8 @@ class Distribution extends MY_Controller {
 		$this->data['columns'] = array (	
 			'dateoforigin'=>'Датум',
 			'prodname_fk'=>'Производ',
-			'quantity'=>'Влез',
 			'qty_current'=>'Старо Салдо',
+			'quantity'=>'Влез',
 			'qty_new'=>'Ново Салдо',
 			'distributor_fk'=>'Дистрибутер',
 			'dateofentry'=>'Внес'
@@ -469,7 +451,7 @@ class Distribution extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Warehouse_model->select_all_returns($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->whr->select_all_returns($query_array, $sort_by, $sort_order, $limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -521,11 +503,11 @@ class Distribution extends MY_Controller {
 		 * Deletes the passed ID,
 		 * and redirects
 		 */
-		$this->data['result'] = $this->Warehouse_model->select_single($id);
+		$this->data['result'] = $this->whr->select_single($id);
 		if(!$this->data['result'])
 			$this->utilities->flash('void','distribution');
 				
-		if($this->Warehouse_model->delete($id))
+		if($this->whr->delete($id))
 			$this->utilities->flash('delete','distribution/'.$redirect);
 		else
 			$this->utilities->flash('error','distribution/'.$redirect);	
@@ -535,27 +517,25 @@ class Distribution extends MY_Controller {
 	private function _inventory_use($warehouse_id,$product_id,$quantity)
 	{
 		//Loading Models
-		$this->load->model('production/Bomdetails_model');
-		$this->load->model('production/Boms_model');
-		$this->load->model('procurement/Inventory_model');
+		$this->load->model('production/boms_model','bom');
+		$this->load->model('production/bomdetails_model','bomd');
+		$this->load->model('procurement/inventory_model','inv');
 		
-		$bom_id = $this->Boms_model->select_by_product($product_id);
-		
-		if(!$bom_id)
+		if(!$bom_id = $this->bom->select_by_product($product_id))
 			return false;
 
-		$results = $this->Inventory_model->has_deducation($warehouse_id);
+		$results = $this->inv->has_deducation($warehouse_id);
 		
 		if($results)
 		{
 			foreach ($results as $row )
-				$this->Inventory_model->delete($row['id']);
+				$this->inv->delete($row['id']);
 		}
 
 		/*
 		 * Retreive all components for specific Bill of Materials (bom_id) 
 		 */
-		$bom_components = $this->Bomdetails_model->select(array('id'=>$bom_id));
+		$bom_components = $this->bomd->select_by_bom_id($bom_id);
 							
 		foreach ($bom_components as $component)
 		{
@@ -570,7 +550,7 @@ class Distribution extends MY_Controller {
 
 			unset($_POST);
 				
-			$this->Inventory_model->insert($options);
+			$this->inv->insert($options);
 		}		
 	}
 }

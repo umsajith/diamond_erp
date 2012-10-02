@@ -1,11 +1,11 @@
 <h2><?php echo $heading?></h2>
 <hr>
 <a href="<?php echo site_url('distribution/insert_outbound');?>" class="button"><span class="lorry_delete">Излез</span></a>
-<div class="filers">
+<div class="filters">
     <?php echo form_open('distribution/out_search');?>
     <?php echo form_dropdown('prodname_fk', $products, set_value('prodname_fk')); ?>
     <?php echo form_dropdown('distributor_fk', $distributors, set_value('distributor_fk')); ?>
-    <?php echo form_submit('','Филтрирај');?>
+    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
 <table class="master_table">

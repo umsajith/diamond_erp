@@ -29,7 +29,7 @@ class Auth extends CI_Controller {
 		$this->load->model('hr/Employees_model');
 		
 		//Chekcs if the Login is done through AJAX
-		if(isset($_POST['ajax']) && json_decode($_POST['ajax'])=="1")
+		if(isset($_POST['ajax']) AND json_decode($_POST['ajax'])=="1")
 			$is_ajax = true;
 		
 		//Load Validation Library
