@@ -5,7 +5,7 @@ class Cod_model extends MY_Model {
 	//Database table of the Model
 	protected $_table = 'exp_cd_order_details';
 	
-	function select($options = array())
+	public function select($options = array())
 	{
 		//Selects and returns all records from table
 		$this->db->select('o.*,p.prodname,p.id AS pid,pc.pcname,u.uname');
@@ -24,9 +24,9 @@ class Cod_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->result();
 	}
 	
-	function total_distributed($ids)
+	public function total_distributed($ids)
 	{
-		$this->db->select('o.id,p.prodname,p.commision,pc.pcname,u.uname');
+		$this->db->select('o.id,o.commision_rate,p.prodname,p.commision,pc.pcname,u.uname');
 		$this->db->select_sum('o.quantity');
 		
 		$this->db->join('exp_cd_products AS p','p.id = o.prodname_fk','LEFT');
@@ -40,7 +40,7 @@ class Cod_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->result();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{		
 		// Inserts the whole data array into the database table
 		if($this->product_exist($data['order_fk'],$data['prodname_fk']))
@@ -51,7 +51,7 @@ class Cod_model extends MY_Model {
 		return $this->db->insert_id();
 	}
 	
-	function product_exist($order_id,$product_id)
+	public function product_exist($order_id,$product_id)
 	{		
 		/*
 		 * Checks if an entry with a supplied ORDER_ID
@@ -68,7 +68,7 @@ class Cod_model extends MY_Model {
 			return false;
 	}
 	
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{
 		if(isset($data['returned_quantity']))
 		{

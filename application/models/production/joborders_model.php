@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Joborders_model extends MY_Model {
 	
-	//Database table of the Model
 	protected $_table = 'exp_cd_job_orders';
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
@@ -21,9 +20,14 @@ class Joborders_model extends MY_Model {
 			$this->db->where_in('j.assigned_to',$query_array['assigned_to']);
 		if(strlen($query_array['shift']))
 			$this->db->where_in('j.shift',$query_array['shift']);
+
+		if($sort_by == 'assigned_to')
+			$sort_by = 'e.fname';
+		if($sort_by == 'task_fk')
+			$sort_by = 't.taskname';
 		
 		//Sort by and Sort Order
-		$this->db->order_by($sort_by ,$sort_order);
+		$this->db->order_by($sort_by,$sort_order);
 		
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
@@ -49,7 +53,7 @@ class Joborders_model extends MY_Model {
 		return $data;
 	}
 	
-	function select_by_payroll($payroll_id)
+	public function select_by_payroll($payroll_id)
 	{
 		$this->db->select('j.*,t.*,e.fname,e.lname,u.uname');
 		
@@ -70,7 +74,7 @@ class Joborders_model extends MY_Model {
 		return $this->db->get($this->_table.' AS j')->result();
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		$this->db->select("j.*,t.taskname,e.id as eid,e.fname,e.lname,u.uname, 
 			CONCAT(em.fname,' ',em.lname) AS operator",false);
@@ -84,7 +88,7 @@ class Joborders_model extends MY_Model {
 		return $this->db->get($this->_table.' AS j')->row();
 	}
 	
-	function get_last()
+	public function get_last()
 	{
 		$this->db->select('j.*,t.taskname,e.fname,e.lname,u.uname');
 		$this->db->join('exp_cd_tasks AS t','t.id = j.task_fk','LEFT');
@@ -130,6 +134,8 @@ class Joborders_model extends MY_Model {
 		//Set final_quantity to assigned_quantity by default (Change of business login)
 		$data['final_quantity'] = $data['assigned_quantity'];
 
+		$this->db->set('is_completed',0);
+
 		$this->db->where('id',$id);
 
 		$this->db->update($this->_table,$data);
@@ -140,13 +146,8 @@ class Joborders_model extends MY_Model {
 	public function complete($id)
 	{
 		$this->db->set('is_completed',1);
-		
-		//This ID
 		$this->db->where('id',$id);
-		
-		//Updating
 		$this->db->update($this->_table);	
-		
 		return $this->db->affected_rows();	
 	}
 	
@@ -205,7 +206,7 @@ class Joborders_model extends MY_Model {
 			return false;	
 	}
 	
-	function payroll($options=array())
+	public function payroll($options=array())
 	{
 		$this->db->select('jo.id,jo.final_quantity,jo.assigned_to,
 							t.taskname,t.rate_per_unit,e.fname,e.lname,u.uname');
@@ -230,7 +231,7 @@ class Joborders_model extends MY_Model {
 		return $this->db->get($this->_table.' AS jo')->result();
 	}
 	
-	function report($options = array())
+	public function report($options = array())
 	{
 		$this->db->select('
 			SUM(jo.final_quantity) as sum,

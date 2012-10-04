@@ -11,7 +11,7 @@ class Orders extends MY_Controller {
 		//Load Models
 		$this->load->model('orders/co_model','co');
 		$this->load->model('orders/cod_model','cod');
-		$this->load->model('partners/Partners_model');
+		$this->load->model('partners/partners_model','par');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
@@ -20,7 +20,7 @@ class Orders extends MY_Controller {
 		$this->data['heading'] = "Налози за Продажба";
 		
 		//Generate dropdown menu data
-		$this->data['customers'] = $this->Partners_model->dropdown('customers');
+		$this->data['customers'] = $this->par->dropdown('customers');
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
@@ -132,7 +132,7 @@ class Orders extends MY_Controller {
 
 	public function partner_exist($id)
 	{
-		if($this->Partners_model->select_single($id))
+		if($this->par->select_single($id))
 			return true;
 
 		return false;
@@ -182,33 +182,33 @@ class Orders extends MY_Controller {
 		$this->data['details'] = $this->cod->select(array('id'=>$id));
 		
 		//Dropdown Menus
-		$this->data['customers'] = $this->Partners_model->dropdown('customers');
+		$this->data['customers'] = $this->par->dropdown('customers');
 		$this->data['products'] = $this->Products_model->get_products('salable',false,true);
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
 	}
 	
 	//AJAX - Locks Orders
-	public function lock()
-	{
-		$data['ids'] = json_decode($_POST['ids']);
+	// public function lock()
+	// {
+	// 	$data['ids'] = json_decode($_POST['ids']);
 		
-		if($this->co->lock($data))
-			echo 1;
+	// 	if($this->co->lock($data))
+	// 		echo 1;
 
-		exit;	
-	}
+	// 	exit;	
+	// }
 
-	//AJAX - Unlock Orders
-	public function unlock()
-	{
-		$data['ids'] = json_decode($_POST['ids']);
+	// //AJAX - Unlock Orders
+	// public function unlock()
+	// {
+	// 	$data['ids'] = json_decode($_POST['ids']);
 		
-		if($this->co->unlock($data))
-			echo 1;
+	// 	if($this->co->unlock($data))
+	// 		echo 1;
 
-		exit;	
-	}
+	// 	exit;	
+	// }
 	
 	//AJAX - Adds New Product in Order Details
 	public function add_product()
@@ -291,13 +291,16 @@ class Orders extends MY_Controller {
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
 				$this->data['submited'] = 1;	
+
+				if(empty($this->data['results']))
+					$this->data['submited'] = 0;
 			}			
 		}
 		
 		//Dropdown Menus
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
-		$this->data['customers'] = $this->Partners_model->dropdown('customers');
+		$this->data['customers'] = $this->par->dropdown('customers');
 		
 		//Heading
 		$this->data['heading'] = 'Рипорт на Продажба';
@@ -310,25 +313,26 @@ class Orders extends MY_Controller {
 			$this->load->helper('dompdf');
 			$this->load->helper('file');
 			
+			//print_r($_POST); die;
 			$report_data['results'] = $this->co->report($_POST);
 			$report_data['datefrom'] = $_POST['datefrom'];
 			$report_data['dateto'] = $_POST['dateto'];
 			
+			$this->load->model('partners/partners_model','par');
+			$this->load->model('hr/employees_model','emp');
+
 			if(strlen($_POST['distributor_fk']))
 			{
-				$this->load->model('hr/Employees_model');
-				$report_data['distributer'] = $this->Employees_model->select_single($_POST['distributor_fk']);	
+				$report_data['distributer'] = $this->emp->select_single($_POST['distributor_fk']);	
 			}
 			if(strlen($_POST['partner_fk']))
 			{
-				$this->load->model('partners/Partners_model');
-				$report_data['partner'] = $this->Partners_model->select_single($_POST['partner_fk']);	
+				$report_data['partner'] = $this->par->select_single($_POST['partner_fk']);	
 			}
 			if(strlen($_POST['payment_mode_fk']))
 			{
 				$report_data['payment'] = $this->utilities->get_single($_POST['payment_mode_fk'],'exp_cd_payment_modes');	
 			}
-				
 			
 			if($report_data['results'])
 			{
@@ -349,8 +353,7 @@ class Orders extends MY_Controller {
 	
 	public function delete($id = false)
 	{
-		$this->data['master'] = $this->co->select_single($id);
-		if(!$this->data['master'])
+		if(!$this->co->select_single($id))
 			$this->utilities->flash('void','orders');
 
 		if($this->co->delete($id))

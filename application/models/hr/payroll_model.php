@@ -64,9 +64,16 @@ class Payroll_model extends MY_Model {
 
 		return $this->db->get($this->_table.' AS p')->row();
 	}
-	
+	/**
+	 * Create new payroll. Depending on the employee status,
+	 * locks job_orders or orders. Payroll extras locked by defualt.
+	 * Controlled by TRANSACTION!
+	 * @param  array  $data 
+	 * @return integer       returns payroll new id if successfull
+	 */
 	public function insert ($data = array())
 	{
+		$this->db->trans_start();
 		/*
 		 * Inserts the operators ID
 		 * based on session value
@@ -96,16 +103,21 @@ class Payroll_model extends MY_Model {
 		 * have been included in this Payroll
 		 */
 		$this->_alter_payroll_extras($data,'lock');
-		
+
+			
 		/*
 		 * Generates Payroll code
 		 * and return Payroll ID if success
 		 * or False if failed
 		 */	
-		if($this->_payroll_code($data['payroll_fk'], $data))
-			return $data['payroll_fk'];
-		else
+		$this->_payroll_code($data['payroll_fk'], $data);
+		
+		$this->db->trans_complete();
+
+		if($this->db->trans_status() === false)
 			return false;
+
+		return $data['payroll_fk'];
 	}
 		
 	public function find_payroll($options = array())
@@ -177,8 +189,7 @@ class Payroll_model extends MY_Model {
 		foreach($ids as $row)
 		{
 			$this->db->select('id,rate_per_unit')
-				 ->where('id',$row->task_fk)
-				 ->where('status','active');
+				 ->where('id',$row->task_fk);
 			$rate = $this->db->get('exp_cd_tasks')->row();
 
 			$this->db->set('calculation_rate',$rate->rate_per_unit)
@@ -202,6 +213,8 @@ class Payroll_model extends MY_Model {
 		
 		if($action == 'lock')
 		{
+			$this->_insert_commision($options);
+
 			$this->db->set('locked',1);
 			$this->db->set('payroll_fk',$options['payroll_fk']);
 	
@@ -214,6 +227,8 @@ class Payroll_model extends MY_Model {
 		
 		if($action == 'unlock')
 		{
+			$this->_null_commision($options['payroll_fk']);
+
 			$this->db->set('locked',0);
 			$this->db->set('payroll_fk',null);
 			$this->db->where('payroll_fk',$options['payroll_fk']);
@@ -221,8 +236,57 @@ class Payroll_model extends MY_Model {
 		}			
 		
 		$this->db->update('exp_cd_orders');
+
 		
+
 		return $this->db->affected_rows();
+	}
+	private function _insert_commision($options = array())
+	{
+		$this->db->select('id')
+				->where('distributor_fk',$options['employee_fk'])
+				->where('dateshipped >=',$options['date_from'])
+				->where('dateshipped <=',$options['date_to'])
+				->where('payroll_fk',null)
+				->where('locked',0);
+		$ids = $this->db->get('exp_cd_orders')->result();
+
+		foreach($ids as $row)
+		{
+			$this->db->select('id, prodname_fk')
+				->where('order_fk',$row->id);
+			$dids = $this->db->get('exp_cd_order_details')->result();
+
+			foreach($dids as $did)
+			{
+				$this->db->select('id,commision')
+				 ->where('id',$did->prodname_fk)
+				 ->where('status','active');
+				$rate = $this->db->get('exp_cd_products')->row();
+
+				$this->db->set('commision_rate',$rate->commision)
+					 ->where('id',$did->id)
+					 ->update('exp_cd_order_details');
+
+				if(!$this->db->affected_rows())
+					return false;
+			}
+		}
+		return true;
+	}
+	private function _null_commision($payroll_id)
+	{
+		$this->db->select('id')->where('payroll_fk',$payroll_id);
+		$orders = $this->db->get('exp_cd_orders')->result();
+
+		foreach ($orders as $row) 
+		{
+			$this->db->where('order_fk',$row->id);
+			$this->db->set('commision_rate',null);
+			$this->db->update('exp_cd_order_details');
+		}
+
+		return true;
 	}
 	/**
 	 * 
@@ -288,9 +352,17 @@ class Payroll_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 	
+	/**
+	 * Deletes(soft) payroll by provided pk.
+	 * Also, runns functions to unlock job_orders, orders
+	 * and paytoll extras.
+	 * Controlled by TRANSACTION!
+	 * @param  integer $id primary_key
+	 * @return boolean     success/fail return
+	 */
 	public function delete($id)
 	{
-		
+		$this->db->trans_start();
 		/*
 		 * Unlocks all Job Order and Orders
 		 * from which this payroll has been
@@ -307,6 +379,12 @@ class Payroll_model extends MY_Model {
 		$this->db->set('status','deleted');
 		$this->db->where('id',$id);
 		$this->db->update($this->_table);
-		return $this->db->affected_rows();	
+
+		$this->db->trans_complete();
+
+		if($this->db->trans_status() === false)
+			return false;
+
+		return true;	
 	}
 }

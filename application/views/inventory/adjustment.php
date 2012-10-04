@@ -19,4 +19,8 @@
     <dd><?php echo $master->quantity .' '.  $master->uname;?></dd>
     <dt>Причина:</dt>
     <dd><?php echo $master->comments;?></dd> 
+    <?php if($this->session->userdata('admin')):?>
+        <dt>Оператор:</dt>
+        <dd><?php echo $master->fname. ' '.$master->lname;?></dd>
+    <?php endif;?>
 </dl>

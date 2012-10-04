@@ -8,13 +8,18 @@
 		<div id="buttons">
 			<a href="<?php echo site_url('orders/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
 			<a href="<?php echo site_url('orders/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-			<a href="<?php echo site_url('payroll/payroll_pdf/'.$master->id);?>" class="button"><span class="pdf">PDF</span></a>
 		</div>
 	<hr/>
 	<?php endif;?>
-	<?php if($master->payroll_fk != null AND $this->session->userdata('admin')):?>
-		<h4>Ставката е заклучена по калкулација за плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
+	<?php if($master->locked == 1):?>
+		<?php if ($master->payroll_fk != null): ?>
+			<h4>Ставката е заклучена по калкулација за плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
+		<?php endif ?>
+		<?php if ($master->payroll_fk == null): ?>
+			<h4>Ставката е заклучена од страна на администратор</h4>
+		<?php endif ?>
 	<?php endif;?>
+
 <div class="f_left">
 	<dl>
         <dt>Купувач:</dt>

@@ -26,7 +26,7 @@ table#payroll {
  	margin: 0 auto;
  	margin-top: 25px;
  	border-collapse: collapse;
- 	font-size: 8pt;
+ 	font-size: 7pt;
 }
 
 table#payroll th,td.header {
@@ -55,32 +55,42 @@ span#label{
 </style>
 
 <div id="period">
-	<h1>Преглед на Продажба</h1>
+	<h1>Преглед на Производство</h1>
   <span id="label">Од:</span> <?php echo $datefrom;?>
   <span id="label">До:</span> <?php echo $dateto; ?><br/>
-  <span id="label">Дистрибутер:</span> <?php echo (isset($distributer))?$distributer->fname.' '.$distributer->lname:'-'; ?><br/>
-  <span id="label">Купувач:</span> <?php echo (isset($partner->company))?$partner->company:'-'; ?><br/> 
-  <span id="label">Плаќање:</span> <?php echo (isset($payment->name))?$payment->name:'-'; ?>
+  <span id="label">Вработен:</span> <?php echo (isset($employee))?$employee->fname.' '.$employee->lname:'-'; ?><br/>
+  <span id="label">Работна Задача:</span> <?php echo (isset($task->taskname))?$task->taskname:'-'; ?><br/> 
+  <span id="label">Смена:</span> <?php echo (isset($shift))?$shift:'-'; ?>
 </div>
 
-<table id="payroll">
+<table id="payroll"> 
+<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
 	<thead>
 		<tr>
-	    	<th class="header">Производ</th>
-	    	<th class="header">Земено</th>
-	    	<th class="header">Вратено</th>   
-	    	<th class="header">% Вратено</th>    	
+	    	<th>Работна Задача</th>
+	    	<th>Вкупно</th>
+	    	<th>Просек</th>
+	    	<th>Максимум</th>
+	    	<th>Минимум</th>
+	    	<th>Раб.Налози</th>    	
     	</tr>
     </thead>
     <tbody>
 	<?php foreach($results as $row):?>
 		<tr>
-			<td><?php echo $row->prodname;?></td>
-			<td><?php echo $row->quantity.' '.$row->uname;?></td>
-			<td><?php echo $row->returned_quantity.' '.$row->uname;?></td>
-			<td><?php echo round($row->returned_quantity/$row->quantity,3).' %';?></td>
+			<td><?php echo $row->taskname;?></td>
+			<td><?php echo $row->sum.' '.$row->uname;?></td>
+			<td><?php echo round($row->avg,2).' '.$row->uname;?></td>
+			<td><?php echo $row->max.' '.$row->uname;?></td>
+			<td><?php echo $row->min.' '.$row->uname;?></td>
+			<td><?php echo $row->count;?></td>
 		</tr>
 	<?php endforeach;?>
+<?php else:?>
+	<?php if(empty($results)):?>
+		<?php $this->load->view('includes/_no_records');?>
+	<?php endif;?>
+<?php endif;?>
 </tbody>
 </table>
 <div id="container" style="margin: 0"></div>

@@ -6,22 +6,23 @@
 		<a href="#" class="button" id="add_payroll"><span class="add">Внес</span></a>
 	</div>
 <hr>
+<div class="report_calc">
 	<?php echo form_open('payroll/calculate');?>
 	<table id="calculation">
 		<tr>
-		    <td class="label"><?php echo form_label('Работник:');?></td>
+		    <td class="label"><?php echo form_label('Работник:');?><span class='req'>*</span></td>
 		    <td><?php echo form_dropdown('employee',$employees, set_value('employee')); ?></td>
 		</tr>
 		<tr>
-		    <td class="label"><?php echo form_label('Од:');?></td>
+		    <td class="label"><?php echo form_label('Од:');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('datefrom',(!isset($datefrom) ? '' : $datefrom),'id="datefrom"'); ?></td>
 		</tr>
 		<tr>
-		    <td class="label"><?php echo form_label('До:');?></td>
+		    <td class="label"><?php echo form_label('До:');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('dateto',(!isset($dateto) ? '' : $dateto),'id="dateto"'); ?></td>
 		</tr>
 		<tr>    
-		    <td class="label"><?php echo form_label('Месец:');?></td>
+		    <td class="label"><?php echo form_label('Месец:');?><span class='req'>*</span></td>
 		    <td><?php echo form_dropdown('for_month',$G_months, set_value('for_month')); ?></td>
 		</tr>
 		<tr>
@@ -30,7 +31,7 @@
 		</tr>
 	</table>
 	<?php echo form_close();?>
-
+</div>
 <?php if($submited == 1):?>
 	<dl id="current_calculation">
 		<dt>Работник</dt>

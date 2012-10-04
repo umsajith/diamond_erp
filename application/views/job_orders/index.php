@@ -77,7 +77,7 @@
 
 		var success = $.ajax({
 			  type: "POST",
-			  url: "<?php echo site_url('job_orders/ajx_complete'); ?>",
+			  url: "<?php echo site_url('job_orders/ajxComplete'); ?>",
 			  dataType: "json",
 			  data: {ids:json_ids},
 			  success: function(msg){		

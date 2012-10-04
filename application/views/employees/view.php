@@ -1,9 +1,9 @@
 <h2><?php echo $heading; ?></h2>
 <hr>
 	<div id="meta">
-			<p>бр.<?php echo $master->id;?></p>
-			<p><?php echo $master->dateofentry;?></p>
-		</div>
+        <p>бр.<?php echo $master->id;?></p>
+        <p><?php echo $master->dateofentry;?></p>
+	</div>
 	<div id="buttons">
 		<a href="<?php echo site_url('employees/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
 		<a href="<?php echo site_url('employees/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
@@ -45,9 +45,9 @@
         
         <dt>Работно Место:</dt>
         <dd><?php echo ($master->position == null ? '-' : $master->position);?></dd>
-        <dt>Почеток на Раб.Однос:</dt>
+        <dt>Почеток:</dt>
         <dd><?php echo ($master->start_date == null ? '-' : $master->start_date);?></dd>
-        <dt>Крај на Раб.Однос:</dt>
+        <dt>Крај:</dt>
         <dd><?php echo ($master->stop_date == null ? '-' : $master->stop_date);?></dd>
         
         <dt>Фиксна Плата:</dt>
@@ -70,4 +70,3 @@
         <dd><?php echo ($master->note == null ? '-' : $master->note);?></dd>   
 	</dl>
 <hr>
-<?php $this->load->view('includes/_del_dialog');?>

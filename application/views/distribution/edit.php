@@ -26,7 +26,7 @@
 </tr>
 <?php if(in_array($page, array('out','ret'))):?>
 <tr>
-	<td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
+	<td class="label"><?php echo form_label('Дистрибутер:');?></td>
     <td><?php echo form_dropdown('distributor_fk', $distributors,set_value('distributor_fk',$result->distributor_fk)); ?></td>
 </tr>
 <?php endif;?>

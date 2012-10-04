@@ -62,7 +62,7 @@ class Distribution extends MY_Controller {
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
 		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('distributor_fk','distributor','numeric|trim|required');
+		$this->form_validation->set_rules('distributor_fk','distributor','numeric|trim');
 		$this->form_validation->set_rules('ext_doc','external document','trim');
 		$this->form_validation->set_rules('note','comments','trim');
 		
@@ -143,7 +143,6 @@ class Distribution extends MY_Controller {
 		
 		if($page == 'out')
 		{
-			
 			$this->data['heading'] = 'Корекција на Испратница';
 			$this->data['distributors'] = $this->utilities->get_distributors();
 			$redirect = 'outbounds';
@@ -157,7 +156,6 @@ class Distribution extends MY_Controller {
 		
 		if($page == 'ret')
 		{
-			
 			$this->data['heading'] = 'Корекција на Повратница';
 			$this->data['distributors'] = $this->utilities->get_distributors();
 			$redirect = 'returns';
@@ -182,7 +180,7 @@ class Distribution extends MY_Controller {
 				 * inventory deductions again for the new quantity
 				 * according to the Bill of Materials
 				 */
-				if($redirect == 'inbounds')
+				if($redirect === 'inbounds')
 					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
 				
 				$this->utilities->flash('add','distribution/'.$redirect);

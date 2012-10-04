@@ -1,19 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Employees_model extends CI_Model {
+class Employees_model extends MY_Model {
 	
-	//Database table of the Model
-	var $table = 'exp_cd_employees';
-	
-	function __construct()
-	{
-		parent::__construct();
-	}
+	protected $_table = 'exp_cd_employees';
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table
 		$this->db->select('e.*,u.name as ugroup,c.name,pc.postalcode,d.department,p.position');
-		$this->db->from('exp_cd_employees AS e');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
 		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
@@ -38,12 +31,11 @@ class Employees_model extends CI_Model {
 		//Retreives only the ACTIVE records, unless otherwise set	
 		$this->db->where('e.status !=','deleted');
 		
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS e')->result();
 		
 		//Counts the TOTAL rows in the Table------------------------------------------------------------
 		
 		$this->db->select('COUNT(e.id) AS count');
-		$this->db->from('exp_cd_employees AS e');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
 		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
@@ -58,7 +50,7 @@ class Employees_model extends CI_Model {
 		
 		$this->db->where('e.status !=','deleted');
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table.' AS e')->row();
 		
 		$data['num_rows'] = $temp->count;
 		//-----------------------------------------------------------------------------------------------
@@ -66,11 +58,10 @@ class Employees_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		//Selects and returns all records from table
 		$this->db->select('e.*,u.name as ugroup,c.name,pc.postalcode,d.department,p.position');
-		$this->db->from('exp_cd_employees AS e');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
 		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
@@ -81,10 +72,10 @@ class Employees_model extends CI_Model {
 			
 		$this->db->where('e.status !=','deleted');
 
-		return  $this->db->get()->row();
+		return  $this->db->get($this->_table.' AS e')->row();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{
 		//Hash the password
 		if(isset($data['password']) && trim($data['password']!=''))
@@ -99,7 +90,7 @@ class Employees_model extends CI_Model {
 		 */
 			
 		// Inserts the whole data array into the database table
-		$this->db->insert($this->table,$data);
+		$this->db->insert($this->_table,$data);
 		
 		return $this->db->insert_id();
 	}
@@ -109,7 +100,7 @@ class Employees_model extends CI_Model {
 		return sha1($password);
 	}
 
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{	
 		
 		/*
@@ -155,12 +146,12 @@ class Employees_model extends CI_Model {
 		$this->db->where('id',$id);
 		
 		//Updating
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 		
 		return $this->db->affected_rows();
 	}
 	
-	function last_login($id)
+	public function last_login($id)
 	{
 		//Sets the Last_login time to now
 		$this->db->set('last_login',date('Y-m-d H:m:s',now()));
@@ -169,27 +160,26 @@ class Employees_model extends CI_Model {
 		$this->db->where('id',$id);
 		
 		//Updating
-		$this->db->update($this->table);
+		$this->db->update($this->_table);
 		
 		return $this->db->affected_rows();
 	}
 	
-	function get_attr($id,$field)
+	public function get_attr($id,$field)
 	{
 		$this->db->select($field);
-		$this->db->from($this->table);
 		$this->db->where('id',$id);
 		$this->db->limit(1);
 		
-		return $this->db->get()->row();
+		return $this->db->get($this->_table)->row();
 	}
 	
-	function delete($id)
+	public function delete($id)
 	{
 		//Updates the status to 'deleted'
 		$data['status'] = 'deleted';
 		$this->db->where('id',$id);
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 
 		return $this->db->affected_rows();	
 	}

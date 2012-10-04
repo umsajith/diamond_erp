@@ -25,7 +25,7 @@
 			<td>
 			<?php 	
 				if(is_null($row->job_order_fk) AND is_null($row->warehouse_fk) )
-					echo anchor("inventory/view/gr/$row->id",'Референца');
+					echo anchor("inventory/view/$row->type/$row->id",'Референца');
 				elseif($row->warehouse_fk)
 					echo anchor("distribution/view/in/$row->warehouse_fk",'Референца');
 				else

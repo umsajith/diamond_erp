@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Task_model extends CI_Model {
+class Task_model extends MY_Model {
 
 	protected $_table = 'exp_cd_tasks';
 	
@@ -15,16 +15,12 @@ class Task_model extends CI_Model {
 		
 		//Pagination Limit and Offset
 		$this->db->limit($limit, $offset);
-	
-		$this->db->where('t.status','active');
 		
 		$data['results'] = $this->db->get($this->_table.' AS t')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		
 		$this->db->select('COUNT(*) as count',false);
-			
-		$this->db->where('status','active');
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -44,8 +40,6 @@ class Task_model extends CI_Model {
 		
 		//Qualifications
 		$this->db->where('t.id',$id);
-
-		$this->db->where('t.status','active');
 		
 		return $this->db->get()->row();
 	}
@@ -88,24 +82,12 @@ class Task_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 	
-	public function delete($id)
-	{
-		//Updates the status to 'deleted'
-		$data['status'] = 'deleted';
-		$this->db->where('id',$id);
-		$this->db->update('exp_cd_tasks',$data);
-
-		return $this->db->affected_rows();
-		
-	}
-	
 	public function dropdown()
 	{
 		//Query
 		$this->db->select('t.id,t.taskname,u.uname');
 		$this->db->from('exp_cd_tasks AS t');
-		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
-		$this->db->where('t.status','active');	
+		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');	
 		$this->db->order_by('t.taskname');
 		
 		return $this->db->get()->result();	 
@@ -117,7 +99,6 @@ class Task_model extends CI_Model {
 		$this->db->select('bom_fk');
 		$this->db->where('id',$id);
 		$this->db->where('is_production',1);
-		$this->db->where('status','active');
 		$this->db->limit(1);
 		
 		$result = $this->db->get($this->_table)->row();

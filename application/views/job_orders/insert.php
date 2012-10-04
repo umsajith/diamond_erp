@@ -66,7 +66,7 @@ $(function() {
 		$("select[name=assigned_to]").on("change",function() {
 			var emp_id = $(this).val();
 
-			$.get("<?php echo site_url('employees_tasks/dropdown'); ?>", {emp_id:emp_id}, function(result) {
+			$.get("<?php echo site_url('employees/ajxGetTasks'); ?>", {emp_id:emp_id}, function(result) {
 				 var optionsValues = "<select id='tasks'>";
 				    data_obj = result;
 				    optionsValues += "<option value=''>" + "- Работна Задача -" + "</option>";

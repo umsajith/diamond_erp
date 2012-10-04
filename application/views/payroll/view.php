@@ -27,8 +27,8 @@
 	        <dt>Фиксна Плата:</dt>
 	        <dd><?php echo '+'.$master->fixed_wage;?></dd>
         <?php endif;?>
-        <dt>Придонеси+Здравство:</dt>
-        <dd><?php echo '+'. $master->social_cont;?></dd>
+        <dt>Придонеси + Здр.:</dt>
+        <dd><?php echo '+' . $master->social_cont; ?></dd>
         <dt>Тел.Субвенција:</dt>
         <dd><?php echo '+'.$master->comp_mobile_sub;?></dd>
         <dt>Бонуси:</dt>
@@ -54,7 +54,7 @@
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 <div class="f_right">
 	<h3>Детален Преглед на Калкулација за Плата</h3>
-<?php if (isset($results) && is_array($results) && count($results)):?>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
 <table class="master_table">
 	<tr>
 		<th>Работна Задача</th>
@@ -69,19 +69,8 @@
 			<td><?php echo $row->taskname;?></td>
 			<td><?php echo $row->count;?></td>
 			<td><?php echo $row->final_quantity . ' ' . $row->uname;?></td>
-			<td>
-				<?php 
-					echo (is_null($row->calculation_rate))  
-						? $row->rate_per_unit 
-						: $row->calculation_rate ;?>
-			</td>
-			<td>
-				<?php 
-					echo (is_null($row->calculation_rate)) 
-						? $row->rate_per_unit* $row->final_quantity 
-						: $row->calculation_rate* $row->final_quantity;
-				?>
-			</td>
+			<td><?php echo ' x '.$row->calculation_rate.$G_currency ;?></td>
+			<td><?php echo $row->calculation_rate* $row->final_quantity;?></td>
 			<td width="25px">&nbsp;</td>		
 		</tr>
 <?php endforeach;?>
@@ -112,13 +101,13 @@
 	<?php endif;?>
 <?php endif;?>	
 <!-- ======================================FOR DISTRIBUTORS====================================== -->
-<?php if(isset($distribution) && is_array($distribution)):?>
+<?php if(isset($distribution) AND is_array($distribution)):?>
 	<table class="master_table">
 		<tr>
 			<th>Производ</th>
 			<th>Категорија</th>
-			<th>Вкупна Количина</th>
-			<th>&nbsp;</th>
+			<th>Вкупно</th>
+			<th>Провизија</th>
 			<th>Износ</th>
 			<th>&nbsp;</th>
 		</tr>
@@ -127,8 +116,8 @@
 					<td><?php echo $row->prodname;?></td>
 					<td><?php echo $row->pcname;?></td>
 					<td><?php echo $row->quantity . ' ' . $row->uname;?></td>
-					<td><?php echo $row->commision.' ден.';?></td>
-					<td><?php echo round($row->quantity * $row->commision,2).' ден.';?></td>
+					<td><?php echo ' x '.$row->commision_rate.$G_currency;?></td>
+					<td><?php echo round($row->quantity * $row->commision_rate,2);?></td>
 					<td>&nbsp;</td>
 				</tr>
 		<?php endforeach;?>
@@ -181,7 +170,7 @@
 	</tr>
 <?php endif;?>
 <!-- BONUSES -->
-<?php if (isset($extras_plus) && is_array($extras_plus) && count($extras_plus)):?>
+<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
 	<?php foreach($extras_plus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>
@@ -253,7 +242,7 @@
 <?php endif;?>
 
 <!-- EXPENSES -->
-<?php if (isset($extras_minus) && is_array($extras_minus) && count($extras_minus)):?>
+<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 	<?php foreach($extras_minus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>
@@ -286,9 +275,9 @@
 	<hr>
 	<table class="master_table_calc">
 		<tr>	
-				<td><strong>ДОПЛАТА:</strong></td>
-				<td width="100px" align="center"><?php echo $master->paid_wage; ?></td>
-				<td width="10px">&nbsp;</td>
+			<td><strong>ДОПЛАТА:</strong></td>
+			<td width="100px" align="center"><?php echo $master->paid_wage; ?></td>
+			<td width="10px">&nbsp;</td>
 		</tr>
 	</table>
 <?php endif;?>

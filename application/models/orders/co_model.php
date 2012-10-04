@@ -5,7 +5,7 @@ class Co_model extends MY_Model {
 	//Database table of the Model
 	protected $_table = 'exp_cd_orders';
 	
-	function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table----------------------------------------------------
 		$this->db->select('o.*,p.company,e.fname,e.lname,pm.name');
@@ -70,9 +70,8 @@ class Co_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->result();
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
-		
 		//Selects and returns all records from table
 		$this->db->select('o.*,p.company, p.id as pid, e.fname,e.lname,pm.name');
 		$this->db->join('exp_cd_partners AS p','p.id = o.partner_fk','LEFT');
@@ -84,7 +83,7 @@ class Co_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->row();
 	}
 	
-	function last_partner_orders($id,$limit = 10)
+	public function last_partner_orders($id,$limit = 10)
 	{
 		//Selects and returns all records from table
 		$this->db->select('o.*,p.company, e.fname,e.lname,pm.name');
@@ -99,7 +98,7 @@ class Co_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->result();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{
 		/*
 		 * By default, all inserted Orders are
@@ -113,7 +112,7 @@ class Co_model extends MY_Model {
 		return $this->db->insert_id();
 	}
 	
-	function update($id,$data = array())
+	public function update($id,$data = array())
 	{
 		/*
 		 * If Order Status is updated, Continues with
@@ -160,7 +159,7 @@ class Co_model extends MY_Model {
 	 * Gets all the Order delivered within 
 	 * a date (from-to) by specific Distributor
 	 */
-	function get_by_distributor($id,$datefrom,$dateto)
+	public function get_by_distributor($id,$datefrom,$dateto)
 	{
 		$this->db->select('id');
 		$this->db->where('distributor_fk',$id);
@@ -177,12 +176,12 @@ class Co_model extends MY_Model {
 		return $ids;
 	}
 	
-	function get_by_payroll($id)
+	public function get_by_payroll($id)
 	{
 		$this->db->select('id');
 		$this->db->where('payroll_fk',$id);
 		
-		$results =  $this->db->get($this->_table)->result();	
+		$results = $this->db->get($this->_table)->result();	
 		
 		$ids = array();
 		
@@ -192,7 +191,7 @@ class Co_model extends MY_Model {
 		return $ids;
 	}
 	
-	function lock($options = array())
+	public function lock($options = array())
 	{
 		//Locks the Entries
 		$this->db->set('locked',1);
@@ -205,7 +204,7 @@ class Co_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 	
-	function unlock($options = array())
+	public function unlock($options = array())
 	{
 		//Locks the Entries
 		$this->db->set('locked',0);
@@ -218,7 +217,7 @@ class Co_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 	
-	function report($options = array())
+	public function report($options = array())
 	{
 		$this->db->select('id');
 		

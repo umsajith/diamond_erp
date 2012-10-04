@@ -252,7 +252,7 @@ class Utilities {
 			
 		if($type=='deny')
 		{
-			$message = 'Забранет пристап! Fuck Off!';
+			$message = 'Забранет пристап!';
 			$class = 'error';			
 		}
 			

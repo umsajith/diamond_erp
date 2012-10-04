@@ -1,10 +1,6 @@
 <h2><?php echo $heading?></h2>
 <hr>
-	<a href="<?php echo site_url('orders/insert');?>" class="button"><span class="add">Внес</span></a>
-	<?php if($this->session->userdata('admin')):?>
-		<a href="" class="button"><span class="lock">Заклучи</span></a>
-		<a href="" class="button"><span class="unlock">Отклучи</span></a>
-	<?php endif;?>
+	<a href="<?php echo site_url('orders_list');?>" class="button"><span class="add">Внес</span></a>
 <div class="filters"> 
     <?php echo form_open('orders/search');?>
 	    <?php echo form_dropdown('partner_fk', $customers, set_value('partner_fk')); ?>
@@ -17,7 +13,6 @@
 <table class="master_table">   
 <?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
 	<tr>
-    	<th><?php echo form_checkbox('','',false,"class='check_all'");?>&nbsp;</th>
     	<th>&nbsp;</th>
     	<th>&nbsp;</th>
     	<?php foreach ($columns as $col_name => $col_display):?>
@@ -29,7 +24,6 @@
     </tr>
 	<?php foreach($results as $row):?>
 	<tr>
-			<td class="code"><?php echo form_checkbox('',$row->id,false,"class='order_check'");?></td>
 			<td class="code" align="center"><?php echo anchor('orders/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
 			<td class="code" align="center"><?php echo ($row->locked == 0 ? '' : "<span class='lock_icon'></span>");?></td>
 			<td><?php echo (($row->dateshipped == null) || ($row->dateshipped == '0000-00-00') ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateshipped))); ?></td>
@@ -52,63 +46,3 @@
 <?php endif;?>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-
-<script type="text/javascript">
-
-$(function() {
-	
-		$(".check_all").attr("checked", false);
-	
-		// Locks the Orders
-		$("span.lock").on("click",function(){
-
-			var ids = $(".order_check:checked").map(function(i,n) {
-		        return $(n).val();
-		    }).get();
-
-			if(ids.length==0)
-			{
-				$.pnotify({pnotify_text:"Нема селектирани ставки!",pnotify_type: 'info'});
-				return false;
-			}
-			
-			var json_ids = JSON.stringify(ids);
-
-			$.post("<?php echo site_url('orders/lock'); ?>",
-					   {ids:json_ids},
-					   function(data){
-								if(data){
-									location.reload(true);		
-								}
-						},"json"   
-				   );
-			return false;
-		});
-		
-		//Unlocks the Orders
-		$("span.unlock").on("click",function(){
-
-			var ids = $(".order_check:checked").map(function(i,n) {
-		        return $(n).val();
-		    }).get();
-
-			if(ids.length == 0)
-			{
-				$.pnotify({pnotify_text:"Нема селектирани ставки!",pnotify_type: 'info'});
-				return false;
-			}
-			
-			var json_ids = JSON.stringify(ids);
-
-			$.post("<?php echo site_url('orders/unlock'); ?>",
-					   {ids:json_ids},
-					   function(data){
-								if(data){
-								   location.reload(true);		
-								}
-						},"json");
-			return false;
-		});
-});
-	
-</script>

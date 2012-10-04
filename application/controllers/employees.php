@@ -2,15 +2,15 @@
 
 class Employees extends MY_Controller {
 	
-	private $limit = 25;
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('hr/Employees_model');	
-		$this->load->model('hr/Emp_tasks_model');		
+		$this->load->model('hr/employees_model','emp');	
+		$this->load->model('hr/emp_tasks_model','empt');		
 	}
 	
 	public function index($query_id = 0,$sort_by = 'employee', $sort_order = 'asc', $offset = 0)
@@ -50,7 +50,7 @@ class Employees extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'employee';
 
 		//Retreive data from Model
-		$temp = $this->Employees_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->emp->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -84,7 +84,7 @@ class Employees extends MY_Controller {
 		redirect("employees/index/$query_id");
 	}
 	
-	function insert()
+	public function insert()
 	{
 		//Load Validation Library
 		$this->load->library('form_validation');
@@ -118,7 +118,7 @@ class Employees extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful insertion
-			if( $this->Employees_model->insert($_POST))
+			if($this->emp->insert($_POST))
 				$this->utilities->flash('delete','employees');
 			else
 				$this->utilities->flash('error','employees');
@@ -134,10 +134,10 @@ class Employees extends MY_Controller {
 		$this->data['heading'] = 'Внеси Нов Работник';
 	}
 	
-	function edit($id = false)
+	public function edit($id = false)
 	{
 		//Retreives ONE product from the database
-		$this->data['employee'] = $this->Employees_model->select_single($id);
+		$this->data['employee'] = $this->emp->select_single($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['employee']) 
@@ -175,7 +175,7 @@ class Employees extends MY_Controller {
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
 			{
-				if($this->Employees_model->update($_POST['id'],$_POST))
+				if($this->emp->update($_POST['id'],$_POST))
 					$this->utilities->flash('update','employees');
 				else
 					$this->utilities->flash('error','employees');	
@@ -189,34 +189,59 @@ class Employees extends MY_Controller {
 		$this->data['positions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
 		$this->data['ugroups'] = $this->utilities->get_dropdown('id', 'name','exp_cd_user_groups','- Корисничка Група -',false);
 
-		$this->data['assigned_tasks'] = $this->Emp_tasks_model->select($id);
+		$this->data['assigned_tasks'] = $this->empt->select($id);
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работник';
 	}
 	
-	function view($id = false)
+	public function view($id = false)
 	{
 		//Heading
 		$this->data['heading'] = 'Работник';
 		
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Employees_model->select_single($id);
+		$this->data['master'] = $this->emp->select_single($id);
 		
 		if(!$this->data['master']) 
 			$this->utilities->flash('void','employees');	
 	}
 	
-	function delete($id = false)
+	public function delete($id = false)
 	{
-		$this->data['master'] = $this->Employees_model->select_single($id);
-		
-		if(!$this->data['master']) 
+		if(!$this->emp->get($id)) 
 			$this->utilities->flash('void','employees');
 			
-		if($this->Employees_model->delete($id))
+		if($this->emp->delete($id))
 			$this->utilities->flash('delete','employees');
 		else
 			$this->utilities->flash('error','employees');			
+	}
+
+	public function ajxAssignTask()
+	{
+		$this->form_validation->set_rules('employee_fk','employee','trim|required');
+		$this->form_validation->set_rules('task_fk','tasks','trim|required');			
+		if ($this->form_validation->run())
+		{
+			if($this->empt->insert($_POST))
+				echo 1;	
+		}
+		exit;
+	}
+
+	public function ajxDeleteTask()
+	{
+		if($this->empt->delete($_POST['id']))
+			echo 1;	
+		exit;
+	}
+
+	public function ajxGetTasks()
+	{	
+		$data = $this->empt->dropdown(json_decode($_GET['emp_id']));	
+		header('Content-Type: application/json',true); 
+		echo json_encode($data);
+		exit;
 	}
 }

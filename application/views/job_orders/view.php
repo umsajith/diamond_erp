@@ -14,6 +14,7 @@
     <?php if($master->payroll_fk != null):?>
         <h4>Ставката е заклучена по калкулација за плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
     <?php endif;?>
+    
 <div class="f_left">
 	<dl>
         <dt>Датум:</dt>

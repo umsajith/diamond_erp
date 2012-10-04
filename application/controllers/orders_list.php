@@ -112,6 +112,12 @@ class Orders_list extends MY_Controller {
 		if(!$this->data['master'])
 			$this->utilities->flash('void','orders_list');
 
+		/*
+		 * Prevents from editing locked record
+		 */
+		if($this->data['master']->locked == 1)
+			$this->utilities->flash('deny','orders_list');
+
 		$this->form_validation->set_rules('id','id','required');
 		$this->form_validation->set_rules('date','date','trim|required');
 		$this->form_validation->set_rules('distributor_id','distributer','trim|required');
@@ -154,5 +160,21 @@ class Orders_list extends MY_Controller {
 			$this->utilities->flash('delete','orders_list');
 		else
 			$this->utilities->flash('error','orders_list');
+	}
+
+	public function ajxLock()
+	{
+		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>1)))
+			echo 1;
+
+		exit;	
+	}
+
+	public function ajxUnlock()
+	{
+		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>0)))
+			echo 1;
+
+		exit;	
 	}
 }

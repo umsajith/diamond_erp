@@ -39,6 +39,6 @@
     <dd><?php echo ($master->assigned_to == null) ? '-' : $master->assignfname.' '.$master->assignlname;?></dd>
 	<?php if($this->session->userdata('admin')):?>
         <dt>Оператор:</dt>
-        <dd><?php echo $master->lname. ' '.$master->fname;?></dd>
+        <dd><?php echo $master->fname. ' '.$master->lname;?></dd>
     <?php endif;?>
 </dl>

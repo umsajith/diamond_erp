@@ -2,16 +2,16 @@
 
 class Inventory extends MY_Controller {
 	
-	private $limit = 25;
+	protected $limit = 25;
 	
 	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('procurement/Inventory_model');
-		$this->load->model('partners/Partners_model');
-		$this->load->model('products/Products_model');
+		$this->load->model('procurement/inventory_model','inv');
+		$this->load->model('partners/partners_model','par');
+		$this->load->model('products/products_model','prod');
     }
 	
 	public function index()
@@ -20,7 +20,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Магацин: Сировини';
 		
 		//Retreive data from Model
-		$this->data['results'] = $this->Inventory_model->levels();
+		$this->data['results'] = $this->inv->levels();
 	}
 	
 	public function purchase_orders($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -49,7 +49,9 @@ class Inventory extends MY_Controller {
 		
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk')
+			'pcname_fk' => $this->input->get('pcname_fk'),
+			'partner_fk' => '',
+			'type' => 'po'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -59,7 +61,7 @@ class Inventory extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Inventory_model->select_all_po($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->inv->select_all($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -100,7 +102,7 @@ class Inventory extends MY_Controller {
 				
 		//Generate dropdown menu data
 		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
-		$this->data['vendors'] = $this->Partners_model->dropdown('vendors');
+		$this->data['vendors'] = $this->par->dropdown('vendors');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		
 		//Columns which can be sorted by
@@ -120,7 +122,8 @@ class Inventory extends MY_Controller {
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
 			'partner_fk' => $this->input->get('partner_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk')
+			'pcname_fk' => $this->input->get('pcname_fk'),
+			'type' => 'gr'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -130,7 +133,7 @@ class Inventory extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Inventory_model->select_all_gr($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->inv->select_all($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -186,7 +189,9 @@ class Inventory extends MY_Controller {
 		
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk')
+			'pcname_fk' => $this->input->get('pcname_fk'),
+			'partner_fk' => '',
+			'type' => 'adj'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -195,7 +200,7 @@ class Inventory extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->Inventory_model->select_all_adj($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->inv->select_all($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -237,12 +242,12 @@ class Inventory extends MY_Controller {
 		 * If $id is not supplied, or does not exist
 		 * redirect to this controllers index
 		 */		
-		$temp = $this->Inventory_model->select_item($id,$this->limit,$offset);
+		$temp = $this->inv->select_item($id,$this->limit,$offset);
 		if(!$temp)
 			$this->utilities->flash('void','inventory');
 				
 		//Retreive data from Model
-		$this->data['product'] = $this->Products_model->select_single($id);
+		$this->data['product'] = $this->prod->select_single($id);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -280,13 +285,13 @@ class Inventory extends MY_Controller {
 			$_POST['type'] = 'gr';
 				
 			//Inserts into databse and reports outcome
-			if($this->Inventory_model->insert($_POST))
+			if($this->inv->insert($_POST))
 				$this->utilities->flash('add','goods_receipts');
 			else
 				$this->utilities->flash('error','goods_receipts');
 		}
 		//Load Partner model for Dropdown creation
-		$this->data['partners'] = $this->Partners_model->dropdown('vendors');
+		$this->data['partners'] = $this->par->dropdown('vendors');
 
 		//Heading
 		$this->data['heading'] = 'Внес на Приемница';
@@ -314,7 +319,7 @@ class Inventory extends MY_Controller {
 			$_POST['dateoforder'] = mdate("%Y-%m-%d",now());
 			
 			//Successful validation
-			if($this->Inventory_model->insert($_POST))
+			if($this->inv->insert($_POST))
 				$this->utilities->flash('add','purchase_orders');
 			else	
 				$this->utilities->flash('error','purchase_orders');
@@ -346,7 +351,7 @@ class Inventory extends MY_Controller {
 				$_POST['quantity'] = $_POST['quantity']* (-1);
 			
 			//Successful validation
-			if($this->Inventory_model->insert($_POST))
+			if($this->inv->insert($_POST))
 				$this->utilities->flash('add','adjustments');
 			else
 				$this->utilities->flash('error','adjustments');
@@ -381,7 +386,7 @@ class Inventory extends MY_Controller {
 		}
 		
 		//Retreives ONE product from the database
-		$this->data['goods_receipt'] = $this->Inventory_model->select_single($id);
+		$this->data['goods_receipt'] = $this->inv->select_single($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['goods_receipt'])
@@ -398,7 +403,7 @@ class Inventory extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful validation
-			if($this->Inventory_model->update($id,$_POST))
+			if($this->inv->update($id,$_POST))
 				$this->utilities->flash('update',$redirect);
 			else	
 				$this->utilities->flash('error',$redirect);
@@ -407,7 +412,7 @@ class Inventory extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Корекција на ' . $heading;
 		
-		$this->data['vendors'] = $this->Partners_model->dropdown('vendors');
+		$this->data['vendors'] = $this->par->dropdown('vendors');
 	}
 	
 	//AJAX - Marks the Purchase Order into Good Receipts and adds to inventory
@@ -415,7 +420,7 @@ class Inventory extends MY_Controller {
 	{
 		$data['ids'] = json_decode($_POST['ids']);
 		
-		if($this->Inventory_model->receive_po($data))
+		if($this->inv->receive_po($data))
 			echo 1;
 			
 		exit;
@@ -446,7 +451,7 @@ class Inventory extends MY_Controller {
 		}
 		
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Inventory_model->select_single($id);
+		$this->data['master'] = $this->inv->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void',$redirect);
 
@@ -467,11 +472,11 @@ class Inventory extends MY_Controller {
 			$redirect = 'adjustments';
 			
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Inventory_model->select_single($id);
+		$this->data['master'] = $this->inv->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void',$redirect);
 			
-		if($this->Inventory_model->delete($id))
+		if($this->inv->delete($id))
 			$this->utilities->flash('delete',$redirect);
 		else
 			$this->utilities->flash('error',$redirect);

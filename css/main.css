@@ -187,6 +187,15 @@ div#east {
 	float: left;
 }
 /* FIELDSET REPORT FORMS*/
+.report_calc {
+}
+.report_calc td{
+	padding: 3px;
+}
+
+.report_calc input[type=text],select {
+	height: 18px;
+}
 fieldset.report {
 	margin-bottom: 5px;
 	padding: 10px;

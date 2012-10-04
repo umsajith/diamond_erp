@@ -11,6 +11,7 @@ class Job_orders extends MY_Controller {
 		//Load Models
 		$this->load->model('production/joborders_model','jo');
 		$this->load->model('procurement/inventory_model','inv');
+		$this->load->model('hr/task_model','tsk');
     }
 	
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -19,9 +20,10 @@ class Job_orders extends MY_Controller {
 		$this->data['heading'] = 'Работни Налози';
 		
 		//Generate dropdown menu data for Filters
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable');
 		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
-		
+
+
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
 			'datedue'=>'Датум',
@@ -99,7 +101,6 @@ class Job_orders extends MY_Controller {
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{	
-			$this->load->model('hr/task_model','tsk');
 			//Successful validation insets into the DB
 			if($job_order_id = $this->jo->insert($_POST))
 			{
@@ -160,13 +161,23 @@ class Job_orders extends MY_Controller {
 			//Successful validation
 			if($this->jo->update($_POST['id'],$_POST))
 			{
-				$this->load->model('hr/task_model','tsk');
+				$found = $this->inv->get_many_by(array('job_order_fk'=>$_POST['id']));
+				if(!empty($found))
+				{
+					$ids = array();
+					foreach ($found as $row) 
+					{
+						array_push($ids,$row->id);
+					}
+					//print_r($ids); die;
+					$this->inv->delete_many($ids);
+				}
 				
 				/*
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
-				$production = $this->tsk->select_single($_POST['task_fk']);
+				$production = $this->tsk->get($_POST['task_fk']);
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
@@ -186,7 +197,7 @@ class Job_orders extends MY_Controller {
 	}
 
 	//AJAX - Completes Job Orders, and sets Final Qty if not set to Default Qty
-	public function ajx_complete()
+	public function ajxComplete()
 	{	
 		$this->data['ids'] = json_decode($_POST['ids']);
 
@@ -234,7 +245,10 @@ class Job_orders extends MY_Controller {
 				$this->data['results'] = $this->jo->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
-				$this->data['submited'] = 1;	
+				$this->data['submited'] = 1;
+
+				if(empty($this->data['results']))
+					$this->data['submited'] = 0;
 			}		
 			
 			/*
@@ -283,6 +297,50 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Извештај на Производство';
 	}
+
+	public function report_pdf()
+	{	
+		if($_POST)
+		{
+			$this->load->helper('dompdf');
+			$this->load->helper('file');
+			
+			$report_data['results'] = $this->jo->report($_POST);
+			$report_data['datefrom'] = $_POST['datefrom'];
+			$report_data['dateto'] = $_POST['dateto'];
+			
+			$this->load->model('hr/task_model','tsk');
+			$this->load->model('hr/employees_model','emp');
+
+			if(strlen($_POST['assigned_to']))
+			{
+				$report_data['employee'] = $this->emp->select_single($_POST['assigned_to']);	
+			}
+			if(strlen($_POST['task_fk']))
+			{
+				$report_data['task'] = $this->tsk->select_single($_POST['task_fk']);	
+			}
+			if(strlen($_POST['shift']))
+			{
+				$report_data['shift'] = $_POST['shift'];	
+			}
+			
+			if($report_data['results'])
+			{
+				$html = $this->load->view('job_orders/report_pdf',$report_data, true);
+			
+				$file_name = random_string();
+				
+				header("Content-type: application/pdf");
+				header("Content-Disposition: attachment; filename='{$file_name}'");
+				
+				pdf_create($html,$file_name);
+				exit;
+			}
+			else
+				exit;
+		}
+	}
 	
 	public function delete($id = false)
 	{
@@ -301,6 +359,9 @@ class Job_orders extends MY_Controller {
 			$this->utilities->flash('error','job_orders');
 	}
 
+	/**
+	 *  MOVE WHOLE FUNCTION TO JOB_ORDERS MODEL
+	 */
 	private function _inventory_use($job_order_id,$task_id,$quantity)
 	{
 		//Loading Models

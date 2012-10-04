@@ -5,6 +5,7 @@
 	<a href="<?php echo site_url('boms/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
 </div>
 <hr>
+<div class="f_left">
 	<dl>
         <dt>Назив:</dt>
         <dd><?php echo $master->name;?></dd>
@@ -19,23 +20,24 @@
         <dt>Статус:</dt>
         <dd><?php echo ($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>      
 	</dl>
-<hr/>
-<table class="master_table">
-    <tr>
-    	<th>Производ</th>
-    	<th>Категорија</th>
-    	<th>Количина</th>
-    </tr>
-<?php if (isset($details) && is_array($details) && count($details) > 0):?>
-	<?php foreach($details as $row):?>
-	<tr>
-		<td><?php echo $row->prodname;?></td>
-		<td><?php echo $row->pcname;?></td>
-		<td><?php echo round($row->quantity,6). ' ' .$row->uname;?></td>
-	</tr>
-	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
-</table>
-<?php $this->load->view('includes/_del_dialog');?>
+</div>
+<div class="f_right">
+    <table class="master_table">
+        <tr>
+        	<th>Артикл</th>
+        	<th>Категорија</th>
+        	<th>Количина</th>
+        </tr>
+    <?php if (isset($details) && is_array($details) && count($details) > 0):?>
+    	<?php foreach($details as $row):?>
+    	<tr>
+    		<td><?php echo $row->prodname;?></td>
+    		<td><?php echo $row->pcname;?></td>
+    		<td><?php echo round($row->quantity,6). ' ' .$row->uname;?></td>
+    	</tr>
+    	<?php endforeach;?>
+    <?php else:?>
+    	<?php $this->load->view('includes/_no_records');?>
+    <?php endif;?>
+    </table>
+</div>

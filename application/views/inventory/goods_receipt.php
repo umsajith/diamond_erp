@@ -4,7 +4,6 @@
 		<p>бр.<?php echo $master->id;?></p>
 		<p><?php echo $master->dateofentry;?></p>
 	</div>	
-	
 	<div id="buttons">
 		<a href="<?php echo site_url('inventory/edit/gr/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
 		<a href="<?php echo site_url('inventory/delete/gr/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
@@ -59,6 +58,6 @@
     <dd><?php echo ($master->dateofexpiration == null ? '-' : $master->dateofexpiration);?></dd>
     <?php if($this->session->userdata('admin')):?>
         <dt>Оператор:</dt>
-        <dd><?php echo $master->lname. ' '.$master->fname;?></dd>
+        <dd><?php echo $master->fname. ' '.$master->lname;?></dd>
     <?php endif;?>
 </dl>

@@ -132,7 +132,7 @@
 <?php echo form_close();?>
 
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(function() {
 		$( "#dob" ).datepicker({
 			dateFormat: "yy-mm-dd",
 			maxDate: +0,

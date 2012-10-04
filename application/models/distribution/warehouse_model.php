@@ -1,14 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Warehouse_model extends CI_Model {
+class Warehouse_model extends MY_Model {
 	
-	//Database table of the Model
-	protected $table = 'exp_cd_warehouse';
+	protected $_table = 'exp_cd_warehouse';
 	
-	function select($options = array())
+	public function select($options = array())
 	{
 		$this->db->select('w.*,p.prodname,u.uname,e.fname,e.lname,p.id as pid');
-		
-		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
@@ -23,15 +20,13 @@ class Warehouse_model extends CI_Model {
 		if(isset($options['is_out']))
 			$this->db->where('w.is_out',$options['is_out']);
 		
-		return $this->db->get()->result();
+		return $this->db->get($this->_table.' AS w')->result();
 	}
 	
-	function select_all_inbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_inbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		$this->db->select("w.*,p.prodname,u.uname,
 				CONCAT(e.fname,' ',e.lname) AS operator",false);
-		
-		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
@@ -67,19 +62,18 @@ class Warehouse_model extends CI_Model {
 		$this->db->where('w.is_out',null);
 		$this->db->where('w.is_return',null);
 		
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->from($this->table);
 		
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
 			
 		$this->db->where('is_out',0);
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -87,13 +81,11 @@ class Warehouse_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_all_outbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_outbound($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		$this->db->select("w.*,p.prodname,u.uname,
 				CONCAT(e.fname,' ',e.lname) AS distributor,
 				CONCAT(em.fname,' ',em.lname) AS operator",false);
-		
-		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
@@ -131,12 +123,11 @@ class Warehouse_model extends CI_Model {
 		
 		$this->db->where('w.is_out',1);
 		
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->from($this->table);
 		
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
@@ -145,7 +136,7 @@ class Warehouse_model extends CI_Model {
 			
 		$this->db->where('is_out',1);
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table.' AS w')->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -153,13 +144,11 @@ class Warehouse_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_all_returns($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
+	public function select_all_returns($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		$this->db->select("w.*,p.prodname,u.uname, 
 				CONCAT(e.fname,' ',e.lname) AS distributor,
 				CONCAT(em.fname,' ',em.lname) AS operator",false);
-		
-		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
@@ -197,12 +186,11 @@ class Warehouse_model extends CI_Model {
 		
 		$this->db->where('w.is_return',1);
 		
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->from($this->table);
 		
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
@@ -212,7 +200,7 @@ class Warehouse_model extends CI_Model {
 		$this->db->where('is_out',0);
 		$this->db->where('is_return',1);
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -220,12 +208,10 @@ class Warehouse_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		$this->db->select('w.*,p.prodname,u.uname,p.id as pid,
 						e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
-		
-		$this->db->from('exp_cd_warehouse as w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
@@ -236,16 +222,14 @@ class Warehouse_model extends CI_Model {
 		
 		$this->db->limit(1);
 		
-		return $this->db->get()->row();
+		return $this->db->get($this->_table.' AS w')->row();
 	}
 	
-	function select_item($id, $limit=null, $offset=null)
+	public function select_item($id, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table
 		$this->db->select('w.*,p.prodname,u.uname,p.id as pid,
 						emp.fname AS assignfname,emp.lname AS assignlname');
-		
-		$this->db->from($this->table.' AS w');
 		
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');	
@@ -259,18 +243,17 @@ class Warehouse_model extends CI_Model {
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
 			
-		$data['results'] = $this->db->get()->result();
+		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
 		if(empty($data['results']))
 			return false;
 				
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('COUNT(id) as count',false);
-		$this->db->from($this->table);
 		
 		$this->db->where('prodname_fk',$id);
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -278,20 +261,19 @@ class Warehouse_model extends CI_Model {
 		return $data;
 	}
 	
-	function levels($options = array(),$limit=NULL,$offset=NULL)
+	public function levels($options = array(),$limit=NULL,$offset=NULL)
 	{
 		$this->db->select('w.*,p.prodname,u.uname,p.id as pid');
 		$this->db->select_sum('w.quantity');
-		$this->db->from('exp_cd_warehouse as w');
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		
 		$this->db->group_by('w.prodname_fk');
 		
-		return $this->db->get()->result();
+		return $this->db->get($this->_table.' AS w')->result();
 	}
 	
-	function insert ($data = array())
+	public function insert ($data = array())
 	{	
 		/*
 		 * Sets all outbound warehouse entries to
@@ -299,11 +281,14 @@ class Warehouse_model extends CI_Model {
 		 * warehouse leves, same are deducted from total
 		 * quantity
 		 */
-		if(isset($data['is_out']) && $data['is_out'] == 1)
+		if(isset($data['is_out']) AND $data['is_out'] == 1)
 			$data['quantity'] = $data['quantity'] * -1;
 			
 		if(!strlen($data['dateoforigin']))
 			$data['dateoforigin'] = mdate('%Y-%m-%d');
+
+		if(!strlen($data['distributor_fk']))
+			$data['distributor_fk'] = null;
 			
 		/*
 		 * Calculates the Quantity at Hand of product
@@ -312,28 +297,12 @@ class Warehouse_model extends CI_Model {
 		 */
 		$data['qty_current'] = $this->current_qty($data['prodname_fk']);
 			
-		$this->db->insert($this->table,$data);
+		$this->db->insert($this->_table,$data);
 		
 		return $this->db->insert_id();
 	}
-	
-	private function current_qty($product_id)
-	{
-		$this->db->select_sum('quantity');
-		
-		$this->db->from($this->table);
-		
-		$this->db->where('prodname_fk',$product_id);
-		
-		$result = $this->db->get()->row();
-		
-		if(!is_null($result->quantity))
-			return $result->quantity;
-		else
-			return false;
-	}
-	
-	function update($id,$data = array(),$page)
+
+	public function update($id,$data = array(),$page)
 	{	
 		/*
 		 * If an outbound entry has been modified,
@@ -342,11 +311,9 @@ class Warehouse_model extends CI_Model {
 		 */
 		if($page == 'out')
 		{
-			if($data['quantity'] > 0)
-				$data['quantity'] = $data['quantity'] * -1;
+			$data['quantity'] = $data['quantity'] * -1;
 			
-			if(isset($data['quantity']) AND $data['quantity'] > 0)
-				$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+			$data['qty_current'] = $this->current_qty($data['prodname_fk']);
 			
 			$data['is_out'] = 1;
 			$data['is_return'] = null;			
@@ -357,11 +324,9 @@ class Warehouse_model extends CI_Model {
 		 */
 		if($page == 'in')
 		{
-			if(isset($data['quantity']) AND $data['quantity'] > 0)
-				$this->_delete_inventory_ids($id);
+			$this->_delete_inventory_ids($id);
 				
-			if(isset($data['quantity']) AND $data['quantity'] > 0)
-				$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+			$data['qty_current'] = $this->current_qty($data['prodname_fk']);
 				
 			$data['is_out'] = null;
 			$data['is_return'] = null;
@@ -373,6 +338,13 @@ class Warehouse_model extends CI_Model {
 		 */
 		if(!strlen($data['dateoforigin']))
 			$data['dateoforigin'] = null;
+
+		/*
+		 * If distributor is not set, 
+		 * default to null
+		 */
+		if(!strlen($data['distributor_fk']))
+			$data['distributor_fk'] = null;
 			
 		/*
 		 * Update the following ID
@@ -383,32 +355,29 @@ class Warehouse_model extends CI_Model {
 		 * Data array passed contained
 		 * new updated data
 		 */
-		$this->db->update($this->table,$data);
+		$this->db->update($this->_table,$data);
 		
 		return $this->db->affected_rows();
+	}
+
+	private function current_qty($product_id)
+	{
+		$this->db->select_sum('quantity');
+		
+		$this->db->where('prodname_fk',$product_id);
+		
+		$result = $this->db->get($this->_table)->row();
+		
+		if(!is_null($result->quantity))
+			return $result->quantity;
+		else
+			return false;
 	}
 	
 	private function _delete_inventory_ids($id)
 	{
 		$this->db->where('warehouse_fk',$id);
 		$results = $this->db->delete('exp_cd_inventory');
-		
 		return $this->db->affected_rows();
-	}
-
-	function delete($id)
-	{
-		/*
-		 * Deletes raw materials inventory deductions if
-		 * they exist, if not returns "affected rows" = 0
-		 */
-
-		
-		/*
-		 * Deletes an entry with passed ID
-		 */
-		$this->db->delete($this->table, array('id' => $id)); 	
-		
-		return $this->db->affected_rows();	
 	}
 }

@@ -1,14 +1,20 @@
 <h2><?php echo $heading; ?></h2>
 <hr>
+	
 	<div id="meta">
 		<p>бр.<?php echo $master->id;?></p>
 		<p><?php echo $master->dateofentry;?></p>
 	</div>
+	<?php if($master->locked != 1):?>
 	<div id="buttons">
 			<a href="<?php echo site_url('orders_list/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
 			<a href="<?php echo site_url('orders_list/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
 	</div>
-<hr>
+	<hr/>
+	<?php endif; ?>
+	<?php if($master->locked == 1):?>
+		<h4>Ставката е заклучена од страна на администратор.</h4>
+	<?php endif;?>
 <div class="f_left">
 <dl class="order_list_dl">
 	<dt>Датум</dt>
@@ -26,6 +32,7 @@
         <dd><?php echo $master->operator;?></dd>  
     <?php endif;?>
 </dl>
+<?php if($master->locked != 1):?>
 	<table id="partner_product_ol">
 		<?php echo form_open('',"id='par_prod_form'"); ?>
 			<caption>Внес на Нов Налог за Продажба</caption>
@@ -69,6 +76,7 @@
     	</tr>
 	</table>
 	<?php echo form_button('insert_order','Внеси Налог',"class='save'"); ?>
+<?php endif; ?>
 </div>
 <?php if ($results): ?>
 	<div class="f_right">

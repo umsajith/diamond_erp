@@ -1,4 +1,3 @@
-<div class="quick_message"></div>
 <h2><?php echo $heading; ?></h2>
 <?php echo form_open('employees/edit/'. $employee->id);?>
 <hr>
@@ -9,7 +8,6 @@
 	<legend>Oсновни Информации</legend>
 		<table class="data_forms_wide">
 		<tr>
-		
 		    <td class="label"><?php echo form_label('Име: ');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('fname', set_value('fname', $employee->fname));?></td>
 		    <td class="label"><?php echo form_label('Презиме: ');?><span class='req'>*</span></td>
@@ -162,10 +160,10 @@
 </div>
 <?php echo form_hidden('id',$employee->id);?>
 <?php echo form_close();?>
+
 <script type="text/javascript">
-	$(document).ready(function() {
-		$(".quick_message").hide();
-		
+
+	$(function() {
 		$( "#dob" ).datepicker({
 			dateFormat: "yy-mm-dd",
 			maxDate: +0,
@@ -185,7 +183,7 @@
 
 		$("span.removeprod").click(function(){
 			var id = $(this).attr("id");
-			$.post("<?php echo site_url('employees_tasks/delete')?>",
+			$.post("<?php echo site_url('employees/ajxDeleteTask')?>",
 					{id:id},
 					function(data){
 						if(data){
@@ -201,7 +199,7 @@
 		var employee_fk = <?php echo $employee->id;?>;
 		var task_fk = $("select[name=task] option:selected").val();
 
-		$.post("<?php echo site_url('employees_tasks/insert')?>",
+		$.post("<?php echo site_url('employees/ajxAssignTask')?>",
 			{employee_fk:employee_fk,task_fk:task_fk},
 			function(data){
 				if(data){
@@ -209,13 +207,8 @@
 				}
 				else
 				{
-				$("div.quick_message").text('Работната задача веќе е дефинирана');
-				 $(".quick_message").fadeIn();
-					  setTimeout(function() {
-						  $(".quick_message").fadeOut();	
-					}, 2750);
-					  $("select[name=task]").val('');
-			    return false;
+					$.pnotify({pnotify_text:"Работната задача веќе е дефинирана!",pnotify_type: 'info'});
+					return false;
 				}
 		});
 		return false;
