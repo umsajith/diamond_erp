@@ -256,7 +256,6 @@ class Joborders_model extends MY_Model {
 			$this->db->where('jo.shift',$options['shift']);
 		
 		$this->db->where('jo.is_completed',1);
-		$this->db->where('t.status','active');
 		
 		$this->db->group_by('jo.task_fk');
 		

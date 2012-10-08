@@ -5,8 +5,8 @@
 		<a href="#" class="button" id="pdf" onClick="createPdf();"><span class="pdf">PDF</span></a>
 	</div>
 <hr>
-<div class="report_calc">
 <?php echo form_open('job_orders/report',"id='report'");?>
+<div class="report_calc">
 	<table>
 		<tr>
 		    <td class="label"><?php echo form_label('Од:');?><span class='req'>*</span></td>
@@ -22,9 +22,9 @@
 		    <td align="right"><?php echo form_submit('','Преглед');?></td>
 		</tr>
 	</table>
+</div>
 <?php echo form_close();?>
 <?php echo validation_errors(); ?>
-</div>
 
 <table class="master_table"> 
 <?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
