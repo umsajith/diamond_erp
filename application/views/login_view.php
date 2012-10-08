@@ -35,7 +35,7 @@
 	</div>
 <div id="login_footer">Copyright © 2011 Marko Aleksic. All Rights Reserved.</div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <script type="text/javascript">
 	$(function() {
