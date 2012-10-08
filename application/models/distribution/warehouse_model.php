@@ -261,14 +261,17 @@ class Warehouse_model extends MY_Model {
 		return $data;
 	}
 	
-	public function levels($options = array(),$limit=NULL,$offset=NULL)
+	public function levels()
 	{
 		$this->db->select('w.*,p.prodname,u.uname,p.id as pid');
 		$this->db->select_sum('w.quantity');
+
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		
 		$this->db->group_by('w.prodname_fk');
+
+		$this->db->order_by('w.dateofentry','desc');
 		
 		return $this->db->get($this->_table.' AS w')->result();
 	}

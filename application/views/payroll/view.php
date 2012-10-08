@@ -40,7 +40,7 @@
 	        <dd><?php echo '-'.$master->fixed_wage;?></dd>
         <?php endif;?>
         <?php if($master->social_cont != 0):?>
-	        <dt>Придонеси+Здравство:</dt>
+	        <dt>Придонеси + Здр.:</dt>
 	        <dd><?php echo '-'.$master->social_cont;?></dd>
         <?php endif;?>
         <dt>Трошоци:</dt>

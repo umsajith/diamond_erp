@@ -1217,7 +1217,7 @@ dl dd {
 
 .f_left {
 	float: left;
-	width: 460px;
+	width: 465px;
 }
 
 .f_left button {
@@ -1241,8 +1241,7 @@ dl dd {
 	color: white;
 }
 .f_right{
-	float: right;
-	width: 664px;
+	margin-left: 465px;
 	border: 1px solid #ccc;
 	padding: 3px 8px;
 }
