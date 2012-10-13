@@ -2,6 +2,10 @@
 class Employees_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_employees';
+
+	private static $algo = '$2a';
+
+	private static $cost = '$10';
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -79,7 +83,7 @@ class Employees_model extends MY_Model {
 	{
 		//Hash the password
 		if(isset($data['password']) && trim($data['password']!=''))
-			$data['password'] = $this->_hash_password($data['password']);
+			$data['password'] = self::hash($data['password']);
 		else
 			$data['password'] = null;
 			
@@ -94,11 +98,6 @@ class Employees_model extends MY_Model {
 		
 		return $this->db->insert_id();
 	}
-	
-	private function _hash_password($password)
-	{
-		return sha1($password);
-	}
 
 	public function update($id,$data = array())
 	{	
@@ -111,25 +110,25 @@ class Employees_model extends MY_Model {
 		 * and stores it to the same variable
 		 */
 		if(strlen($data['password']))
-			$data['password'] = $this->_hash_password($data['password']);
+			$data['password'] = self::hash($data['password']);
 		else 
 			unset($data['password']);
 		
 		//If values are set and empty, sets them to null
-		if(isset($data['fixed_wage']) && $data['fixed_wage']=='')
+		if(isset($data['fixed_wage']) AND $data['fixed_wage']=='')
 			$data['fixed_wage'] = null;
-		if(isset($data['social_cont']) && $data['social_cont']=='')
+		if(isset($data['social_cont']) AND $data['social_cont']=='')
 			$data['social_cont'] = null;
-		if(isset($data['comp_mobile_sub']) && $data['comp_mobile_sub']=='')
+		if(isset($data['comp_mobile_sub']) AND $data['comp_mobile_sub']=='')
 			$data['comp_mobile_sub'] = null;		
-		if(isset($data['start_date']) && $data['start_date']=='')
+		if(isset($data['start_date']) AND $data['start_date']=='')
 			$data['start_date'] = null;
-		if(isset($data['stop_date']) && $data['stop_date']=='')
+		if(isset($data['stop_date']) AND $data['stop_date']=='')
 			$data['stop_date'] = null;	
-		if(isset($data['manager_fk']) && $data['manager_fk']=='')
+		if(isset($data['manager_fk']) AND $data['manager_fk']=='')
 			$data['manager_fk'] = null;
 
-		if(isset($data['ugroup_fk']) && $data['ugroup_fk']=='')
+		if(isset($data['ugroup_fk']) AND $data['ugroup_fk']=='')
 			$data['ugroup_fk'] = null;	
 		
 		//If the checkboxes are not checks, sets them to 0
@@ -141,6 +140,9 @@ class Employees_model extends MY_Model {
 			$data['fixed_wage_only'] = 0;
 		if(!isset($data['can_login']))
 			$data['can_login'] = 0;
+
+		if($data['location_id']=='')
+			$data['location_id'] = null;
 			
 		//This ID
 		$this->db->where('id',$id);
@@ -177,10 +179,20 @@ class Employees_model extends MY_Model {
 	public function delete($id)
 	{
 		//Updates the status to 'deleted'
-		$data['status'] = 'deleted';
 		$this->db->where('id',$id);
+		$data['status'] = 'deleted';
 		$this->db->update($this->_table,$data);
 
 		return $this->db->affected_rows();	
+	}
+
+	public static function hash($password) 
+	{
+		return crypt($password,self::$algo .self::$cost .'$'.self::unique_salt());
+	}
+
+	public static function unique_salt() 
+	{
+		return substr(sha1(mt_rand()),0,22);
 	}
 }

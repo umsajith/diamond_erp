@@ -1,3 +1,4 @@
+<?php if ($last): ?>
 <div class="last_job_order">
 	<h3>Последен работен налог</h3>
 	<dl>
@@ -17,3 +18,4 @@
 	        <?php echo anchor("job_orders/edit/$last->id",'&nbsp;','class="edit_icon"');?>
 	</dl>
 </div>
+<?php endif ?>

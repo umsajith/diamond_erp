@@ -86,9 +86,6 @@ class Employees extends MY_Controller {
 	
 	public function insert()
 	{
-		//Load Validation Library
-		$this->load->library('form_validation');
-
 		//Defining Validation Rules
 		$this->form_validation->set_rules('fname','first name','trim|required');
 		$this->form_validation->set_rules('lname','last name','trim|required');
@@ -129,7 +126,7 @@ class Employees extends MY_Controller {
 		$this->data['managers'] = $this->utilities->get_managers();
 		$this->data['positions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
 		$this->data['ugroups'] = $this->utilities->get_dropdown('id', 'name','exp_cd_user_groups','- Корисничка Група -',false);	
-			
+		$this->data['locations'] = $this->utilities->get_dropdown('id', 'name','exp_cd_locations','- Локација -');		
 		//Heading
 		$this->data['heading'] = 'Внеси Нов Работник';
 	}
@@ -147,9 +144,6 @@ class Employees extends MY_Controller {
 		if($_POST)
 		{
 			unset($_POST['task']);
-				
-			//Load Validation Library
-			$this->load->library('form_validation');
 		
 			//Defining Validation Rules
 			$this->form_validation->set_rules('fname','first name','trim|required');
@@ -188,6 +182,7 @@ class Employees extends MY_Controller {
 		$this->data['managers'] = $this->utilities->get_managers();
 		$this->data['positions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
 		$this->data['ugroups'] = $this->utilities->get_dropdown('id', 'name','exp_cd_user_groups','- Корисничка Група -',false);
+		$this->data['locations'] = $this->utilities->get_dropdown('id', 'name','exp_cd_locations','- Локација -');	
 
 		$this->data['assigned_tasks'] = $this->empt->select($id);
 

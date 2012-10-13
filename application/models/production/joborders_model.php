@@ -2,6 +2,19 @@
 class Joborders_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_job_orders';
+
+	protected $_location;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		/**
+		 * Stores default location ID from session data
+		 * @var integer
+		 */
+		$this->_location = $this->session->userdata('location');
+    }
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -25,6 +38,13 @@ class Joborders_model extends MY_Model {
 			$sort_by = 'e.fname';
 		if($sort_by == 'task_fk')
 			$sort_by = 't.taskname';
+
+		/**
+		 * If user has specific location set,
+		 * display job orders for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('j.location_id',$this->_location);
 		
 		//Sort by and Sort Order
 		$this->db->order_by($sort_by,$sort_order);
@@ -44,6 +64,13 @@ class Joborders_model extends MY_Model {
 			$this->db->where_in('assigned_to',$query_array['assigned_to']);
 		if(strlen($query_array['shift']))
 			$this->db->where_in('shift',$query_array['shift']);
+
+		/**
+		 * If user has specific location set,
+		 * display job orders for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -94,8 +121,15 @@ class Joborders_model extends MY_Model {
 		$this->db->join('exp_cd_tasks AS t','t.id = j.task_fk','LEFT');
 		$this->db->join('exp_cd_employees AS e','e.id = j.assigned_to','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
+
+		/**
+		 * If user has specific location set,
+		 * display job orders for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('j.location_id',$this->_location);
 		
-		$this->db->from('exp_cd_job_orders AS j');
+		$this->db->from($this->_table.' AS j');
 		
 		return $this->db->get()->last_row();
 	}
@@ -103,6 +137,9 @@ class Joborders_model extends MY_Model {
 	public function insert ($data = array())
 	{
 		$data['assigned_by'] = $this->session->userdata('userid');
+
+		if($this->_location)
+			$data['location_id'] = $this->_location;
 
 		if(!strlen($data['work_hours']))
 			 $data['work_hours'] = null;
@@ -193,7 +230,7 @@ class Joborders_model extends MY_Model {
 	// 		return false;	
 	// }
 	
-	function get_task($id)
+	public function get_task($id)
 	{
 		$this->db->select('task_fk');
 		$this->db->where('id',$id);

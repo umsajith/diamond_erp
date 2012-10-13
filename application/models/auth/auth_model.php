@@ -1,46 +1,58 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Auth_model extends CI_Model {
-	
-	function __construct()
-	{
-		parent::__construct();
+
+	protected $_table = 'users';
+
+	private static $algo = '$2a';
+
+	private static $cost = '$10';
+
+	public function check_login($username, $password)
+	{	
+		$user = $this->db->select('id,location_id,ugroup_fk,fname,lname,username,is_admin,password')
+	                ->where('username',$username)
+	                ->limit(1)
+	                ->get('exp_cd_employees')->row();
+
+	    if($user)
+	    {
+	    	if(self::check_password($user->password,$password))
+	    	{
+	    		$permission = $this->_permissions($user->ugroup_fk);
+	    		if($permission)
+	    		{
+	    			$this->_set_userdata($user,$permission['open_modules'],$permission['nav_modules']);	
+	    			return $user;
+	    		}
+	    		else
+	    			return false;
+	    	}
+	    }	               
+        return false;
 	}
-	
-	public function login($username, $password)
-	{
-		if($user = $this->_check_login($username,$password))
-		{
-			$permission = $this->_permissions($user->ugroup_fk);
-			if(!$permission)
-				return false;
-			else
-				$this->_set_userdata($user,$permission['open_modules'],$permission['nav_modules']);
-		}
-		else
-			return false;
-		
-		return $user;
-	}
-	
+
 	public function logout()
 	{
 		$this->session->sess_destroy();
 	}
-	
-	private function _check_login ($username = false,$password = false)
-	{
-		$this->db->select('e.id,e.ugroup_fk,e.fname,e.lname,e.username,e.is_admin');
-		$this->db->from('exp_cd_employees AS e');
-			
-		$this->db->where('e.username',trim($username));
-		$this->db->where('e.password',sha1($password));
-		$this->db->where('e.status','active');
-		$this->db->where('e.can_login',1);
-		$this->db->limit(1);
 
-		return $this->db->get()->row();
-	}	
-	
+	public static function unique_salt() 
+	{
+		return substr(sha1(mt_rand()),0,22);
+	}
+
+	public static function hash($password) 
+	{
+		return crypt($password,self::$algo .self::$cost .'$'.self::unique_salt());
+	}
+
+	public static function check_password($hash, $password) 
+	{
+		$full_salt = substr($hash, 0, 29);
+		$new_hash = crypt($password, $full_salt);
+		return ($hash == $new_hash);
+	}
+
 	private function _permissions($id = false)
 	{   
 		$this->db->select('m.folder,m.controller, m.title');
@@ -54,10 +66,10 @@ class Auth_model extends CI_Model {
         $this->db->order_by('m.order','asc');
 
 		$modules = $this->db->get()->result();
-		if(!$modules)
-			return false;
-		else
+
+		if($modules)
 		{
+
 			$open_modules = array();
             foreach($modules as $module)
 				array_push($open_modules,$module->controller);
@@ -68,6 +80,8 @@ class Auth_model extends CI_Model {
 			
 			return $data;
 		}
+
+		return false;
 	}
 	
 	private function _set_userdata($user,$open_modules,$nav_modules)
@@ -77,6 +91,7 @@ class Auth_model extends CI_Model {
 					'username'  => $user->username,
                 	'name'     => $user->fname.' '.$user->lname,
 					'userid' => $user->id,
+					'location' => $user->location_id,
 					'admin' => $user->is_admin,
 					'default_module' => $open_modules[0],
                     'open_modules' => $open_modules,

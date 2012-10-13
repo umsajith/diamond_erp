@@ -143,6 +143,8 @@
 		    <td><?php echo form_input($stop, set_value('stop_date', $employee->stop_date));?></td>
 		</tr>
 		<tr>
+			<td class="label"><?php echo form_label('Локација: ');?><span class='req'>*</span></td>
+		    <td><?php echo form_dropdown('location_id',$locations,set_value('location_id',$employee->location_id));?></td>
 		    <td class="label"><?php echo form_label('Статус: ');?></td>
 		    <td><?php echo form_dropdown('status',array(''=>'- Статус -','active'=>'Активна','inactive'=>'Неактивна'),set_value('stop_date', $employee->status))?></td>
 		</tr>

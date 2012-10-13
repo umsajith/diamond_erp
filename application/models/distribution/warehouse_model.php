@@ -2,6 +2,19 @@
 class Warehouse_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_warehouse';
+
+	protected $_location;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		/**
+		 * Stores default location ID from session data
+		 * @var integer
+		 */
+		$this->_location = $this->session->userdata('location');
+    }
 	
 	public function select($options = array())
 	{
@@ -61,6 +74,13 @@ class Warehouse_model extends MY_Model {
 		
 		$this->db->where('w.is_out',null);
 		$this->db->where('w.is_return',null);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('w.location_id',$this->_location);
 		
 		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
@@ -72,6 +92,13 @@ class Warehouse_model extends MY_Model {
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
 			
 		$this->db->where('is_out',0);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -122,6 +149,13 @@ class Warehouse_model extends MY_Model {
 		$this->db->limit($limit , $offset);
 		
 		$this->db->where('w.is_out',1);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('w.location_id',$this->_location);
 		
 		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
@@ -135,6 +169,13 @@ class Warehouse_model extends MY_Model {
 			$this->db->where_in('distributor_fk',$query_array['distributor_fk']);
 			
 		$this->db->where('is_out',1);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table.' AS w')->row();
 		$data['num_rows'] = $temp->count;
@@ -185,6 +226,13 @@ class Warehouse_model extends MY_Model {
 		$this->db->limit($limit , $offset);
 		
 		$this->db->where('w.is_return',1);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('w.location_id',$this->_location);
 		
 		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
@@ -199,6 +247,12 @@ class Warehouse_model extends MY_Model {
 			
 		$this->db->where('is_out',0);
 		$this->db->where('is_return',1);
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -237,6 +291,13 @@ class Warehouse_model extends MY_Model {
 		
 		$this->db->where('w.prodname_fk',$id);
 
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('w.location_id',$this->_location);
+
 		//Order
 		$this->db->order_by('w.dateofentry','desc');
 		
@@ -250,6 +311,13 @@ class Warehouse_model extends MY_Model {
 				
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('COUNT(id) as count',false);
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$this->db->where('prodname_fk',$id);
 		
@@ -268,6 +336,13 @@ class Warehouse_model extends MY_Model {
 
 		$this->db->join('exp_cd_products AS p','p.id = w.prodname_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('w.location_id',$this->_location);
 		
 		$this->db->group_by('w.prodname_fk');
 
@@ -278,6 +353,13 @@ class Warehouse_model extends MY_Model {
 	
 	public function insert ($data = array())
 	{	
+		/**
+		 * Sets default location ID when user
+		 * inserts new entry
+		 */
+		if($this->_location)
+			$data['location_id'] = $this->_location;
+
 		/*
 		 * Sets all outbound warehouse entries to
 		 * have negative values, hence when making
@@ -366,6 +448,13 @@ class Warehouse_model extends MY_Model {
 	private function current_qty($product_id)
 	{
 		$this->db->select_sum('quantity');
+
+		/**
+		 * If user has specific location set,
+		 * display warehouse entries for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$this->db->where('prodname_fk',$product_id);
 		

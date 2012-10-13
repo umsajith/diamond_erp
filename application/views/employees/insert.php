@@ -61,7 +61,7 @@
 		    <td class="label"><?php echo form_label('Корисничка Група: ');?></td>
 		    <td><?php echo form_dropdown('ugroup_fk',$ugroups, set_value('ugroup_fk'));?></td>
 		    <td class="label"><?php echo form_label('Логирање: ');?></td>
-		    <td><?php echo form_checkbox('can_login','1',false);?></td>
+		    <td  align="center"><?php echo form_checkbox('can_login','1',false);?></td>
 		</tr>
 		<tr>
 		    <td class="label"><?php echo form_label('Корисничко Име: ');?></td>
@@ -92,7 +92,7 @@
 		</tr>
 		<tr>
 		    <td class="label"><?php echo form_label('Само Фиксна Плата: ');?></td>
-		    <td><?php echo form_checkbox('fixed_wage_only','1',false);?></td>
+		    <td  align="center"><?php echo form_checkbox('fixed_wage_only','1',false);?></td>
 		    <td class="label"><?php echo form_label('Тел.Субвенција: ');?></td>
 		    <td><?php echo form_input('comp_mobile_sub','', set_value('comp_mobile_sub'));?></td>
 		</tr>
@@ -109,14 +109,16 @@
 		</tr>
 		<tr>
 			<td class="label"><?php echo form_label('Дистрибутер: ');?></td>
-		    <td><?php echo form_checkbox('is_distributer','1',false);?></td>
+		    <td align="center"><?php echo form_checkbox('is_distributer','1',false);?></td>
 		    <td class="label"><?php echo form_label('Менаџер: ');?></td>
-		    <td><?php echo form_checkbox('is_manager','1',false);?></td>
+		    <td align="center"><?php echo form_checkbox('is_manager','1',false);?></td>
 		</tr>
 		<tr>
 		    <?php $start = array('name'=>'start_date','id'=>'start');?>
 		    <td class="label"><?php echo form_label('Почеток: ');?></td>
 		    <td><?php echo form_input($start, set_value('start_date'));?></td>
+		    <td class="label"><?php echo form_label('Локација: ');?><span class='req'>*</span></td>
+		    <td><?php echo form_dropdown('location_id',$locations);?></td>
 		</tr>
 		</table>
 </fieldset>

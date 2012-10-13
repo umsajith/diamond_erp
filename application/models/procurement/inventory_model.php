@@ -2,6 +2,19 @@
 class Inventory_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_inventory';
+
+	protected $_location;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		/**
+		 * Stores default location ID from session data
+		 * @var integer
+		 */
+		$this->_location = $this->session->userdata('location');
+    }
 	
 	public function select($options = array(),$limit=null,$offset=null)
 	{
@@ -18,11 +31,11 @@ class Inventory_model extends MY_Model {
 		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 
 		//Filter Qualifications
-		if(isset($options['prodname_fk']) && $options['prodname_fk'] != '')
+		if(isset($options['prodname_fk']) AND $options['prodname_fk'] != '')
 			$this->db->where_in('i.prodname_fk',$options['prodname_fk']);
-		if(isset($options['partner_fk']) && $options['partner_fk'] != '')
+		if(isset($options['partner_fk']) AND $options['partner_fk'] != '')
 			$this->db->where_in('i.partner_fk',$options['partner_fk']);
-		if(isset($options['pcname_fk']) && $options['pcname_fk'] != '')
+		if(isset($options['pcname_fk']) AND $options['pcname_fk'] != '')
 			$this->db->where_in('p.pcname_fk',$options['pcname_fk']);
 			
 		if(isset($options['job_order_fk']))
@@ -40,7 +53,7 @@ class Inventory_model extends MY_Model {
 			$this->db->where('i.is_use',$options['is_use']);
 			
 		//Sort and Direction
-		if (!isset($options['sory_by']) && !isset($options['sort_direction']))
+		if (!isset($options['sory_by']) AND !isset($options['sort_direction']))
 			$this->db->order_by('i.dateofentry','desc');
 		else
 			$this->db->order_by($options['sort_by'],$options['sort_direction']);
@@ -87,6 +100,13 @@ class Inventory_model extends MY_Model {
 		
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
+
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('i.location_id',$this->_location);
 		
 		$this->db->where('i.type',$query_array['type']);
 		
@@ -104,6 +124,13 @@ class Inventory_model extends MY_Model {
 		if(strlen($query_array['partner_fk']))
 			$this->db->where('partner_fk',$query_array['partner_fk']);
 			
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
+
 		$this->db->where('type',$query_array['type']);
 		
 		$temp = $this->db->get($this->_table.' AS i')->row();
@@ -150,6 +177,13 @@ class Inventory_model extends MY_Model {
 		
 		//Only for products that are stockable
 		$this->db->where('p.stockable',1);
+
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('i.location_id',$this->_location);
 		
 		//All entries but the Purchase Orders
 		$this->db->where_in('i.type',array('gr','adj',0));
@@ -186,6 +220,12 @@ class Inventory_model extends MY_Model {
 			$data['dateofexpiration'] = null;
 		if(isset($data['price']) AND !strlen($data['price']))
 			$data['price'] = null;
+
+		/**
+		 * Inserts default working location ID
+		 */
+		if($this->_location)
+			$data['location_id'] = $this->_location;
 				
 		/*
 		 * Calculates the Quantity at Hand of product
@@ -204,12 +244,17 @@ class Inventory_model extends MY_Model {
 	private function current_qty($product_id)
 	{
 		$this->db->select_sum('quantity');
-		
-		$this->db->from($this->_table);
+
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$this->db->where('prodname_fk',$product_id);
 		
-		$result = $this->db->get()->row();
+		$result = $this->db->get($this->_table)->row();
 		
 		if(!is_null($result->quantity))
 			return $result->quantity;
@@ -300,6 +345,13 @@ class Inventory_model extends MY_Model {
 		//Qualifications
 		$this->db->where('i.prodname_fk',$id);
 
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('i.location_id',$this->_location);
+
 		//Order
 		$this->db->order_by('i.dateofentry','desc');
 		
@@ -314,6 +366,13 @@ class Inventory_model extends MY_Model {
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('prodname_fk, type, COUNT(id) as count',false);
 		$this->db->from($this->_table);
+
+		/**
+		 * If user has specific location set,
+		 * display inventory for that location only!
+		 */
+		if($this->_location)
+			$this->db->where('location_id',$this->_location);
 		
 		$this->db->where_not_in('type','po');
 		
