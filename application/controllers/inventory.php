@@ -234,7 +234,7 @@ class Inventory extends MY_Controller {
 		redirect("inventory/adjustments/$query_id");
 	}
 	
-	public function digg($id = false,$offset=null)
+	public function digg($id, $offset = null)
 	{
 		//Heading
 		$this->data['heading'] = 'Картица';

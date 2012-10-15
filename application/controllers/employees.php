@@ -131,7 +131,7 @@ class Employees extends MY_Controller {
 		$this->data['heading'] = 'Внеси Нов Работник';
 	}
 	
-	public function edit($id = false)
+	public function edit($id)
 	{
 		//Retreives ONE product from the database
 		$this->data['employee'] = $this->emp->select_single($id);
@@ -190,7 +190,7 @@ class Employees extends MY_Controller {
 		$this->data['heading'] = 'Корекција на Работник';
 	}
 	
-	public function view($id = false)
+	public function view($id)
 	{
 		//Heading
 		$this->data['heading'] = 'Работник';
@@ -202,7 +202,7 @@ class Employees extends MY_Controller {
 			$this->utilities->flash('void','employees');	
 	}
 	
-	public function delete($id = false)
+	public function delete($id)
 	{
 		if(!$this->emp->get($id)) 
 			$this->utilities->flash('void','employees');

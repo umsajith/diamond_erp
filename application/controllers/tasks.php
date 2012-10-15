@@ -137,9 +137,10 @@ class Tasks extends MY_Controller {
 	
 	public function dropdown()
 	{
-		$this->data = $this->tsk->dropdown();
+		$this->data['tasks'] = $this->tsk->dropdown();
 		
 		header('Content-Type: application/json',true); 
-		echo json_encode($this->data);
+		echo json_encode($this->data['tasks']);
+		exit;
 	}	
 }

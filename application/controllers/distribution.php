@@ -121,7 +121,7 @@ class Distribution extends MY_Controller {
 		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 	
-	public function edit($page = false, $id = false)
+	public function edit($page, $id)
 	{
 		/*
 		 * Checks if valid page has been passed
@@ -190,7 +190,7 @@ class Distribution extends MY_Controller {
 		}	
 	}
 	
-	public function digg($id = false,$offset=null)
+	public function digg($id, $offset = null)
 	{
 		//Heading
 		$this->data['heading'] = 'Картица';
@@ -483,7 +483,7 @@ class Distribution extends MY_Controller {
 		redirect("distribution/returns/$query_id");
 	}
 	
-	public function delete($page = false, $id = false)
+	public function delete($page, $id)
 	{
 		$pages = array('in','out','ret');
 		

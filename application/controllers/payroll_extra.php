@@ -146,7 +146,7 @@ class Payroll_extra extends MY_Controller {
 		redirect("payroll_extra/expenses/$query_id");
 	}
 	
-	function social_contributions($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
+	public function social_contributions($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
 		$this->data['heading'] = 'Придонеси';
@@ -212,7 +212,7 @@ class Payroll_extra extends MY_Controller {
 		redirect("payroll_extra/social_contributions/$query_id");
 	}
     
-	function insert_bonus()
+	public function insert_bonus()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Додатоци';
@@ -241,7 +241,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['categories'] = $this->Payroll_extra_model->dropdown('bonuses');
 	}
 	
-	function insert_expense()
+	public function insert_expense()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Трошоци';
@@ -272,7 +272,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['categories'] = $this->Payroll_extra_model->dropdown('expenses');	
 	}
 	
-	function insert_social_contribution()
+	public function insert_social_contribution()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Придонеси';
@@ -301,7 +301,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['employees'] = $this->utilities->get_employees();
 	}
     
-	function edit($id)
+	public function edit($id)
 	{
 		//Heading
 		$this->data['heading'] = 'Корекција на Додатоци/Трошоци';
@@ -352,7 +352,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 	}
 	
-	function view($id)
+	public function view($id)
 	{
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->Payroll_extra_model->select_single($id);
@@ -364,7 +364,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = $this->data['master']->name;
 	}
     
-	function delete($id = false)
+	public function delete($id)
 	{
 		//Takes the ID (third segment) of the URL, delets the corresponding db entry
 		if($this->Payroll_extra_model->delete($id))

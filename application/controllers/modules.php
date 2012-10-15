@@ -18,8 +18,6 @@ class Modules extends MY_Controller {
     
 	function insert()
 	{
-		$this->load->library('form_validation');
-
 		$this->form_validation->set_rules('title','title','trim|required');
 		$this->form_validation->set_rules('controller','controller','trim|required');
 		$this->form_validation->set_rules('method','controller','trim');
@@ -41,7 +39,7 @@ class Modules extends MY_Controller {
 		$this->data['heading'] = 'Create New Module';
 	}
     
-	function edit($id = false)
+	function edit($id)
 	{
 		$this->data['module'] = $this->Modules_model->select_single($id);
 		if(!$this->data['module'])
@@ -49,8 +47,6 @@ class Modules extends MY_Controller {
 		
 		if($_POST)
 		{
-			$this->load->library('form_validation');
-	
 			//Defining Validation Rules
 			$this->form_validation->set_rules('title','title','trim|required');
 			$this->form_validation->set_rules('controller','controller','trim|required');

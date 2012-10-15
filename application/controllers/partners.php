@@ -85,10 +85,7 @@ class Partners extends MY_Controller {
 	public function insert()
 	{
 		if($_POST)
-		{
-			//Load Validation Library
-			$this->load->library('form_validation');
-					
+		{				
 			//Defining Validation Rules
 			$this->form_validation->set_rules('company','company','trim|required');
 			$this->form_validation->set_rules('contperson','contact person','trim');
@@ -149,7 +146,7 @@ class Partners extends MY_Controller {
 		$this->data['heading'] = 'Внес на Партнер';
 	}
 	
-	public function edit($id = false)
+	public function edit($id)
 	{
 		$this->data['partner'] = $this->par->select_single($id);	
 		if(!$this->data['partner'])
@@ -157,9 +154,6 @@ class Partners extends MY_Controller {
 
 		if($_POST)
 		{
-			//Load Validation Library
-			$this->load->library('form_validation');
-		
 			//Defining Validation Rules
 			$this->form_validation->set_rules('company','company','trim|required');
 			$this->form_validation->set_rules('contperson','contact person','trim');
@@ -193,7 +187,7 @@ class Partners extends MY_Controller {
 		$this->data['heading'] = 'Корекција на Партнер';
 	}
 	
-	public function view($id = false)
+	public function view($id)
 	{
 		//Heading
 		$this->data['heading'] = 'Партнер';

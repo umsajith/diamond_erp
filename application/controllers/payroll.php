@@ -134,7 +134,7 @@ class Payroll extends MY_Controller {
 		}
 	}
 	
-	public function view($id = false)
+	public function view($id)
 	{		
 		//Loading Models
 		$this->load->model('production/joborders_model','jo');
@@ -175,7 +175,7 @@ class Payroll extends MY_Controller {
 		$this->data['heading'] = 'Плата';
 	}
 	
-	public function payroll_pdf($id = false)
+	public function payroll_pdf($id)
 	{
 		$this->load->helper('dompdf');
 		$this->load->helper('file');
@@ -403,7 +403,7 @@ class Payroll extends MY_Controller {
 	 * @param  integer $id 
 	 * @return redirects with success or error message.
 	 */
-	public function delete($id = false)
+	public function delete($id)
 	{
 		if(!$this->pr->select_single($id))
 			$this->utilities->flash('void','payroll');

@@ -91,9 +91,6 @@ class Products extends MY_Controller {
 	
 	public function insert()
 	{
-		//Load Validation Library
-		$this->load->library('form_validation');
-	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname','name','trim|required');
 		$this->form_validation->set_rules('ptname_fk','product type','trim|required');
@@ -129,7 +126,7 @@ class Products extends MY_Controller {
 		$this->data['heading'] = 'Внес на Артикл';
 	}
 	
-	public function edit($id = false)
+	public function edit($id)
 	{
 		//Retreives ONE product from the database
 		$this->data['product'] = $this->prod->select_single($id);
@@ -141,9 +138,6 @@ class Products extends MY_Controller {
 		//Proccesses the form with the new updated data
 		if($_POST)
 		{
-			//Load Validation Library
-			$this->load->library('form_validation');
-		
 			//Defining Validation Rules
 			$this->form_validation->set_rules('prodname','name','trim|required');
 			$this->form_validation->set_rules('ptname_fk','product type','trim|required');
@@ -184,7 +178,6 @@ class Products extends MY_Controller {
 	{
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->prod->select_single($id);
-		
 		if(!$this->data['master'])
 			$this->utilities->flash('void','products');
 

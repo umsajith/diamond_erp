@@ -130,7 +130,7 @@ class Job_orders extends MY_Controller {
 		$this->data['heading'] = 'Внес на Работен Налог';
 	}
 	
-	public function edit($id = false)
+	public function edit($id)
 	{
 		/*
 		 * Retreives the record from the database, if
@@ -342,7 +342,7 @@ class Job_orders extends MY_Controller {
 		}
 	}
 	
-	public function delete($id = false)
+	public function delete($id)
 	{
 		$this->data['job_order'] = $this->jo->get($id);
 		if(!$this->data['job_order'])

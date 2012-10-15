@@ -125,7 +125,7 @@ class Positions extends MY_Controller {
 		$this->data['heading'] = 'Работно Место';
 	}
 
-	public function delete($id = false)
+	public function delete($id)
 	{
 		if(!$this->pos->select_single($id))
 			$this->utilities->flash('void','positions');

@@ -103,7 +103,7 @@ class Orders_list extends MY_Controller {
 		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 
-	public function edit($id = false)
+	public function edit($id)
 	{
 		//Heading
 		$this->data['heading'] = "Корекција на Извештај";
@@ -135,7 +135,7 @@ class Orders_list extends MY_Controller {
 		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 
-	public function view($id = false)
+	public function view($id)
 	{
 		//Heading
 		$this->data['heading'] = "Преглед на Извештај";
@@ -150,7 +150,7 @@ class Orders_list extends MY_Controller {
 		$this->data['pmodes'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
 	}
 
-	public function delete($id = false)
+	public function delete($id)
 	{
 		$this->data['master'] = $this->col->select_one($id);
 		if(!$this->data['master'])
@@ -166,7 +166,6 @@ class Orders_list extends MY_Controller {
 	{
 		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>1)))
 			echo 1;
-
 		exit;	
 	}
 
@@ -174,7 +173,6 @@ class Orders_list extends MY_Controller {
 	{
 		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>0)))
 			echo 1;
-
 		exit;	
 	}
 }

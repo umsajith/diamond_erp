@@ -18,8 +18,6 @@ class Sub_Modules extends MY_Controller {
     
 	function insert()
 	{
-		$this->load->library('form_validation');
-
 		$this->form_validation->set_rules('title','title','trim|required');
 		$this->form_validation->set_rules('module_id','module','trim|required');
 		$this->form_validation->set_rules('controller','controller','trim|required');
@@ -51,7 +49,7 @@ class Sub_Modules extends MY_Controller {
 		$this->data['heading'] = 'Create New Sub-Module';
 	}
     
-	function edit($id = false)
+	function edit($id)
 	{
 		$this->data['module'] = $this->Sub_modules_model->select_single($id);
 		if(!$this->data['module'])
@@ -59,8 +57,6 @@ class Sub_Modules extends MY_Controller {
 		
 		if($_POST)
 		{
-			$this->load->library('form_validation');
-	
 			//Defining Validation Rules
 			$this->form_validation->set_rules('title','title','trim|required');
 			$this->form_validation->set_rules('module_id','module','trim|required');
@@ -84,7 +80,7 @@ class Sub_Modules extends MY_Controller {
 		$this->data['heading'] = 'Edit Sub-Module';
 	}
     
-	function delete($id = false)
+	function delete($id)
 	{
 		$this->data['module'] = $this->Sub_modules_model->select_single($_POST['id']);
 		if(!$this->data['module'])
