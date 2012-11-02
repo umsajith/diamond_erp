@@ -79,14 +79,19 @@ class Employees_model extends MY_Model {
 		return  $this->db->get($this->_table.' AS e')->row();
 	}
 	
-	public function insert ($data = array())
+	public function insert($data = array())
 	{
 		//Hash the password
-		if(isset($data['password']) && trim($data['password']!=''))
+		if(isset($data['password']) AND trim($data['password']!=''))
 			$data['password'] = self::hash($data['password']);
 		else
 			$data['password'] = null;
-			
+
+		if(isset($data['ugroup_fk']) AND $data['ugroup_fk']=='')
+			$data['ugroup_fk'] = null;	
+
+		if(isset($data['location_id']) AND $data['location_id']=='')
+			$data['location_id'] = null;	
 		/*
 		 * @TODO: If username set, and password set then:
 		 *  - flag 'can_login' to 1
@@ -95,7 +100,7 @@ class Employees_model extends MY_Model {
 			
 		// Inserts the whole data array into the database table
 		$this->db->insert($this->_table,$data);
-		
+
 		return $this->db->insert_id();
 	}
 

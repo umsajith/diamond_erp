@@ -89,8 +89,10 @@ class Employees extends MY_Controller {
 		//Defining Validation Rules
 		$this->form_validation->set_rules('fname','first name','trim|required');
 		$this->form_validation->set_rules('lname','last name','trim|required');
+
 		$this->form_validation->set_rules('code','code','trim|max_lenth[5]');
 		$this->form_validation->set_rules('ssn','SSN','trim|required|exact_length[13]|numeric');
+
 		$this->form_validation->set_rules('dateofbirth','date of birth','trim|required');
 		$this->form_validation->set_rules('username','username','min_length[5]|max_lenth[15]');
 		$this->form_validation->set_rules('password','password','min_length[6]');
@@ -116,7 +118,7 @@ class Employees extends MY_Controller {
 		{
 			//Successful insertion
 			if($this->emp->insert($_POST))
-				$this->utilities->flash('delete','employees');
+				$this->utilities->flash('add','employees');
 			else
 				$this->utilities->flash('error','employees');
 		}

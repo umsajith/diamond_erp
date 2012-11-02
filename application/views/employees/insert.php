@@ -117,7 +117,7 @@
 		    <?php $start = array('name'=>'start_date','id'=>'start');?>
 		    <td class="label"><?php echo form_label('Почеток: ');?></td>
 		    <td><?php echo form_input($start, set_value('start_date'));?></td>
-		    <td class="label"><?php echo form_label('Локација: ');?><span class='req'>*</span></td>
+		    <td class="label"><?php echo form_label('Локација: ');?></td>
 		    <td><?php echo form_dropdown('location_id',$locations);?></td>
 		</tr>
 		</table>

@@ -134,7 +134,7 @@ class Joborders_model extends MY_Model {
 		return $this->db->get()->last_row();
 	}
 	
-	public function insert ($data = array())
+	public function insert($data = array())
 	{
 		$data['assigned_by'] = $this->session->userdata('userid');
 
