@@ -37,7 +37,7 @@
 		<tr>
 		    <td class="label"><?php echo form_label('Адреса: ');?></td>
 		    <td><?php echo form_input('address', set_value('address', $partner->address));?></td>
-		   	<td class="label"><?php echo form_label('Град: ');?></td>
+		   	<td class="label"><?php echo form_label('Град: ');?><span class='req'>*</span></td>
 		    <td><?php echo form_dropdown('postalcode_fk',$postalcodes, set_value('postalcode_fk', $partner->postalcode_fk));?></td>
 		</tr>
 		<tr>

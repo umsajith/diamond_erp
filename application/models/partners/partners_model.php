@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Partners_model extends MY_Model {
 	
-	//Database table of the Model
 	protected $_table = 'exp_cd_partners';
 	
 	public function select($query_array,$sort_by,$sort_order,$limit = null, $offset = null)
@@ -44,9 +43,6 @@ class Partners_model extends MY_Model {
 
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
-			
-		//Retreives only the ACTIVE records	
-		$this->db->where('p.status','active');
 		
 		$this->db->order_by($sort_by,$sort_order);
 
@@ -54,7 +50,6 @@ class Partners_model extends MY_Model {
 		
 		//Counts the TOTAL rows in the Table-------------------------------------------------------
 		$this->db->select('COUNT(*) as count',false);
-		$this->db->where('status','active');
 
 		if(strlen($query_array['postalcode_fk']))
 			$this->db->where_in('postalcode_fk',$query_array['postalcode_fk']);
@@ -122,9 +117,7 @@ class Partners_model extends MY_Model {
 			$this->db->where('p.is_mother',1);
 			$empty = '- Седиште -';
 		}
-			
-					
-		$this->db->where('p.status','active');		
+				
 		$this->db->order_by('p.postalcode_fk','asc');
 		$this->db->order_by('p.company','asc');
 		
@@ -184,8 +177,6 @@ class Partners_model extends MY_Model {
 			
 		//Retreives only the record where ID=$ID
 		$this->db->where('p.id',$id);
-		//Retreives only the ACTIVE records	
-		$this->db->where('p.status','active');
 		
 		return $this->db->get($this->_table.' AS p')->row();
 	}
@@ -199,9 +190,6 @@ class Partners_model extends MY_Model {
 			
 		//Retreives only the record where MOTHER_FK=$ID
 		$this->db->where('p.mother_fk',$mother_id);
-
-		//Retreives only the ACTIVE records	
-		$this->db->where('p.status','active');
 		
 		return $this->db->get($this->_table.' AS p')->result();
 	}
@@ -250,14 +238,4 @@ class Partners_model extends MY_Model {
 		
 		return $this->db->affected_rows();
 	}
-	
-	public function delete($id)
-	{
-		//Updates the status to 'deleted'
-		$data['status'] = 'deleted';
-		$this->db->where('id',$id);
-		$this->db->update($this->_table,$data);
-
-		return $this->db->affected_rows();
-	}	
 }

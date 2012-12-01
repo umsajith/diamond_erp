@@ -1,3 +1,4 @@
+
 <h2><?php echo $heading; ?></h2>
 <?php echo form_open('partners/insert');?>
 <hr>
@@ -9,7 +10,7 @@
 		<table class="data_forms_wide">
 		<tr>
 		
-		    <td class="label"><?php echo form_label('Фирма: ');?><span class='req'>*</span></td>
+		    <td class="label"><?php echo form_label('Фирма:');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('company', set_value('company'));?></td>
 		    <td class="label"><?php echo form_label('Контакт Лице: ');?></td>
 		    <td><?php echo form_input('contperson', set_value('contperson'));?></td> 
@@ -36,22 +37,22 @@
 	<legend>Контакт Информации</legend>
 		<table class="data_forms_wide">
 		<tr>
-	    <td class="label"><?php echo form_label('Адреса: ');?></td>
+	    <td class="label"><?php echo form_label('Адреса:');?></td>
 	    <td><?php echo form_input('address', set_value('address'));?></td>
 	
-	   	<td class="label"><?php echo form_label('Град: ');?></td>
+	   	<td class="label"><?php echo form_label('Град:');?><span class='req'>*</span></td>
 	    <td><?php echo form_dropdown('postalcode_fk',$postalcodes);?></td>
 	    
 		</tr>
 		<tr>
-			<td class="label"><?php echo form_label('Телефон 1: ');?></td>
+			<td class="label"><?php echo form_label('Телефон 1:');?></td>
 		    <td><?php echo form_input('phone1', set_value('phone1'));?></td>
 		
-		    <td class="label"><?php echo form_label('Телефон 2: ');?></td>
+		    <td class="label"><?php echo form_label('Телефон 2:');?></td>
 		    <td><?php echo form_input('phone2', set_value('phone2'));?></td>
 		</tr>
 		<tr>
-		    <td class="label"><?php echo form_label('Факс: ');?></td>
+		    <td class="label"><?php echo form_label('Факс:');?></td>
 		    <td><?php echo form_input('fax', set_value('fax'));?></td>
 		
 		
