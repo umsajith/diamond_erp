@@ -398,6 +398,72 @@ class Payroll extends MY_Controller {
 		
 		$this->data['employees'] = $this->utilities->get_employees();
 	}
+
+	public function report()
+	{
+		$this->data['submited'] = 0;
+		
+		if($_POST)
+		{
+			//Defining Validation Rules
+			$this->form_validation->set_rules('date_from','date from','trim|required');
+			$this->form_validation->set_rules('date_to','date to','trim|required');
+			
+			if ($this->form_validation->run())
+			{
+				$this->data['results'] = $this->pr->report($_POST);
+				$this->data['date_from'] = $_POST['date_from'];
+				$this->data['date_to'] = $_POST['date_to'];
+				$this->data['submited'] = 1;
+
+				if(empty($this->data['results']))
+					$this->data['submited'] = 0;
+			}			
+		}
+		
+		//Dropdown Menus
+		$this->data['employees'] = $this->utilities->get_employees();
+		
+		//Heading
+		$this->data['heading'] = 'Рипорт на Плати';
+	}
+
+	public function report_pdf()
+	{	
+		if($_POST)
+		{
+			$this->load->helper('dompdf');
+			$this->load->helper('file');
+			
+			$report_data['results'] = $this->pr->report($_POST);
+			$report_data['date_from'] = $_POST['date_from'];
+			$report_data['date_to'] = $_POST['date_to'];
+			
+			$this->load->model('hr/task_model','tsk');
+			$this->load->model('hr/employees_model','emp');
+
+			if(strlen($_POST['employee_fk']))
+			{
+				$report_data['employee'] = $this->emp->select_single($_POST['employee_fk']);	
+			}
+			
+			if($report_data['results'])
+			{
+				$html = $this->load->view('payroll/report_pdf',$report_data, true);
+			
+				$file_name = random_string();
+				
+				header("Content-type: application/pdf");
+				header("Content-Disposition: attachment; filename='{$file_name}'");
+				
+				pdf_create($html,$file_name);
+				exit;
+			}
+			else
+				exit;
+		}
+	}
+
 	/**
 	 * Deletes payroll entry.
 	 * @param  integer $id 

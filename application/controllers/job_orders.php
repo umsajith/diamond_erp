@@ -295,7 +295,7 @@ class Job_orders extends MY_Controller {
 		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
 		
 		//Heading
-		$this->data['heading'] = 'Извештај на Производство';
+		$this->data['heading'] = 'Рипорт на Производство';
 	}
 
 	public function report_pdf()

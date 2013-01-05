@@ -387,4 +387,57 @@ class Payroll_model extends MY_Model {
 
 		return true;	
 	}
+
+	public function report($options = array())
+	{
+		$this->db->select('
+			SUM(pr.acc_wage) AS sum_acc_wage,
+			AVG(pr.acc_wage) AS avg_acc_wage,
+			MAX(pr.acc_wage) AS max_acc_wage,
+			MIN(pr.acc_wage) AS min_acc_wage,
+			SUM(pr.social_cont) AS sum_social_cont,
+			AVG(pr.social_cont) AS avg_social_cont,
+			MAX(pr.social_cont) AS max_social_cont,
+			MIN(pr.social_cont) AS min_social_cont,
+			SUM(pr.bonuses) AS sum_bonuses,
+			AVG(pr.bonuses) AS avg_bonuses,
+			MAX(pr.bonuses) AS max_bonuses,
+			MIN(pr.bonuses) AS min_bonuses,
+			SUM(pr.gross_wage) AS sum_gross_wage,
+			AVG(pr.gross_wage) AS avg_gross_wage,
+			MAX(pr.gross_wage) AS max_gross_wage,
+			MIN(pr.gross_wage) AS min_gross_wage,
+			SUM(pr.expenses) AS sum_expenses,
+			AVG(pr.expenses) AS avg_expenses,
+			MAX(pr.expenses) AS max_expenses,
+			MIN(pr.expenses) AS min_expenses,
+			SUM(pr.fixed_wage) AS sum_fixed_wage,
+			AVG(pr.fixed_wage) AS avg_fixed_wage,
+			MAX(pr.fixed_wage) AS max_fixed_wage,
+			MIN(pr.fixed_wage) AS min_fixed_wage,
+			SUM(pr.comp_mobile_sub) AS sum_comp_mobile_sub,
+			AVG(pr.comp_mobile_sub) AS avg_comp_mobile_sub,
+			MAX(pr.comp_mobile_sub) AS max_comp_mobile_sub,
+			MIN(pr.comp_mobile_sub) AS min_comp_mobile_sub,
+			SUM(pr.paid_wage) AS sum_paid_wage,
+			AVG(pr.paid_wage) AS avg_paid_wage,
+			MAX(pr.paid_wage) AS max_paid_wage,
+			MIN(pr.paid_wage) AS min_paid_wage');
+
+		
+		$this->db->where('pr.date_from >=',$options['date_from']);
+		$this->db->where('pr.date_to <=',$options['date_to']);
+
+
+		$this->db->where('pr.status','active');
+
+		if(strlen($options['employee_fk']))
+			$this->db->where_in('pr.employee_fk',$options['employee_fk']);
+		
+		//$this->db->group_by('pr.task_fk');
+		
+		//$this->db->order_by('t.taskname','asc');
+		
+		return $this->db->get($this->_table.' AS pr')->row();
+	}
 }

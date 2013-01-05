@@ -55,7 +55,7 @@ span#label{
 </style>
 
 <div id="period">
-	<h1>Преглед на Продажба</h1>
+	<h1>Рипорт на Продажба</h1>
   <span id="label">Од:</span> <?php echo $datefrom;?>
   <span id="label">До:</span> <?php echo $dateto; ?><br/>
   <span id="label">Дистрибутер:</span> <?php echo (isset($distributer))?$distributer->fname.' '.$distributer->lname:'-'; ?><br/>
