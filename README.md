@@ -4,7 +4,7 @@
 
 Fully featured Enterprise Resource Planning for SMB.
 
-Version 1.0.0 Beta MK
+Version 1.0.1 Beta MK
 
 Currently Only available in Macedonian language interface.
 

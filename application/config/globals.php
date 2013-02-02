@@ -4,7 +4,7 @@
  * ERP Global Settings
  */
 $config['G_title'] = 'Diamond ERP';
-$config['G_version'] = '1.0.0 Beta MK';
+$config['G_version'] = '1.0.1 Beta MK';
 $config['G_currency'] = ' ден.';
 $config['G_months'] = array(
 		''=>'- Месец -',

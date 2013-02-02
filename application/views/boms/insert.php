@@ -41,7 +41,6 @@
 <?php echo validation_errors(); ?>
 
 <script type="text/javascript">
-
 	// Dropdown menu populating! PRODUICTS
 	$.getJSON("<?php echo site_url('products/dropdown/salable'); ?>", function(result) {
 	    var optionsValues = "<select id='product'>";
@@ -53,17 +52,5 @@
 	    optionsValues += '</select>';
 	    var options = $("select#product");
 	    options.replaceWith(optionsValues);  
-	});
-	
-	$(document).ready(function() {
-		//OnChange for Products dropdown menu
-		$("select#product").live('change',function() {
-				if(this.selectedIndex == '')
-				{
-					$("input#prodname_fk").val('');     
-					return false;	
-				} 
-				 $("input[name=prodname_fk]").val(JSONObject2[this.selectedIndex-1].id); 
-			});				
 	});
 </script>

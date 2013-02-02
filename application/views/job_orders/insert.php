@@ -84,7 +84,7 @@ $(function() {
 		 * When task is changed, populates the hidden task ID 
 		 *	and unit of measure of the same task
 		 */	
-		$("select#tasks").live("change",function() {
+		$(document).on('change','select#tasks',function() {
 				if($("select#tasks").selectedIndex == '')
 				{ 
 					$("input#uname").val(''); 

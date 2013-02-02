@@ -1,6 +1,5 @@
 <h2><?php echo $heading; ?></h2>
 <hr>
-	
 	<div id="meta">
 		<p>бр.<?php echo $master->id;?></p>
 		<p><?php echo $master->dateofentry;?></p>
@@ -138,7 +137,7 @@
 		      }   
 		});
 
-		$("select#products").live('change',function() {
+		$(document).on('change','select#products',function() {
 				if(this.selectedIndex == '')
 				{
 					$("span#uom").text('');  

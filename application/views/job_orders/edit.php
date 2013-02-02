@@ -93,7 +93,7 @@
 		});
 		
 		//OnChange for Tasks dropdown menu
-		$("select#tasks").live("change",function() {
+		$(document).on('change','select#tasks',function() {
 				if(this.selectedIndex == "")
 				{ 
 					$("input#uname").val(""); 

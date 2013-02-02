@@ -223,7 +223,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '21@dsa2eq2%@^a2a4F^agv23';
+$config['encryption_key'] = '7832f5I6Gm8068X5UibGi9LC5NmXg6n7';
 
 /*
 |--------------------------------------------------------------------------
@@ -246,10 +246,10 @@ $config['encryption_key'] = '21@dsa2eq2%@^a2a4F^agv23';
 $config['sess_cookie_name']		= 'diamond_erd_session';
 $config['sess_expiration']		= 3600;
 $config['sess_expire_on_close']	= TRUE;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= TRUE;
 $config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= FALSE;
+$config['sess_match_ip']		= TRUE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
 

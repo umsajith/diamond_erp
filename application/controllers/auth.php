@@ -32,9 +32,6 @@ class Auth extends CI_Controller {
 		if(isset($_POST['ajax']) AND json_decode($_POST['ajax'])=="1")
 			$is_ajax = true;
 		
-		//Load Validation Library
-		$this->load->library('form_validation');
-		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('username','username','trim|required');
 		$this->form_validation->set_rules('password','password','required');

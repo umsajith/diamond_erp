@@ -84,7 +84,7 @@ $(function() {
 		$("input#uname").val("");
 		
 		//OnChange for Products dropdown menu
-		$("select#product").live('change',function() {
+		$(document).on('change','select#product',function() {
 				if(this.selectedIndex == '')
 				{
 					$("input#code").val('');  
