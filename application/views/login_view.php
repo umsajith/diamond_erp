@@ -2,13 +2,15 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
     <title><?php echo $G_title; ?></title> 
-    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/favicon.ico">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>css/main.css" type="text/css" media="screen" /> 
+    <link rel="icon" type="image/png" href="<?php echo base_url('assets/favicon.ico'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/main.css'); ?>" type="text/css" media="screen" /> 
 </head>
 <body id="login_body">
     <div id="loginpage">
-        <div id="erp_login_logo"><img src="<?php echo base_url(); ?>assets/erp_logo_big.png"/></div>
+        <div id="erp_login_logo"><img src="<?php echo base_url('assets/erp_logo_big.png'); ?>"/></div>
     <p><i>Please enter your credentials to access the application</i></p>
         <?php echo form_open('auth/login',"id='loginform'"); ?>
         <table id="login">
@@ -33,9 +35,9 @@
 		<?php  echo $this->session->flashdata('flash');?>
 		<?php $this->session->unset_userdata('flash');?>
 	</div>
-<div id="login_footer">Copyright © 2011 Marko Aleksic. All Rights Reserved.</div>
+<div id="login_footer"></div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="<?php echo base_url('js/jquery.js'); ?>"></script>
 
 <script type="text/javascript">
 	$(function() {

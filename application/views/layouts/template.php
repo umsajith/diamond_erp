@@ -13,8 +13,8 @@
 </head>
 <body>
     <!-- JQuery Loading -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.js'); ?>"></script>
+    <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
+    <script src="<?php echo base_url('js/jquery-ui.js'); ?>"></script>
     <!-- End of JQuery Loading -->
 
     <!-- HEADER -->
