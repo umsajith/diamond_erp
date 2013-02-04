@@ -20,12 +20,45 @@ body {
 }
 
 /* CONTENT WRAPPER*/
-#wrapper { 
+div[role=wrapper] { 
 	 margin: 0 auto;
 }
 
+/* HEADER */
+header {
+    height: 56px;
+    background: url('../assets/header.png') repeat-x;
+    min-width: 850px;
+    position: relative;
+}
+header div.erp {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+
+}
+header div.user_info {
+	position: absolute;
+	top: 7px;
+	right: 10px;
+	text-align: right;
+	color: white;
+}
+header div#clock {
+	font-weight: bold;
+}
+header .user_info a,a:visited { 
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+}
+header .user_info a:hover { 
+	color: #F52887;
+	text-decoration: underline;
+}
+
 /* NAVIGATION and MODNAV */
-div#navigation {
+nav {
 	background: url('../assets/nav_back.png') repeat-x;
     position: relative;
     z-index: 1;
@@ -34,138 +67,100 @@ div#navigation {
     padding-left: 180px;
     min-width: 850px;
 }
-div#navigation ul {
+nav ul {
 	margin: 0;
 	padding: 0;
 	overflow:hidden;
 }
-div#navigation li {
+nav li {
 	float: left;
 	list-style-type:none;
 	text-align: center;	
 }
-div#navigation a {
+nav a {
 	color: white;
 	text-decoration: none;
 	display: block;
 	padding: 5px;
 	line-height: 25px;
 }
-div#navigation a:link,a:visited {
+nav a:link,a:visited {
 	padding-left: 10px;
 	padding-right: 10px;
 	width: 110px;
 	margin-left: 1px;
 	margin-right: 1px;
 }
-div#navigation a:hover {
+nav a.split:hover {
 	background: url('../assets/hover.png') repeat-x;
 }
-.split {
+nav a.split {
+	color: white;
     background: url('../assets/nav_split.png') center right no-repeat;
 }
-div#modnav { 
-	 color: #333;
-	 border: 1px solid #ccc;
-	 background: white;
-	 margin-top: 2px;
-	 margin-left: 2px;
-	 width: 175px;
-	 float: left;
-	 position: absolute;
-	 height: auto;
-}
-div#modnav .modnavtitle{ 
-	font-size: 10pt;
-	font-weight: bold;
-	text-align: center;
+
+/* SUBNAVIGATION */
+aside { 
 	color: #0073ea;
-	margin-right: 15px;
-	
+	border: 1px solid #ccc;
+	background: white;
+	margin-top: 2px;
+	width: 175px;
+	position: absolute;
+	left: 2px;
+	top: 90px;
+	height: auto;
 }
-div#modnav a { 
-	 color: #0073ea;
-	 padding-left: 20px;
-   	 background: transparent url(../assets/right.gif) no-repeat center left;
-}
-div#modnav a:link,a:visited { 
-	color: #0073ea;
-	text-decoration: underline;
-}
-div#modnav a:hover { 
-	color: #F52887;
-	text-decoration: none;
-}
-div#modnav ul {
+aside ul {
 	padding-left: 15px;
 	list-style-type: none;
 
 }
-div#modnav ul li{
+aside ul li{
 	padding-bottom: 5px;	
+}
+aside a { 
+	 color: #0073ea;
+	 padding-left: 20px;
+   	 background: transparent url('../assets/right.gif') no-repeat center left;
+}
+aside a:link { 
+	color: #0073ea;
+	text-decoration: underline;
+}
+aside a:visited { 
+	color: #0073ea;
+	text-decoration: underline;
+}
+aside a:hover { 
+	color: #F52887;
+	text-decoration: none;
 }
 
 
 /* MAIN CONTENT */
-div#content {
+div[role=main] {
 	position: relative;
 	margin-top: 2px;
 	margin-right: 2px;
-	margin-left: 180px;
+	margin-left: 181px;
 	overflow: auto;
 	border: 1px solid #ccc;
 	background: #fff;
 	padding: 0px 10px 10px 10px;
-	min-width: 850px;
-	 
-}
-
-/* HEADER */
-div#header {
-    height: 56px;
-    background: url('../assets/header.png') repeat-x;
-    min-width: 850px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-div#header .erp {
-	float: left;
-	margin-top: 10px;
-
-}
-div#header .user_info {
-	margin-top: 7px;
-	float: right;
-	text-align: right;
-	color: white;
-}
-div#header div#clock {
-	font-weight: bold;
-}
-div.left {
-	width: 100%;
-	text-align: right;
-}
-div#header .user_info a,a:visited { 
-	text-decoration: none;
-	color: white;
-	font-weight: bold;
-}
-div#header .user_info a:hover { 
-	color: #F52887;
-	text-decoration: underline;
+	min-width: 850px; 
 }
 
 /* FOOTER */
-div#footer {
-	font-size: 7pt;
-	height: 30px;	
-    text-align: center;
-    margin-top: 15px;
+footer {
+	font-size: 0.8em;
+    text-align: right;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
 }
-div#footer a {
-	color: black;	
-}
+
+
 /* FIELDSET DATA FORMS*/
 fieldset.data_form {
 	float:left;
@@ -375,23 +370,6 @@ table#order_grid tr:nth-child(odd) {background: #E6EFF7}
 table.master_table{
 	width:100%;
     border-collapse:collapse;
-	
-}
-table.master_table tr {
-	height: 31px;	
-}
-table.master_table td{
-	border-color: #9EC6F0;
-    border-width: 0px 0px 1px 0px;
-    border-style: solid;
-    text-align: right;
-    padding-right: 10px;
-}
-
-table.master_table td select{
-	padding:0;
-	width: 100px;
-	height: 20px;
 }
 
 table.master_table th{
@@ -399,10 +377,10 @@ table.master_table th{
 	font-weight: bold;
     padding-top: 5px;
     padding-bottom: 5px;
+    padding-right: 10px;
     text-align: right;
     background-color: #5F7C9C;
 }
-
 table.master_table th a {
 	color: white;
 	font-size: 8pt;
@@ -418,7 +396,21 @@ table.master_table th a:hover {
 	color: white;
     text-decoration: underline;
 }
-
+table.master_table tr {
+	height: 31px;	
+}
+table.master_table td{
+	border-color: #9EC6F0;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    text-align: right;
+    padding-right: 10px;
+}
+table.master_table td select{
+	padding:0;
+	width: 100px;
+	height: 20px;
+}
 table.master_table a{
 	color: #0073ea;
 	text-decoration: none;
@@ -434,9 +426,7 @@ table.master_table_calc {
 	text-align: right;
 	font-size: 9pt;
 	font-weight: bold;
-	
 }
-
 table.master_table td.no_records  {
 	border: 1px solid red;
 	color: red;
@@ -576,168 +566,6 @@ dt {
 	height: 70px;	
 }
 
-/* LOGIN PAGE */
-div#loginpage {
-	width: 400px;
-	margin: 0 auto;
-	text-align: center;
-	height: 185px;
-	background-color: white;
-	border-width: 1px;
-	border-style: solid;
-	border-color: gray;
-}
-div#flash {
-	width: 400px;
-	margin: 0 auto;
-	margin-top: 2px;
-	background-color: white;
-	color: red;
-	text-align: center;
-	height: 20px;
-	padding-top: 5px;
-	font-weight: bold;
-	border-width: 1px;
-	border-style: solid;
-	border-color: red;
-}
-
-div#erp_login_logo {
-    margin: 0 auto;
-    background-color: #F2F2E6;
-    padding-top: 4px;
-    background: url('../assets/header.png') repeat-x;
-    padding-bottom: 10px;
-}
-body#login_body {
-    padding-top: 50px;
-    background-color: #E0E0DC;
-}
-div#login_footer {
-	width: 400px;
-	margin: 0px auto;
-	font-size: 7pt;
-	text-align: center;
-	padding-top: 5px;
-}
-table#login {
-	width: 250px;
-	margin: 0 auto;
-}
-table#login td input[type=text]{
-	padding: 0;
-	margin: 0;
-	width: 200px;
-	height: 20px;
-}
-table#login input[type=password]{
-	padding: 0;
-	margin: 0;
-	width: 200px;
-	height: 20px;
-}
-
-/* DASHBOARD */
-div#dashboard_wrapper {
-	position: relative;
-	height: 700px;
-	margin: 0;
-	padding: 0;
-}
-div#dashboard_wrapper div#dash_title {
-	background-color: #F2F2E6;
-	border: 1px solid #ccc;
-	font-size: 12pt;
-	font-weight: bold;
-	position: absolute;
-	width: 98%;
-	height: 30px;
-	margin-left: 15px;
-	margin-right: 15px;
-	margin-top: 7px;
-	line-height: 30px;
-	
-}
-#dash_title {
-	background:url(../assets/house.png) no-repeat 10px 7px;
-	text-indent:33px;
-	display:block;
-}
-div#dashboard_wrapper div#dash_stats {
-	//background-color: #F2F2E6;
-	border: 1px solid #ccc;
-	position: absolute;
-	width: 31%;
-	height: 240px;
-	left: 15px;
-	top: 50px;
-	
-}
-div#dashboard_wrapper div#dash_job_orders {
-	background-color: #F2F2E6;
-	position: absolute;
-	width: 65%;
-	right: 15px;
-	top: 50px;
-}
-div#dashboard_wrapper div#dash_orders {
-	position: absolute;
-	margin: 0 auto;
-	left: 15px;
-	right: 15px;
-	top: 305px;
-	height: 400px;
-}
-div#dashboard_wrapper div#dash_orders caption {
-	outline: 1px solid #ccc;
-	background-color: #F2F2E6;
-	height: 20px;
-	margin-bottom: 3px;
-}
-div#dashboard_wrapper div#dash_orders tr {
-	height: 25px;
-}
-div#dashboard_wrapper div#dash_orders td,th {
-	padding-right: 10px;
-}
-div#dashboard_wrapper div#dash_job_orders caption {
-	outline: 1px solid #ccc;
-	background-color: #F2F2E6;
-	height: 20px;
-	margin-bottom: 3px;
-}
-div#dashboard_wrapper div#dash_job_orders tr {
-	height: 25px;
-}
-div#dashboard_wrapper div#dash_job_orders td,th {
-	padding-right: 10px;
-}
-div#dashboard_wrapper div#dash_stats table#dash_stats_table{
-	width: 100%;
-	border-collapse:collapse;
-		
-}
-div#dashboard_wrapper div#dash_stats table#dash_stats_table td{
-	border-bottom: 1px dotted #ccc;
-	padding-left: 20px;
-	padding-right: 15px;	
-}
-div#dashboard_wrapper div#dash_stats table#dash_stats_table tr{
-	height: 26px;		
-}
-div#dashboard_wrapper  div#dash_stats table#dash_stats_table caption {
-	outline: 1px solid #ccc;
-	background-color: #F2F2E6;
-	height: 20px;
-	margin-bottom:10px;
-}
-.dash_caption {
-	font-size: 9pt;
-	font-weight: bold;
-	float: left;
-	margin-left: 10px;
-	margin-top: 3px;
-}
 /* FORM ELEMENTS */
 select {
 	border: 1px solid #ccc;

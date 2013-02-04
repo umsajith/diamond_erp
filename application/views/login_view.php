@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width">
     <title><?php echo $G_title; ?></title> 
     <link rel="icon" type="image/png" href="<?php echo base_url('assets/favicon.ico'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('css/main.css'); ?>" type="text/css" media="screen" /> 
+    <link rel="stylesheet" href="<?php echo base_url('css/login.css'); ?>" media="screen" /> 
 </head>
-<body id="login_body">
-    <div id="loginpage">
-        <div id="erp_login_logo"><img src="<?php echo base_url('assets/erp_logo_big.png'); ?>"/></div>
-    <p><i>Please enter your credentials to access the application</i></p>
+<body>
+    <div role="main">
+        <header><img src="<?php echo base_url('assets/erp_logo_big.png'); ?>"/></header>
+    	<p><i>Please enter your credentials to access the application</i></p>
+
         <?php echo form_open('auth/login',"id='loginform'"); ?>
         <table id="login">
         	<tr>
@@ -29,17 +30,14 @@
         </table>  
         <?php echo form_close(); ?>
         <?php echo validation_errors(); ?>
-
     </div>
 	<div id="flash">
 		<?php  echo $this->session->flashdata('flash');?>
 		<?php $this->session->unset_userdata('flash');?>
 	</div>
-<div id="login_footer"></div>
-
 <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
 
-<script type="text/javascript">
+<script>
 	$(function() {
 		$("#flash").hide();
 		$("#username").val("");

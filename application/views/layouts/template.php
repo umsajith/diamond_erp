@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -18,22 +18,36 @@
     <!-- End of JQuery Loading -->
 
     <!-- HEADER -->
-    <?php $this->load->view('includes/_header'); ?>
+    <header>
+        <?php $this->load->view('includes/_header'); ?>
+    </header>
     <!-- END OF HEADER -->
 
-    <div id="wrapper">
+    <!-- NAVINGATION AND SUBNAVIGATION -->
+    <nav>
+        <?php $this->load->view('includes/_navigation');?> 
+    </nav>
+    <aside>
+        <?php $this->load->view('includes/_sub_modules');?>
+    </aside>
+    <!-- END OF NAVINGATION AND SUBNAVIGATION -->
+
+    <div role="wrapper">
         <!-- CONTENT -->
-		<div id="content">
+		<div role="main"> 
 			<?php echo $content; ?>
 		</div>
         <!-- END OF CONTENT -->
 	</div>
 
     <!-- FOOTER -->
-    <?php $this->load->view('includes/_footer');?> 
+    <footer>
+        <?php $this->load->view('includes/_footer');?> 
+    </footer>
     <!-- END OF FOOTER -->
 
     <!-- JavaScript Loading -->
+    <script src="<?php echo base_url('js/modernizr.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/pnotify.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/plugins.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
@@ -52,6 +66,5 @@
 		   </script>
 	<?php endif; ?>
     <!-- End of Notifications -->
-
 </body>
 </html>
