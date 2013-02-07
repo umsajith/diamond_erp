@@ -411,6 +411,9 @@ class Payroll extends MY_Controller {
 			
 			if ($this->form_validation->run())
 			{
+				//Log the report
+				$this->input->log_report($_POST);
+				
 				$this->data['results'] = $this->pr->report($_POST);
 				$this->data['date_from'] = $_POST['date_from'];
 				$this->data['date_to'] = $_POST['date_to'];

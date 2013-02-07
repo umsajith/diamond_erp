@@ -242,6 +242,9 @@ class Job_orders extends MY_Controller {
 			
 			if ($this->form_validation->run())
 			{
+				//Log the report
+				$this->input->log_report($_POST);
+
 				$this->data['results'] = $this->jo->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
