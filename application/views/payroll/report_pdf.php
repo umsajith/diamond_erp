@@ -1,5 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="<?php echo base_url();?>js/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url('js/jquery.js'); ?>"></script>
 <style media="all">
 * {
 	padding:0px;

@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="<?php echo base_url('favicon.ico'); ?>"> 
     <link rel="stylesheet" href="<?php echo base_url('css/normalize.css');?>" type="text/css" media="screen" />
     <link rel="stylesheet" href="<?php echo base_url('css/main.css');?>" type="text/css" media="screen" />
-    <link rel="stylesheet" href="<?php echo base_url('css/smoothness/jquery-ui-1.10.0.custom.min');?>" type="text/css" media="screen" />
+    <link rel="stylesheet" href="<?php echo base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css');?>" type="text/css" media="screen" />
     <link rel="stylesheet" href="<?php echo base_url('css/pnotify.css" type="text/css');?>" media="screen" />
 </head>
 <body>
@@ -53,7 +53,6 @@
     <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
     <!-- End of JavaScript Loading -->
 
-    <!-- Notifications -->
     <?php if (strlen($this->session->flashdata('message'))): ?>
 		   <script type="text/javascript">
 		   		$(function(){
@@ -65,6 +64,6 @@
 			   	});   				
 		   </script>
 	<?php endif; ?>
-    <!-- End of Notifications -->
+
 </body>
 </html>

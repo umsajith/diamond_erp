@@ -20,35 +20,18 @@ class Bomdetails_model extends MY_Model {
 		return $this->db->get($this->_table.' AS b')->result();
 	}
 	
-	public function insert ($data = array())
-	{		
-		// Inserts the whole data array into the database table
-		$this->db->insert($this->_table,$data);
-		
-		//return $this->db->insert_id();
-	}
-	
-	public function update($data = array())
+	public function update($id,$quantity)
 	{
 		//Qualifications
-		//Qualifications
-		if(isset($data['quantity']))
-			$this->db->set('quantity',$data['quantity']);
+		if(isset($quantity))
+			$this->db->set('quantity',$quantity);
 		
 		//This ID
-		$this->db->where('id',$data['id']);
+		$this->db->where('id',$id);
 		
 		//Updating
 		$this->db->update($this->_table);
 		
 		return $this->db->affected_rows();
-	}
-	
-	public function delete($id)
-	{
-		//Updates the status to 'deleted'
-		$this->db->where('id', $id);
-		$this->db->delete($this->_table); 
-		return $this->db->affected_rows();	
 	}
 }

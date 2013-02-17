@@ -6,9 +6,8 @@ class Partners_model extends MY_Model {
 	public function select($query_array,$sort_by,$sort_order,$limit = null, $offset = null)
 	{
 		//Selects and returns all records from table-----------------------------------------------
-		$this->db->select('p.*,u.name as ugroup,c.name,pc.postalcode, pt.company as mother_name, pt.id as mother_id');
+		$this->db->select('p.*,c.name,pc.postalcode, pt.company as mother_name, pt.id as mother_id');
 		$this->db->join('exp_cd_partners AS pt','pt.id = p.mother_fk','LEFT');
-		$this->db->join('exp_cd_user_groups AS u','u.id = p.ugroup_fk','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 		
@@ -170,8 +169,7 @@ class Partners_model extends MY_Model {
 	public function select_single($id)
 	{
 		//Selects and returns all records from table
-		$this->db->select('p.*,u.name as ugroup,c.name,pc.postalcode');
-		$this->db->join('exp_cd_user_groups AS u','u.id = p.ugroup_fk','LEFT');
+		$this->db->select('p.*,c.name,pc.postalcode');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 			

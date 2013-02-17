@@ -62,7 +62,7 @@
     <dd><?php echo ($master->is_manager == '1' ? 'Да' : 'Не');?></dd>
     	
     <dt>Корисничка Група:</dt>
-    <dd><?php echo ($master->ugroup == null ? '-' : $master->ugroup);?></dd>
+    <dd><?php echo ($master->role_name == null ? '-' : $master->role_name);?></dd>
     <dt>Корисничко Име:</dt>
     <dd><?php echo ($master->username == null ? '-' : $master->username);?></dd>
 

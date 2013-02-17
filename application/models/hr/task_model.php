@@ -61,13 +61,13 @@ class Task_model extends MY_Model {
 	public function update($id,$data = array())
 	{
 		//If Bom_Fk is unset, or empty, deletes BOM_FK in db, and sets production bit to 0
-		if(isset($data['bom_fk']) && $data['bom_fk'] == '')
+		if(isset($data['bom_fk']) AND $data['bom_fk'] == '')
 		{
 			$data['bom_fk'] = NULL;
 			$data['is_production'] = 0;
 		}
 		
-		if(isset($data['bom_fk']) && $data['bom_fk'] != '')
+		if(isset($data['bom_fk']) AND $data['bom_fk'] != '')
 		{
 			$data['bom_fk'] = $data['bom_fk'];
 			$data['is_production'] = 1;

@@ -12,6 +12,7 @@ class Orders extends MY_Controller {
 		$this->load->model('orders/co_model','co');
 		$this->load->model('orders/cod_model','cod');
 		$this->load->model('partners/partners_model','par');
+		$this->load->model('products/Products_model','prod');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
@@ -121,8 +122,6 @@ class Orders extends MY_Controller {
 							'quantity'=>$detail['quantity'],
 							'returned_quantity'=>$detail['returned_quantity']));
 				}
-
-				//$this->utilities->flash('add','',false);
 				echo 1;
 			}
 		}
@@ -175,91 +174,15 @@ class Orders extends MY_Controller {
 
 		//Heading
 		$this->data['heading'] = "Корекција na Налог за Продажба";
-			
-		$this->load->model('products/Products_model');
 		
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->cod->select(array('id'=>$id));
 		
 		//Dropdown Menus
 		$this->data['customers'] = $this->par->dropdown('customers');
-		$this->data['products'] = $this->Products_model->get_products('salable',false,true);
+		$this->data['products'] = $this->prod->get_products('salable',false,true);
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
-	}
-	
-	//AJAX - Locks Orders
-	// public function lock()
-	// {
-	// 	$data['ids'] = json_decode($_POST['ids']);
-		
-	// 	if($this->co->lock($data))
-	// 		echo 1;
-
-	// 	exit;	
-	// }
-
-	// //AJAX - Unlock Orders
-	// public function unlock()
-	// {
-	// 	$data['ids'] = json_decode($_POST['ids']);
-		
-	// 	if($this->co->unlock($data))
-	// 		echo 1;
-
-	// 	exit;	
-	// }
-	
-	//AJAX - Adds New Product in Order Details
-	public function add_product()
-	{
-		$data['order_fk'] = $_POST['order_fk'];
-		$data['prodname_fk'] = $_POST['prodname_fk'];
-		$data['quantity'] = $_POST['quantity'];
-
-		if($this->cod->insert($data))
-			echo 1;
-			
-		exit;		
-	}
-	
-	//AJAX - Removes Products from an Order
-	public function remove_product()
-	{
-		if($this->cod->delete(json_decode($_POST['id'])))
-			echo json_encode(array('message'=>'Производот е успешно избришан'));
-		
-		exit;
-	}
-	
-	//AJAX - Edits the Quantity of Products from an Order
-	public function edit_qty()
-	{
-		$id = json_decode($_POST['id']);
-		$data['quantity'] = json_decode($_POST['quantity']);
-		
-		if($this->cod->update($id,$data))
-		{
-			echo json_encode($data['quantity']);
-			exit;
-		}
-		else
-			exit;	
-	}
-	
-	//AJAX - Edits the Returned Quantity of Products from an Order
-	public function edit_ret_qty()
-	{	
-		$id = json_decode($_POST['id']);
-		$data['returned_quantity'] = json_decode($_POST['returned_quantity']);
-		
-		if($this->cod->update($id,$data))
-		{
-			echo json_encode($data['returned_quantity']);
-			exit;
-		}
-		else
-			exit;		
 	}
 	
 	public function view($id = false)

@@ -12,8 +12,6 @@ class Payroll_model extends MY_Model {
 		//Filter Qualifications
 		if(strlen($query_array['employee_fk']))
 			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);
-		if(strlen($query_array['for_month']))
-			$this->db->where_in('p.for_month',$query_array['for_month']);
 
 		//Sort
 		if($sort_by == 'employee')
@@ -36,9 +34,7 @@ class Payroll_model extends MY_Model {
 		
 		//Filter Qualifications
 		if(strlen($query_array['employee_fk']))
-			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);
-		if(strlen($query_array['for_month']))
-			$this->db->where_in('p.for_month',$query_array['for_month']);
+			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);;
 		
 		$this->db->where('p.status','active');
 		
@@ -53,10 +49,9 @@ class Payroll_model extends MY_Model {
 	public function select_single($id)
 	{
 		//Selects and returns all records from table
-		$this->db->select('p.*,YEAR(p.date_to) AS year,e.fname,e.lname,e.id as eid');
+		$this->db->select('p.*,e.fname,e.lname,e.id as eid');
 		$this->db->join('exp_cd_employees AS e','e.id = p.employee_fk','LEFT');
 		
-		//Qualifications
 		$this->db->where('p.id',$id);
 			
 		//Retreives only the ACTIVE records, unless otherwise set	
@@ -237,8 +232,6 @@ class Payroll_model extends MY_Model {
 		
 		$this->db->update('exp_cd_orders');
 
-		
-
 		return $this->db->affected_rows();
 	}
 	private function _insert_commision($options = array())
@@ -312,7 +305,8 @@ class Payroll_model extends MY_Model {
 			$this->db->set('locked',1);
 			$this->db->set('payroll_fk',$options['payroll_fk']);
 			$this->db->where('employee_fk',$options['employee_fk']);
-			$this->db->where('for_month',$options['for_month']);
+			$this->db->where('for_date >=',$options['date_from']);
+			$this->db->where('for_date <=',$options['date_to']);
 			$this->db->where('payroll_fk',null);
 			$this->db->where('locked',0);
 		}
@@ -324,8 +318,6 @@ class Payroll_model extends MY_Model {
 			$this->db->where('payroll_fk',$options['payroll_fk']);
 			$this->db->where('locked',1);
 		}
-
-		$this->db->where('status','active');
 		
 		$this->db->update('exp_cd_payroll_extra');
 		
@@ -344,9 +336,9 @@ class Payroll_model extends MY_Model {
 	{
 		/*
 		 *  Generate unique payroll code
-		 *  Pattern: EmployeeID.ForMonth.Year.PayrollID eg.12 3 2011 234 (no spaces)
+		 *  Pattern: EmployeeID.ForMonth.Year.PayrollID eg.12 2011 234 (no spaces)
 		 */
-		$this->db->set('code',$data['employee_fk'].$data['for_month'].substr($data['date_to'],0,4).$id);
+		$this->db->set('code',$data['employee_fk'].substr($data['date_to'],0,4).$id);
 		$this->db->where('id',$id);
 		$this->db->update($this->_table);
 		return $this->db->affected_rows();
@@ -433,10 +425,6 @@ class Payroll_model extends MY_Model {
 
 		if(strlen($options['employee_fk']))
 			$this->db->where_in('pr.employee_fk',$options['employee_fk']);
-		
-		//$this->db->group_by('pr.task_fk');
-		
-		//$this->db->order_by('t.taskname','asc');
 		
 		return $this->db->get($this->_table.' AS pr')->row();
 	}

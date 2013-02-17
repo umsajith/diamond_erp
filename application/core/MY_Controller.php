@@ -6,7 +6,7 @@ class MY_Controller extends CI_Controller {
 	 * List of controllers that can be accessed
 	 * without the need to be authenticated
 	 */
-    protected $_open_controllers = array('auth');
+    protected $open_controllers = array('auth');
     
     /*
      * Default layout view
@@ -26,52 +26,70 @@ class MY_Controller extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        
-       	//$this->output->enable_profiler(TRUE);
 
-        // Check auth
-        $this->_check_auth();
+        /**
+         * Checks authentication
+         */
+        $this->check_authentication();
         
-        //Loads Modules and Sub-Modules
-        $this->_load_modules();      	   
+        /**
+         * Loads sub-modules navigation based on resource
+         * permission in SESSION['resources'] variable.
+         * 
+         * AJAX Request bypass this process, because no
+         * page loading is done trough AJAX
+         */
+        if(!$this->input->is_ajax_request())
+            $this->load_sub_modules(); 
     }
 
-    private function _check_auth()
+    private function check_authentication()
     {
-        if (!$this->session->userdata('logged_in'))
+        if(!$this->session->userdata('logged_in'))
         {
-            if (!in_array($this->router->class, $this->_open_controllers))
+            if (!in_array($this->router->class, $this->open_controllers))
             {
-                // Save the page we are on now to redirect if the user 
+                // Save the desired page to redirect if the user 
                 // successfully authenticates
                 $this->session->set_userdata('next', $this->uri->uri_string);
 
-                // Redirect to LOGIN (auth/login)
+                // Redirect back to LOGIN (auth/login)
                 redirect('login');
             }
         }
     }
+
+    /**
+     * @todo
+     * FIX> USER CAN ACCESS CONTROLLERS WITHIN MAIN (MASTER) MODULE 
+     * EVEN IF THEY ARE FORBIDDEN
+     */
     
-    private function _load_modules()
+    private function load_sub_modules()
     {
-        /*
-         * If master controller has been called,
-         * retrevies sub-modules menu based on that,
-         * else,
-         * finds parent module_id, an calls all sub_modules
-         * with that ID 
-         */    
-        if(in_array($this->router->class,$this->session->userdata('open_modules')))
-            $this->data['nav_smodules'] = $this->Sub_modules_model->select_by_module($this->router->class);
+        $reference = $this->input->get('ref');
+        $id = $this->input->get('id');
+
+        if($reference AND $id)
+        {
+            $this->data['sub_modules'] = $this->Resources_model->get_sub_modules_by_parent($id);
+
+            if(!$this->data['sub_modules'])
+                $this->utilities->flash('deny',$this->session->userdata('default_module'));
+        }
         else
-        	$this->data['nav_smodules'] = $this->Sub_modules_model->select_by_controller($this->router->class);  	  	
+        {
+            $this->data['sub_modules'] = $this->Resources_model->get_sub_modules_by_class($this->router->class,$this->router->method);
+
+            if(!$this->data['sub_modules'])
+                $this->utilities->flash('deny',$this->session->userdata('default_module'));    
+        }    	
     }
     
 	public function _output($output)
 	{
-		
 		//set default content view
-		if($this->content_view !== false && empty($this->content_view))
+		if($this->content_view !== false AND empty($this->content_view))
 			$this->content_view = $this->router->class . '/' . $this->router->method;
 		
 		//render content view

@@ -1,5 +1,5 @@
 <h2><?php echo $heading; ?></h2>
-<?php echo form_open('job_orders/edit/'. $job_order->id);?>
+<?php echo form_open('job_orders/edit/'.$job_order->id);?>
 <hr>
 	<div id="meta">
 		<p>бр.<?php echo $job_order->id;?></p>

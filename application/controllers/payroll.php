@@ -10,7 +10,7 @@ class Payroll extends MY_Controller {
 		
 		//Load Models
 		$this->load->model('hr/Employees_model');
-		$this->load->model('hr/payroll_model','pr');
+		$this->load->model('hr/Payroll_model','pr');
 
 		$this->load->helper('date');
 	}
@@ -98,7 +98,6 @@ class Payroll extends MY_Controller {
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
 		$this->form_validation->set_rules('date_from','date from','trim|required');
 		$this->form_validation->set_rules('date_to','date to','trim|required');
-		$this->form_validation->set_rules('for_month','for month','trim|required');
 		
 		$this->form_validation->set_rules('acc_wage','accumulated wage','trim|required|numeric');
 		$this->form_validation->set_rules('social_cont','social contribution','trim|required|numeric');
@@ -185,6 +184,8 @@ class Payroll extends MY_Controller {
 			
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->pr->select_single($id);
+
+		//print_r($this->data['master']); die;
 		
 		//If there is nothing, redirects
 		if(!$this->data['master'])
@@ -193,9 +194,9 @@ class Payroll extends MY_Controller {
 		//Display
 		$html = $this->load->view('payroll/payroll_pdf',$this->data, true);
 		
-		$file_name = $this->data['master']->lname.'_'.$this->data['master']->fname.$this->data['master']->for_month.$this->data['master']->year.$id;
+		$file_name = $this->data['master']->employee_fk.'_'.$this->data['master']->date_from;
 		
-		pdf_create($html,$file_name);	
+		pdf_create($html,$file_name);
 	}
 	
 	public function calculate()
@@ -233,7 +234,6 @@ class Payroll extends MY_Controller {
 			$this->form_validation->set_rules('employee','first name','trim|required');
 			$this->form_validation->set_rules('datefrom','date from','trim|required');
 			$this->form_validation->set_rules('dateto','date to','trim|required');
-			$this->form_validation->set_rules('for_month','for month','trim|required');
 			
 			
 			if($this->form_validation->run())
@@ -244,10 +244,9 @@ class Payroll extends MY_Controller {
 				 */			
 				$this->data['datefrom'] = $_POST['datefrom'];	
 				$this->data['dateto'] = $_POST['dateto'];
-				$this->data['for_month'] = $_POST['for_month'];	
 				$this->data['submited'] = 1;
 				
-				$this->data['employee_master'] = $this->Employees_model->select_single($_POST['employee']);
+				$this->data['employee_master'] = $this->Employees_model->get($_POST['employee']);
 
 				if(!$this->data['employee_master'])
 					$this->utilities->flash('void','payroll/calculate');
@@ -271,8 +270,7 @@ class Payroll extends MY_Controller {
 					$this->data['job_orders'] = $this->Joborders_model->payroll(array(
 								'assigned_to' => $this->data['employee'],
 								'datefrom' => $this->data['datefrom'],
-								'dateto' => $this->data['dateto'],
-								'for_month' => $this->data['for_month']
+								'dateto' => $this->data['dateto']
 								));
 					/*
 					 * Calculates total accumulated wage by
@@ -293,15 +291,20 @@ class Payroll extends MY_Controller {
 					 * this distributor has distributed them, and get
 					 * the total distribution for that period
 					 */
-					$ids = $this->Co_model->get_by_distributor($this->data['employee'],$this->data['datefrom'],$this->data['dateto']);
+					$ids = $this->Co_model->get_by_distributor(
+						$this->data['employee'],$this->data['datefrom'],$this->data['dateto']);
+
 					$this->data['distribution'] = $this->Cod_model->total_distributed($ids);
 					/*
 					 * Calculates total accumulated wage by
 					 * going through customer orders Orderder assigned,
 					 * and calculating the total qty by commision per unit.
 					 */
-					foreach ($this->data['distribution'] as $row)
-						$this->data['acc_wage'] += round($row->quantity * $row->commision,2);	
+					if($this->data['distribution'])
+					{
+						foreach ($this->data['distribution'] as $row)
+							$this->data['acc_wage'] += round($row->quantity * $row->commision,2);		
+					}
 				}
 				
 				/*
@@ -323,14 +326,16 @@ class Payroll extends MY_Controller {
 				 * at the months
 				 */
 				//$this->data['social_cont'] = $this->data['employee_master']->social_cont;
-				$this->data['social_cont'] = $this->Payroll_extra_model->get_soc_contr($this->data['employee'],$this->data['for_month']);
+				$this->data['social_cont'] = $this->Payroll_extra_model->get_soc_contr($this->data['employee'],
+					array('datefrom' => $this->data['datefrom'],'dateto' => $this->data['dateto']));
 				
 				/*
 				 * Retrevies all payroll bonuses
 				 */
 				$this->data['extras_plus'] = $this->Payroll_extra_model->calc_extras(array(
 								'employee_fk' => $this->data['employee'],
-								'for_month' => $this->data['for_month'],	
+								'datefrom' => $this->data['datefrom'],
+								'dateto' => $this->data['dateto']	
 								),0);
 					$this->data['bonuses'] = 0;
 					foreach ($this->data['extras_plus'] as $item)
@@ -366,7 +371,8 @@ class Payroll extends MY_Controller {
 				 */
 				$this->data['extras_minus'] = $this->Payroll_extra_model->calc_extras(array(
 								'employee_fk' => $this->data['employee'],
-								'for_month' => $this->data['for_month'],	
+								'datefrom' => $this->data['datefrom'],
+								'dateto' => $this->data['dateto']	
 								),1);
 					$this->data['expenses'] = 0;
 					foreach ($this->data['extras_minus'] as $item)

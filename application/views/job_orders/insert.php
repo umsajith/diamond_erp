@@ -46,7 +46,7 @@
 <?php echo validation_errors(); ?>
 <?php $this->load->view('job_orders/_last_job_order_view'); ?>
 
-<script type="text/javascript">
+<script>
 
 $(function() {
 		

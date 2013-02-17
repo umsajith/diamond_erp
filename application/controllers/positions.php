@@ -78,7 +78,8 @@ class Positions extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['departments'] = $this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
+		$this->data['departments'] = 
+			$this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
 
 		//Heading
 		$this->data['heading'] = 'Внес на Работно Место';
@@ -102,14 +103,15 @@ class Positions extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Successful validation
-			if($this->pos->update($id,$_POST))
+			if($this->pos->update($_POST['id'],$_POST))
 				$this->utilities->flash('update','positions');
 			else
 				$this->utilities->flash('error','positions');
 		}
 		
 		//Generate dropdown menu data
-		$this->data['departments'] = $this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
+		$this->data['departments'] = 
+			$this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работно Место';
@@ -117,20 +119,20 @@ class Positions extends MY_Controller {
 	
 	public function view($id)
 	{
+		//Heading
+		$this->data['heading'] = 'Работно Место';
+
 		$this->data['master'] = $this->pos->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','positions');
-		
-		//Heading
-		$this->data['heading'] = 'Работно Место';
 	}
 
 	public function delete($id)
 	{
-		if(!$this->pos->select_single($id))
+		if(!$this->pos->get($id))
 			$this->utilities->flash('void','positions');
 
-		if($success = $this->Possitions_model->delete($id))
+		if($success = $this->pos->delete($id))
 			$this->utilities->flash('delete','positions');
 		else
 			$this->utilities->flash('error','positions');

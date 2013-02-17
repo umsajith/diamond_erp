@@ -12,7 +12,7 @@ class Orders_details extends MY_Controller {
 	}
 
 	//AJAX - Adds New Product in Order Details
-	public function add_product()
+	public function ajxAddProduct()
 	{
 		$data['order_fk'] = $_POST['order_fk'];
 		$data['prodname_fk'] = $_POST['prodname_fk'];
@@ -20,47 +20,37 @@ class Orders_details extends MY_Controller {
 
 		if($this->cod->insert($data))
 			echo 1;
-			
 		exit;		
 	}
 	
 	//AJAX - Removes Products from an Order
-	public function remove_product()
+	public function ajxRemoveProduct()
 	{
 		if($this->cod->delete(json_decode($_POST['id'])))
 			echo json_encode(array('message'=>'Производот е успешно избришан'));
-		
 		exit;
 	}
 	
 	//AJAX - Edits the Quantity of Products from an Order
-	public function edit_qty()
+	public function ajxEditQty()
 	{
 		$id = json_decode($_POST['id']);
 		$data['quantity'] = json_decode($_POST['quantity']);
 		
 		if($this->cod->update($id,$data))
-		{
 			echo json_encode($data['quantity']);
-			exit;
-		}
-		else
-			exit;	
+		exit;	
 	}
 	
 	//AJAX - Edits the Returned Quantity of Products from an Order
-	public function edit_ret_qty()
+	public function ajxEditRetQty()
 	{	
 		$id = json_decode($_POST['id']);
 		$data['returned_quantity'] = json_decode($_POST['returned_quantity']);
 		
 		if($this->cod->update($id,$data))
-		{
 			echo json_encode($data['returned_quantity']);
-			exit;
-		}
-		else
-			exit;		
+		exit;		
 	}
 	
 	public function delete($id = false)

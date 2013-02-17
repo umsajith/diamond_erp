@@ -118,7 +118,8 @@ class Products extends MY_Controller {
 		// Generating dropdown menu's
 		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
 		$this->data['product_types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
-		$this->data['product_cates'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['product_cates'] = 
+			$this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
 		$this->data['tax_rates'] = $this->utilities->get_dropdown('id', 'rate','exp_cd_tax_rates','- ДДВ -');  	  		
 
@@ -166,7 +167,8 @@ class Products extends MY_Controller {
 		// Generating dropdown menu's
 		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
 		$this->data['product_types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
-		$this->data['product_cates'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['product_cates'] = 
+			$this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
 		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
 		$this->data['tax_rates'] = $this->utilities->get_dropdown('id', 'rate','exp_cd_tax_rates','- ДДВ -');  	  		
 
@@ -176,13 +178,13 @@ class Products extends MY_Controller {
 	
 	public function view($id)
 	{
+		//Heading
+		$this->data['heading'] = 'Артикл';
+
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->prod->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','products');
-
-		//Heading
-		$this->data['heading'] = 'Артикл';
 	}
 	
 	public function delete($id)

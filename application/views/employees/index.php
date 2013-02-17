@@ -4,7 +4,7 @@
 <div class="filters">
     <?php echo form_open('employees/search');?>
 	    <?php echo form_dropdown('poss_fk', $possitions, set_value('poss_fk')); ?>
-	    <?php echo form_dropdown('ugroup_fk', $ugroups, set_value('ugroup_fk')); ?>
+	    <?php echo form_dropdown('role_id', $roles, set_value('role_id')); ?>
 	    <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
@@ -44,4 +44,3 @@
 <?php endif;?>
 </table>
 <?php $this->load->view('includes/_pagination');?>
-<?php $this->load->view('includes/_del_dialog');?>

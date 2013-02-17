@@ -1,4 +1,3 @@
-
 <h2><?php echo $heading; ?></h2>
 <?php echo form_open('partners/insert');?>
 <hr>
@@ -82,6 +81,6 @@
 		</tr>
 		</table>
 </fieldset>
-<?php echo validation_errors(); ?>
 <?php echo form_close();?>
+<?php echo validation_errors(); ?>
 </div>

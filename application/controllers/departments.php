@@ -68,6 +68,8 @@ class Departments extends MY_Controller {
 		{
 			if($this->dpt->insert($_POST))
 				$this->utilities->flash('add','departments');
+			else
+				$this->utilities->flash('error','departments');
 		}
 	}
 	/**
@@ -89,8 +91,10 @@ class Departments extends MY_Controller {
 				
 		if ($this->form_validation->run())
 		{
-			$this->dpt->update($_POST['id'],array('department'=>$_POST['department']));
+			if($this->dpt->update($_POST['id'],$_POST))
 				$this->utilities->flash('update','departments');
+			else
+				$this->utilities->flash('error','departments');
 		}
 	}
 	/**
@@ -110,31 +114,4 @@ class Departments extends MY_Controller {
 			$this->utilities->flash('error','departments');
 
 	}
-	
-	// public function grid()
-	// {
-	// 	$options = array(
-	// 		'sortdepartment' => $_POST['sortdepartment'],
-	// 		'sortorder' => $_POST['sortorder'],
-	// 		'qtype' => $_POST['qtype'],
-	// 		'query' => $_POST['query'],
-	// 		'limit' => $_POST['rp'],
-	// 		'offset' => ($_POST['page']-1)*$_POST['rp']
-	// 	);
-	
-	// 	$results = $this->dpt_model->select($options);
-	// 	$responce->total =$results['count'];
- //        $responce->page = $_POST['page'];
-	// 	$i = 0;
-	// 	foreach($results['results'] as $row) 
-	// 	{
-	// 		$responce->rows[$i]['id']=$row->id;
-	// 		$responce->rows[$i]['cell']=array($row->id,$row->department);
-	// 		$i++;
-	// 	}  
-
- //      	header('Content-Type: application/json',true);     
- //      	echo json_encode($responce);
- //      	exit;
-	// }
 }

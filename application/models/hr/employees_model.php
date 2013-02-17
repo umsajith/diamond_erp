@@ -10,18 +10,18 @@ class Employees_model extends MY_Model {
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table
-		$this->db->select('e.*,u.name as ugroup,c.name,pc.postalcode,d.department,p.position');
+		$this->db->select('e.*,r.name as role_name,c.name,pc.postalcode,d.department,p.position');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
-		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
+		$this->db->join('exp_cd_roles AS r','r.id = e.role_id','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = e.postcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 		
 		//Filter Qualifications
 		if(strlen($query_array['poss_fk']))
 			$this->db->where_in('e.poss_fk',$query_array['poss_fk']);
-		if(strlen($query_array['ugroup_fk']))
-			$this->db->where_in('e.ugroup_fk',$query_array['ugroup_fk']);
+		if(strlen($query_array['role_id']))
+			$this->db->where_in('e.role_id',$query_array['role_id']);
 
 		//Sort
 		if($sort_by == 'employee')
@@ -42,15 +42,15 @@ class Employees_model extends MY_Model {
 		$this->db->select('COUNT(e.id) AS count');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
-		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
+		$this->db->join('exp_cd_roles AS r','r.id = e.role_id','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = e.postcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 
 		//Filter Qualifications
 		if(strlen($query_array['poss_fk']))
 			$this->db->where_in('e.poss_fk',$query_array['poss_fk']);
-		if(strlen($query_array['ugroup_fk']))
-			$this->db->where_in('e.ugroup_fk',$query_array['ugroup_fk']);
+		if(strlen($query_array['role_id']))
+			$this->db->where_in('e.role_id',$query_array['role_id']);
 		
 		$this->db->where('e.status !=','deleted');
 		
@@ -65,10 +65,10 @@ class Employees_model extends MY_Model {
 	public function select_single($id)
 	{
 		//Selects and returns all records from table
-		$this->db->select('e.*,u.name as ugroup,c.name,pc.postalcode,d.department,p.position');
+		$this->db->select('e.*,r.name AS role_name,c.name,pc.postalcode,d.department,p.position');
 		$this->db->join('exp_cd_positions AS p','p.id = e.poss_fk','LEFT');
 		$this->db->join('exp_cd_departments AS d','d.id = p.dept_fk','LEFT');
-		$this->db->join('exp_cd_user_groups AS u','u.id = e.ugroup_fk','LEFT');
+		$this->db->join('exp_cd_roles AS r','r.id = e.role_id','LEFT');
 		$this->db->join('exp_cd_postalcode AS pc','pc.id = e.postcode_fk','LEFT');
 		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
 	
@@ -87,15 +87,15 @@ class Employees_model extends MY_Model {
 		else
 			$data['password'] = null;
 
-		if(isset($data['ugroup_fk']) AND $data['ugroup_fk']=='')
-			$data['ugroup_fk'] = null;	
+		if(isset($data['role_id']) AND $data['role_id']=='')
+			$data['role_id'] = null;	
 
 		if(isset($data['location_id']) AND $data['location_id']=='')
 			$data['location_id'] = null;	
 		/*
 		 * @TODO: If username set, and password set then:
 		 *  - flag 'can_login' to 1
-		 *  - set 'ugroup_fk' to 4 (default)
+		 *  - set 'role_id' to 4 (default)
 		 */
 			
 		// Inserts the whole data array into the database table
@@ -133,8 +133,8 @@ class Employees_model extends MY_Model {
 		if(isset($data['manager_fk']) AND $data['manager_fk']=='')
 			$data['manager_fk'] = null;
 
-		if(isset($data['ugroup_fk']) AND $data['ugroup_fk']=='')
-			$data['ugroup_fk'] = null;	
+		if(isset($data['role_id']) AND $data['role_id']=='')
+			$data['role_id'] = null;	
 		
 		//If the checkboxes are not checks, sets them to 0
 		if(!isset($data['is_manager']))

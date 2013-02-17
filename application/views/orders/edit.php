@@ -75,13 +75,13 @@
 <?php endif;?>
 </div>
 
-<script type="text/javascript">
+<script>
 
 	//Remove Product Function
 	function removeProduct(id) 
 	{
 		var toremove = id;
-		$.post("<?php echo site_url('orders/remove_product'); ?>",
+		$.post("<?php echo site_url('orders_details/ajxRemoveProduct'); ?>",
 				   {id:id},
 				   function(data){
 					   if(data){
@@ -123,7 +123,7 @@
 			return false;
 		}
 		
-		$.post("<?php echo site_url('orders/add_product'); ?>",
+		$.post("<?php echo site_url('orders_details/ajxAddProduct'); ?>",
 				   {order_fk:id,prodname_fk:product.val(),quantity:qty.val()},
 				   function(data){
 						   product.val(" ");
@@ -143,14 +143,14 @@ $(function() {
 		});
 
 		//Edit in Place
-		$(".ordered_qty").editable("<?php echo site_url('orders/edit_qty'); ?>", {
+		$(".ordered_qty").editable("<?php echo site_url('orders_details/ajxEditQty'); ?>", {
 		    	indicator : 'Saving...',
 		    	tooltip   : 'Click to edit...',
 		    	id : 'id',
 		    	name : 'quantity'
 		});
 
-		$(".returned_qty").editable("<?php echo site_url('orders/edit_ret_qty'); ?>", {
+		$(".returned_qty").editable("<?php echo site_url('orders_details/ajxEditRetQty'); ?>", {
 	    	indicator : 'Saving...',
 	    	tooltip   : 'Click to edit...',
 	    	id : 'id',

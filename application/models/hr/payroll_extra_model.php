@@ -1,13 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Payroll_extra_model extends CI_Model {
+class Payroll_extra_model extends MY_Model {
 	
-	protected $table = 'exp_cd_payroll_extra';
-	
-	function __construct()
-	{
-		parent::__construct();
-		
-	}
+	protected $_table = 'exp_cd_payroll_extra';
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -40,9 +34,6 @@ class Payroll_extra_model extends CI_Model {
 			
 		//Pagination Limit and Offset
 		$this->db->limit($limit , $offset);
-			
-		//Retreives only the ACTIVE records, unless otherwise set	
-		$this->db->where('p.status','active');
 		
 		$data['results'] = $this->db->get()->result();
 		
@@ -64,8 +55,6 @@ class Payroll_extra_model extends CI_Model {
 		if(strlen($query_array['is_contribution']))
 			$this->db->where('pc.is_contribution',$query_array['is_contribution']);
 		
-		$this->db->where('p.status','active');
-		
 		$temp = $this->db->get()->row();
 		
 		$data['num_rows'] = $temp->count;
@@ -74,7 +63,7 @@ class Payroll_extra_model extends CI_Model {
 		return $data;
 	}
 	
-	function select_by_payroll($payroll_id,$type)
+	public function select_by_payroll($payroll_id,$type)
 	{
 		
 		//Selects and returns all records from table
@@ -85,12 +74,9 @@ class Payroll_extra_model extends CI_Model {
 
 		$this->db->where('p.payroll_fk',$payroll_id);
 		$this->db->where('p.locked',1);
-			
-		//Retreives only the ACTIVE records, unless otherwise set	
-		$this->db->where('p.status','active');
 		
 		//Retrevies Payroll extras by Type (expense or non-expense)
-		if($type == 1 || $type == 0)
+		if($type == 1 OR $type == 0)
 		{
 			$this->db->where('pc.is_expense',$type);
 			$this->db->where('pc.is_contribution',0);
@@ -105,7 +91,7 @@ class Payroll_extra_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function select_single($id)
+	public function select_single($id)
 	{
 		$this->db->select('p.*,pc.name,e.fname,e.lname');
 		$this->db->from('exp_cd_payroll_extra AS p');
@@ -113,32 +99,11 @@ class Payroll_extra_model extends CI_Model {
 		$this->db->join('exp_cd_employees AS e','e.id = p.employee_fk','LEFT');
 		
 		$this->db->where('p.id',$id);
-		$this->db->where('p.status','active');
 		
 		return $this->db->get()->row();
-		
 	}
 	
-	function insert ($data = array())
-	{
-		// Inserts the whole data array into the database table
-		$this->db->insert('exp_cd_payroll_extra',$data);
-		
-		return $this->db->insert_id();
-	}
-	
-	function update($data = array())
-	{	
-		//This ID
-		$this->db->where('id',$data['id']);
-		
-		//Updating
-		$this->db->update('exp_cd_payroll_extra',$data);
-		
-		return $this->db->affected_rows();
-	}
-	
-	function calc_extras($options=array(), $type = null)
+	public function calc_extras($options=array(), $type = null)
 	{
 		$this->db->select('pe.id,pe.employee_fk,pe.amount,pc.name');
 		
@@ -148,12 +113,12 @@ class Payroll_extra_model extends CI_Model {
 		$this->db->join('exp_cd_payroll_extra_cat AS pc','pc.id = pe.payroll_extra_cat_fk','LEFT');
 		
 		$this->db->where('pe.employee_fk',$options['employee_fk']);
-		$this->db->where('pe.for_month',$options['for_month']);
-		$this->db->where('pe.status','active');
+		$this->db->where('pe.for_date >=',$options['datefrom']);
+		$this->db->where('pe.for_date <=',$options['dateto']);
 		$this->db->where('pe.payroll_fk',null);
 		$this->db->where('pe.locked',0);
 		
-		if($type == 1 || $type == 0)
+		if($type == 1 OR $type == 0)
 		{
 			$this->db->where('pc.is_expense',$type);
 			$this->db->where('pc.is_contribution',0);
@@ -169,15 +134,15 @@ class Payroll_extra_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function get_soc_contr($id,$month)
+	public function get_soc_contr($id,$options=array())
 	{
 		$this->db->select('amount');
-		$this->db->from('exp_cd_payroll_extra');
+		$this->db->from($this->_table);
 		
-		$this->db->where('for_month',$month);
+		$this->db->where('for_date >=',$options['datefrom']);
+		$this->db->where('for_date <=',$options['dateto']);
 		$this->db->where('payroll_extra_cat_fk',7);
 		$this->db->where('employee_fk',$id);
-		$this->db->where('status','active');
 		$this->db->where('payroll_fk',null);
 		$this->db->where('locked',0);
 		
@@ -187,22 +152,20 @@ class Payroll_extra_model extends CI_Model {
 			return 0;
 	}
 	
-	function check_type($options=array())
+	public function check_type($options=array())
 	{
 		$this->db->select('is_expense');
 		$this->db->from('exp_cd_payroll_extra_cat');
 		$this->db->where('id',$options['payroll_extra_cat_fk']);
 		$this->db->limit(1);
-		$this->db->where('status','active');
 		
 		return $this->db->get()->row();
 	}
 	
-	function dropdown($type = null, $empty = '--')
+	public function dropdown($type = null, $empty = '--')
 	{
 		$this->db->select('p.id,p.name');
 		$this->db->from('exp_cd_payroll_extra_cat as p');
-		$this->db->where('p.status','active');
 		
 		($type=='bonuses') ? $type='bonuses' : $type='expenses';
 		
@@ -227,15 +190,5 @@ class Payroll_extra_model extends CI_Model {
             $data[$row->id]= $row->name;
         
         return $data;
-	}
-	
-	function delete($id)
-	{
-		//Updates the status to 'deleted'
-		$data['status'] = 'deleted';
-		$this->db->where('id',$id);
-		$this->db->update('exp_cd_payroll_extra',$data);
-
-		return $this->db->affected_rows();	
 	}
 }

@@ -5,16 +5,16 @@
 		<p><?php echo $master->dateofentry;?></p>
 	</div>
 	<div id="buttons">
-		<a href="<?php echo site_url('payroll/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-		<a href="<?php echo site_url('payroll/payroll_pdf/'.$master->id);?>" class="button"><span class="pdf">PDF</span></a>
+		<a href="<?php echo site_url("payroll/delete/{$master->id}");?>" class="button" id="delete"><span class="delete">Бришење</span></a>
+		<a href="<?php echo site_url("payroll/payroll_pdf/{$master->id}");?>" class="button"><span class="pdf">PDF</span></a>
 	</div>
 <hr>
 <div class="f_left">
 	<dl>
         <dt>Работник:</dt>
         <dd><?php echo anchor("employees/view/$master->eid",$master->fname . ' ' . $master->lname); ?></dd>
-        <dt>За Месец:</dt>
-        <dd><?php echo $master->for_month . '/' . mdate('%Y',strtotime($master->date_from));?></dd>
+        <dt>Месец:</dt>
+        <dd><?php echo mdate('%m/%Y',strtotime($master->date_from));?></dd>
 		<dt>Од Датум:</dt>
         <dd><?php echo $master->date_from;?></dd>
         <dt>До Датум:</dt>

@@ -18,15 +18,15 @@
         <dd><?php echo $master->name;?></dd>
         <dt>Износ:</dt>
         <dd><?php echo $master->amount;?></dd>
-        <dt>Месец:</dt>
-        <dd><?php echo ($master->for_month == NULL ? '-' : $master->for_month);?></dd>
+        <dt>За Датум:</dt>
+        <dd><?php echo $master->for_date;?></dd>
         <dt>Забелешка:</dt>
         <dd><?php echo ($master->description == NULL ? '-' : $master->description);?></dd>
         <dt>Внес:</dt>
         <dd><?php echo $master->dateofentry;?></dd>
 	</dl>
 <?php if($master->payroll_fk != NULL):?>	
-	<h4>Оваа ставка е вкалкулирана во плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
+	<h4>Оваа ставка е вкалкулирана во плата бр. 
+		<?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?>
+	</h4>
 <?php endif;?>
-<hr>
-<?php $this->load->view('includes/_del_dialog');?>

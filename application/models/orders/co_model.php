@@ -165,15 +165,20 @@ class Co_model extends MY_Model {
 		$this->db->where('distributor_fk',$id);
 		$this->db->where('dateshipped >=',$datefrom);
 		$this->db->where('dateshipped <=',$dateto);
+		$this->db->where('payroll_fk',null);
+
+		$results =  $this->db->get($this->_table)->result();
+
+		if($results)	
+		{
+			$ids = array();
 		
-		$results =  $this->db->get($this->_table)->result();	
-		
-		$ids = array();
-		
-		foreach($results as $id)
-			array_push($ids, $id->id);
-			
-		return $ids;
+			foreach($results as $id)
+				array_push($ids, $id->id);	
+
+			return $ids;
+		}
+		return false;
 	}
 	
 	public function get_by_payroll($id)
@@ -183,12 +188,16 @@ class Co_model extends MY_Model {
 		
 		$results = $this->db->get($this->_table)->result();	
 		
-		$ids = array();
+		if($results)
+		{
+			$ids = array();
 		
-		foreach($results as $id)
-			array_push($ids, $id->id);
+			foreach($results as $id)
+				array_push($ids, $id->id);
 			
-		return $ids;
+			return $ids;
+		}
+		return false;		
 	}
 	
 	public function lock($options = array())

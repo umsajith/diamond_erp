@@ -2,35 +2,28 @@
 
 class Invoices extends MY_Controller {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('invoices/Invoices_model');	
+		$this->load->model('invoices/Invoices_model','inv');	
 	}
     
-	function index()
+	public function index()
 	{
-		$this->load->model('partners/Partners_model');
-		
-		$this->data['heading'] = 'Фактури';
 
-		$this->data['customers'] = $this->Partners_model->dropdown('customers');
-		$this->data['distributors'] = $this->utilities->get_distributors();
-		
-		$this->data['results'] = $this->Invoices_model->select();
 	}
     
-	function insert()
+	public function insert()
 	{
 		
 	}
     
-	function edit($id = false)
+	public function edit($id = false)
 	{
 		
 	}
     
-	function delete($id = false)
+	public function delete($id = false)
 	{
 		
 	}	

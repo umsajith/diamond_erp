@@ -68,6 +68,8 @@ class Cproduct extends MY_Controller {
 		{
 			if($this->cpr->insert($_POST))
 				$this->utilities->flash('add','cproduct');
+			else
+				$this->utilities->flash('error','cproduct');
 		}
 	}
 	/**
@@ -89,7 +91,7 @@ class Cproduct extends MY_Controller {
 				
 		if ($this->form_validation->run())
 		{
-			$this->cpr->update($_POST['id'],array('pcname'=>$_POST['pcname']));
+			if($this->cpr->update($_POST['id'],$_POST));
 				$this->utilities->flash('update','cproduct');
 		}
 	}
@@ -109,31 +111,4 @@ class Cproduct extends MY_Controller {
 		else
 			$this->utilities->flash('error','cproduct');
 	}
-	
-	// public function grid()
-	// {
-	// 	$options = array(
-	// 		'sortname' => $_POST['sortname'],
-	// 		'sortorder' => $_POST['sortorder'],
-	// 		'qtype' => $_POST['qtype'],
-	// 		'query' => $_POST['query'],
-	// 		'limit' => $_POST['rp'],
-	// 		'offset' => ($_POST['page']-1)*$_POST['rp']
-	// 	);
-	
-	// 	$results = $this->Cproduct_model->select($options);
-	// 	$responce->total =$results['count'];
- //        $responce->page = $_POST['page'];
-	// 	$i = 0;
-	// 	foreach($results['results'] as $row) 
-	// 	{
-	// 		$responce->rows[$i]['id']=$row->id;
-	// 		$responce->rows[$i]['cell']=array($row->id,$row->pcname);
-	// 		$i++;
-	// 	}  
-
- //      	header('Content-Type: application/json',true);     
- //      	echo json_encode($responce);
- //      	exit;
-	// }
 }

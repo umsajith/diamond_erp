@@ -38,11 +38,9 @@
 		</tr>
 	<?php endforeach;?>
 </table>
-
 <?php endif;?>
-<?php $this->load->view('includes/_del_dialog');?>
 
-<script type="text/javascript">
+<script>
 
 	//Remove Product Function
 	function removeProduct(id) 
@@ -96,17 +94,17 @@
 				   function(data){
 						   $("select[name=newprod]").val(" ");
 						   $("input[name=qty]").val(" ");
-						   location.reload();
+						   location.reload(true);
 				   },"json");
 				return false;	
 	}
 	
-	$(document).ready(function() {
+	$(function() {
 
 		//Inline Edit
-		$('.quantity').editable('<?php echo site_url('boms/edit_qty'); ?>', {
+		$('.quantity').editable("<?php echo site_url('boms/edit_qty'); ?>", {
 		    	indicator : 'Saving...',
-		    	tooltip   : 'Click to edit...',
+		    	tooltip   : 'Клик за корекција...',
 		    	id : 'id',
 		    	name : 'quantity'
 		});

@@ -17,8 +17,8 @@
 	    <td><?php echo form_input('amount', set_value('amount', $payroll_extra->amount ));?></td>
 	</tr>
 	<tr>
-	    <td class="label"><?php echo form_label('За Месец: ');?><span class='req'>*</span></td>
-	    <td><?php echo form_dropdown('for_month',$G_months,set_value('for_month', $payroll_extra->for_month ));?></td>
+		<td class="label"><?php echo form_label('За датум:');?><span class='req'>*</span></td>
+		<td><?php echo form_input('for_date',set_value('for_date',$payroll_extra->for_date)); ?></td>
 	</tr>
 	<tr>
 	    <td class="label"><?php echo form_label('Опис: ');?></td>
@@ -27,18 +27,10 @@
 <?php echo form_close();?>
 </table>
 <?php echo validation_errors(); ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
+	$(function() {
+		$( "input[name=for_date]" ).datepicker({
+		dateFormat: "yy-mm-dd"
+		});
+	});
+</script>

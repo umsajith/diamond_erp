@@ -4,10 +4,11 @@
 		<a href="#" class="button" id="new_calculation"><span class="calculator">Нова</span></a>
 		<a href="#" class="button" id="change_calculation"><span class="edit">Измена</span></a>
 		<a href="#" class="button" id="add_payroll"><span class="add">Внес</span></a>
+		<div id="ajx_div_loader" style="display:none;"><img id="ajx_loader" src="../assets/loader.gif" alt=""></div>	
 	</div>
 <hr>
 <div class="report_calc">
-	<?php echo form_open('payroll/calculate');?>
+	<?php echo form_open('payroll/calculate',"id='calculate_form'");?>
 	<table id="calculation">
 		<tr>
 		    <td class="label"><?php echo form_label('Работник:');?><span class='req'>*</span></td>
@@ -20,10 +21,6 @@
 		<tr>
 		    <td class="label"><?php echo form_label('До:');?><span class='req'>*</span></td>
 		    <td><?php echo form_input('dateto',(!isset($dateto) ? '' : $dateto),'id="dateto"'); ?></td>
-		</tr>
-		<tr>    
-		    <td class="label"><?php echo form_label('Месец:');?><span class='req'>*</span></td>
-		    <td><?php echo form_dropdown('for_month',$G_months, set_value('for_month')); ?></td>
 		</tr>
 		<tr>
 		    <td>&nbsp;</td>
@@ -40,8 +37,6 @@
 		<dd><?php echo $datefrom;?></dd>
 		<dt>До:</dt>
 		<dd><?php echo $dateto;?></dd>
-		<dt>Месец:</dt>
-		<dd><?php echo $for_month;?></dd>
 	</dl>
 <?php endif;?>
 
@@ -290,7 +285,6 @@
 	<?php echo form_hidden('employee_fk',set_value('employee_fk',$employee));?>
 	<?php echo form_hidden('date_from',set_value('date_from',$datefrom));?>
 	<?php echo form_hidden('date_to',set_value('date_to',$dateto));?>
-	<?php echo form_hidden('for_month',set_value('for_month',$for_month));?>
 	
 	<?php echo form_hidden('acc_wage',set_value('acc_wage',$acc_wage));?>
 	<?php echo form_hidden('social_cont',set_value('acc_wage',$social_cont));?>
@@ -310,8 +304,15 @@
 
 $(function() {
 		var submited = <?php echo $submited;?>;
+
+		$("#add_payroll").hide();
+		$("div#ajx_div_loader").hide();
+
 		if(submited == 1)
-			$("table#calculation").hide();
+		{
+			$("div.report_calc").hide();
+			$("#add_payroll").show();
+		}
 
 		//Date Pickers From-To.
 		var dates = $( "#datefrom, #dateto" ).datepicker({
@@ -332,24 +333,24 @@ $(function() {
 		});
 
 		$("#change_calculation").on("click",function(){
+
+			$("#add_payroll").hide();
 			$("#current_calculation").hide();
-			$("table#calculation").fadeIn();
+			$("div.report_calc").fadeIn();
 		});
 		
 		//SUBMITS the data to the Server
-		$("#add_payroll").on("click",function(event){
-
-			if(submited == 0)
-			{
-				alert("Пополнете го правилно формулатор за калкулација на плата!");
-				return false;
-			}	
+		$("#add_payroll").on("click",function(){
 			
+			$(this).hide();
+
+			$("div#ajx_div_loader").show();
+
 			//Serializes the Hidden Form containing all calculation data
 			var variables = $("form#hidden_form").serialize();
 
-			$(this).attr("disabled", "disabled");
-			event.preventDefault();
+			//$(this).attr("disabled", "disabled");
+			//event.preventDefault();
 
 			//AJAX Post variables to payroll/insert
 			$.post("<?php echo site_url('payroll/insert'); ?>",

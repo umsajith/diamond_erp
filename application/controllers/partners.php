@@ -103,7 +103,7 @@ class Partners extends MY_Controller {
 			
 			//Cheks if the Partner has been created through AJAX post
 			$ajax = false;
-			if(isset($_POST['ajax']) && $_POST['ajax'] == 1)
+			if(isset($_POST['ajax']) AND $_POST['ajax'] == 1)
 			{
 				$ajax = true;
 				unset($_POST['ajax']);
@@ -234,9 +234,9 @@ class Partners extends MY_Controller {
 	 * For use with jQuery autocomplete. 
 	 * @return JSON
 	 */
-	public function ajx_search()
+	public function ajxSearch()
 	{
-		$term = $this->input->post('term',TRUE);
+		$term = $this->input->post('term',true);
 
 		if (strlen($term) < 2) break;
 

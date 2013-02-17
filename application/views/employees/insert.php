@@ -59,7 +59,7 @@
 		<table class="data_forms_wide">
 		<tr>    
 		    <td class="label"><?php echo form_label('Корисничка Група: ');?></td>
-		    <td><?php echo form_dropdown('ugroup_fk',$ugroups, set_value('ugroup_fk'));?></td>
+		    <td><?php echo form_dropdown('role_id',$roles, set_value('role_id'));?></td>
 		    <td class="label"><?php echo form_label('Логирање: ');?></td>
 		    <td  align="center"><?php echo form_checkbox('can_login','1',false);?></td>
 		</tr>

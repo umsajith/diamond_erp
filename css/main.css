@@ -98,6 +98,9 @@ nav a.split {
 	color: white;
     background: url('../assets/nav_split.png') center right no-repeat;
 }
+nav a.down {
+	background: url('../assets/hover.png') repeat-x;
+}
 
 /* SUBNAVIGATION */
 aside { 
@@ -921,7 +924,8 @@ a:hover.button, a:hover.button_wide{
 	background:url(../assets/add.png) no-repeat scroll right center;
 	color:#000000;
     display:inline-block;
-    padding-right:15px;
+    padding-right:12px;
+    padding-top: 3px;
     cursor: pointer;
 }
 
@@ -943,6 +947,11 @@ a:hover.button, a:hover.button_wide{
 }
 
 /*TEST AREA*/
+
+#ajx_loader {
+	margin-top: 2px;
+	margin-left: 30px;
+}
 
 p.ci_error{
 	overflow: hidden;

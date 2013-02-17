@@ -109,31 +109,4 @@ class Warehouses extends MY_Controller {
 		else
 			$this->utilities->flash('error','warehouses');
 	}
-	
-	// public function grid()
-	// {
-	// 	$options = array(
-	// 		'sortname' => $_POST['sortname'],
-	// 		'sortorder' => $_POST['sortorder'],
-	// 		'qtype' => $_POST['qtype'],
-	// 		'query' => $_POST['query'],
-	// 		'limit' => $_POST['rp'],
-	// 		'offset' => ($_POST['page']-1)*$_POST['rp']
-	// 	);
-	
-	// 	$results = $this->warehouses_model->select($options);
-	// 	$responce->total =$results['count'];
- //        $responce->page = $_POST['page'];
-	// 	$i = 0;
-	// 	foreach($results['results'] as $row) 
-	// 	{
-	// 		$responce->rows[$i]['id']=$row->id;
-	// 		$responce->rows[$i]['cell']=array($row->id,$row->wname);
-	// 		$i++;
-	// 	}  
-
- //      	header('Content-Type: application/json',true);     
- //      	echo json_encode($responce);
- //      	exit;
-	// }
 }

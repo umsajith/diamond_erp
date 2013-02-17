@@ -32,6 +32,5 @@
 			dateFormat: "yy-mm-dd",
 			maxDate: +0
 		});
-
 	});
 </script>

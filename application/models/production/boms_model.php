@@ -47,7 +47,6 @@ class Boms_model extends MY_Model {
 	
 	public function select_by_product($product_id)
 	{
-		//Selects and returns all records from table
 		$this->db->select('id')
 				->where('prodname_fk',$product_id)
 				->limit(1);

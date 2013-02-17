@@ -1,28 +1,30 @@
 <ul>
-<?php foreach($this->session->userdata('nav_modules') as $module):?>
+<?php foreach($this->session->userdata('modules') as $module):?>
 	<?php
 	/*
 	 *  Generates the link, by attaching
 	 *  method (if present) to the controller (default)
 	 */
 	$link = '';
-	if($module->folder AND $module != '')
-	{
-		$link = $module->folder.'/';
-	}	
+
+	if($module->folder)
+		$link = $module->folder.'/';	
 
 	$link .= $module->controller;
-	/*
-	  	If current controller is active, marks it as down
+
+	if($module->method)
+		$link .= '/'.$module->method;
+
+	$link .= "?ref=module&id={$module->id}";
+	
+	  	//If current controller is active, marks it as down
 	 
 		$active = '';
-		if($module->permalink ==  $this->router->class)
+		if($module->id ==  $this->input->get('id'))
 		{	
 			$active = 'down';	
-			$link = '#';
 		}
-	*/
 	?>
-	<li><?php echo anchor($link,$module->title,"class='split'");?></li>
+	<li><?php echo anchor($link,$module->title,"class='split {$active}'");?></li>
 <?php endforeach;?>
 </ul>

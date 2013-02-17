@@ -4,7 +4,6 @@
 <div class="filters"> 
     <?php echo form_open('payroll/search');?>
     <?php echo form_dropdown('employee_fk', $employees, set_value('employee_fk')); ?>
-    <?php echo form_dropdown('for_month', $G_months, set_value('for_month')); ?>
     <?php echo form_submit('','',"class='filter'");?>
     <?php echo form_close();?>
 </div>
@@ -23,7 +22,7 @@
 		<tr>
 			<td class="code" align="center"><?php echo anchor('payroll/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
 			<td><?php echo $row->fname.' '.$row->lname;?></td>
-			<td><?php echo ($row->for_month) ? $row->for_month . '/' . mdate('%Y',strtotime($row->date_from)) : '-';?></td>
+			<td><?php echo mdate('%m/%Y',strtotime($row->date_from));?></td>
 			<td><?php echo mdate('%d/%m/%Y',strtotime($row->date_from));?></td>
 			<td><?php echo mdate('%d/%m/%Y',strtotime($row->date_to));?></td>
 			<td><?php echo ($row->acc_wage==null)?'-':$row->acc_wage.$G_currency;?></td>

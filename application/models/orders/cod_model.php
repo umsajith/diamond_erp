@@ -18,7 +18,7 @@ class Cod_model extends MY_Model {
 			$this->db->where('o.order_fk',$options['id']);
 
 		//Sort
-		if (isset($options['sory_by']) && isset($options['sort_direction']))
+		if (isset($options['sory_by']) AND isset($options['sort_direction']))
 			$this->db->order_by($options['sort_by'],$options['sort_direction']);
 
 		return $this->db->get($this->_table.' AS o')->result();

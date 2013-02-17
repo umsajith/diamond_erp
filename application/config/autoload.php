@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('cms/Modules_model','cms/Sub_modules_model');
+$autoload['model'] = array('acl/Resources_model','acl/Permissions_model','acl/Roles_model');
 
 
 /* End of file autoload.php */

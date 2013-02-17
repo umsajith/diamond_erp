@@ -57,9 +57,6 @@ class Boms extends MY_Controller {
 	
 	public function insert()
 	{
-		//Load formvalidation library
-		$this->load->library('form_validation');
-
 		//Defining Validation Rules
 		$this->form_validation->set_rules('name','name','trim|required');
 		$this->form_validation->set_rules('quantity','quantity','trim|required');
@@ -162,13 +159,8 @@ class Boms extends MY_Controller {
 		$data['quantity'] = json_decode($_POST['quantity']);
 		
 		if($this->bomd->insert($data))
-		{
 			echo 1;
-			exit;
-		}
-		else
-			exit;
-		
+		exit;
 	}
 	
 	//AJAX - Edits the Quantity of Products from a Bom
@@ -177,25 +169,17 @@ class Boms extends MY_Controller {
 		$data['id'] = json_decode($_POST['id']);
 		$data['quantity'] = json_decode($_POST['quantity']);
 		
-		if($this->bomd->update($data))
-		{
+		if($this->bomd->update($data['id'],$data['quantity']))
 			echo json_encode($data['quantity']);
-			exit;
-		}
-		else
-			exit;	
+		exit;	
 	}
 	
 	//AJAX - Removes Products from a Bom
 	public function remove_product()
 	{
 		if($this->bomd->delete(json_decode($_POST['id'])))
-		{
 			echo 1;
-			exit;
-		}
-		else
-			exit;	
+		exit;
 	}
 	
 	public function view($id = false)

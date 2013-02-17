@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Auth_model extends CI_Model {
+class Auth_model extends MY_Model {
 
-	protected $_table = 'users';
+	protected $_table = 'exp_cd_employees';
 
 	private static $algo = '$2a';
 
@@ -9,31 +9,37 @@ class Auth_model extends CI_Model {
 
 	public function check_login($username, $password)
 	{	
-		$user = $this->db->select('id,location_id,ugroup_fk,fname,lname,username,is_admin,password')
+		$user = $this->db->select("id,location_id,role_id,
+				CONCAT(fname,' ',lname) AS name,username,is_admin,password",FALSE)
 	                ->where('username',$username)
 	                ->limit(1)
-	                ->get('exp_cd_employees')->row();
+	                ->get($this->_table)->row();
 
 	    if($user)
 	    {
-	    	if(self::check_password($user->password,$password))
-	    	{
-	    		$permission = $this->_permissions($user->ugroup_fk);
-	    		if($permission)
-	    		{
-	    			$this->_set_userdata($user,$permission['open_modules'],$permission['nav_modules']);	
-	    			return $user;
-	    		}
-	    		else
-	    			return false;
-	    	}
+	    	if(self::check_password($user->password,$password))	
+				return $user;
 	    }	               
-        return false;
+		return false;
 	}
 
-	public function logout()
+	public function set_session($user,$modules,$allow_resources,$deny_resources)
 	{
-		$this->session->sess_destroy();
+		 $data = array(
+					'logged_in' => true,
+					'username'  => $user->username,
+                	'name'     => $user->name,
+					'userid' => $user->id,
+					'role_id' => $user->role_id,
+					'location' => $user->location_id,
+					'admin' => $user->is_admin,
+                    'modules' => $modules,
+                    'allow_res' => $allow_resources,
+                    'deny_res' => $deny_resources,
+               		'default_module' => $modules[0]->controller
+				);
+				
+		$this->session->set_userdata($data);
 	}
 
 	public static function unique_salt() 
@@ -53,52 +59,8 @@ class Auth_model extends CI_Model {
 		return ($hash == $new_hash);
 	}
 
-	private function _permissions($id = false)
-	{   
-		$this->db->select('m.folder,m.controller, m.title');
-		$this->db->from('exp_cd_permissions AS p');
-        $this->db->join('exp_cd_modules as m','m.id = p.module_id', 'LEFT');
-			
-		$this->db->where('p.user_group_id',$id);
-        $this->db->where('m.status','active');
-        $this->db->where('m.parent_id',null);
-        
-        $this->db->order_by('m.order','asc');
-
-		$modules = $this->db->get()->result();
-
-		if($modules)
-		{
-
-			$open_modules = array();
-            foreach($modules as $module)
-				array_push($open_modules,$module->controller);
-			
-			$data = array();
-			$data['open_modules'] = $open_modules;
-			$data['nav_modules'] = $modules;
-			
-			return $data;
-		}
-
-		return false;
-	}
-	
-	private function _set_userdata($user,$open_modules,$nav_modules)
+	public function logout()
 	{
-		 $data = array
-				(
-					'username'  => $user->username,
-                	'name'     => $user->fname.' '.$user->lname,
-					'userid' => $user->id,
-					'location' => $user->location_id,
-					'admin' => $user->is_admin,
-					'default_module' => $open_modules[0],
-                    'open_modules' => $open_modules,
-                    'nav_modules' => $nav_modules,
-               		'logged_in' => true
-				);
-				
-		$this->session->set_userdata($data);
-	}
+		$this->session->sess_destroy();
+	}	
 }

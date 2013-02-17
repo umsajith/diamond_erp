@@ -220,42 +220,33 @@ class Utilities {
     
 	function flash($type,$redirect_to = '',$redirect = true)
 	{
-		if($type=='add')
-		{
-			$message = 'Ставката е успешно внесена!';
-			$class = 'notice';
-		}
-			
-		if($type=='update')
-		{
-			$message = 'Ставката е успешно ажурирана!';
-			$class = 'notice';		
-		}
-			
-		if($type=='delete')
-		{
-			$message = 'Ставката е успешно избришана!';
-			$class = 'notice';
-		}
-			
-		if($type=='void')
-		{
-			$message = 'Ставката не постои!';
-			$class = 'info';
-		}
-			
-		if($type=='error')
-		{
-			$message = 'Неуспешно извршена операција!';
-			$class = 'error';		
-		}
-			
-		if($type=='deny')
-		{
-			$message = 'Забранет пристап!';
-			$class = 'error';			
-		}
-			
+        switch ($type) {
+            case 'add':
+                $message = 'Ставката е успешно внесена!';
+                $class = 'notice';
+                break;
+            case 'update':
+                $message = 'Ставката е успешно ажурирана!';
+                $class = 'notice';
+                break;
+            case 'delete':
+                $message = 'Ставката е успешно избришана!';
+                $class = 'notice';
+                break;
+            case 'void':
+                $message = 'Ставката не постои!';
+                $class = 'info';
+                break;
+            case 'deny':
+                $message = 'Забранет пристап!';
+                $class = 'error';
+                break;
+            case 'error':
+            default:
+                $message = 'Неуспешно извршена операција!';
+                $class = 'error';
+                break;
+            }
 		
 		//Sets the Message
 		$this->CI->session->set_flashdata('message',$message);

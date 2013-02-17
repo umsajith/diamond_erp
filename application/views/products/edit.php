@@ -67,15 +67,15 @@
 	</tr>
 	<tr>
 		<td class="label"><?php echo form_label('Се Продава:');?></td>
-		<td><?php echo form_checkbox('salable','1',($product->salable=='1'?TRUE:FALSE));?></td>
+		<td><?php echo form_checkbox('salable','1',($product->salable=='1'?true:false));?></td>
 	</tr>
 	<tr>
 		<td class="label"><?php echo form_label('Се Купува:');?></td>
-		<td><?php echo form_checkbox('purchasable','1',($product->purchasable=='1'?TRUE:FALSE));?></td>
+		<td><?php echo form_checkbox('purchasable','1',($product->purchasable=='1'?true:false));?></td>
 	</tr>
 	<tr>
 		<td class="label"><?php echo form_label('Состојба:');?></td>
-		<td><?php echo form_checkbox('stockable','1',($product->stockable=='1'?TRUE:FALSE));?></td>
+		<td><?php echo form_checkbox('stockable','1',($product->stockable=='1'?true:false));?></td>
 	</tr>
 </table>
 <?php form_close();?>

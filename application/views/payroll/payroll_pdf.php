@@ -1,20 +1,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="<?php echo base_url();?>js/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url('js/jquery.js'); ?>"></script>
 <style>
 * {
 	padding:0px;
 	margin:0px;
 	outline:0px;
 }
-
 body {
 	font-family: 'verdana';
 	font-size: 9pt;
 }
 table#payroll {
- 	width: 700px;
+	width: 95%;
  	margin: 0 auto;
- 	margin-top: 25px;
+ 	margin-top: 15px;
  	border-collapse: collapse;
 }
 
@@ -28,7 +27,7 @@ table#payroll th,td.header {
 }
 table#payroll td {
  	border: thin solid #5F7C9C;
- 	width: 250px;
+ 	width: 100%;
  	padding-left: 15px;
 }
 table#payroll td.strong {
@@ -43,10 +42,6 @@ table#payroll td.strong {
 	<tr>
 		<td>Работник:</td>
 		<td class="strong"><?php echo $master->fname.' '.$master->lname;?></td>
-	</tr>
-	<tr>
-		<td>За Месец:</td>
-		<td class="strong"><?php echo $master->for_month . '/' . mdate('%Y',strtotime($master->date_from));?></td>
 	</tr>
 	<tr>
 		<td>Код:</td>

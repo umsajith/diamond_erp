@@ -2,14 +2,14 @@
 
 class Payroll_extra extends MY_Controller {
 	
-	private $limit = 25;
+	protected $limit = 25;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('hr/Payroll_extra_model');
+		$this->load->model('hr/Payroll_extra_model','pre');
 	}
     
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -26,7 +26,7 @@ class Payroll_extra extends MY_Controller {
 			'employee'=>'Работник',
 			'payroll_extra_cat_fk'=>'Категорија',
 			'amount'=>'Износ',
-			'for_month'=>'Месец',
+			'for_date'=>'Датум',
 			'dateofentry'=>'Внес'
 		);
 
@@ -41,11 +41,11 @@ class Payroll_extra extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_month','dateofentry');
+		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_date','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
-		$temp = $this->Payroll_extra_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->pre->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -53,7 +53,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/index/$query_id/$sort_by/$sort_order");
+		$config['base_url'] = site_url("payroll_extra/index/{$query_id}/{$sort_by}/{$sort_order}");
 		$config['total_rows'] = $this->data['num_rows'];
 		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
@@ -76,7 +76,7 @@ class Payroll_extra extends MY_Controller {
 			'payroll_extra_cat_fk' => $this->input->post('payroll_extra_cat_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("payroll_extra/index/$query_id");
+		redirect("payroll_extra/index/{$query_id}");
 	}
 	
 	public function expenses($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -93,7 +93,7 @@ class Payroll_extra extends MY_Controller {
 			'employee'=>'Работник',
 			'payroll_extra_cat_fk'=>'Категорија',
 			'amount'=>'Износ',
-			'for_month'=>'Месец',
+			'for_date'=>'Датум',
 			'dateofentry'=>'Внес'
 		);
 
@@ -108,11 +108,11 @@ class Payroll_extra extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_month','dateofentry');
+		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_date','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
-		$temp = $this->Payroll_extra_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->pre->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -120,7 +120,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/expenses/$query_id/$sort_by/$sort_order");
+		$config['base_url'] = site_url("payroll_extra/expenses/{$query_id}/{$sort_by}/{$sort_order}");
 		$config['total_rows'] = $this->data['num_rows'];
 		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
@@ -143,7 +143,7 @@ class Payroll_extra extends MY_Controller {
 			'payroll_extra_cat_fk' => $this->input->post('payroll_extra_cat_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("payroll_extra/expenses/$query_id");
+		redirect("payroll_extra/expenses/{$query_id}");
 	}
 	
 	public function social_contributions($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -160,7 +160,7 @@ class Payroll_extra extends MY_Controller {
 			'employee'=>'Работник',
 			'payroll_extra_cat_fk'=>'Категорија',
 			'amount'=>'Износ',
-			'for_month'=>'Месец',
+			'for_date'=>'Датум',
 			'dateofentry'=>'Внес'
 		);
 
@@ -175,11 +175,11 @@ class Payroll_extra extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_month','dateofentry');
+		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_date','dateofentry');
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
-		$temp = $this->Payroll_extra_model->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
+		$temp = $this->pre->select($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -187,7 +187,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/social_contributions/$query_id/$sort_by/$sort_order");
+		$config['base_url'] = site_url("payroll_extra/social_contributions/{$query_id}/{$sort_by}/{$sort_order}");
 		$config['total_rows'] = $this->data['num_rows'];
 		$config['per_page'] = $this->limit;
 		$config['uri_segment'] = 6;
@@ -209,28 +209,26 @@ class Payroll_extra extends MY_Controller {
 			'employee_fk' => $this->input->post('employee_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("payroll_extra/social_contributions/$query_id");
+		redirect("payroll_extra/social_contributions/{$query_id}");
 	}
     
 	public function insert_bonus()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Додатоци';
-		
-		$this->load->library('form_validation');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
 		$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
 		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_month','month','trim|required');
+		$this->form_validation->set_rules('for_date','date','trim|required');
 		$this->form_validation->set_rules('description','description','trim');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
 		{
 			//Successful validation
-			if($this->Payroll_extra_model->insert($_POST))
+			if($this->pre->insert($_POST))
 				$this->utilities->flash('add','payroll_extra');
 			else
 				$this->utilities->flash('error','payroll_extra');		
@@ -238,21 +236,19 @@ class Payroll_extra extends MY_Controller {
 
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->utilities->get_employees();
-		$this->data['categories'] = $this->Payroll_extra_model->dropdown('bonuses');
+		$this->data['categories'] = $this->pre->dropdown('bonuses');
 	}
 	
 	public function insert_expense()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Трошоци';
-		
-		$this->load->library('form_validation');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
 		$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
 		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_month','month','trim|required');
+		$this->form_validation->set_rules('for_date','month','trim|required');
 		$this->form_validation->set_rules('description','description','trim');
 		
 		///Check if form has been submited
@@ -261,7 +257,7 @@ class Payroll_extra extends MY_Controller {
 			//Expenses are expressed in Negative numbers
 			$_POST['amount'] = $_POST['amount'] * -1;
 			
-			if($this->Payroll_extra_model->insert($_POST))
+			if($this->pre->insert($_POST))
 				$this->utilities->flash('add','payroll_extra/expenses');
 			else
 				$this->utilities->flash('error','payroll_extra/expenses');	
@@ -269,20 +265,18 @@ class Payroll_extra extends MY_Controller {
 		
 		// Generating dropdown menu's
 		$this->data['employees'] =$this->utilities->get_employees();
-		$this->data['categories'] = $this->Payroll_extra_model->dropdown('expenses');	
+		$this->data['categories'] = $this->pre->dropdown('expenses');	
 	}
 	
 	public function insert_social_contribution()
 	{
 		//Heading
 		$this->data['heading'] = 'Внес на Придонеси';
-		
-		$this->load->library('form_validation');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
 		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_month','month','trim|required');
+		$this->form_validation->set_rules('for_date','month','trim|required');
 		$this->form_validation->set_rules('description','description','trim');
 		
 		///Check if form has been submited
@@ -291,7 +285,7 @@ class Payroll_extra extends MY_Controller {
 			//Pridonesi(Social Contribution) are in Payroll Extras Category ID = 7
 			$_POST['payroll_extra_cat_fk'] = 7;	
 			
-			if($this->Payroll_extra_model->insert($_POST))
+			if($this->pre->insert($_POST))
 				$this->utilities->flash('add','payroll_extra/social_contributions');
 			else
 				$this->utilities->flash('error','payroll_extra/social_contributions');
@@ -307,23 +301,26 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = 'Корекција на Додатоци/Трошоци';
 		
 		//Retreives ONE product from the database
-		$this->data['payroll_extra'] = $this->Payroll_extra_model->select_single($id);
-		
+		$this->data['payroll_extra'] = $this->pre->select_single($id);
+
 		//If there is nothing, redirects
-		if(!$this->data['payroll_extra']) redirect('payroll_extra');
+		if(!$this->data['payroll_extra'])
+			$this->utilities->flash('void','payroll_extra');
+		
+		if($this->data['payroll_extra']->locked == 1)
+			$this->utilities->flash('deny','payroll_extra');
+		
 		
 		if(isset($_POST['submit']))
 		{
 			//Unsets the POST ubmit, so I doesnt get inserted into the db
 			unset($_POST['submit']);
-			
-			$this->load->library('form_validation');
 	
 			//Defining Validation Rules
 			$this->form_validation->set_rules('employee_fk','employee','trim|required');
 			$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
 			$this->form_validation->set_rules('amount','amount','trim|required');
-			$this->form_validation->set_rules('for_month','month','trim|required');
+			$this->form_validation->set_rules('for_date','month','trim|required');
 			$this->form_validation->set_rules('description','description','trim');
 				
 			if ($this->form_validation->run())
@@ -333,41 +330,41 @@ class Payroll_extra extends MY_Controller {
 					
 					//Retrevies the type of expense/extra from the Payroll Extras Category definition
 					// 1 - Expense , 0 - Non expense
-					$sign = $this->Payroll_extra_model->check_type($_POST['payroll_extra_cat_fk']);
+					$sign = $this->pre->check_type($_POST['payroll_extra_cat_fk']);
 					
 					// If sign is 1, makes the amount an expense;hence, deducts
-					if($sign->is_expense == 1 && $_POST['amount'] >= 0)
+					if($sign->is_expense == 1 AND $_POST['amount'] >= 0)
 						$_POST['amount'] = $_POST['amount'] * -1;
 					
-					if($this->Payroll_extra_model->update($_POST))
-						$this->utilities->flash('update',"payroll_extra/view/$id");
+					if($this->pre->update($_POST['id'],$_POST))
+						$this->utilities->flash('update',"payroll_extra/view/{$id}");
 					else
-						$this->utilities->flash('error',"payroll_extra/view/$id");
+						$this->utilities->flash('error',"payroll_extra/view/{$id}");
 
 				}
 		}
 
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->utilities->get_employees();
-		$this->data['categories'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
+		$this->data['categories'] = 
+			$this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 	}
 	
 	public function view($id)
 	{
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->Payroll_extra_model->select_single($id);
+		$this->data['master'] = $this->pre->select_single($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','payroll_extra');
 		
 		//Heading
-		//$this->data['heading'] = 'Додаток/Трошок/Придонес';
 		$this->data['heading'] = $this->data['master']->name;
 	}
     
 	public function delete($id)
 	{
 		//Takes the ID (third segment) of the URL, delets the corresponding db entry
-		if($this->Payroll_extra_model->delete($id))
+		if($this->pre->delete($id))
 			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
 		else
 			$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);

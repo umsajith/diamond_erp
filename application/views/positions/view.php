@@ -27,9 +27,6 @@
 	<dt>Квалификации:</dt>
 	<dd><?php echo ($master->requirements == NULL ? '-' : $master->requirements); ?></dd>
 
-	<dt>Статус:</dt>
-	<dd><?php echo $master->status;?></dd>
-
 	<dt>Опис:</dt>
 	<dd><?php echo ($master->description == NULL ? '-' : $master->description);?></dd>   
 </dl>

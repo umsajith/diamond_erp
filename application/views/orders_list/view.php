@@ -108,13 +108,13 @@
 	</div>
 <?php endif ?>
 
-<script type="text/javascript">
+<script>
 
 	$(function(){
 
 		$("input[name=customer]").autocomplete({
 			source: function(request, response) {
-				$.ajax({ url: "<?php echo site_url('partners/ajx_search'); ?>",
+				$.ajax({ url: "<?php echo site_url('partners/ajxSearch'); ?>",
 				data: { term: $("input[name=customer]").val()},
 				dataType: "json",
 				type: "POST",

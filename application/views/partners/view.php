@@ -21,9 +21,9 @@
         <dt>Тип на Партнер:</dt>
         <dd>
        		<?php  
-                if($master->is_customer==1 && $master->is_vendor==0) echo 'Купувач';
-                if($master->is_vendor==1 && $master->is_customer==0) echo 'Добавувач';
-                if($master->is_vendor==1 && $master->is_customer==1) echo 'Купувач/Добавувач';
+                if($master->is_customer==1 AND $master->is_vendor==0) echo 'Купувач';
+                if($master->is_vendor==1 AND $master->is_customer==0) echo 'Добавувач';
+                if($master->is_vendor==1 AND $master->is_customer==1) echo 'Купувач/Добавувач';
                 ?>
 		</dd>
         <dt>Адреса:</dt>
@@ -51,11 +51,6 @@
         <dd><?php echo ($master->account_no == NULL ? '-' : $master->account_no);?></dd>
         <dt>Даночен Број:</dt>
         <dd><?php echo ($master->tax_no == NULL ? '-' : $master->tax_no);?></dd>
- 
-        <dt>Корисничка Група:</dt>
-        <dd><?php echo ($master->ugroup == NULL ? '-' : $master->ugroup);?></dd>
-        <dt>Корисничко Име:</dt>
-        <dd><?php echo ($master->username == NULL ? '-' : $master->username);?></dd>
 	</dl>
 </div>
 

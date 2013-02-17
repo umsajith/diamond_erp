@@ -267,7 +267,7 @@ class Inventory extends MY_Controller {
 		$this->data['pagination'] = $this->pagination->create_links(); 
 	}
 	
-	function insert_gr()
+	public function insert_gr()
 	{
 		//Defining Validation Rules
 		$this->form_validation->set_rules('partner_fk','vendor','trim|required');
@@ -297,7 +297,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Внес на Приемница';
 	}
 	
-	function insert_po()
+	public function insert_po()
 	{
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
@@ -329,7 +329,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Внес на Нарачка';
 	}
 	
-	function insert_adj()
+	public function insert_adj()
 	{
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
@@ -361,7 +361,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Внес на Порамнување';
 	}
 	
-	function edit($page,$id)
+	public function edit($page,$id)
 	{
 		
 		if(!in_array($page, array('po','gr','adj')))
@@ -416,7 +416,7 @@ class Inventory extends MY_Controller {
 	}
 	
 	//AJAX - Marks the Purchase Order into Good Receipts and adds to inventory
-	function receive_po() 
+	public function receive_po() 
 	{
 		$data['ids'] = json_decode($_POST['ids']);
 		
@@ -426,7 +426,7 @@ class Inventory extends MY_Controller {
 		exit;
 	}
 	
-	function view($page, $id)
+	public function view($page, $id)
 	{		
 		if(!in_array($page, array('po','gr','adj')))
 			$page = 'po';
@@ -459,7 +459,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = $heading;
 	}
 	
-	function delete($page = 'po',$id)
+	public function delete($page = 'po',$id)
 	{
 		if(!in_array($page, array('po','gr','adj')))
 			$page = 'po';	

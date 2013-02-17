@@ -362,9 +362,6 @@ class Job_orders extends MY_Controller {
 			$this->utilities->flash('error','job_orders');
 	}
 
-	/**
-	 *  MOVE WHOLE FUNCTION TO JOB_ORDERS MODEL
-	 */
 	private function _inventory_use($job_order_id,$task_id,$quantity)
 	{
 		//Loading Models
@@ -387,7 +384,9 @@ class Job_orders extends MY_Controller {
 		 * Retreive all components for specific Bill of Materials (bom_id) 
 		 */
 		$bom_components = $this->bomd->select_by_bom_id($bom_id);
-							
+		/**
+		 * MOVE THE FOLLOWING PART TO BOM-DETAILS MODEL
+		 */
 		foreach ($bom_components as $component)
 		{
 			$options = array(
