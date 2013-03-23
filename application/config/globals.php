@@ -4,22 +4,8 @@
  * ERP Global Settings
  */
 $config['G_title'] = 'Diamond ERP';
-$config['G_version'] = '1.0.1 Beta MK';
+$config['G_version'] = '1.1.0 BETA MK';
 $config['G_currency'] = ' ден.';
-$config['G_months'] = array(
-		''=>'- Месец -',
-            '1'=>'Јануари',
-            '2'=>'Февруари',
-            '3'=>'Март',
-            '4'=>'Април',
-            '5'=>'Мај',
-            '6'=>'Јуни',
-            '7'=>'Јули',
-            '8'=>'Август',
-            '9'=>'Септември',
-            '10'=>'Октомври',
-            '11'=>'Ноември',
-            '12'=>'Декември');
 
 /*
  * Company Global Settings
