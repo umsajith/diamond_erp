@@ -10,7 +10,7 @@
 </head>
 <body>
     <div role="main">
-        <header><img src="<?php echo base_url('assets/erp_logo_big.png'); ?>"/></header>
+        <header><img src="<?php echo base_url('img/erp_logo_big.png'); ?>"/></header>
     	<p><i>Please enter your credentials to access the application</i></p>
 
         <?php echo form_open('auth/login',"id='loginform'"); ?>

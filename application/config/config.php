@@ -223,7 +223,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '7832f5I6Gm8068X5UibGi9LC5NmXg6n7';
+$config['encryption_key'] = '7832f5I6Gm8123X5UibGi9LC5NmXg6n7';
 
 /*
 |--------------------------------------------------------------------------
@@ -243,7 +243,7 @@ $config['encryption_key'] = '7832f5I6Gm8068X5UibGi9LC5NmXg6n7';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'diamond_erd_session';
+$config['sess_cookie_name']		= 'diamonderdsession';
 $config['sess_expiration']		= 3600;
 $config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= TRUE;

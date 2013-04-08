@@ -43,7 +43,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'marko';
+$db['default']['password'] = '';
 $db['default']['database'] = 'diamond_erp_test';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

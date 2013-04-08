@@ -1,24 +1,32 @@
-<h2><?php echo $heading; ?></h2>
-<hr>
-	<a href="<?php echo site_url('job_orders/insert');?>" class="button"><span class="add">Внес</span></a>
-	<a href="#" class="button" id="complete" onClick="complete_job_orders();"><span class="complete">Затвори</span></a>
-<div class="filters">
-    <?php echo form_open('job_orders/search');?>
-	    <?php echo form_dropdown('task_fk', $tasks, set_value('task_fk')); ?>
-	    <?php echo form_dropdown('assigned_to', $employees, set_value('assigned_to')); ?>
-	    <?php echo form_dropdown('shift', array(''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3'),set_value('shift')); ?>
-	    <?php echo form_submit('','',"class='filter'");?>
-    <?php echo form_close();?>
+<?=uif::createContentHeader($heading)?>
+<div class="row-fluid">
+	<div class="span3" id="content-main-buttons">
+		<?=uif::createInsertButton('job_orders/insert')?>
+		<?=uif::createLockButton('#','complete_job_orders()',"id=complete")?>
+	</div>
+	<div class="span9 text-right" id="content-main-filters">
+		<form action="<?=site_url('job_orders/search')?>" method="POST" class="form-inline">
+	    	<?php echo form_dropdown('task_fk', $tasks, set_value('task_fk')); ?>
+	    	<?php echo form_dropdown('assigned_to', $employees, set_value('assigned_to')); ?>
+	    	<?php echo form_dropdown('shift', array(''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3'),set_value('shift')); ?>
+	    	<button type="submit" class="btn btn-primary"><i class="icon-search"></i></button>
+    	</form>
+	</div>
 </div>
-<table class="master_table">  
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
+<hr>
+	<!-- <a href="#" class="btn btn-primary" onClick="complete_job_orders();"><i class="icon-check"></i></a> -->
+<div class="filters">
+    
+</div>
+<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
+<table class="table table-stripped table-hover table-condensed data-grid">  
 	<thead>
 		<tr>
 	    	<th><?php echo form_checkbox('','',FALSE,"class='check_all'");?>&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
 	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-	    			<?php echo anchor("job_orders/index/$query_id/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    			<?php echo anchor("job_orders/index/$query_id/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
@@ -40,18 +48,17 @@
 			<td align="center"><?php echo ($row->dateofentry == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
 			<td class="functions">
 			<?php if($row->locked != 1):?>
-				<?php echo anchor('job_orders/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('job_orders/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
+				<a href="<?php echo site_url("job_orders/edit/$row->id");?>" class="icon-edit"></a>
+				<a href="<?php echo site_url("job_orders/delete/$row->id");?>" class="icon-trash del_icon"></a>
 			<?php endif;?>
 			</td>
 	</tr>
 	<?php endforeach;?>
+	</tbody>
+</table>
 <?php else:?>
 	<?php $this->load->view('includes/_no_records');?>
 <?php endif;?>
-	</tbody>
-</table>
-<?php $this->load->view('includes/_pagination');?>
 
 <script type="text/javascript">
 
@@ -77,7 +84,7 @@
 
 		var success = $.ajax({
 			  type: "POST",
-			  url: "<?php echo site_url('job_orders/ajxComplete'); ?>",
+			  url: "<?=site_url('job_orders/ajxComplete')?>",
 			  dataType: "json",
 			  data: {ids:json_ids},
 			  success: function(msg){		

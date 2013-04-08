@@ -1,16 +1,13 @@
-# [Diamond ERP](http://carniadesign.com)
+# [Diamond ERP]
 
 ### Description:
 
 Fully featured Enterprise Resource Planning for SMB.
 
-Version 1.1.0 BETA - Build on CodeIgniter Version 2.1.3
+Version 2.0.0 - ALPHA Development.
 
-### Work in Progress:
+### To-do:
 
-Extracting hard coded language constants into external language files.
-
-
-### Installation Instructions :
-
-Coming Soon!
+- Implementation of Twitter Bootstrap
+- Extracting hard coded values to external config files
+- Multilanguage support

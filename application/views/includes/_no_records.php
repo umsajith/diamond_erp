@@ -1,3 +1,3 @@
-<tr>
-	<td colspan="10" class="no_records"><span class="warning">Нема активни ставки!</span></td>
-</tr>
+<div class="alert alert-danger text-center">
+	<strong>Dang! </strong>Нема активни ставки!
+</div>

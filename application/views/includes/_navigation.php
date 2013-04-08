@@ -1,30 +1,32 @@
-<ul>
-<?php foreach($this->session->userdata('modules') as $module):?>
-	<?php
-	/*
-	 *  Generates the link, by attaching
-	 *  method (if present) to the controller (default)
-	 */
-	$link = '';
+<ul class="nav">
+	<?php foreach($this->session->userdata('modules') as $module):?>
+		<?php
 
-	if($module->folder)
-		$link = $module->folder.'/';	
+		$module_title = $module->title;
+		/*
+		 *  Generates the link, by attaching
+		 *  method (if present) to the controller (default)
+		 */
+		$link = '';
 
-	$link .= $module->controller;
+		if($module->folder)
+			$link = $module->folder.'/';	
 
-	if($module->method)
-		$link .= '/'.$module->method;
+		$link .= $module->controller;
 
-	$link .= "?ref=module&id={$module->id}";
-	
-	  	//If current controller is active, marks it as down
-	 
-		$active = '';
-		if($module->id ==  $this->input->get('id'))
-		{	
-			$active = 'down';	
-		}
-	?>
-	<li><?php echo anchor($link,$module->title,"class='split {$active}'");?></li>
-<?php endforeach;?>
+		if($module->method)
+			$link .= '/'.$module->method;
+
+		$link .= "?ref=module&id={$module->id}";
+		
+		  	//If current controller is active, marks it as down
+		 
+			$active = '';
+			if($module->id ==  $this->input->get('id'))
+			{	
+				$active = 'active';	
+			}
+		?>
+		<li <?="class='{$active}'"?>><?php echo anchor($link,$module->title);?></li>
+	<?php endforeach;?>
 </ul>
