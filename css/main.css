@@ -6,6 +6,10 @@ body {padding-top: 45px;}
 
 #diamond-logo {padding: 5px 10px 5px 10px}
 
+/* Pnotify Style Overwrite */
+.ui-pnotify-closer {display: none;}
+.ui-pnotify-icon {padding-top: 5px;}
+
 nav {}
 header {}
 aside {outline:1px solid #ccc;}

@@ -8,56 +8,52 @@
  */
 (function(){
 
-		/*
-		 * jClock time in header
-		 */
-	 	// $("#clock").jclock();	
+	$(document).on("click",".check-all", function(e) {
+		$(this).closest('table.data-grid').find('input[type=checkbox]').prop('checked', this.checked);
+	});
 
-		/*
-		 * jQuery delete dialog
-		 */
-		// $("#delete, .del_icon").on("click",function() {
-			
-		// 	var link = $(this).attr('href');
-		// 	var message = "Дали сте сигурни дека сакате да ја избришете оваа ставка?";
-			
-		// 	$("<div id='delete_dialog'>"+
-		// 		"<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 20px 0;'></span>"+
-		// 		message+"</div>")
-		// 			.dialog({ 
-		// 				modal: true,
-		// 				resizable: false,
-		// 				position: 'center',
-		// 				title:'Бришење',
-		// 				buttons: {
-		// 					"Откажи": function() { $(this).remove(); },	
-		// 					"Бриши": function() { window.location.href = link;},
-		// 			 	}
-		// 			});
-		// 	return false;
-			
-		// });	
+	$(document).on("click",".confirm-delete", function(e) {
+		bootbox.animate(false);
+	    bootbox.confirm("Sure you want to proceed?", function(result) {
+	        if(result){window.location.href = e.target.href;}
+	    });
+	    return false;
+	});
 		
-		//Disable the form Submit button, preventing multiple inserts
-		$('form').submit(function() {
-		    $(this).submit(function() {
-		        return false;
-		    });
-		    return true;
-		});
+	//Prevents Form re-submission
+	$('form').submit(function() {
+	    $(this).submit(function() {
+	        return false;
+	    });
+	    return true;
+	});
+
 })();
 
-$(document).on("click",".check-all", function(e) {
-	$(this).closest('table.data-grid').find('input[type=checkbox]').prop('checked', this.checked);
-});
+//Diamond ERP API global object
+var cd = (function(){
+	var obj = {};
 
-$(document).on("click",".confirm-delete", function(e) {
-	bootbox.animate(false);
-    bootbox.confirm("Sure you want to proceed?", function(result) {
-        if(result){window.location.href = e.target.href;}
-    });
-    return false;
-});
+	//Pnotify function for displaying notifications
+	obj.notify = function(text,type){
+
+		//Change Pnotify defaults settings
+		$.pnotify.defaults.title = "Diamond ERP";
+		$.pnotify.defaults.sticker = false;
+
+		//Pnotify options setter
+		var pnotify_opt = {
+			text: text,
+			type: type,
+			shadow: false,
+			opacity: .9
+		};
+		//Display the Pnotify dialog
+		$.pnotify(pnotify_opt);
+	};
+
+	return obj;
+})();
 
 $(document).keypress(function(e){
 	/*

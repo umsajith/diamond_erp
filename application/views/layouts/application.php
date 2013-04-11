@@ -8,9 +8,9 @@
     <link rel="icon" type="image/png" href="<?php echo base_url('favicon.ico'); ?>"> 
     <link rel="stylesheet" href="<?php echo base_url('css/normalize.css');?>" type="text/css" media="screen" />
     <link rel="stylesheet" href="<?php echo base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css');?>" type="text/css" media="screen" />
-    <link rel="stylesheet" href="<?php echo base_url('css/pnotify.css" type="text/css');?>" media="screen" />
     <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css" type="text/css');?>">
     <link rel="stylesheet" href="<?php echo base_url('css/font-awesome.min.css" type="text/css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/pnotify.default.css" type="text/css');?>" media="screen" />
     <link rel="stylesheet" href="<?php echo base_url('css/main.css');?>" type="text/css" media="screen" />
 
 </head>
@@ -31,16 +31,7 @@
             </div>
         </div>
     </nav>
-    <!-- HEADER -->
-    <!-- <header>
-        <?php //$this->load->view('includes/_header'); ?>
-    </header> -->
-    <!-- END OF HEADER -->
-
-    <!-- NAVINGATION AND SUBNAVIGATION -->
-    <!-- <nav>
-        <?php //$this->load->view('includes/_navigation');?> 
-    </nav> -->
+    
     <div class="container-fluid">
         <div class="row-fluid">
             <aside class="span2">
@@ -63,24 +54,18 @@
 
     <!-- JavaScript Loading -->
     <script src="<?php echo base_url('js/modernizr.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/pnotify.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/plugins.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
     <script src="<?php echo base_url('js/bootstrap.min.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/bootbox.min.js');?>" type="text/javascript"></script> 
+    <script src="<?php echo base_url('js/pnotify.min.js');?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/plugins.js');?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
 
     <!-- End of JavaScript Loading -->
 
     <?php if (strlen($this->session->flashdata('message'))): ?>
-           <script>
-                $(function(){
-                    $.pnotify({
-                        pnotify_title: "<?php echo $G_title;?>",
-                        pnotify_text: "<?php echo $this->session->flashdata('message'); ?>",
-                        pnotify_type:"<?php echo $this->session->flashdata('type');?>"
-                    });
-                });                 
-           </script>
+       <script>
+            cd.notify("<?=$this->session->flashdata('message')?>","<?=$this->session->flashdata('type')?>");                
+       </script>
     <?php endif; ?>
 
 </body>

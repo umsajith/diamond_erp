@@ -223,19 +223,19 @@ class Utilities {
         switch ($type) {
             case 'add':
                 $message = 'Ставката е успешно внесена!';
-                $class = 'notice';
+                $class = 'success';
                 break;
             case 'update':
                 $message = 'Ставката е успешно ажурирана!';
-                $class = 'notice';
+                $class = 'success';
                 break;
             case 'delete':
                 $message = 'Ставката е успешно избришана!';
-                $class = 'notice';
+                $class = 'success';
                 break;
             case 'void':
                 $message = 'Ставката не постои!';
-                $class = 'info';
+                $class = '';
                 break;
             case 'deny':
                 $message = 'Забранет пристап!';
