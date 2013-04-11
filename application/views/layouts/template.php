@@ -66,7 +66,9 @@
     <script src="<?php echo base_url('js/pnotify.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/plugins.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
-    <script src="<?php echo base_url('js/bootstrap.min.js');?>" type="text/javascript"></script> 
+    <script src="<?php echo base_url('js/bootstrap.min.js');?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('js/bootbox.min.js');?>" type="text/javascript"></script> 
+
     <!-- End of JavaScript Loading -->
 
     <?php if (strlen($this->session->flashdata('message'))): ?>

@@ -2,7 +2,7 @@
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::createInsertButton('job_orders/insert')?>
-		<?=uif::createLockButton('#','complete_job_orders()',"id=complete")?>
+		<?=uif::createButton('icon-ok','onClick=complete_job_orders()','success')?>
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
 		<form action="<?=site_url('job_orders/search')?>" method="POST" class="form-inline">
@@ -14,15 +14,11 @@
 	</div>
 </div>
 <hr>
-	<!-- <a href="#" class="btn btn-primary" onClick="complete_job_orders();"><i class="icon-check"></i></a> -->
-<div class="filters">
-    
-</div>
 <?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
-<table class="table table-stripped table-hover table-condensed data-grid">  
+<table class="table table-stripped table-hover data-grid">  
 	<thead>
 		<tr>
-	    	<th><?php echo form_checkbox('','',FALSE,"class='check_all'");?>&nbsp;</th>
+	    	<th><?php echo form_checkbox('','',false,"class='check_all'");?>&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
 	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
@@ -34,22 +30,22 @@
     </thead>
     <tbody>
 	<?php foreach($results as $row):?>
-	<tr id="<?php echo $row->id;?>">
-			<td class="code"><?php echo (($row->is_completed != 1)) ? form_checkbox('',$row->id,FALSE,"class='jo_check'") : '';?></td>
-			<td class="code"><?php echo anchor('job_orders/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td class="code"><?php echo ($row->is_completed == 0 ? '' : "<span class='tick_icon'></span>");?></td>
-			<td class="code"><?php echo ($row->locked == 0 ? '' : "<span class='lock_icon'></span>");?></td>
-			<td align="center"><?php echo ($row->datedue == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
+	<tr data-id="<?php echo $row->id;?>">
+			<td><?php echo ((!$row->is_completed)) ? form_checkbox('',$row->id,false,"class='jo_check'") : '';?></td>
+			<td><?=uif::createLinkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
+			<td><?=($row->is_completed) ? uif::createStaticIcon('icon-ok') : '';?></td>
+			<td><?=($row->locked) ? uif::createStaticIcon('icon-lock') : '';?></i></td>
+			<td><?php echo ($row->datedue == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
 			<td><?php echo  $row->fname. ' ' .$row->lname;?></td>
 			<td><?php echo $row->taskname;?></td>
 			<td><?php echo $row->assigned_quantity.' '.$row->uname;?></td>
 			<td><?php echo ($row->work_hours == NULL ? '-' : $row->work_hours); ?></td>
 			<td><?php echo ($row->shift == NULL ? '-' : $row->shift); ?></td>
-			<td align="center"><?php echo ($row->dateofentry == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
-			<td class="functions">
-			<?php if($row->locked != 1):?>
-				<a href="<?php echo site_url("job_orders/edit/$row->id");?>" class="icon-edit"></a>
-				<a href="<?php echo site_url("job_orders/delete/$row->id");?>" class="icon-trash del_icon"></a>
+			<td><?php echo ($row->dateofentry == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
+			<td>
+			<?php if(!$row->locked):?>
+				<?=uif::createLinkIcon("job_orders/edit/{$row->id}",'icon-edit')?>
+				<?=uif::createLinkIcon("job_orders/delete/{$row->id}",'icon-trash confirm-delete')?>
 			<?php endif;?>
 			</td>
 	</tr>

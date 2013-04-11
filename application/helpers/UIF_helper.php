@@ -27,8 +27,10 @@ class UIF {
 		$product .= "</div><hr>"; 
 		return $product;
 	}
-
-	public static function createGenericButton($link, $type = 'primary', $size = 'default')
+	/**
+	 * TODO Change function to createLinkButton
+	 */
+	public static function createLinkButton($link, $type = 'primary', $size = 'default')
 	{
 		//Add link prep and check if full link is already supplied
 		$destination = site_url($link);
@@ -40,11 +42,59 @@ class UIF {
 		$destination = site_url($link);
 		return "<a href='$destination' class='btn btn-$type btn-$size'><i class='icon-file'></i></a>";
 	}
-	public static function createLockButton($link, $onClick = false, $extra = false)
+	public static function createButton($icon = '', $attributes = '', $type = '')
 	{
-		$destination = site_url($link);
-		if($onClick)
-			$onClick = "onClick='$onClick'";
-		return "<a href='$link' class='btn btn-success' $onClick $extra><i class='icon-lock'></i></a>";
+		$icon = (string) $icon;
+		$type = (string) $type;
+
+		if ($type != '')
+		{
+			$type = 'btn-'.$type;
+		}
+
+		if ($attributes != '')
+		{
+			$attributes = _parse_attributes($attributes);
+		}
+
+		return '<button class="btn '.$type.'"'.$attributes.'><i class="'.$icon.'"></i></button>';
+	}
+
+	public static function createLinkIcon($uri = '', $icon = '', $attributes = '')
+	{
+		$icon = (string) $icon;
+
+		if ( ! is_array($uri))
+		{
+			$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
+		}
+		else
+		{
+			$site_url = site_url($uri);
+		}
+
+		if ($icon == '')
+		{
+			$icon = $site_url;
+		}
+
+		if ($attributes != '')
+		{
+			$attributes = _parse_attributes($attributes);
+		}
+
+		return '<a href="'.$site_url.'"'.'class="'.$icon.'"'.$attributes.'>'.''.'</a>';
+	}
+
+	public static function createStaticIcon($icon = '', $attributes = '')
+	{
+		$icon = (string) $icon;
+
+		if ($attributes != '')
+		{
+			$attributes = _parse_attributes($attributes);
+		}
+
+		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
 }
