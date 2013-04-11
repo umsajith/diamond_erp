@@ -1,4 +1,4 @@
-<?=uif::createContentHeader($heading)?>
+<?=uif::createContentHeader($heading,'Ekstra')?>
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::createInsertButton('job_orders/insert')?>
@@ -30,18 +30,18 @@
     </thead>
     <tbody>
 	<?php foreach($results as $row):?>
-	<tr data-id="<?php echo $row->id;?>">
+	<tr data-id="<?=$row->id?>">
 			<td><?php echo ((!$row->is_completed)) ? form_checkbox('',$row->id,false,"class='jo_check'") : '';?></td>
 			<td><?=uif::createLinkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
 			<td><?=($row->is_completed) ? uif::createStaticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::createStaticIcon('icon-lock') : '';?></i></td>
-			<td><?php echo ($row->datedue == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
+			<td><?php echo ($row->datedue == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
 			<td><?php echo  $row->fname. ' ' .$row->lname;?></td>
 			<td><?php echo $row->taskname;?></td>
 			<td><?php echo $row->assigned_quantity.' '.$row->uname;?></td>
-			<td><?php echo ($row->work_hours == NULL ? '-' : $row->work_hours); ?></td>
-			<td><?php echo ($row->shift == NULL ? '-' : $row->shift); ?></td>
-			<td><?php echo ($row->dateofentry == NULL ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
+			<td><?php echo ($row->work_hours == null ? '-' : $row->work_hours); ?></td>
+			<td><?php echo ($row->shift == null ? '-' : $row->shift); ?></td>
+			<td><?php echo ($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
 			<td>
 			<?php if(!$row->locked):?>
 				<?=uif::createLinkIcon("job_orders/edit/{$row->id}",'icon-edit')?>

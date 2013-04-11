@@ -13,18 +13,21 @@ class UIF {
 		$this->CI =& get_instance();
 	}
 
-	public static function createContentHeader($mainTitle, $infoText = false)
+	public static function createContentHeader($mainTitle, $infoText = '')
 	{
 		$product = "<div class='row-fluid'><div class='span6' id='content-main-title'>";
 		$product .= "<h4>{$mainTitle}</h4>";
 		$product .= "</div>";
-		if($infoText)
+
+		if($infoText != '')
 		{
 			$product .= "<div class='span6 text-right' id='content-main-info'>";
 			$product .= "<p class='muted'>{$infoText}</p>";
 			$product .= "</div>";
 		}
+
 		$product .= "</div><hr>"; 
+		
 		return $product;
 	}
 	/**

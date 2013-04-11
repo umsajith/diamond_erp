@@ -58,12 +58,6 @@ class MY_Controller extends CI_Controller {
             }
         }
     }
-
-    /**
-     * @todo
-     * FIX> USER CAN ACCESS CONTROLLERS WITHIN MAIN (MASTER) MODULE 
-     * EVEN IF THEY ARE FORBIDDEN
-     */
     
     private function load_sub_modules()
     {
