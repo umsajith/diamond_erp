@@ -1,5 +1,5 @@
-diamond-erp.sublime-project
-diamond-erp.sublime-workspace
+*.sublime-project
+*.sublime-workspace
 
 .htaccess
 
