@@ -1,8 +1,8 @@
-<?=uif::createContentHeader($heading,'Ekstra')?>
+<?=uif::createContentHeader($heading)?>
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::createInsertButton('job_orders/insert')?>
-		<?=uif::createButton('icon-ok','onClick=complete_job_orders()','success')?>
+		<?=uif::createButton('icon-ok','onClick=completeJobOrders()','success')?>
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
 		<form action="<?=site_url('job_orders/search')?>" method="POST" class="form-inline">
@@ -18,7 +18,7 @@
 <table class="table table-stripped table-hover data-grid">  
 	<thead>
 		<tr>
-	    	<th><?php echo form_checkbox('','',false,"class='check_all'");?>&nbsp;</th>
+	    	<th><?php echo form_checkbox('','',false,'class="check-all"');?>&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
 	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
@@ -31,7 +31,7 @@
     <tbody>
 	<?php foreach($results as $row):?>
 	<tr data-id="<?=$row->id?>">
-			<td><?php echo ((!$row->is_completed)) ? form_checkbox('',$row->id,false,"class='jo_check'") : '';?></td>
+			<td><?php echo ((!$row->is_completed)) ? form_checkbox('',$row->id,false,"class='job-order'") : '';?>&nbsp;</td>
 			<td><?=uif::createLinkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
 			<td><?=($row->is_completed) ? uif::createStaticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::createStaticIcon('icon-lock') : '';?></i></td>
@@ -56,17 +56,11 @@
 	<?php $this->load->view('includes/_no_records');?>
 <?php endif;?>
 
-<script type="text/javascript">
+<script>
 
-	$(function(){
-		$("#complete").on("click",function(e){
-			e.preventDefault();
-		});
-	});
-
-	function complete_job_orders()
+	function completeJobOrders()
 	{
-		var ids = $(".jo_check:checked").map(function(i,n) {
+		var ids = $(".job-order:checked").map(function(i,n) {
 	        return $(n).val();
 	    }).get();
 	

@@ -50,7 +50,7 @@
             </aside>
 
             <div class="span10" role="main">
-                <?=$content?>
+                <?=$yield?>
                 <?php $this->load->view('includes/_pagination');?>
             </div>
         </div>

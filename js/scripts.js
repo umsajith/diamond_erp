@@ -45,15 +45,11 @@
 		    });
 		    return true;
 		});
-		
-		/*
-		 * Check All checbox
-		 */
-		$(".check_all").on('click',function(){
-			$(this).parents('table.data-grid').find(':checkbox').attr('checked', this.checked);
-		});
-
 })();
+
+$(document).on("click",".check-all", function(e) {
+	$(this).closest('table.data-grid').find('input[type=checkbox]').prop('checked', this.checked);
+});
 
 $(document).on("click",".confirm-delete", function(e) {
 	bootbox.animate(false);
