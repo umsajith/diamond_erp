@@ -10,7 +10,7 @@
     <style>
     	body {margin-top: 25px; background-color: #444;}
 		.login-well {background-color: #fff; padding: 20px;}
-		.login {width: 400px;}
+		.login {width: 360px;}
 		.login-actions {margin-top: 0;}
 		.login-alert {margin-bottom: 0; text-align: center; font-weight: bold;}
 		#login-logo {padding: 15px; text-align: center;}
@@ -34,7 +34,7 @@
 					<div class="alert alert-error login-alert"></div>      
 				</div>
 					<div class="form-actions login-actions">
-						<button type="submit" class="btn btn-primary btn-block">Login</button>
+						<button type="submit" class="btn btn-primary input-medium pull-right"><strong>Login</strong></button>
 					</div>
 					</form>
 			</div>
@@ -71,20 +71,19 @@
 			    return false;
 			}
 
-			$.post("<?php echo site_url('login'); ?>",
-					   {username:username.val(),password:password.val(),ajax:"1"},
-					   function(data){
-						   if(data){
-							  location.replace(data);
-						   }
-						   else {
-							   alertBox.html("Authentication Failed!").fadeIn();
-							   username.val("");
-							   password.val("");
-							   username.focus();
-						   }	
-					   });
-			return false;
+			$.post("<?php echo site_url('login'); ?>",{username:username.val(),password:password.val(),ajax:"1"},
+			   function(data){
+				   if(data){
+					  location.replace(data);
+				   }
+				   else {
+					   alertBox.html("Authentication Failed!").fadeIn();
+					   username.val("");
+					   password.val("");
+					   username.focus();
+				   }	
+			   });
+				return false;
 		});
 	});
 </script>

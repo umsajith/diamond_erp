@@ -58,6 +58,10 @@
 
 <script>
 
+	$(function(){
+		$("select").select2();
+	});
+
 	function completeJobOrders()
 	{
 		var ids = $(".job-order:checked").map(function(i,n) {

@@ -5,19 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <title><?php echo $heading.' - '.$G_title; ?></title>  
-    <link rel="icon" type="image/png" href="<?php echo base_url('favicon.ico'); ?>"> 
-    <link rel="stylesheet" href="<?php echo base_url('css/normalize.css');?>" type="text/css" media="screen" />
-    <link rel="stylesheet" href="<?php echo base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css');?>" type="text/css" media="screen" />
-    <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css" type="text/css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('css/font-awesome.min.css" type="text/css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('css/pnotify.default.css" type="text/css');?>" media="screen" />
-    <link rel="stylesheet" href="<?php echo base_url('css/main.css');?>" type="text/css" media="screen" />
-
+    <link rel="icon" type="image/png" href="<?php echo base_url('favicon.ico') ?>"> 
+    <link rel="stylesheet" href="<?=base_url('css/normalize.css')?>"/>
+    <link rel="stylesheet" href="<?=base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css')?>"/>
+    <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css" type="text/css')?>">
+    <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
+    <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css" type="text/css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css" type="text/css')?>"/>
+    <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
 </head>
 <body>
     <!-- JQuery Loading -->
-    <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-    <script src="<?php echo base_url('js/jquery-ui.js'); ?>"></script>
+    <script src="<?=base_url('js/jquery.js')?>"></script>
+    <script src="<?=base_url('js/jquery-ui.js')?>"></script>
     <!-- End of JQuery Loading -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
@@ -28,8 +29,14 @@
                 <div class="nav-collapse collapse">
                     <?php $this->load->view('includes/_navigation'); ?>
                 </div>
+                <div class="pull-right">
+                    <!-- <button href="#" class="btn btn-info"></button> -->
+                    <a href="<?=site_url('logout')?>" class="btn btn-info" alt="Sign Out"><i class="icon-signout"></i></a>
+                </div>
             </div>
+            
         </div>
+        
     </nav>
     
     <div class="container-fluid">
@@ -53,16 +60,17 @@
     <!-- END OF FOOTER -->
 
     <!-- JavaScript Loading -->
-    <script src="<?php echo base_url('js/modernizr.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/bootstrap.min.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/bootbox.min.js');?>" type="text/javascript"></script> 
-    <script src="<?php echo base_url('js/pnotify.min.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/plugins.js');?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('js/scripts.js');?>" type="text/javascript"></script> 
+    <script src="<?=base_url('js/modernizr.js')?>"></script>
+    <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
+    <script src="<?=base_url('js/bootbox.min.js')?>"></script> 
+    <script src="<?=base_url('js/pnotify.min.js')?>"></script>
+    <script src="<?=base_url('js/select2.js')?>"></script>
+    <script src="<?=base_url('js/plugins.js')?>"></script>
+    <script src="<?=base_url('js/scripts.js')?>"></script> 
 
     <!-- End of JavaScript Loading -->
 
-    <?php if (strlen($this->session->flashdata('message'))): ?>
+    <?php if(strlen($this->session->flashdata('message'))): ?>
        <script>
             cd.notify("<?=$this->session->flashdata('message')?>","<?=$this->session->flashdata('type')?>");                
        </script>
