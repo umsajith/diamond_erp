@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <title><?=$heading.' - '.$G_title?></title>  
-    <link rel="icon" type="image/png" href="<?php=base_url('favicon.ico')?>"> 
+    <link rel="icon" type="image/png" href="<?=base_url('favicon.ico')?>"> 
     <link rel="stylesheet" href="<?=base_url('css/normalize.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css" type="text/css')?>">
