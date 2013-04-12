@@ -33,7 +33,7 @@
                 </div>
                 <div class="pull-right">
                     <!-- <button href="#" class="btn btn-info"></button> -->
-                    <a href="<?=site_url('logout')?>" class="btn btn-info" alt="Sign Out"><i class="icon-signout"></i></a>
+                    <?=uif::linkButton('logout', 'info','icon-signout')?>
                 </div>
             </div>
             

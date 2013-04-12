@@ -30,33 +30,6 @@
 
 })();
 
-//Diamond ERP API global object
-var cd = (function(){
-	var obj = {};
-
-	//Pnotify function for displaying notifications
-	obj.notify = function(text, type){
-
-		//Change Pnotify defaults settings
-		$.pnotify.defaults.title = "Diamond ERP";
-
-		$.pnotify.defaults.sticker = false;
-
-		$.pnotify.defaults.delay = 1750;
-
-		//Pnotify options setter
-		var pnotify_opt = {
-			text: text,
-			type: type,
-			shadow: false,
-			opacity: .9
-		};
-		//Display the Pnotify dialog
-		$.pnotify(pnotify_opt);
-	};
-
-	return obj;
-})();
 
 $(document).keypress(function(e){
 	/*
@@ -78,3 +51,47 @@ $(document).keypress(function(e){
 			$('form').submit(function(){});
 	  }
 });
+
+//Diamond ERP API global object
+var cd = (function(){
+
+	var obj = {};
+
+	//Pnotify function for displaying notifications
+	obj.notify = function(text, type){
+		//Change Pnotify defaults settings
+		$.pnotify.defaults.title = "Diamond ERP";
+
+		$.pnotify.defaults.sticker = false;
+
+		$.pnotify.defaults.delay = 1750;
+
+		//Pnotify options setter
+		var pnotify_opt = {
+			text: text,
+			type: type,
+			shadow: false,
+			opacity: .9
+		};
+		//Display the Pnotify dialog
+		$.pnotify(pnotify_opt);
+	};
+
+	obj.completeJobOrders = function(url){
+
+		var ids = $(".job-order:checked").map(function(i,n) {
+	        return $(n).val();
+	    }).get();
+
+		if(ids.length == 0){
+			this.notify("Потребно е да селектирате барем една ставка");
+			return false;
+		}
+
+		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
+		  if(data) location.reload(true);
+		}, 'json');
+	}
+
+	return obj;
+})();

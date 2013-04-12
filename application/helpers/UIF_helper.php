@@ -13,7 +13,7 @@ class UIF {
 		$this->CI =& get_instance();
 	}
 
-	public static function createContentHeader($mainTitle, $infoText = '')
+	public static function contentHeader($mainTitle, $infoText = '')
 	{
 		$product = "<div class='row-fluid'><div class='span6' id='content-main-title'>";
 		$product .= "<h4>{$mainTitle}</h4>";
@@ -30,22 +30,20 @@ class UIF {
 		
 		return $product;
 	}
-	/**
-	 * TODO Change function to createLinkButton
-	 */
-	public static function createLinkButton($link, $type = 'primary', $size = 'default')
+
+	public static function linkButton($uri = '', $type = 'primary', $icon = '')
 	{
-		//Add link prep and check if full link is already supplied
+		$uri = site_url($uri);
+		return '<a href="'.$uri.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>"';
+	}
+
+	public static function insertLinkButton($link, $type = 'primary', $size = 'default')
+	{
 		$destination = site_url($link);
 		return "<a href='$destination' class='btn btn-$type btn-$size'><i class='icon-file'></i></a>";
 	}
 
-	public static function createInsertButton($link, $type = 'primary', $size = 'default')
-	{
-		$destination = site_url($link);
-		return "<a href='$destination' class='btn btn-$type btn-$size'><i class='icon-file'></i></a>";
-	}
-	public static function createButton($icon = '', $attributes = '', $type = '')
+	public static function button($icon = '', $type = '', $attributes = '')
 	{
 		$icon = (string) $icon;
 		$type = (string) $type;
@@ -63,7 +61,7 @@ class UIF {
 		return '<button class="btn '.$type.'"'.$attributes.'><i class="'.$icon.'"></i></button>';
 	}
 
-	public static function createLinkIcon($uri = '', $icon = '', $attributes = '')
+	public static function linkIcon($uri = '', $icon = '', $attributes = '')
 	{
 		$icon = (string) $icon;
 
@@ -89,7 +87,7 @@ class UIF {
 		return '<a href="'.$site_url.'"'.'class="'.$icon.'"'.$attributes.'>'.'&nbsp;'.'</a>';
 	}
 
-	public static function createStaticIcon($icon = '', $attributes = '')
+	public static function staticIcon($icon = '', $attributes = '')
 	{
 		$icon = (string) $icon;
 
@@ -101,14 +99,14 @@ class UIF {
 		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
 
-	public static function createActionGroup($controller = '', $id = '', $edit = 'edit', $delete = 'delete')
+	public static function actionGroup($controller = '', $id = '', $edit = 'edit', $delete = 'delete')
 	{
-		$edit = $controller . '/'. $edit .'/' . $id;
-		$editIcon = self::createLinkIcon($edit,'icon-edit');
+		$edit = $controller.'/'.$edit.'/'.$id;
+		$editIcon = self::linkIcon($edit,'icon-edit');
 
-		$delete = $controller . '/'. $delete .'/' . $id;
-		$deleteIcon = self::createLinkIcon($delete,'icon-trash confirm-delete');
+		$delete = $controller.'/'.$delete.'/'.$id;
+		$deleteIcon = self::linkIcon($delete,'icon-trash confirm-delete');
 
-		return $editIcon . $deleteIcon;
+		return $editIcon.'&nbsp;'.$deleteIcon;
 	}
 }
