@@ -30,27 +30,26 @@
 
 })();
 
-
-$(document).keypress(function(e){
-	/*
-	 * If keyboard key "v" is pressed (#118)
-	 * Redirects to Insert page
-	 */
-	  if(e.charCode == 118){  
-		var link = $('span.add').parent().attr('href');
+// $(document).keypress(function(e){
+// 	/*
+// 	 * If keyboard key "v" is pressed (#118)
+// 	 * Redirects to Insert page
+// 	 */
+// 	  if(e.charCode == 118){  
+// 		var link = $('a.insert').attr('href');
 		
-		if(link !== undefined)
-			location.replace(link);
-	  }
+// 		if(link !== undefined)
+// 			location.replace(link);
+// 	  }
 	  
-	  /*
-	   * If keyboard key "enter" is pressed (#13)
-	   * Form submited to default action
-	   */
-	  if(e.charCode == 13){  
-			$('form').submit(function(){});
-	  }
-});
+// 	  /*
+// 	   * If keyboard key "enter" is pressed (#13)
+// 	   * Form submited to default action
+// 	   */
+// 	  if(e.charCode == 13){  
+// 			$('form').submit(function(){});
+// 	  }
+// });
 
 //Diamond ERP API global object
 var cd = (function(){

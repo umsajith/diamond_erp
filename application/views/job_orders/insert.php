@@ -1,50 +1,74 @@
-<h2><?php echo $heading; ?></h2>
-<?php echo form_open('job_orders/insert',array('id'=>'job_order'));?>
-<hr>
-    <?php echo form_submit('','Сними','class="save"');?>
-<hr>
-<table class="data_forms_jo">
-	<tr>
-	    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
-	    <td><?php echo form_input('datedue',set_value('datedue')); ?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Работник:');?><span class='req'>*</span></td>
-	    <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to'));?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Работна Задача:');?><span class='req'>*</span></td>
-	    <td><select id="tasks"></select></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Количина:');?><span class='req'>*</span></td>
-	    <td><?php echo form_input('assigned_quantity',set_value('assigned_quantity'));?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Растур: ');?></td>
-	    <td><?php echo form_input('defect_quantity',set_value('defect_quantity'));?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('ЕМ: ');?></td>
-	    <td><?php echo form_input(array('id'=>'uname'));?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Работни Часови: ');?></td>
-	    <td><?php echo form_input('work_hours',set_value('work_hours'));?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Смена: ');?></td>
-	    <td>1<?php echo form_radio('shift','1',false);?> 2<?php echo form_radio('shift','2',false);?>3 <?php echo form_radio('shift','3',false);?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Забелешка: ');?></td>
-	    <td><?php echo form_textarea('description');?></td>
-	</tr>
-	<?php echo form_hidden('task_fk');?>
-<?php echo form_close();?>
-</table>
-<?php echo validation_errors(); ?>
-<?php $this->load->view('job_orders/_last_job_order_view'); ?>
+<?=uif::contentHeader($heading)?>
+<?=form_open('job_orders/insert','class="form-horizontal"')?>
+    <?=uif::submitButton();?>
+	<hr>
+	<?=uif::load('_validation')?>
+	<div class="control-group">
+		<label class="control-label">Датум</label>
+		<div class="controls">
+			<?=form_input('datedue',set_value('datedue'))?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Работник</label>
+		<div class="controls">
+			<?=form_dropdown('assigned_to',$employees, set_value('assigned_to'))?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Работна Задача</label>
+		<div class="controls">
+			<?=form_dropdown('',[],'','id="tasks"')?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Количина</label>
+		<div class="controls">
+			<?=form_input('assigned_quantity',set_value('assigned_quantity'))?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Растур</label>
+		<div class="controls">
+			<?=form_input('defect_quantity',set_value('defect_quantity'))?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ЕМ</label>
+		<div class="controls">
+			<input type="text" id="uname" disabled>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Работни Часови</label>
+		<div class="controls">
+			<?=form_input('work_hours',set_value('work_hours'))?>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Смена</label>
+		<div class="controls">
+			<label class="radio">
+				1<?=form_radio('shift','1',false);?>
+			</label>
+			<label class="radio">
+				2<?=form_radio('shift','2',false);?>
+			</label>
+			<label class="radio">
+				3<?=form_radio('shift','3',false);?>
+			</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Забелешка</label>
+		<div class="controls">
+			<?=form_textarea('description',set_value('description'))?>
+		</div>
+	</div>
+	<?=form_hidden('task_fk')?>
+<?=form_close()?>
+
+<?php //$this->load->view('job_orders/_last_job_order_view'); ?>
 
 <script>
 
@@ -94,10 +118,6 @@ $(function() {
 			  $("input[name=task_fk]").val(data_obj[this.selectedIndex-1].id);
 			  $("input#uname").val(data_obj[this.selectedIndex-1].uname);  
 		});	
-
-		$("#job_order").on("submit",function(){
-			$("input[name=submit]").attr("disabled","disabled");
-		});
 });
 	
 </script>

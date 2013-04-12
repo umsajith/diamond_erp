@@ -26,14 +26,13 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <div class="brand" id="diamond-logo">
-                    <img src="<?php echo base_url('img/diamond_erp_logo_30.png');?>" alt="">
+                    <img src="<?=base_url('img/diamond_erp_logo_30.png')?>" alt="">
                 </div>
                 <div class="nav-collapse collapse">
-                    <?php $this->load->view('includes/_navigation'); ?>
+                    <?=uif::load('_navigation')?>
                 </div>
                 <div class="pull-right">
-                    <!-- <button href="#" class="btn btn-info"></button> -->
-                    <?=uif::linkButton('logout', 'info','icon-signout')?>
+                    <?=uif::linkButton('logout','info','icon-signout')?>
                 </div>
             </div>
             
@@ -46,13 +45,13 @@
         <div class="row-fluid">
             <aside class="span2">
                 <div class="sidebar-nav">
-                    <?php $this->load->view('includes/_sub_modules'); ?>
+                    <?=uif::load('_sub_modules')?>
                 </div>
             </aside>
 
             <div class="span10" role="main">
                 <?=$yield?>
-                <?php $this->load->view('includes/_pagination');?>
+                <?=uif::load('_pagination')?>
             </div>
         </div>
     </div>
@@ -60,7 +59,7 @@
 
     <!-- FOOTER -->
     <footer>
-        <?php $this->load->view('includes/_footer');?>
+        <?=uif::load('_footer')?>
     </footer>
     <!-- END OF FOOTER -->
 

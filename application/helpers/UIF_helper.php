@@ -33,8 +33,16 @@ class UIF {
 
 	public static function linkButton($uri = '', $type = 'primary', $icon = '')
 	{
-		$uri = site_url($uri);
-		return '<a href="'.$uri.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>"';
+		if ( ! is_array($uri))
+		{
+			$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
+		}
+		else
+		{
+			$site_url = site_url($uri);
+		}
+
+		return '<a href="'.$site_url.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>"';
 	}
 
 	public static function insertLinkButton($link, $type = 'primary', $size = 'default')
@@ -59,6 +67,11 @@ class UIF {
 		}
 
 		return '<button class="btn '.$type.'"'.$attributes.'><i class="'.$icon.'"></i></button>';
+	}
+
+	public static function submitButton()
+	{
+		return self::button('icon-save','primary','type="submit"');
 	}
 
 	public static function linkIcon($uri = '', $icon = '', $attributes = '')
@@ -108,5 +121,14 @@ class UIF {
 		$deleteIcon = self::linkIcon($delete,'icon-trash confirm-delete');
 
 		return $editIcon.'&nbsp;'.$deleteIcon;
+	}
+	/**
+	 * Resource Loader
+	 * - loads partials from views/includes folder by default
+	 */
+	public static function load($resource = '', $folder = 'includes')
+	{
+		$CI =& get_instance();
+		return $CI->load->view($folder.'/'.$resource);
 	}
 }
