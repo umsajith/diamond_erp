@@ -18,11 +18,12 @@
 <table class="table table-stripped table-hover data-grid">  
 	<thead>
 		<tr>
-	    	<th><?php echo form_checkbox('','',false,'class="check-all"');?>&nbsp;</th>
+	    	<th><input type="checkbox" class="check-all">&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
 	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-	    			<?php echo anchor("job_orders/index/$query_id/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    			<?=anchor("job_orders/index/$query_id/{$col_name}/".
+	    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
 	    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
@@ -30,22 +31,21 @@
     </thead>
     <tbody>
 	<?php foreach($results as $row):?>
-	<tr data-id="<?=$row->id?>">
-			<td><?php echo ((!$row->is_completed)) ? form_checkbox('',$row->id,false,"class='job-order'") : '';?>&nbsp;</td>
+	<tr data-id=<?=$row->id?>>
+			<td><?=((!$row->is_completed)) ? '<input type="checkbox" value='.$row->id.' class="job-order">' : '&nbsp;'?></td>
 			<td><?=uif::createLinkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
 			<td><?=($row->is_completed) ? uif::createStaticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::createStaticIcon('icon-lock') : '';?></i></td>
-			<td><?php echo ($row->datedue == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
-			<td><?php echo  $row->fname. ' ' .$row->lname;?></td>
-			<td><?php echo $row->taskname;?></td>
-			<td><?php echo $row->assigned_quantity.' '.$row->uname;?></td>
-			<td><?php echo ($row->work_hours == null ? '-' : $row->work_hours); ?></td>
-			<td><?php echo ($row->shift == null ? '-' : $row->shift); ?></td>
-			<td><?php echo ($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
+			<td><?=($row->datedue == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
+			<td><?= $row->fname. ' ' .$row->lname;?></td>
+			<td><?=$row->taskname;?></td>
+			<td><?=$row->assigned_quantity.' '.$row->uname;?></td>
+			<td><?=($row->work_hours == null ? '-' : $row->work_hours); ?></td>
+			<td><?=($row->shift == null ? '-' : $row->shift); ?></td>
+			<td><?=($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
 			<td>
 			<?php if(!$row->locked):?>
-				<?=uif::createLinkIcon("job_orders/edit/{$row->id}",'icon-edit')?>
-				<?=uif::createLinkIcon("job_orders/delete/{$row->id}",'icon-trash confirm-delete')?>
+				<?=uif::createActionGroup('job_orders',$row->id)?>
 			<?php endif;?>
 			</td>
 	</tr>
@@ -70,7 +70,7 @@
 	
 		if(ids.length == 0)
 		{
-			$.pnotify({pnotify_text:"Нема селектирани ставки!",pnotify_type: "info"});		
+			cd.notify("Нема селектирани ставки!");		
 			return false;
 		}
 		

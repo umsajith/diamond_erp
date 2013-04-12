@@ -29,7 +29,7 @@ class Job_orders extends MY_Controller {
 			'datedue'=>'Датум',
 			'assigned_to'=>'Работник',
 			'task_fk'=>'Работна Задача',
-			'assigned_quantity'=>'Количина/Траење',
+			'assigned_quantity'=>'Кол./Траење',
 			'work_hours'=>'Раб.Часови',
 			'shift'=>'Смена',
 			'dateofentry'=>'Внес'

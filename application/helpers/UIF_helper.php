@@ -100,4 +100,15 @@ class UIF {
 
 		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
+
+	public static function createActionGroup($controller = '', $id = '', $edit = 'edit', $delete = 'delete')
+	{
+		$edit = $controller . '/'. $edit .'/' . $id;
+		$editIcon = self::createLinkIcon($edit,'icon-edit');
+
+		$delete = $controller . '/'. $delete .'/' . $id;
+		$deleteIcon = self::createLinkIcon($delete,'icon-trash confirm-delete');
+
+		return $editIcon . $deleteIcon;
+	}
 }

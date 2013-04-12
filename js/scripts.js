@@ -35,10 +35,11 @@ var cd = (function(){
 	var obj = {};
 
 	//Pnotify function for displaying notifications
-	obj.notify = function(text,type){
+	obj.notify = function(text, type){
 
 		//Change Pnotify defaults settings
 		$.pnotify.defaults.title = "Diamond ERP";
+
 		$.pnotify.defaults.sticker = false;
 
 		//Pnotify options setter

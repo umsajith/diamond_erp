@@ -13,6 +13,6 @@
 
 			$link .= "?ref=sub_module&id={$sub_module->parent_id}";
 		?>
-		<li><?php echo anchor($link,$sub_module->title);?></li>
+		<li><?=anchor($link,$sub_module->title)?></li>
 	<?php endforeach;?>
 </ul>
