@@ -42,6 +42,8 @@ var cd = (function(){
 
 		$.pnotify.defaults.sticker = false;
 
+		$.pnotify.defaults.delay = 1750;
+
 		//Pnotify options setter
 		var pnotify_opt = {
 			text: text,
