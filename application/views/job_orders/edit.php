@@ -8,10 +8,8 @@
 	<?php echo form_submit('','Сними','class="save"');?>
 <hr>
 <table class="data_forms_jo">
-<tr>
-    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
-    <td><?php echo form_input('datedue',set_value('datedue',$job_order->datedue)); ?></td>
-</tr>
+<?=uif::controlGroup('text','Датум','datedue',$job_order)?>
+<?=uif::controlGroup('dropdown','Работник','assigned_to',[$employees,$job_order])?>
 <tr>
     <td class="label"><?php echo form_label('Работник: ');?><span class='req'>*</span></td>
     <td><?php echo form_dropdown('assigned_to',$employees, set_value('assigned_to',$job_order->assigned_to));?></td>

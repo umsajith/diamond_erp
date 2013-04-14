@@ -5,48 +5,13 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<div class="control-group">
-			<label class="control-label">Датум</label>
-			<div class="controls">
-				<?=form_input('datedue',set_value('datedue'))?>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Работник</label>
-			<div class="controls">
-				<?=form_dropdown('assigned_to',$employees, set_value('assigned_to'))?>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Работна Задача</label>
-			<div class="controls">
-				<?=form_dropdown('',[],'','id="tasks"')?>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Количина</label>
-			<div class="controls">
-				<?=form_input('assigned_quantity',set_value('assigned_quantity'))?>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Растур</label>
-			<div class="controls">
-				<?=form_input('defect_quantity',set_value('defect_quantity'))?>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">ЕМ</label>
-			<div class="controls">
-				<input type="text" id="uname" disabled>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Работни Часови</label>
-			<div class="controls">
-				<?=form_input('work_hours',set_value('work_hours'))?>
-			</div>
-		</div>
+		<?=uif::controlGroup('text','Датум','datedue')?>
+		<?=uif::controlGroup('dropdown','Работник','assigned_to',[$employees])?>
+		<?=uif::controlGroup('dropdown','Работна Задача','',[],'id="tasks"')?>
+		<?=uif::controlGroup('text','Количина','assigned_quantity')?>
+		<?=uif::controlGroup('text','Растур','defect_quantity')?>
+		<?=uif::controlGroup('text','ЕМ','','','id="uname" disabled')?>
+		<?=uif::controlGroup('text','Работни Часови','work_hours')?>
 		<div class="control-group">
 			<label class="control-label">Смена</label>
 			<div class="controls">
@@ -61,12 +26,7 @@
 				</label>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">Забелешка</label>
-			<div class="controls">
-				<?=form_textarea('description',set_value('description'))?>
-			</div>
-		</div>
+		<?=uif::controlGroup('textarea','Забелешка','description')?>
 		<?=form_hidden('task_fk')?>
 	<?=form_close()?>
 	</div>

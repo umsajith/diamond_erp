@@ -13,7 +13,7 @@ class UIF {
 		$this->CI =& get_instance();
 	}
 
-	public static function contentHeader($mainTitle, $meta = '')
+	public static function contentHeader($mainTitle = '', $meta = '')
 	{
 		$product = "<div class='row-fluid'><div class='span6' id='content-main-title'>";
 		$product .= "<h4>{$mainTitle}</h4>";
@@ -125,6 +125,38 @@ class UIF {
 		$deleteIcon = self::linkIcon($delete,'icon-trash confirm-delete');
 
 		return '<div class="action-group">'.$editIcon.' '.$deleteIcon.'</div>';
+	}
+
+	public static function controlGroup($type = '', $label = '', $name = '', $value = false, $attributes = '')
+	{
+		$out  = '<div class="control-group">';
+		$out .= '<label class="control-label">'.$label.'</label>';
+		$out .= '<div class="controls">';
+
+		if ($attributes != '')
+		{
+			$attributes = _parse_attributes($attributes);
+		}
+
+		switch ($type) {
+			case 'text':
+				$out .= form_input($name,set_value($name,($value) ? $value->$name : ''),$attributes);
+				break;
+			case 'dropdown':
+				$out .= form_dropdown($name,(isset($value[0])) ? $value[0] : [],
+					set_value($name,(isset($value[1])) ? $value[1]->$name : ''),$attributes);
+				break;
+			case 'textarea':
+				$out .= form_textarea($name,set_value($name,($value) ? $value->$name : ''),$attributes);
+				break;
+			default:
+				$out .= '';
+				break;
+		}
+
+		$out .= '</div></div>';
+
+		return $out;
 	}
 	/**
 	 * Resource Loader
