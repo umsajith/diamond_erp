@@ -1,64 +1,67 @@
-<h2><?php echo $heading; ?></h2>
-<hr/>
-	<div id="meta">
-		<p>бр.<?php echo $master->id;?></p>
-		<p><?php echo $master->dateofentry;?></p>
-	</div>	
-    <?php if($master->locked != 1):?>
-    	<div id="buttons">
-    		<a href="<?php echo site_url('job_orders/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
-    		<a href="<?php echo site_url('job_orders/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>	
-    	</div>
-    <hr/>
+<?=uif::contentHeader($heading,$master)?>
+    <?php if(!$master->locked):?>
+        <?=uif::linkButton("job_orders/edit/$master->id",'icon-edit','warning')?>
+        <?=uif::linkDeleteButton("job_orders/delete/$master->id")?>
+        <hr>
     <?php endif;?>
-    <?php if($master->payroll_fk != null):?>
-        <h4>Ставката е заклучена по калкулација за плата бр. <?php echo anchor('payroll/view/'.$master->payroll_fk,$master->payroll_fk);?></h4>
-    <?php endif;?>
-    
-<div class="f_left">
-	<dl>
-        <dt>Датум:</dt>
-        <dd><?php echo ($master->datedue == NULL ? '-' : $master->datedue);?></dd>
-        <dt>Работник:</dt>
-        <dd><?php echo $master->fname.' '.$master->lname;?></dd>
-        <dt>Работна Задача:</dt>
-        <dd><?php echo $master->taskname;?></dd>
-        <?php if ($master->calculation_rate): ?>
-            <dt>Основна Цена:</dt>
-            <dd><?php echo $master->calculation_rate.$G_currency.'/'.$master->uname;?></dd>
-        <?php endif; ?>
-        <dt>Количина:</dt>
-        <dd><?php echo $master->assigned_quantity . ' ' . $master->uname ;?></dd>
-        <dt>Растур:</dt>
-        <dd><?php echo ($master->defect_quantity == NULL ? '-' : ($master->defect_quantity. ' ' . $master->uname));?></dd>
-        <dt>Работни Часови:</dt>
-        <dd><?php echo ($master->work_hours == NULL ? '-' : $master->work_hours);?></dd>
-        <dt>Смена:</dt>
-        <dd><?php echo ($master->shift == NULL ? '-' : $master->shift);?></dd>
-        <dt>Забелешка:</dt>
-        <dd><?php echo ($master->description == NULL ? '-' : $master->description);?></dd>
-        <?php if($this->session->userdata('admin')):?>
-            <dt>Оператор:</dt>
-            <dd><?php echo $master->operator;?></dd>  
+<div class="row-fluid">
+    <div class="span5">  
+        <dl class="dl-horizontal">
+            <dt>Датум:</dt>
+            <dd><?=($master->datedue == null ? '-' : $master->datedue);?></dd>
+            <dt>Работник:</dt>
+            <dd><?=$master->fname.' '.$master->lname;?></dd>
+            <dt>Работна Задача:</dt>
+            <dd><?=$master->taskname;?></dd>
+            <?php if ($master->calculation_rate): ?>
+                <dt>Основна Цена:</dt>
+                <dd><?=$master->calculation_rate.$G_currency.'/'.$master->uname;?></dd>
+            <?php endif; ?>
+            <dt>Количина:</dt>
+            <dd><?=$master->assigned_quantity . ' ' . $master->uname ;?></dd>
+            <dt>Растур:</dt>
+            <dd><?=($master->defect_quantity == null ? '-' : ($master->defect_quantity. ' ' . $master->uname));?></dd>
+            <dt>Работни Часови:</dt>
+            <dd><?=($master->work_hours == null ? '-' : $master->work_hours);?></dd>
+            <dt>Смена:</dt>
+            <dd><?=($master->shift == null ? '-' : $master->shift);?></dd>
+            <dt>Забелешка:</dt>
+            <dd><?=($master->description == null ? '-' : $master->description);?></dd>
+            <?php if($this->session->userdata('admin')):?>
+                <dt>Оператор:</dt>
+                <dd><?=$master->operator;?></dd>  
+            <?php endif;?>
+        </dl>
+    </div>
+    <div class="span7">
+        <?php if (isset($details) AND is_array($details) AND count($details)):?>
+            <table class="table table-condensed table-bordered">
+                <caption><h4>Употребени Сировини</h4></caption>
+                <thead>
+                    <tr>
+                        <th>Артикл</th>
+                        <th>Категорија</th>
+                        <th>Количина</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($details as $row):?>
+                    <tr>
+                        <td><?=$row->prodname;?></td>
+                        <td><?=$row->pcname;?></td>
+                        <td><?=$row->quantity. ' ' .$row->uname;?></td>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
         <?php endif;?>
-	</dl>
+        <?php if($master->payroll_fk != null):?>
+        <div class="alert">
+            <i class="icon-lock"></i>
+            <strong>Овој работен налог е заклучен по калкулација за плата #
+            <?=anchor("payroll/view/$master->payroll_fk",$master->payroll_fk);?></strong>
+        </div>
+<?php endif;?>  
+    </div>
 </div>
-<?php if (isset($details) AND is_array($details) AND count($details)):?>
-<div class="f_right">
-	<h3>Употребени Сировини</h3>
-	<table class="master_table">
-    <tr>
-    	<th>Артикл</th>
-    	<th>Категорија</th>
-    	<th>Количина</th>
-    </tr>
-	<?php foreach($details as $row):?>
-	<tr>
-		<td><?php echo $row->prodname;?></td>
-		<td><?php echo $row->pcname;?></td>
-		<td><?php echo $row->quantity. ' ' .$row->uname;?></td>
-	</tr>
-	<?php endforeach;?>
-	</table>
-</div>
-<?php endif;?>
+

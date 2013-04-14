@@ -32,7 +32,7 @@
                     <?=uif::load('_navigation')?>
                 </div>
                 <div class="pull-right">
-                    <?=uif::linkButton('logout','info','icon-signout')?>
+                    <?=uif::linkButton('logout','icon-signout','info')?>
                 </div>
             </div>
             

@@ -1,8 +1,7 @@
 hr {margin-top:5px; margin-bottom:5px;}
 body {padding-top: 45px;}
 
-.pagination {margin:0; margin-top:5px;}
-.table {margin:0;}
+.pagination {margin:0;}
 
 #diamond-logo {padding: 5px 10px 5px 10px}
 
@@ -30,6 +29,8 @@ footer {font-size: 10px; border-top: 1px solid #ccc; margin-top: 5px; background
 .data-grid th {background-color:#0088aa; color:#fff;}
 .data-grid th a {color:#fff; text-decoration:none;}
 .data-grid td a {color:#222; text-decoration:none;}
+
+.action-group a {color:#222; text-decoration:none;}
 
 /* Font Awesome Icon Size Overwrite */
 [class^="icon-"],[class*=" icon-"] {font-size: 14px;}

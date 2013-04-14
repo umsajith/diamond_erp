@@ -13,16 +13,16 @@ class UIF {
 		$this->CI =& get_instance();
 	}
 
-	public static function contentHeader($mainTitle, $infoText = '')
+	public static function contentHeader($mainTitle, $meta = '')
 	{
 		$product = "<div class='row-fluid'><div class='span6' id='content-main-title'>";
 		$product .= "<h4>{$mainTitle}</h4>";
 		$product .= "</div>";
 
-		if($infoText != '')
+		if($meta != '')
 		{
 			$product .= "<div class='span6 text-right' id='content-main-info'>";
-			$product .= "<p class='muted'>{$infoText}</p>";
+			$product .= "<p class='muted'>#{$meta->id} @{$meta->dateofentry}</p>";
 			$product .= "</div>";
 		}
 
@@ -31,7 +31,7 @@ class UIF {
 		return $product;
 	}
 
-	public static function linkButton($uri = '', $type = 'primary', $icon = '')
+	public static function linkButton($uri = '', $icon = '', $type = 'primary')
 	{
 		if ( ! is_array($uri))
 		{
@@ -42,13 +42,17 @@ class UIF {
 			$site_url = site_url($uri);
 		}
 
-		return '<a href="'.$site_url.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>"';
+		return '<a href="'.$site_url.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>';
 	}
 
-	public static function insertLinkButton($link, $type = 'primary', $size = 'default')
+	public static function linkDeleteButton($uri = '')
 	{
-		$destination = site_url($link);
-		return "<a href='$destination' class='btn btn-$type btn-$size'><i class='icon-file'></i></a>";
+		return self::linkButton($uri, 'icon-trash confirm-delete', 'danger');
+	}
+
+	public static function linkInsertButton($uri = '')
+	{
+		return self::linkButton($uri, 'icon-file');
 	}
 
 	public static function button($icon = '', $type = '', $attributes = '')
@@ -120,7 +124,7 @@ class UIF {
 		$delete = $controller.'/'.$delete.'/'.$id;
 		$deleteIcon = self::linkIcon($delete,'icon-trash confirm-delete');
 
-		return $editIcon.'&nbsp;'.$deleteIcon;
+		return '<div class="action-group">'.$editIcon.' '.$deleteIcon.'</div>';
 	}
 	/**
 	 * Resource Loader

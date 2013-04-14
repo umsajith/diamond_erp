@@ -1,21 +1,19 @@
-<?php if ($last): ?>
-<div class="last_job_order">
-	<h3>Последен работен налог</h3>
-	<dl>
-	        <dt>Работник:</dt>
-	        <dd><?php echo $last->fname.' '.$last->lname;?></dd>
-	        <dt>Работна Задача:</dt>
-	        <dd><?php echo $last->taskname;?></dd>
-	        <dt>За Датум:</dt>
-	        <dd><?php echo ($last->datedue == NULL ? '-' : $last->datedue);?></dd>
-	        <dt>Зададена Кол.:</dt>
-	        <dd><?php echo $last->assigned_quantity . ' ' . $last->uname ;?></dd>
-	        <dt>Работни Часови:</dt>
-	        <dd><?php echo ($last->work_hours == NULL ? '-' : $last->work_hours . ' час/а');?></dd>
-	        <dt>Смена:</dt>
-	        <dd><?php echo ($last->shift == NULL ? '-' : $last->shift);?></dd>
-	        <dt>Корекција:</dt>
-	        <?php echo anchor("job_orders/edit/$last->id",'&nbsp;','class="edit_icon"');?>
-	</dl>
-</div>
+<?php if(isset($last)): ?>
+	<h4 class="text-center">Последен Работен Налог</h4>
+<dl class="dl-horizontal">
+    <dt>Датум:</dt>
+    <dd><?=($last->datedue==null?'-':$last->datedue);?></dd>
+    <dt>Работник:</dt>
+    <dd><?=$last->fname.' '.$last->lname;?></dd>
+    <dt>Работна Задача:</dt>
+    <dd><?=$last->taskname;?></dd>
+    <dt>Количина</dt>
+    <dd><?=$last->assigned_quantity.' '.$last->uname ;?></dd>
+    <dt>Работни Часови:</dt>
+    <dd><?=($last->work_hours==null ?'-':$last->work_hours.' час/а');?></dd>
+    <dt>Смена:</dt>
+    <dd><?=($last->shift==null?'-':$last->shift);?></dd>
+    <dt>&nbsp;</dt>
+	<dd><?=uif::actionGroup('job_orders',$last->id)?></dd>
+</dl>
 <?php endif ?>

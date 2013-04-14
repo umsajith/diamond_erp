@@ -2,74 +2,78 @@
 <?=form_open('job_orders/insert','class="form-horizontal"')?>
     <?=uif::submitButton();?>
 	<hr>
-	<?=uif::load('_validation')?>
-	<div class="control-group">
-		<label class="control-label">Датум</label>
-		<div class="controls">
-			<?=form_input('datedue',set_value('datedue'))?>
+<div class="row-fluid">
+	<div class="span6">
+		<?=uif::load('_validation')?>
+		<div class="control-group">
+			<label class="control-label">Датум</label>
+			<div class="controls">
+				<?=form_input('datedue',set_value('datedue'))?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Работник</label>
-		<div class="controls">
-			<?=form_dropdown('assigned_to',$employees, set_value('assigned_to'))?>
+		<div class="control-group">
+			<label class="control-label">Работник</label>
+			<div class="controls">
+				<?=form_dropdown('assigned_to',$employees, set_value('assigned_to'))?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Работна Задача</label>
-		<div class="controls">
-			<?=form_dropdown('',[],'','id="tasks"')?>
+		<div class="control-group">
+			<label class="control-label">Работна Задача</label>
+			<div class="controls">
+				<?=form_dropdown('',[],'','id="tasks"')?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Количина</label>
-		<div class="controls">
-			<?=form_input('assigned_quantity',set_value('assigned_quantity'))?>
+		<div class="control-group">
+			<label class="control-label">Количина</label>
+			<div class="controls">
+				<?=form_input('assigned_quantity',set_value('assigned_quantity'))?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Растур</label>
-		<div class="controls">
-			<?=form_input('defect_quantity',set_value('defect_quantity'))?>
+		<div class="control-group">
+			<label class="control-label">Растур</label>
+			<div class="controls">
+				<?=form_input('defect_quantity',set_value('defect_quantity'))?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">ЕМ</label>
-		<div class="controls">
-			<input type="text" id="uname" disabled>
+		<div class="control-group">
+			<label class="control-label">ЕМ</label>
+			<div class="controls">
+				<input type="text" id="uname" disabled>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Работни Часови</label>
-		<div class="controls">
-			<?=form_input('work_hours',set_value('work_hours'))?>
+		<div class="control-group">
+			<label class="control-label">Работни Часови</label>
+			<div class="controls">
+				<?=form_input('work_hours',set_value('work_hours'))?>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Смена</label>
-		<div class="controls">
-			<label class="radio">
-				1<?=form_radio('shift','1',false);?>
-			</label>
-			<label class="radio">
-				2<?=form_radio('shift','2',false);?>
-			</label>
-			<label class="radio">
-				3<?=form_radio('shift','3',false);?>
-			</label>
+		<div class="control-group">
+			<label class="control-label">Смена</label>
+			<div class="controls">
+				<label class="radio">
+					1<?=form_radio('shift','1',false);?>
+				</label>
+				<label class="radio">
+					2<?=form_radio('shift','2',false);?>
+				</label>
+				<label class="radio">
+					3<?=form_radio('shift','3',false);?>
+				</label>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Забелешка</label>
-		<div class="controls">
-			<?=form_textarea('description',set_value('description'))?>
+		<div class="control-group">
+			<label class="control-label">Забелешка</label>
+			<div class="controls">
+				<?=form_textarea('description',set_value('description'))?>
+			</div>
 		</div>
+		<?=form_hidden('task_fk')?>
+	<?=form_close()?>
 	</div>
-	<?=form_hidden('task_fk')?>
-<?=form_close()?>
-
-<?php //$this->load->view('job_orders/_last_job_order_view'); ?>
-
+	<div class="span6">
+		<?=uif::load('_last_job_order_view','job_orders')?>
+	</div>
+</div>
 <script>
 
 $(function() {

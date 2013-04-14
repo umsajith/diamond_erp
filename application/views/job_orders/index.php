@@ -1,7 +1,7 @@
 <?=uif::contentHeader($heading)?>
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
-		<?=uif::insertLinkButton('job_orders/insert')?>
+		<?=uif::linkInsertButton('job_orders/insert')?>
 		<?=uif::button('icon-ok','success','onClick=cd.completeJobOrders("'.site_url('job_orders/ajxComplete').'")')?>
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
