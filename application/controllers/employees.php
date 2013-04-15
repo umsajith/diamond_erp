@@ -239,9 +239,9 @@ class Employees extends MY_Controller {
 
 	public function ajxGetTasks()
 	{	
-		$data = $this->empt->dropdown(json_decode($_GET['emp_id']));	
+		if(!$_GET['employee']) exit;
 		header('Content-Type: application/json',true); 
-		echo json_encode($data);
+		echo $this->empt->dropdown($_GET['employee']);
 		exit;
 	}
 }

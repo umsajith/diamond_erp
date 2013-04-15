@@ -134,13 +134,19 @@ class Tasks extends MY_Controller {
 		else
 			$this->utilities->flash('error','tasks');
 	}
+
+	public function ajxUOM()
+	{
+		if(!$_GET['task']) exit;
+		header('Content-Type: application/json',true); 
+		echo json_encode($this->tsk->getUOM($_GET['task']));
+		exit;
+	}
 	
 	public function dropdown()
 	{
-		$this->data['tasks'] = $this->tsk->dropdown();
-		
 		header('Content-Type: application/json',true); 
-		echo json_encode($this->data['tasks']);
+		echo json_encode($this->tsk->dropdown());
 		exit;
 	}	
 }

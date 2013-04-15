@@ -116,6 +116,15 @@ class UIF {
 		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
 
+	// public function deleteButton($uri = '',$id = '')
+	// {
+	// 	$out = form_open(site_url('job_orders/delete'),'class="delete-form"');
+	// 	$out .= form_hidden('id',$id);
+	// 	$out .= '<button type="submit" class="btn btn-link icon-trash confirm-delete"></button>';
+	// 	$out .= form_close();
+	// 	return $out;
+	// }
+
 	public static function actionGroup($controller = '', $id = '', $edit = 'edit', $delete = 'delete')
 	{
 		$edit = $controller.'/'.$edit.'/'.$id;
@@ -124,7 +133,7 @@ class UIF {
 		$delete = $controller.'/'.$delete.'/'.$id;
 		$deleteIcon = self::linkIcon($delete,'icon-trash confirm-delete');
 
-		return '<div class="action-group">'.$editIcon.' '.$deleteIcon.'</div>';
+		return '<div class="action-group">'.$editIcon.''.$deleteIcon.'</div>';
 	}
 
 	public static function controlGroup($type = '', $label = '', $name = '', $value = false, $attributes = '')

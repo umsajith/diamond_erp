@@ -92,6 +92,17 @@ class Task_model extends MY_Model {
 		
 		return $this->db->get()->result();	 
 	}
+
+	public function getUOM()
+	{
+		//Query
+		$this->db->select('t.id,u.uname');
+		$this->db->from('exp_cd_tasks AS t');
+		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');	
+		$this->db->order_by('t.taskname');
+		
+		return $this->db->get()->row(); 
+	}
 	
 	public function find_bom($id)
 	{

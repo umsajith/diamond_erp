@@ -53,7 +53,7 @@
 	</tbody>
 </table>
 <?php else:?>
-	<?php $this->load->view('includes/_no_records'); ?>
+	<?=uif::load('_no_records')?>
 <?php endif;?>
 
 <script>

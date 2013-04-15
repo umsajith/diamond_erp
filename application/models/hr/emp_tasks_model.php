@@ -32,21 +32,23 @@ class Emp_tasks_model extends MY_Model {
 		return $this->db->insert_id();
 	}
 	
-	public function dropdown($emp_id)
+	public function dropdown($employee_id)
 	{
 		/*
 		 * Generates data for dropdown menu, VALUE=>KEY pairs
-		 * based on employee ID passed
+		 * based on employee ID passed, JSON Returned
 		 */
 		$this->db->select('t.id,t.taskname,u.uname');
 		$this->db->join('exp_cd_tasks AS t','t.id = et.task_fk','LEFT');
 		$this->db->join('exp_cd_uom AS u','u.id = t.uname_fk','LEFT');
 		
-		$this->db->where('et.employee_fk',$emp_id);
+		$this->db->where('et.employee_fk',$employee_id);
 
 		$this->db->order_by('t.taskname');
 		
-		return $this->db->get($this->_table.' AS et')->result();	 
+		$data = $this->db->get($this->_table.' AS et')->result();	 
+
+		return json_encode($data);
 	}
 	
 	public function duplicate($employee_fk,$task_fk)
