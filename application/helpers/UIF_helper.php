@@ -158,6 +158,11 @@ class UIF {
 			case 'textarea':
 				$out .= form_textarea($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
+			case 'radio':
+				foreach ($value as $v) {
+					$out .= '<label class="radio">'.$v.form_radio($name,set_value($name,$v)).'</label>';
+				}
+				break;
 			default:
 				$out .= '';
 				break;

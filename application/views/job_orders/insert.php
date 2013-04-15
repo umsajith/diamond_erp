@@ -1,5 +1,5 @@
 <?=uif::contentHeader($heading)?>
-<?=form_open('job_orders/insert','class="form-horizontal"')?>
+	<?=form_open('job_orders/insert','class="form-horizontal"')?>
     <?=uif::submitButton();?>
 	<hr>
 <div class="row-fluid">
@@ -12,20 +12,7 @@
 		<?=uif::controlGroup('text','Растур','defect_quantity')?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uname" disabled')?>
 		<?=uif::controlGroup('text','Работни Часови','work_hours')?>
-		<div class="control-group">
-			<label class="control-label">Смена</label>
-			<div class="controls">
-				<label class="radio">
-					1<?=form_radio('shift','1',false);?>
-				</label>
-				<label class="radio">
-					2<?=form_radio('shift','2',false);?>
-				</label>
-				<label class="radio">
-					3<?=form_radio('shift','3',false);?>
-				</label>
-			</div>
-		</div>
+		<?=uif::controlGroup('radio','Смена','shift',[1,2,3])?>
 		<?=uif::controlGroup('textarea','Забелешка','description')?>
 		<?=form_hidden('task_fk')?>
 	<?=form_close()?>
