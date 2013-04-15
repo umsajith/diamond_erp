@@ -12,7 +12,7 @@
 		<?=uif::controlGroup('text','Растур','defect_quantity')?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uname" disabled')?>
 		<?=uif::controlGroup('text','Работни Часови','work_hours')?>
-		<?=uif::controlGroup('radio','Смена','shift',[1,2,3])?>
+		<?=uif::controlGroup('radio','Смена','shift',[[1,2,3],''])?>
 		<?=uif::controlGroup('textarea','Забелешка','description')?>
 		<?=form_hidden('task_fk')?>
 	<?=form_close()?>

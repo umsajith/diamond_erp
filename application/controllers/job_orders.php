@@ -191,7 +191,8 @@ class Job_orders extends MY_Controller {
 		
 		//Generate dropdown menu data
 		$this->data['employees'] = $this->utilities->get_employees('variable');
-
+		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
+		
 		//Heading
 		$this->data['heading'] = 'Корекција на Работен Налог';
 	}

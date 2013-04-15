@@ -90,10 +90,11 @@ var cd = (function(){
 		}, 'json');
 	}
 
-	obj.dropdownTasks = function(url, data){
+	obj.dropdownTasks = function(url, id){
 
 		var data;
 		var tasks = $("select#tasks");
+		var employees = $("select#employee");
 		var uname = $("input#uname");
 		var task = $("input[name=task_fk]");
 		/*
@@ -101,29 +102,32 @@ var cd = (function(){
 		 * to this employee, and populates the dropdown
 		 *
 		 */
-		$("select#employee").on("change",function() {
-			var employee = $(this).val();	
+		employees.on("change",function() {
+			var employee = $(this).val();
+			//FIX When employee changed, remove view from tasks input
+			tasks.select2('data','');	
 		    tasks.select2("enable");
 		    if(task.val()){
 		    	task.val('');
 				uname.val('');
-				tasks.select2("val","");
+				tasks.select2('val','');
 		    }
-			$.getJSON(url,{employee:employee}, function(result) {
+		    $.getJSON(url,{employee:employee}, function(result) {
 				data = result;
 				var options = '<option></option>';
 				$.each(result, function(i, row){
-					 options += '<option value="' + row.id + '" data-uname="'+ row.uname +'">' + row.taskname + '</option>';
+					options += '<option value="' + row.id + '" data-uname="'+ row.uname +'">' + row.taskname + '</option>';
 			    });
 			    tasks.html(options);
 			});
+			
 		});
 		
 		/*
 		 * When task is changed, populates the hidden task ID 
 		 *	and unit of measure of the same task
 		 */	
-		$("select#tasks").on("change",function(e) {	
+		tasks.on("change",function(e) {	
 			task.val($(this).val());
 			if(e.val !== ''){
 				uname.val(data[this.selectedIndex-1].uname);  

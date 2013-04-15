@@ -159,8 +159,12 @@ class UIF {
 				$out .= form_textarea($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
 			case 'radio':
-				foreach ($value as $v) {
-					$out .= '<label class="radio">'.$v.form_radio($name,set_value($name,$v)).'</label>';
+				foreach ($value[0] as $v) {
+					$out .= '<label class="radio">';
+					$out .= $v.'<input type="radio" name="'.$name.'" value="'.$v.'"'.
+							set_radio($name,$v,(($value[1]!=='')) ? 
+							($v==$value[1]->$name) ? true : false : '' ).'/>';
+					$out .= '</label>';
 				}
 				break;
 			case 'datepicker':
