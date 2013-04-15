@@ -163,6 +163,11 @@ class UIF {
 					$out .= '<label class="radio">'.$v.form_radio($name,set_value($name,$v)).'</label>';
 				}
 				break;
+			case 'datepicker':
+				$out .= '<div class="input-append date datepicker" data-date-format="yyyy-mm-dd">';
+				$out .= form_input($name,set_value($name,($value) ? $value->$name : ''),$attributes);
+				$out .=	'<span class="add-on"><i class="icon-calendar"></i></span></div>';
+				break;
 			default:
 				$out .= '';
 				break;
@@ -172,6 +177,7 @@ class UIF {
 
 		return $out;
 	}
+
 	/**
 	 * Resource Loader
 	 * - loads partials from views/includes folder by default

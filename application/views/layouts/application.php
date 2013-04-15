@@ -12,13 +12,14 @@
     <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css" type="text/css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/datepicker.css" type="text/css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css" type="text/css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
 </head>
 <body>
     <!-- JQUERY LOADING -->
     <script src="<?=base_url('js/jquery.js')?>"></script>
-    <script src="<?=base_url('js/jquery-ui.js')?>"></script>
+    <!--<script src="<?=base_url('js/jquery-ui.js')?>"></script> -->
     <!-- END OF JQUERY LOADING -->
 
     <!-- NAV BAR -->
@@ -66,6 +67,8 @@
     <!-- JAVASCRIPT LOADING -->
     <script src="<?=base_url('js/modernizr.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
+    <script src="<?=base_url('js/bootstrap-datepicker.js')?>"></script>
+    <script src="<?=base_url('js/bootstrap-datepicker.mk.js')?>"></script>
     <script src="<?=base_url('js/bootbox.min.js')?>"></script> 
     <script src="<?=base_url('js/pnotify.min.js')?>"></script>
     <script src="<?=base_url('js/select2.js')?>"></script>

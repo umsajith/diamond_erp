@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('text','Датум','datedue')?>
+		<?=uif::controlGroup('datepicker','Датум','datedue')?>
 		<?=uif::controlGroup('dropdown','Работник','assigned_to',[$employees],'id="employee"')?>
 		<?=uif::controlGroup('dropdown','Работна Задача','task_fk',[],'id="tasks" disabled')?>
 		<?=uif::controlGroup('text','Количина','assigned_quantity')?>
@@ -28,11 +28,8 @@
 		$("#tasks").select2({placeholder: "- Работна Задача -",allowClear: true});
 
 		cd.dropdownTasks("<?=site_url('employees/ajxGetTasks')?>");
-
-		$("input[name=datedue]").datepicker({
-			dateFormat: "yy-mm-dd",
-			maxDate: +0
-		});
+		var options = {future: false};
+		cd.datepicker(".datepicker",options);
 
 	});
 </script>
