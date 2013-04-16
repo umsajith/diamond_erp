@@ -136,11 +136,9 @@ class UIF {
 		return '<div class="action-group">'.$editIcon.''.$deleteIcon.'</div>';
 	}
 
-	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')
+	public static function formElement($type = '', $label = '', $name = '', $value = '', $attributes = '')
 	{
-		$out  = '<div class="control-group">';
-		$out .= '<label class="control-label">'.$label.'</label>';
-		$out .= '<div class="controls">';
+		$out = '';
 
 		if ($attributes != '')
 		{
@@ -176,6 +174,17 @@ class UIF {
 				$out .= '';
 				break;
 		}
+
+		return $out;
+	}
+
+	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')
+	{
+		$out  = '<div class="control-group">';
+		$out .= '<label class="control-label">'.$label.'</label>';
+		$out .= '<div class="controls">';
+
+		$out .= self::formElement($type, $label, $name, $value, $attributes);
 
 		$out .= '</div></div>';
 
