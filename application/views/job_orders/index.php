@@ -36,13 +36,13 @@
 			<td><?=uif::linkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
 			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
-			<td><?=($row->datedue == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->datedue))); ?></td>
+			<td><?=uif::date($row->datedue)?></td>
 			<td><?= $row->fname. ' ' .$row->lname;?></td>
 			<td><?=$row->taskname;?></td>
 			<td><?=$row->assigned_quantity.' '.$row->uname;?></td>
-			<td><?=($row->work_hours == null ? '-' : $row->work_hours); ?></td>
-			<td><?=($row->shift == null ? '-' : $row->shift); ?></td>
-			<td><?=($row->dateofentry == null ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry))); ?></td>
+			<td><?=uif::isNull($row->work_hours)?></td>
+			<td><?=uif::isNull($row->shift)?></td>
+			<td><?=uif::date($row->dateofentry)?></td>
 			<td>
 			<?php if(!$row->locked):?>
 				<?=uif::actionGroup('job_orders',$row->id)?>

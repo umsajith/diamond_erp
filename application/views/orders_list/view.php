@@ -1,130 +1,108 @@
-<h2><?php echo $heading; ?></h2>
-<hr>
-	<div id="meta">
-		<p>бр.<?php echo $master->id;?></p>
-		<p><?php echo $master->dateofentry;?></p>
-	</div>
-	<?php if($master->locked != 1):?>
-	<div id="buttons">
-			<a href="<?php echo site_url('orders_list/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
-			<a href="<?php echo site_url('orders_list/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-	</div>
-	<hr/>
-	<?php endif; ?>
+<?=uif::contentHeader($heading,$master)?>
+	<?php if(!$master->locked):?>
+        <?=uif::linkButton("orders_list/edit/$master->id",'icon-edit','warning')?>
+        <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
+        <hr>
+    <?php endif;?>
 	<?php if($master->locked == 1):?>
 		<h4>Ставката е заклучена од страна на администратор.</h4>
 	<?php endif;?>
-<div class="f_left">
-<dl class="order_list_dl">
-	<dt>Датум</dt>
-	<dd><?php echo $master->date; ?></dd>
-	<dt>Дистрибутер</dt>
-	<dd><?php echo $master->distributor; ?></dd>
-	<dt>Документ</dt>
-	<dd><?php echo ($master->ext_doc) ? $master->ext_doc : '-' ; ?></dd>
-	<dt>Код</dt>
-	<dd><?php echo ($master->code) ? $master->code : '-' ; ?></dd>
-	<dt>Белешка</dt>
-	<dd><?php echo ($master->note) ? $master->note : '-' ; ?></dd>
-	<?php if($this->session->userdata('admin')):?>
-        <dt>Оператор:</dt>
-        <dd><?php echo $master->operator;?></dd>  
-    <?php endif;?>
-</dl>
+<div class="row-fluid">
+    <div class="span5 well"> 
+		<dl class="dl-horizontal">
+			<dt>Датум</dt>
+			<dd><?=$master->date?></dd>
+			<dt>Дистрибутер</dt>
+			<dd><?=$master->distributor?></dd>
+			<dt>Документ</dt>
+			<dd><?=uif::isNull($master->ext_doc)?></dd>
+			<dt>Код</dt>
+			<dd><?=uif::isNull($master->code)?></dd>
+			<dt>Белешка</dt>
+			<dd><?=uif::isNull($master->note)?></dd>
+			<?php if($this->session->userdata('admin')):?>
+		        <dt>Оператор:</dt>
+		        <dd><?=$master->operator;?></dd>  
+		    <?php endif;?>
+		</dl>
+		<hr>
 <?php if($master->locked != 1):?>
-	<table id="partner_product_ol">
-		<?php echo form_open('',"id='par_prod_form'"); ?>
-			<caption>Внес на Нов Налог за Продажба</caption>
-		<tr>
-			<td>Купувач:</td>
-			<td><?php echo form_input('customer') ?></td>
-		</tr>
-		<tr>
-			<td>Плаќање:</td>
-			<td><?php echo form_dropdown('payment_mode_fk',$pmodes) ?></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>Производ:</td>
-			<td><select id="products"></select></td>
-		</tr>
-		<tr>
-			<td>Земена Кол.:</td>
-			<td><?php echo form_input(array('id'=>'quantity'));?><span id="uom">&nbsp;&nbsp;</span></td>
-		</tr>
-		<tr>
-			<td>Вратена Кол.:</td>
-			<td><?php echo form_input(array('id'=>'returned_quantity'));?><span id="uom">&nbsp;&nbsp;</span>
-			<span class="add_icon" id="insert_product">&nbsp;</span></td>
-		</tr>
-			<?php echo form_hidden('order_list_id',$master->id); ?>
-			<?php echo form_hidden('distributor_id',$master->distributor_id); ?>
-			<?php echo form_hidden('date',$master->date); ?>
-		<?php echo form_close(); ?>
+	<?php echo form_open('','class="form" id="par_prod_form"'); ?>
+		<?=uif::controlGroup('text','Купувач','customer')?>
+		<?=uif::controlGroup('dropdown','Плаќање','payment_mode_fk',[$pmodes])?>
+		<?=uif::controlGroup('dropdown','Производ','',[],'id="products"')?>
+		<?=uif::controlGroup('text','Земена Кол.','')?>
+		<?=uif::controlGroup('text','Вратена Кол.','')?>
+		<?=uif::button('icon-plus','primary','id="insert_product"')?>
+			<?=form_hidden('order_list_id',$master->id); ?>
+			<?=form_hidden('distributor_id',$master->distributor_id); ?>
+			<?=form_hidden('date',$master->date); ?>
+		<?=form_close(); ?>
+	
+	<table class="table table-condensed">
+		<thead>
+	    	<tr>
+	    		<th>&nbsp;</th>
+	    		<th>Производ</th>
+	    		<th>Земена Кол.</th>
+	    		<th>Вратена Кол.</th>
+	    		<th>&nbsp;</th>
+	    	</tr>
+    	</thead>
 	</table>
-	<table id="order_grid" class="details">
-    	<tr>
-    		<th>&nbsp;</th>
-    		<th>Производ</th>
-    		<th>Земена Кол.</th>
-    		<th>Вратена Кол.</th>
-    		<th>&nbsp;</th>
-    	</tr>
-	</table>
-	<?php echo form_button('insert_order','Внеси Налог',"class='save'"); ?>
-<?php endif; ?>
-</div>
-<?php if ($results): ?>
-	<div class="f_right">
-		<h3>Налози за Продажба во овој Извештај</h3>
-		<table class="master_table">
-			<tr>
-			<th>&nbsp;</th>
-			<th>Датум</th>
-			<th>Купувач</th>
-			<th>Плаќање</th>
-			<th>Внес</th>
-			<th>&nbsp;</th>
-		</tr>
-		<?php foreach ($results as $row):?>
-			<tr>
-				<td class="code" align="center"><?php echo anchor('orders/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-				<td><?php echo mdate('%d/%m/%Y',mysql_to_unix($row->dateshipped)); ?></td>
-				<td><?php echo $row->company; ?></td>
-				<td><?php echo $row->name; ?></td>
-				<td><?php echo mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry));?></td>
-				<td class="functions">
+	<?php endif; ?>
+	</div>
+	<div class="span7">
+	<?php if ($results): ?>
+		<table class="table table-condensed table-bordered">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>Датум</th>
+					<th>Купувач</th>
+					<th>Плаќање</th>
+					<th>Внес</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($results as $row):?>
+				<tr data-id=<?=$row->id?>>
+					<td><?=uif::linkIcon("orders/view/{$row->id}",'icon-file-alt')?></td>
+					<td><?=uif::date($row->dateshipped)?></td>
+					<td><?php echo $row->company; ?></td>
+					<td><?php echo $row->name; ?></td>
+					<td><?=uif::date($row->dateofentry)?></td>
+					<td>
 					<?php if($row->locked != 1):?>
-						<?php echo anchor('orders/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-						<?php echo anchor('orders/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
+						<?=uif::actionGroup('orders',$row->id)?>
 					<?php endif;?>
-				</td>
-			</tr>
-		<?php endforeach; ?>	
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>	
 		</table>
 	</div>
-<?php endif ?>
-
+	<?php endif ?>
+</div>
 <script>
 
 	$(function(){
 
-		$("input[name=customer]").autocomplete({
-			source: function(request, response) {
-				$.ajax({ url: "<?php echo site_url('partners/ajxSearch'); ?>",
-				data: { term: $("input[name=customer]").val()},
-				dataType: "json",
-				type: "POST",
-				success: function(data){
-	               response(data);
-				}
-			});
-		},minLength: 2,autoFocus: true});
+		$("select[name=payment_mode_fk]").select2();
 
-		$("input[name=customer]").focus();
+		var partnersNames = [];
+		var partnersIds = {};
+		$(document).bind('typeahead:selected', function(e){
+		 	console.log("Customer ID: " + partnersIds[e.target.value]);
+		});
+		$.getJSON("<?=site_url('partners/ajxAllPartners')?>",function (data){
+            $.each( data, function (i,row){
+                partnersNames.push( row.name );
+                partnersIds[row.name] = row.id;
+            });
+	        $("input[name=customer]").typeahead({local:partnersNames}).focus();
+	     });
 
 		$("#insert_product").on('click',function(){
 			add_product();
@@ -153,7 +131,7 @@
 
 	});
 
-	$.getJSON("<?php echo site_url('products/dropdown/salable'); ?>", function(result) {
+	$.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
         var optionsValues = "<select id='products'>";
         JSONObject = result;
         optionsValues += '<option value="">' + '- Производ -' + '</option>';

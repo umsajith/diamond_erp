@@ -136,6 +136,36 @@ var cd = (function(){
 		});
 	}
 
+	obj.lockOrderList = function(url){
+		var ids = $(".order-list:checked").map(function(i,n) {
+	        return $(n).val();
+	    }).get();
+
+		if(ids.length == 0){
+			this.notify("Потребно е да селектирате барем една ставка");
+			return false;
+		}
+
+		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
+		  if(data) location.reload(true);
+		}, 'json');
+	}
+
+	obj.unlockOrderList = function(url){
+		var ids = $(".order-list:checked").map(function(i,n) {
+	        return $(n).val();
+	    }).get();
+
+		if(ids.length == 0){
+			this.notify("Потребно е да селектирате барем една ставка");
+			return false;
+		}
+
+		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
+		  if(data) location.reload(true);
+		}, 'json');
+	}
+
 	obj.datepicker = function(field, options){
 
 		var nowTemp = new Date();
@@ -154,32 +184,32 @@ var cd = (function(){
 		$(field).datepicker(args);
 	}
 
-	obj.dateRange = function(field1, field2){
+	// obj.dateRange = function(field1, field2){
 
-		var nowTemp = new Date();
-		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	// 	var nowTemp = new Date();
+	// 	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 		 
-		var f1 = $(field1).datepicker({
-		  onRender: function(date) {
-		    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-		  }
-		}).on('changeDate', function(ev) {
-		  if (ev.date.valueOf() > f2.date.valueOf()) {
-		    var newDate = new Date(ev.date)
-		    newDate.setDate(newDate.getDate() + 1);
-		    f2.setValue(newDate);
-		  }
-		  f1.hide();
-		  $(field2)[0].focus();
-		}).data('datepicker');
-		var f2 = $(field2).datepicker({
-		  onRender: function(date) {
-		    return date.valueOf() <= f1.date.valueOf() ? 'disabled' : '';
-		  }
-		}).on('changeDate', function(ev) {
-		  f2.hide();
-		}).data('datepicker');
-	}
+	// 	var f1 = $(field1).datepicker({
+	// 	  onRender: function(date) {
+	// 	    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+	// 	  }
+	// 	}).on('changeDate', function(ev) {
+	// 	  if (ev.date.valueOf() > f2.date.valueOf()) {
+	// 	    var newDate = new Date(ev.date)
+	// 	    newDate.setDate(newDate.getDate() + 1);
+	// 	    f2.setValue(newDate);
+	// 	  }
+	// 	  f1.hide();
+	// 	  $(field2)[0].focus();
+	// 	}).data('datepicker');
+	// 	var f2 = $(field2).datepicker({
+	// 	  onRender: function(date) {
+	// 	    return date.valueOf() <= f1.date.valueOf() ? 'disabled' : '';
+	// 	  }
+	// 	}).on('changeDate', function(ev) {
+	// 	  f2.hide();
+	// 	}).data('datepicker');
+	// }
 
 	return obj;
 })();

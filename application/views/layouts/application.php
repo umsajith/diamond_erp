@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css" type="text/css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/typeahead-bootstrap.css" type="text/css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/datepicker.css" type="text/css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css" type="text/css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
@@ -64,6 +65,7 @@
     <!-- END OF FOOTER -->
 
     <!-- JAVASCRIPT LOADING -->
+    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script src="<?=base_url('js/modernizr.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
     <script src="<?=base_url('js/bootstrap-datepicker.js')?>"></script>
@@ -71,6 +73,7 @@
     <script src="<?=base_url('js/bootbox.min.js')?>"></script> 
     <script src="<?=base_url('js/pnotify.min.js')?>"></script>
     <script src="<?=base_url('js/select2.js')?>"></script>
+    <script src="<?=base_url('js/typeahead.min.js')?>"></script>
     <script src="<?=base_url('js/plugins.js')?>"></script>
     <script src="<?=base_url('js/scripts.js')?>"></script> 
     <!-- END OF JAVASCRIPT LOADING -->

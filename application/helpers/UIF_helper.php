@@ -116,6 +116,16 @@ class UIF {
 		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
 
+	public static function date($timestamp = '', $format = '%d/%m/%Y')
+	{	
+		return ($timestamp != '') ? mdate($format,mysql_to_unix($timestamp)) : '-';
+	}
+
+	public static function isNull($value = '')
+	{
+		return ($value != '') ? $value : '-';
+	}
+
 	// public function deleteButton($uri = '',$id = '')
 	// {
 	// 	$out = form_open(site_url('job_orders/delete'),'class="delete-form"');

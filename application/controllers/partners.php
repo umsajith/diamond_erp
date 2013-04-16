@@ -234,29 +234,47 @@ class Partners extends MY_Controller {
 	 * For use with jQuery autocomplete. 
 	 * @return JSON
 	 */
-	public function ajxSearch()
+	// public function ajxSearch()
+	// {
+	// 	$term = $this->input->get('q',true);
+
+	// 	if (strlen($term) < 2) exit;
+
+	// 	/**
+	// 	 * Restriction options array:
+	// 	 *  is_customer = 1 (include customers)
+	// 	 *  is_mother = 0 (do not show mother companies)
+	// 	 * @var array
+	// 	 */
+	// 	$options = array(
+	// 			'is_customer'=>1,
+	// 			'is_mother'=>0
+	// 		);
+
+	// 	$rows = $this->par->partners_search($term, $options);
+
+	// 	$json_array = array();
+
+	// 	foreach ($rows as $row)
+	// 		 array_push($json_array,['id'=>$row->id,'value'=>$row->company]); 
+
+	// 	header('Content-Type: application/json');
+	// 	echo json_encode($json_array);
+	// 	exit;
+	// }
+
+	public function ajxAllPartners()
 	{
-		$term = $this->input->post('term',true);
+		$this->par->order_by('company');
+		$rows = $this->par->get_many_by([
+			'is_customer' => 1,
+			'is_mother'   => 0
+		]);
 
-		if (strlen($term) < 2) break;
-
-		/**
-		 * Restriction options array:
-		 *  is_customer = 1 (include customers)
-		 *  is_mother = 0 (do not show mother companies)
-		 * @var array
-		 */
-		$options = array(
-				'is_customer'=>1,
-				'is_mother'=>0
-			);
-
-		$rows = $this->par->partners_search($term, $options);
-
-		$json_array = array();
+		$json_array = [];
 
 		foreach ($rows as $row)
-			 array_push($json_array, array('label'=>$row->company,'value'=>$row->id)); 
+			 array_push($json_array,['id'=>$row->id,'name'=>$row->company]); 
 
 		header('Content-Type: application/json');
 		echo json_encode($json_array);
