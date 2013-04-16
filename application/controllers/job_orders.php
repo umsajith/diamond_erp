@@ -20,7 +20,7 @@ class Job_orders extends MY_Controller {
 		$this->data['heading'] = 'Работни Налози';
 		
 		//Generate dropdown menu data for Filters
-		$this->data['employees'] = $this->utilities->get_employees('variable');
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
 
 

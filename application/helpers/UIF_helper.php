@@ -136,7 +136,7 @@ class UIF {
 		return '<div class="action-group">'.$editIcon.''.$deleteIcon.'</div>';
 	}
 
-	public static function controlGroup($type = '', $label = '', $name = '', $value = false, $attributes = '')
+	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')
 	{
 		$out  = '<div class="control-group">';
 		$out .= '<label class="control-label">'.$label.'</label>';

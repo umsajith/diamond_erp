@@ -7,7 +7,7 @@
 		<?=uif::load('_validation')?>
 		<?=uif::controlGroup('datepicker','Датум','datedue',$job_order)?>
 		<?=uif::controlGroup('dropdown','Работник','assigned_to',[$employees,$job_order],'id="employee"')?>
-		<?=uif::controlGroup('dropdown','Работна Задача','task_fk',[],'id="tasks"')?>
+		<?=uif::controlGroup('dropdown','Работна Задача','',[],'id="tasks"')?>
 		<?=uif::controlGroup('text','Количина','assigned_quantity',$job_order)?>
 		<?=uif::controlGroup('text','Растур','defect_quantity',$job_order)?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uname" disabled',$job_order)?>
@@ -15,7 +15,7 @@
 		<?=uif::controlGroup('radio','Смена','shift',[[1,2,3],$job_order])?>
 		<?=uif::controlGroup('textarea','Забелешка','description',$job_order)?>
 		<?=form_hidden('id',$job_order->id)?>
-		<?=form_hidden('task_fk')?>
+		<?=form_hidden('task_fk',$job_order->task_fk)?>
 	</div>
 </div>
 	<?=form_close()?>

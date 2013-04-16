@@ -97,6 +97,7 @@ var cd = (function(){
 		var employees = $("select#employee");
 		var uname = $("input#uname");
 		var task = $("input[name=task_fk]");
+		var firstRun = true;
 		/*
 		 * When an employee is changed, searches the tasks assigned
 		 * to this employee, and populates the dropdown
@@ -106,18 +107,14 @@ var cd = (function(){
 			var employee = $(this).val();
 			tasks.select2('data','');	
 		    tasks.select2("enable");
-		    if(task.val()){
-		    	task.val('');
-				uname.val('');
-				tasks.select2('val','');
-		    }
 			$.getJSON(url,{employee:employee}, function(result) {
 				data = result;
 				var options = '<option></option>';
 				$.each(result, function(i, row){
-					if(row.id === task_fk){
+					if((row.id === task_fk) && firstRun){
 		    			tasks.select2('data',{id:row.id,text:row.taskname});
 		    			uname.val(row.uname);
+		    			firstRun = false;
 					}
 					options += '<option value="' + row.id + '" data-uname="'+ row.uname +'">' + row.taskname + '</option>';
 				});
@@ -129,9 +126,7 @@ var cd = (function(){
 		 * When task is changed, populates the hidden task ID 
 		 *	and unit of measure of the same task
 		 */	
-		tasks.on("change",function(e) {
-			console.log(data);
-			console.log(this.selectedIndex);		
+		tasks.on("change",function(e) {		
 			task.val($(this).val());
 			if(e.val !== ''){
 				uname.val(data[this.selectedIndex-1].uname);  

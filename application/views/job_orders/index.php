@@ -5,10 +5,10 @@
 		<?=uif::button('icon-ok','success','onClick=cd.completeJobOrders("'.site_url('job_orders/ajxComplete').'")')?>
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
-		<form action="<?=site_url('job_orders/search')?>" method="POST" class="form-inline">
+		<form action="<?=site_url('job_orders/search')?>" method="post" class="form-inline">
 	    	<?=form_dropdown('task_fk', $tasks, set_value('task_fk'))?>
 	    	<?=form_dropdown('assigned_to', $employees, set_value('assigned_to'))?>
-	    	<?=form_dropdown('shift', array(''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3'),set_value('shift'))?>
+	    	<?=form_dropdown('shift',[''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3'],set_value('shift'))?>
 	    	<button type="submit" class="btn btn-primary"><i class="icon-search"></i></button>
     	</form>
 	</div>

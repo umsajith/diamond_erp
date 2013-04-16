@@ -135,8 +135,11 @@ class Utilities {
     	$this->CI->db->where('status','active');
     	
     	$array_keys_values = $this->CI->db->get()->result();
-    	
-    	$data[''] =  $empty;
+        
+    	$data =  []; 
+
+        if($empty != '')
+           $data[''] =  $empty; 
     	
     	//Creating Assosiative Array
        foreach ($array_keys_values as $row)
