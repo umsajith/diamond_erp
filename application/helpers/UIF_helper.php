@@ -31,8 +31,13 @@ class UIF {
 		return $product;
 	}
 
-	public static function linkButton($uri = '', $icon = '', $type = 'primary')
+	public static function linkButton($uri = '', $icon = '', $type = 'primary', $attributes = '')
 	{
+		if ($attributes != '')
+		{
+			$attributes = _parse_attributes($attributes);
+		}
+
 		if ( ! is_array($uri))
 		{
 			$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
@@ -42,12 +47,12 @@ class UIF {
 			$site_url = site_url($uri);
 		}
 
-		return '<a href="'.$site_url.'" class="btn btn-'.$type.'"><i class="'.$icon.'"></i></a>';
+		return '<a href="'.$site_url.'" class="btn btn-'.$type.'" '.$attributes.'><i class="'.$icon.'"></i></a>';
 	}
 
 	public static function linkDeleteButton($uri = '')
 	{
-		return self::linkButton($uri, 'icon-trash confirm-delete', 'danger');
+		return self::linkButton($uri, 'icon-trash', 'danger confirm-delete');
 	}
 
 	public static function linkInsertButton($uri = '')
@@ -135,6 +140,12 @@ class UIF {
 	// 	return $out;
 	// }
 
+	public static function viewIcon($controller = '', $id = '', $method = 'view')
+	{
+		$uri = $controller.'/'.$method.'/'.$id;
+		return '<div class="action-group">'.self::linkIcon($uri,'icon-file-alt').'</div>';
+	}	
+
 	public static function actionGroup($controller = '', $id = '', $edit = 'edit', $delete = 'delete')
 	{
 		$edit = $controller.'/'.$edit.'/'.$id;
@@ -168,7 +179,7 @@ class UIF {
 				break;
 			case 'radio':
 				foreach ($value[0] as $v) {
-					$out .= '<label class="radio">';
+					$out .= '<label class="radio inline">';
 					$out .= $v.'<input type="radio" name="'.$name.'" value="'.$v.'"'.
 							set_radio($name,$v,(($value[1]!=='')) ? 
 							($v==$value[1]->$name) ? true : false : '' ).'/>';

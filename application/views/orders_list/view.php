@@ -4,11 +4,42 @@
         <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
         <hr>
     <?php endif;?>
-	<?php if($master->locked == 1):?>
-		<h4>Ставката е заклучена од страна на администратор.</h4>
-	<?php endif;?>
 <div class="row-fluid">
-    <div class="span5 well"> 
+    <div class="span4 well"> 
+<?php if(!$master->locked):?>
+			<?=uif::controlGroup('text','','customer','','placeholder="Купувач"')?>
+			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$pmodes])?>
+		<hr>
+			<?=uif::controlGroup('dropdown','','',[],'id="products"')?>	
+			<?=form_hidden('order_list_id',$master->id)?>
+			<?=form_hidden('distributor_id',$master->distributor_id)?>
+			<?=form_hidden('date',$master->date)?>	
+		<div class="input-append">
+			<?=uif::formElement('text','','quantity','','placeholder="Земена Кол."')?>
+		</div>
+		<div class="input-append">
+			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратена Кол."')?>
+			<?=uif::button('icon-plus','success','id="insert_product"')?>
+		</div>
+		<span class="uom"></span>
+		<?=form_hidden('prodname_fk')?>
+		<?=form_hidden('partner_fk')?>
+		<hr>
+		<table class="table table-condensed table-bordered temp-table">
+			<thead>
+		    	<tr>
+		    		<th>&nbsp;</th>
+		    		<th>Производ</th>
+		    		<th>Земена Кол.</th>
+		    		<th>Вратена Кол.</th>
+		    		<th>&nbsp;</th>
+		    	</tr>
+	    	</thead>
+		</table>
+<?php endif; ?>
+	</div>
+	<?php if ($results): ?>
+	<div class="span8">
 		<dl class="dl-horizontal">
 			<dt>Датум</dt>
 			<dd><?=$master->date?></dd>
@@ -25,35 +56,6 @@
 		        <dd><?=$master->operator;?></dd>  
 		    <?php endif;?>
 		</dl>
-		<hr>
-<?php if($master->locked != 1):?>
-	<?php echo form_open('','class="form" id="par_prod_form"'); ?>
-		<?=uif::controlGroup('text','Купувач','customer')?>
-		<?=uif::controlGroup('dropdown','Плаќање','payment_mode_fk',[$pmodes])?>
-		<?=uif::controlGroup('dropdown','Производ','',[],'id="products"')?>
-		<?=uif::controlGroup('text','Земена Кол.','')?>
-		<?=uif::controlGroup('text','Вратена Кол.','')?>
-		<?=uif::button('icon-plus','primary','id="insert_product"')?>
-			<?=form_hidden('order_list_id',$master->id); ?>
-			<?=form_hidden('distributor_id',$master->distributor_id); ?>
-			<?=form_hidden('date',$master->date); ?>
-		<?=form_close(); ?>
-	
-	<table class="table table-condensed">
-		<thead>
-	    	<tr>
-	    		<th>&nbsp;</th>
-	    		<th>Производ</th>
-	    		<th>Земена Кол.</th>
-	    		<th>Вратена Кол.</th>
-	    		<th>&nbsp;</th>
-	    	</tr>
-    	</thead>
-	</table>
-	<?php endif; ?>
-	</div>
-	<div class="span7">
-	<?php if ($results): ?>
 		<table class="table table-condensed table-bordered">
 			<thead>
 				<tr>
@@ -68,13 +70,13 @@
 			<tbody>
 			<?php foreach ($results as $row):?>
 				<tr data-id=<?=$row->id?>>
-					<td><?=uif::linkIcon("orders/view/{$row->id}",'icon-file-alt')?></td>
+					<td><?=uif::viewIcon('orders',$row->id)?></td>
 					<td><?=uif::date($row->dateshipped)?></td>
-					<td><?php echo $row->company; ?></td>
-					<td><?php echo $row->name; ?></td>
+					<td><?=$row->company?></td>
+					<td><?=$row->name?></td>
 					<td><?=uif::date($row->dateofentry)?></td>
 					<td>
-					<?php if($row->locked != 1):?>
+					<?php if(!$row->locked AND !$master->locked):?>
 						<?=uif::actionGroup('orders',$row->id)?>
 					<?php endif;?>
 					</td>
@@ -84,17 +86,25 @@
 		</table>
 	</div>
 	<?php endif ?>
+	<?php if($master->locked == 1):?>
+		<div class="alert span7">
+			<i class="icon-lock"></i>
+			<strong>Ставката е заклучена! Потребно е да ја отклучите за натамошна работа</strong>
+		</div>
+	<?php endif;?>
 </div>
 <script>
-
 	$(function(){
 
+		$(".temp-table").hide();
+
 		$("select[name=payment_mode_fk]").select2();
+		$("select#products").select2();
 
 		var partnersNames = [];
 		var partnersIds = {};
 		$(document).bind('typeahead:selected', function(e){
-		 	console.log("Customer ID: " + partnersIds[e.target.value]);
+			$("input[name=partner_fk]").val(partnersIds[e.target.value]);
 		});
 		$.getJSON("<?=site_url('partners/ajxAllPartners')?>",function (data){
             $.each( data, function (i,row){
@@ -107,21 +117,28 @@
 		$("#insert_product").on('click',function(){
 			add_product();
 		});
-
-		$("#quantity, #returned_quantity").keypress(function(e){
+		
+		$("input[name=quantity], input[name=returned_quantity]").keypress(function(e){
 		      if(e.which == 13){
 		         add_product();
 		         return false;
 		      }   
 		});
 
-		$(document).on('change','select#products',function() {
-				if(this.selectedIndex == '')
-				{
-					$("span#uom").text('');  
-					return false;	
-				}
-			  $("span#uom").html(JSONObject[this.selectedIndex-1].uname);
+		$("select#products").on("change",function(e) {
+				// if(this.selectedIndex == '')
+				// {
+				// 	$("span#uom").text('');  
+				// 	return false;	
+				// }
+				$("input[name=prodname_fk]").val(e.val);
+			 	//$("span.uom").html(JSONObject[this.selectedIndex-1].uname);
+			 	$("span.uom").html(JSONObject[this.selectedIndex].uname);
+				// if(e.val !== ''){
+				// 	uname.val(data[this.selectedIndex-1].uname);  
+				// } else {
+				// 	uname.val('');
+				// }
 		});
 
 		/* insert new order */
@@ -131,27 +148,36 @@
 
 	});
 
-	$.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
-        var optionsValues = "<select id='products'>";
-        JSONObject = result;
-        optionsValues += '<option value="">' + '- Производ -' + '</option>';
-        $.each(result, function() {
-                optionsValues += '<option value="' + this.id + '">' + this.prodname + '</option>';
-        });
-        optionsValues += '</select>';
-        var options = $("select#products");
-        options.replaceWith(optionsValues);  
-    });
+	var produtsSelect = $("select#products");
+
+    $.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
+		JSONObject = result;
+		var options = '';
+		$.each(result, function(i, row){
+			options += '<option value="' + row.id + '">' + row.prodname + '</option>';
+		});
+		produtsSelect.html(options);
+	});	
 
     var products = [];
 
 	function add_product(){
-		
-		  var prodname_fk = $("select#products").val();
+		//
+		//TODO When product is added, lock Parnter and Payment Method!
+		//
+		  var partner_fk = $("input[name=partner_fk]").val();
 		  var prodname = $("select#products option:selected").text(); //only for display reasons
-		  var quantity = $("#quantity").val(); 
-		  var returned_quantity = $("#returned_quantity").val(); 
-		  var uom = $("span#uom").html(); //only for display reasons
+		  var prodname_fk = $("input[name=prodname_fk]").val();
+		  var quantity = $("input[name=quantity]").val(); 
+		  var returned_quantity = $("input[name=returned_quantity]").val(); 
+		  var uom = $("span.uom").html(); //only for display reasons
+
+		  console.log(partner_fk);
+		  console.log(prodname_fk);
+		  console.log(prodname);
+		  console.log(quantity);
+		  console.log(returned_quantity);
+		  //return;
 
 		  	//Set returned_quantity to defualt 0 if not set
 		  	if(returned_quantity == '')
@@ -199,10 +225,11 @@
 		  updateTable();
 
 		  //Emptys the product and quantity of the COMPONENTS after successfull ADD
-		  $("span[id=uom]").text("");
-		  $("#quantity").val("");
-		  $("#returned_quantity").val("");
-		  $("select#products").val("").focus();
+		  $("span.uom").text("");
+		  $("input[name=quantity]").val("");
+		  $("input[name=returned_quantity]").val("");
+		  $("select#products").select2("data",'').focus();
+
 		  return false;
 	}
 
@@ -214,8 +241,11 @@
 	// Function that updates product table (which contains "No records!" in your image attached)
 	function updateTable() 
 	{	
+		  //$("select[name=payment_mode_fk]").select2('disable');
+		  //$("input[name=customer]").attr('disabled', 'disabled');
 		  // This variable should contain table where the records should be shown, adjust the selector accordingly
-		  var table = $("table#order_grid")[0];
+		  var table = $("table.temp-table")[0];
+		   $("table.temp-table").show();
 		  //alert(table);
 		  
 		  // Remove all the rows (except the first one - header row)
@@ -236,10 +266,10 @@
 	    table.rows[i + 1].cells[0].innerHTML = i+1;
 	    //table.rows[i + 1].cells[1].innerHTML = products[i].id;
 	    table.rows[i + 1].cells[1].innerHTML = products[i].prodname;
-	    table.rows[i + 1].cells[2].innerHTML = products[i].quantity + " " + products[i].uname;
+	    table.rows[i + 1].cells[2].innerHTML = products[i].quantity;
 	    table.rows[i + 1].cells[3].innerHTML = products[i].returned_quantity + " " + products[i].uname;
 	    //table.rows[i + 1].cells[3].innerHTML = products[i].uname;
-	    table.rows[i + 1].cells[4].innerHTML = "<span class=\"removeprod\" onclick=\"removeRecord(" + i + ")\">&nbsp;</span>";
+	    table.rows[i + 1].cells[4].innerHTML = '<i class="icon-trash" onclick="removeRecord('+i+')"></i>';
 	  }
 	}
 

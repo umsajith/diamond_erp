@@ -19,7 +19,6 @@
 <body>
     <!-- JQUERY LOADING -->
     <script src="<?=base_url('js/jquery.js')?>"></script>
-    <!--<script src="<?=base_url('js/jquery-ui.js')?>"></script> -->
     <!-- END OF JQUERY LOADING -->
 
     <!-- NAV BAR -->
@@ -65,7 +64,6 @@
     <!-- END OF FOOTER -->
 
     <!-- JAVASCRIPT LOADING -->
-    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script src="<?=base_url('js/modernizr.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
     <script src="<?=base_url('js/bootstrap-datepicker.js')?>"></script>
