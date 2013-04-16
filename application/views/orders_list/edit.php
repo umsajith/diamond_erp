@@ -1,36 +1,22 @@
-<h2><?php echo $heading; ?></h2>
-<?php echo form_open();?>
-<hr>
-<div id="buttons">
-	<?php echo form_submit('','Сними',"class='save'"); ?>
+<?=uif::contentHeader($heading)?>
+	<?=form_open("orders_list/edit/$master->id",'class="form-horizontal"')?>
+    <?=uif::submitButton();?>
+	<hr>
+<div class="row-fluid">
+	<div class="span6">
+		<?=uif::load('_validation')?>
+		<?=uif::controlGroup('datepicker','Датум','date',$master)?>
+		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_id',[$distributors,$master],'id="distributors"')?>
+		<?=uif::controlGroup('text','Документ','ext_doc',$master)?>
+		<?=uif::controlGroup('textarea','Белешка','note',$master)?>
+		<?=form_hidden('id',$master->id)?>
+		<?=form_close()?>
+	</div>
 </div>
-<hr>
-<table class="data_forms_jo"> 
-    <tr>
-	    <td class="label"><?php echo form_label('Датум:');?><span class='req'>*</span></td>
-	    <td><?php echo form_input('date',set_value('date',$master->date)); ?></td>
-	</tr>
-	<tr>
-	    <td class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
-	    <td><?php echo form_dropdown('distributor_id', $distributors,set_value('distributor_id',$master->distributor_id)); ?></td>
-	</tr>
-	 <tr>
-	    <td class="label"><?php echo form_label('Документ:');?></td>
-	    <td><?php echo form_input('ext_doc',set_value('ext_doc',$master->ext_doc)); ?></td>
-	</tr>
-	 <tr>
-	    <td class="label"><?php echo form_label('Белешка:');?></td>
-	    <td><?php echo form_textarea('note',set_value('note',$master->note)); ?></td>
-	</tr>
-</table >
-	<?php echo form_hidden('id',$master->id); ?>
-<?php echo form_close();?>
-<script type="text/javascript">
+<script>
 	$(function() {
-		
-		$( "input[name=date]" ).datepicker({
-			dateFormat: "yy-mm-dd",
-			maxDate: +0
-		});
+		$("#distributors").select2();
+		var options = {future: false};
+		cd.datepicker(".datepicker",options);
 	});
 </script>

@@ -36,7 +36,7 @@
 	<?php foreach ($results as $row):?>
 		<tr data-id=<?=$row->id?>>
 			<td><input type="checkbox" value="<?=$row->id?>" class="order-list"></td>
-			<td><?=uif::linkIcon("orders_list/view/{$row->id}",'icon-file-alt')?></td>
+			<td><?=uif::viewIcon('orders_list',$row->id)?></td>
 			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
 			<td><?=uif::date($row->date)?></td>
 			<td><?=$row->distributor; ?></td>

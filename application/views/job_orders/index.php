@@ -33,7 +33,7 @@
 	<?php foreach($results as $row):?>
 	<tr data-id=<?=$row->id?>>
 			<td><?=((!$row->is_completed)) ? '<input type="checkbox" value='.$row->id.' class="job-order">' : '&nbsp;'?></td>
-			<td><?=uif::linkIcon("job_orders/view/{$row->id}",'icon-file-alt')?></td>
+			<td><?=uif::viewIcon('job_orders',$row->id)?></td>
 			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
 			<td><?=uif::date($row->datedue)?></td>
