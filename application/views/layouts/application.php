@@ -7,7 +7,6 @@
     <title><?=$heading.' - '.$G_title?></title>  
     <link rel="icon" type="image/png" href="<?=base_url('favicon.ico')?>"> 
     <link rel="stylesheet" href="<?=base_url('css/normalize.css')?>"/>
-    <link rel="stylesheet" href="<?=base_url('css/smoothness/jquery-ui-1.10.0.custom.min.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />

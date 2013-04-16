@@ -114,7 +114,7 @@ class Utilities {
         return $data;
     }
     
-	function get_employees($type = 'all')
+	function get_employees($type = 'all', $empty = '')
     {	
     	//Generating Querry
     	$this->CI->db->select('e.id,e.fname,e.lname');
@@ -136,7 +136,7 @@ class Utilities {
     	
     	$array_keys_values = $this->CI->db->get()->result();
     	
-    	$data[''] =  '- Работник -';
+    	$data[''] =  $empty;
     	
     	//Creating Assosiative Array
        foreach ($array_keys_values as $row)

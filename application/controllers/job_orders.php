@@ -121,7 +121,7 @@ class Job_orders extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['employees'] = $this->utilities->get_employees('variable');
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 				
 		//Retreives the Last Inserted Job Order
 		$this->data['last'] = $this->jo->get_last();
@@ -137,9 +137,7 @@ class Job_orders extends MY_Controller {
 		 * does not exists, reports void error and redirects
 		 */
 		$this->data['job_order'] = $this->jo->select_single($id);
-		if(!$this->data['job_order'])
-			$this->utilities->flash('void','job_orders');
-				
+		if(!$this->data['job_order']) show_404();
 		/*
 		 * Prevents from editing locked record
 		 */
