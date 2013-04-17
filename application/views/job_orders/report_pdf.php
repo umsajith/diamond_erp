@@ -60,7 +60,7 @@ span#label{
   <span id="label">До:</span> <?php echo $dateto; ?><br/>
   <span id="label">Вработен:</span> <?php echo (isset($employee))?$employee->fname.' '.$employee->lname:'-'; ?><br/>
   <span id="label">Работна Задача:</span> <?php echo (isset($task->taskname))?$task->taskname:'-'; ?><br/> 
-  <span id="label">Смена:</span> <?php echo (isset($shift))?$shift:'-'; ?>
+  <!-- <span id="label">Смена:</span> <?php// echo (isset($shift))?$shift:'-'; ?> -->
 </div>
 
 <table id="payroll"> 

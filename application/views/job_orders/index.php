@@ -21,10 +21,10 @@
 	    	<th><input type="checkbox" class="check-all">&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-	    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
-	    			<?=anchor("job_orders/index/$query_id/{$col_name}/".
-	    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
-	    		</th>
+    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
+    			<?=anchor("job_orders/index/$query_id/{$col_name}/".
+    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
+    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
     	</tr>
@@ -32,22 +32,22 @@
     <tbody>
 	<?php foreach($results as $row):?>
 	<tr data-id=<?=$row->id?>>
-			<td><?=((!$row->is_completed)) ? '<input type="checkbox" value='.$row->id.' class="job-order">' : '&nbsp;'?></td>
-			<td><?=uif::viewIcon('job_orders',$row->id)?></td>
-			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
-			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
-			<td><?=uif::date($row->datedue)?></td>
-			<td><?= $row->fname. ' ' .$row->lname;?></td>
-			<td><?=$row->taskname;?></td>
-			<td><?=$row->assigned_quantity.' '.$row->uname;?></td>
-			<td><?=uif::isNull($row->work_hours)?></td>
-			<td><?=uif::isNull($row->shift)?></td>
-			<td><?=uif::date($row->dateofentry)?></td>
-			<td>
-			<?php if(!$row->locked):?>
-				<?=uif::actionGroup('job_orders',$row->id)?>
-			<?php endif;?>
-			</td>
+		<td><?=((!$row->is_completed)) ? '<input type="checkbox" value='.$row->id.' class="job-order">' : '&nbsp;'?></td>
+		<td><?=uif::viewIcon('job_orders',$row->id)?></td>
+		<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
+		<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
+		<td><?=uif::date($row->datedue)?></td>
+		<td><?= $row->fname. ' ' .$row->lname;?></td>
+		<td><?=$row->taskname;?></td>
+		<td><?=$row->assigned_quantity.' '.$row->uname;?></td>
+		<td><?=uif::isNull($row->work_hours)?></td>
+		<td><?=uif::isNull($row->shift)?></td>
+		<td><?=uif::date($row->dateofentry)?></td>
+		<td>
+		<?php if(!$row->locked):?>
+			<?=uif::actionGroup('job_orders',$row->id)?>
+		<?php endif;?>
+		</td>
 	</tr>
 	<?php endforeach;?>
 	</tbody>

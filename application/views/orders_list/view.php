@@ -2,9 +2,12 @@
 	<?php if(!$master->locked):?>
         <?=uif::linkButton("orders_list/edit/$master->id",'icon-edit','warning')?>
         <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
+		<?=uif::button('icon-lock','info','onClick=cd.lockOrderList("'.site_url('orders_list/ajxLock').'",'.$master->id.')')?>
 		<?=uif::button('icon-save','primary','onClick="submit_form()"')?>
-        <hr>
+    <?php else:?>
+		<?=uif::button('icon-unlock','info','onClick=cd.unlockOrderList("'.site_url('orders_list/ajxUnlock').'",'.$master->id.')')?>
     <?php endif;?>
+        <hr>
 <div class="row-fluid">
 <?php if(!$master->locked):?>
     <div class="span5 well"> 
@@ -40,6 +43,12 @@
 <?php endif; ?>
 	<?php if ($results): ?>
 	<div class="span7">
+		<?php if($master->locked == 1):?>
+			<div class="alert">
+				<i class="icon-lock"></i>
+				<strong>Ставката е заклучена! Потребно е да ја отклучите за натамошна работа</strong>
+			</div>
+		<?php endif;?>
 		<dl class="dl-horizontal">
 			<dt>Датум</dt>
 			<dd><?=$master->date?></dd>
@@ -84,12 +93,6 @@
 			<?php endforeach; ?>
 			</tbody>	
 		</table>
-		<?php if($master->locked == 1):?>
-			<div class="alert">
-				<i class="icon-lock"></i>
-				<strong>Ставката е заклучена! Потребно е да ја отклучите за натамошна работа</strong>
-			</div>
-		<?php endif;?>
 	</div>
 	<?php endif ?>
 </div>

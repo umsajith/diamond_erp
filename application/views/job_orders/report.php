@@ -1,92 +1,77 @@
-<h2><?php echo $heading; ?></h2>
-<hr>
-	<div id="buttons">
-		<a href="#" class="button" id="change_calculation"><span class="edit">Измена</span></a>
-		<a href="#" class="button" id="pdf" onClick="createPdf();"><span class="pdf">PDF</span></a>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<div class="span3" id="content-main-buttons">
+		<?=uif::button('icon-file','primary','onClick=location.reload(true)')?>
+		<?=uif::button('icon-cog','success','onClick=doReport()')?>
+		<?=uif::button('icon-print','info',
+		'onClick=cd.generatePdf("'.site_url('job_orders/report_pdf').'","form#report") id="generate-pdf"')?>
 	</div>
-<hr>
-<?php echo form_open('job_orders/report',"id='report'");?>
-<div class="report_calc">
-	<table>
-		<tr>
-		    <td class="label"><?php echo form_label('Од:');?><span class='req'>*</span></td>
-		    <td><?php echo form_input('datefrom',(!isset($datefrom) ? '' : $datefrom),'id="datefrom"'); ?></td>
-		    <td><?php echo form_dropdown('assigned_to', $employees); ?></td>
-		    <td><?php echo form_dropdown('shift', array(''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3')); ?></td>
-		</tr>
-		<tr>
-		    <td class="label"><?php echo form_label('До:');?><span class='req'>*</span></td>
-		    <td><?php echo form_input('dateto',(!isset($dateto) ? '' : $dateto),'id="dateto"'); ?></td>
-		    <td><?php echo form_dropdown('task_fk', $tasks); ?></td>
-		    <?php echo form_hidden('submited',set_value('submited',$submited)); ?>
-		    <td align="right"><?php echo form_submit('','Преглед');?></td>
-		</tr>
-	</table>
 </div>
-<?php echo form_close();?>
-<?php echo validation_errors(); ?>
+<hr>
+<div class="row-fluid">
+	<div class="span4 well">
+	<?=form_open('job_orders/report',"id='report'")?>
+		<?=uif::load('_validation')?>
+		<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
+		<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
+		<?=uif::controlGroup('dropdown','','assigned_to',[$employees])?>
+		<?=uif::controlGroup('dropdown','','task_fk',[$tasks])?>
+		<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3],''])?>
+	<?=form_close()?>
+	</div>
+	<div class="span8">
+		<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
+		<table class="table table-stripped table-condensed table-hover tablesorter" id="report-table">
+			<thead>
+				<tr>
+			    	<th>Работна Задача</th>
+			    	<th>Вкупно</th>
+			    	<th>Просек</th>
+			    	<th>Максимум</th>
+			    	<th>Минимум</th>
+			    	<th>Р.Налози</th>    	
+		    	</tr>
+		    </thead>
+		    <tbody>
+			<?php foreach($results as $row):?>
+				<tr>
+					<td><?=$row->taskname.' ('.$row->uname.')'?></td>
+					<td><?=$row->sum?></td>
+					<td><?=round($row->avg,2)?></td>
+					<td><?=$row->max?></td>
+					<td><?=$row->min?></td>
+					<td><?=$row->count;?></td>
+				</tr>
+			<?php endforeach;?>
+		</tbody>
+		</table>
+		<?php endif;?>
+	</div>
+</div>
 
-<table class="master_table"> 
-<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
-	<thead>
-		<tr>
-	    	<th>Работна Задача</th>
-	    	<th>Вкупно</th>
-	    	<th>Просек</th>
-	    	<th>Максимум</th>
-	    	<th>Минимум</th>
-	    	<th>Раб.Налози</th>    	
-    	</tr>
-    </thead>
-    <tbody>
-	<?php foreach($results as $row):?>
-		<tr>
-			<td><?php echo $row->taskname;?></td>
-			<td><?php echo $row->sum.' '.$row->uname;?></td>
-			<td><?php echo round($row->avg,2).' '.$row->uname;?></td>
-			<td><?php echo $row->max.' '.$row->uname;?></td>
-			<td><?php echo $row->min.' '.$row->uname;?></td>
-			<td><?php echo $row->count;?></td>
-		</tr>
-	<?php endforeach;?>
-<?php else:?>
-	<?php if(empty($results)):?>
-		<?php $this->load->view('includes/_no_records');?>
-	<?php endif;?>
-<?php endif;?>
-</tbody>
-</table>
 <div id="container" style="margin: 0"></div>
 
 
-<script type="text/javascript">
-
+<script>
 	$(function() {
 
-		var submited = '<?php echo $submited; ?>';
+		$("select[name=assigned_to]").select2();
+		$("select[name=task_fk]").select2();
 
-		if(submited == 0)
-			$("#pdf").hide();
+		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 
-		//Date Pickers From-To.
-		var dates = $( "#datefrom, #dateto" ).datepicker({
-			dateFormat: "yy-mm-dd",
-			onSelect: function( selectedDate ) {
-				var option = this.id == "datefrom" ? "minDate" : "maxDate",
-					instance = $( this ).data( "datepicker" ),
-					date = $.datepicker.parseDate(
-						instance.settings.dateFormat ||
-						$.datepicker._defaults.dateFormat,
-						selectedDate, instance.settings );
-				dates.not( this ).datepicker( "option", option, date );
-			}
-		});	
+		var submited = '<?=$submited?>';
+		if(submited == 0){
+			$("#generate-pdf").hide();
+		}
+
 	});
 
-	function createPdf()
-	{
-		$.download("<?php echo site_url('job_orders/report_pdf'); ?>",
-			 $("form#report").serialize());
+	function doReport(){
+		$("form#report").submit();
 	}
 
+	// function generatePdf(){
+	// 	$.download("<?=site_url('job_orders/report_pdf')?>",$("form#report").serialize());
+	// }
 </script>

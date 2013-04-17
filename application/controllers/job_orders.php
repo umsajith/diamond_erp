@@ -238,6 +238,7 @@ class Job_orders extends MY_Controller {
 			//Defining Validation Rules
 			$this->form_validation->set_rules('datefrom','date from','trim|required');
 			$this->form_validation->set_rules('dateto','date to','trim|required');
+			$this->form_validation->set_rules('shift[]','shift','trim');
 			
 			if ($this->form_validation->run())
 			{
@@ -293,7 +294,7 @@ class Job_orders extends MY_Controller {
 		}
 		
 		//Dropdown Menus
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
 		
 		//Heading
@@ -301,47 +302,44 @@ class Job_orders extends MY_Controller {
 	}
 
 	public function report_pdf()
-	{	
-		if($_POST)
-		{
-			$this->load->helper('dompdf');
-			$this->load->helper('file');
-			
-			$report_data['results'] = $this->jo->report($_POST);
-			$report_data['datefrom'] = $_POST['datefrom'];
-			$report_data['dateto'] = $_POST['dateto'];
-			
-			$this->load->model('hr/task_model','tsk');
-			$this->load->model('hr/employees_model','emp');
+	{
+		if(!$_POST) show_404();
 
-			if(strlen($_POST['assigned_to']))
-			{
-				$report_data['employee'] = $this->emp->select_single($_POST['assigned_to']);	
-			}
-			if(strlen($_POST['task_fk']))
-			{
-				$report_data['task'] = $this->tsk->select_single($_POST['task_fk']);	
-			}
-			if(strlen($_POST['shift']))
-			{
-				$report_data['shift'] = $_POST['shift'];	
-			}
-			
-			if($report_data['results'])
-			{
-				$html = $this->load->view('job_orders/report_pdf',$report_data, true);
-			
-				$file_name = random_string();
-				
-				header("Content-type: application/pdf");
-				header("Content-Disposition: attachment; filename='{$file_name}'");
-				
-				pdf_create($html,$file_name);
-				exit;
-			}
-			else
-				exit;
+		$this->load->helper('dompdf');
+		$this->load->helper('file');
+		
+		$report_data['results'] = $this->jo->report($_POST);
+		$report_data['datefrom'] = $_POST['datefrom'];
+		$report_data['dateto'] = $_POST['dateto'];
+		
+		$this->load->model('hr/task_model','tsk');
+		$this->load->model('hr/employees_model','emp');
+
+		if(strlen($_POST['assigned_to']))
+		{
+			$report_data['employee'] = $this->emp->select_single($_POST['assigned_to']);	
 		}
+		if(strlen($_POST['task_fk']))
+		{
+			$report_data['task'] = $this->tsk->select_single($_POST['task_fk']);	
+		}
+		// if(strlen($_POST['shift']))
+		// {
+		// 	$report_data['shift'] = $_POST['shift'];	
+		// }
+		
+		if($report_data['results'])
+		{
+			$html = $this->load->view('job_orders/report_pdf',$report_data, true);
+		
+			$file_name = random_string();
+			
+			header("Content-type: application/pdf");
+			header("Content-Disposition: attachment; filename='{$file_name}'");
+			
+			pdf_create($html,$file_name);
+		}
+		exit;
 	}
 	
 	public function delete($id)
@@ -388,14 +386,14 @@ class Job_orders extends MY_Controller {
 		 */
 		foreach ($bom_components as $component)
 		{
-			$options = array(
+			$options = [
 				'prodname_fk'=> $component->prodname_fk,
 				'job_order_fk'=> $job_order_id,
 				'quantity' => (($component->quantity * $quantity) * -1),
 				'received_by' => $this->session->userdata('userid'),
 				'type' => '0',
 				'is_use' => 1
-			);
+			];
 
 			unset($_POST);
 				

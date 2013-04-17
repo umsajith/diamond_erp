@@ -289,8 +289,11 @@ class Joborders_model extends MY_Model {
 			$this->db->where('jo.assigned_to',$options['assigned_to']);
 		if(strlen($options['task_fk']))
 			$this->db->where('jo.task_fk',$options['task_fk']);
-		if(strlen($options['shift']))
-			$this->db->where('jo.shift',$options['shift']);
+		if(isset($options['shift']))
+		{
+			if(count($options['shift']) < 3)
+				$this->db->where_in('jo.shift',$options['shift']);
+		}
 		
 		$this->db->where('jo.is_completed',1);
 		

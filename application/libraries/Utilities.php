@@ -238,7 +238,7 @@ class Utilities {
                 break;
             case 'void':
                 $message = 'Ставката не постои!';
-                $class = '';
+                $class = 'alert';
                 break;
             case 'deny':
                 $message = 'Забранет пристап!';
@@ -256,7 +256,7 @@ class Utilities {
 		$this->CI->session->set_flashdata('type',$class);
 
 		//Redirects
-		if($redirect)
+		if($redirect != '')
 			redirect($redirect_to);
 	}
 }

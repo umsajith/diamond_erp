@@ -186,6 +186,15 @@ class UIF {
 					$out .= '</label>';
 				}
 				break;
+			case 'checkbox':
+				foreach ($value[0] as $v) {
+					$out .= '<label class="radio inline">';
+					$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
+							set_radio($name,$v,(($value[1]!=='')) ? 
+							($v==$value[1]->$name) ? true : false : '' ).'/>';
+					$out .= '</label>';
+				}
+				break;
 			case 'datepicker':
 				$out .= '<div class="input-append date datepicker" data-date-format="yyyy-mm-dd">';
 				$out .= form_input($name,set_value($name,($value) ? $value->$name : ''),$attributes);

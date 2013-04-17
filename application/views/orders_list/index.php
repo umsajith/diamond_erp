@@ -23,12 +23,12 @@
 			<th><input type="checkbox" class="check-all">&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-				<?php foreach ($columns as $col_name => $col_display):?>
-		    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : "";?>>
-		    			<?=anchor("orders_list/index/$query_id/$col_name/".
-		    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-		    		</th>
-		    	<?php endforeach;?>
+			<?php foreach ($columns as $col_name => $col_display):?>
+    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : "";?>>
+    			<?=anchor("orders_list/index/$query_id/$col_name/".
+    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		</th>
+	    	<?php endforeach;?>
 			<th>&nbsp;</th>
 		</tr>
 	</thead>
