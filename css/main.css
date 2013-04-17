@@ -19,7 +19,6 @@ footer {font-size: 10px; border-top: 1px solid #ccc; margin-top: 5px; padding:20
 #content-main-title h4 {margin: 0;margin-top: 5px;}
 #content-main-info p {margin: 0;margin-top: 5px;}
 #content-main-filters form {margin-bottom: 0;}
-#content-main-filters select {width: auto;}
 
 /* Data Grids */
 .asc:after {content:'▲';}
