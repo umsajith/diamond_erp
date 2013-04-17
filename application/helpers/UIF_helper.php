@@ -15,20 +15,25 @@ class UIF {
 
 	public static function contentHeader($mainTitle = '', $meta = '')
 	{
-		$product = "<div class='row-fluid'><div class='span6' id='content-main-title'>";
-		$product .= "<h4>{$mainTitle}</h4>";
-		$product .= "</div>";
+		$out = '<div class="row-fluid"><div class="span6" id="content-main-title"><h4>'.$mainTitle.'</h4></div>';
 
 		if($meta != '')
 		{
-			$product .= "<div class='span6 text-right' id='content-main-info'>";
-			$product .= "<p class='muted'>#{$meta->id} @{$meta->dateofentry}</p>";
-			$product .= "</div>";
+			$out .= '<div class="span6 text-right" id="content-main-info">';
+			if(is_object($meta))
+			{
+				$out .= '<p class="muted">#'.$meta->id.'@'.$meta->dateofentry.'</p>';
+			}
+			else
+			{
+				$out .= '<p class="muted">'.$meta.'</p>';
+			}
+			$out .= '</div>';
 		}
 
-		$product .= "</div><hr>"; 
+		$out .= '</div><hr>'; 
 		
-		return $product;
+		return $out;
 	}
 
 	public static function linkButton($uri = '', $icon = '', $type = 'primary', $attributes = '')
@@ -126,9 +131,9 @@ class UIF {
 		return ($timestamp != '') ? mdate($format,mysql_to_unix($timestamp)) : '-';
 	}
 
-	public static function isNull($value = '')
+	public static function isNull($value = '', $extra = '')
 	{
-		return ($value != '') ? $value : '-';
+		return ($value != '') ? $value.$extra : '-';
 	}
 
 	// public function deleteButton($uri = '',$id = '')

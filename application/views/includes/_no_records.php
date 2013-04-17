@@ -1,3 +1,3 @@
 <div class="alert alert-danger text-center">
-	<strong>Dang! </strong>Нема активни ставки!
+	<strong>Shiiiiiittttt! </strong> No records found!
 </div>

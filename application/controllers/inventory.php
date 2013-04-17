@@ -435,19 +435,19 @@ class Inventory extends MY_Controller {
 		{
 			$heading = 'Нарачка';
 			$redirect = 'purchase_orders';
-			$this->content_view = 'inventory/purchase_order';
+			$this->view = 'inventory/purchase_order';
 		}
 		if($page == 'gr')
 		{
 			$heading = 'Приемница';
 			$redirect = 'goods_receipts';
-			$this->content_view = 'inventory/goods_receipt';
+			$this->view = 'inventory/goods_receipt';
 		}
 		if($page == 'adj')
 		{
 			$heading = 'Порамнување';
 			$redirect = 'adjustments';
-			$this->content_view = 'inventory/adjustment';
+			$this->view = 'inventory/adjustment';
 		}
 		
 		//Retreives data from MASTER Model

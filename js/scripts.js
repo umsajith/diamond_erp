@@ -74,6 +74,23 @@ var cd = (function(){
 		$.pnotify(pnotify_opt);
 	};
 
+	obj.receivePurchaseOrders = function(url, id){
+		if(!id) {
+			var ids = $(".purchase-order:checked").map(function(i,n) {
+	        	return $(n).val();
+	    	}).get();
+		} else ids = id;
+
+		if(ids.length == 0){
+			this.notify("Потребно е да селектирате барем една ставка");
+			return false;
+		}
+
+		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
+		  if(data) location.reload(true);
+		}, 'json');
+	}
+
 	obj.completeJobOrders = function(url){
 
 		var ids = $(".job-order:checked").map(function(i,n) {

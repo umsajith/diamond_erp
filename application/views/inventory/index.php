@@ -1,29 +1,37 @@
-<h2><?php echo $heading?></h2>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<div class="span12" id="content-main-buttons">
+		<?=uif::linkButton('inventory/insert_gr','icon-download-alt')?>
+	</div>
+</div>
 <hr>
-	<a href="<?php echo site_url('inventory/insert_gr');?>" class="button"><span class="receive">Прием</span></a>
-<table class="master_table">
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
-	<tr>
-		<th>&nbsp;</th>
-		<th>Артикл</th>
-		<th>Категорија</th>
-		<th>Лагер</th>
-		<th>Просечна Цена</th>
-		<th>Највисока Цена</th>
-		<th>Последно Ажурирање</th>
-	</tr>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid"> 
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Артикл</th>
+			<th>Категорија</th>
+			<th>Лагер</th>
+			<th>Мин.Цена</th>
+			<th>Макс.Цена</th>
+			<th>Последна Промена</th>
+		</tr>
+	</thead> 
+	<tbody>
 	<?php foreach($results as $row):?>
-		<tr <?php echo ($row->alert_quantity >= $row->quantity ? ' class="red" '  : '');?>>
-			<td class="code"><?php echo anchor('inventory/digg/'.$row->pid,'&nbsp;','class="zoom_icon"');?></td>
-			<td><?php echo $row->prodname;?></td>
-			<td><?php echo $row->pcname;?></td>
-			<td><?php echo $row->quantity.' '.$row->uname;?></td>
-			<td><?php echo round($row->price,3).$G_currency;?></td>
-			<td><?php echo round($row->maxprice,3).$G_currency;?></td>
-			<td><?php echo $row->dateofentry;?></td>
+		<tr <?=($row->alert_quantity >= $row->quantity ? ' class="warning" '  : '')?>>
+			<td><?=uif::linkIcon('inventory/digg/'.$row->pid,'icon-folder-open')?></td>
+			<td><?=$row->prodname?></td>
+			<td><?=$row->pcname?></td>
+			<td><?=$row->quantity.' '.$row->uname?></td>
+			<td><?=round($row->price,3).$G_currency?></td>
+			<td><?=round($row->maxprice,3).$G_currency?></td>
+			<td><?=uif::date($row->dateofentry)?></td>
 		</tr>
 	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
+	</tbody>
 </table>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>
