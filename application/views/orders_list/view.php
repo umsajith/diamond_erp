@@ -3,14 +3,14 @@
         <?=uif::linkButton("orders_list/edit/$master->id",'icon-edit','warning')?>
         <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
 		<?=uif::button('icon-lock','info','onClick=cd.lockOrderList("'.site_url('orders_list/ajxLock').'",'.$master->id.')')?>
-		<?=uif::button('icon-save','primary','onClick="submit_form()"')?>
     <?php else:?>
 		<?=uif::button('icon-unlock','info','onClick=cd.unlockOrderList("'.site_url('orders_list/ajxUnlock').'",'.$master->id.')')?>
     <?php endif;?>
         <hr>
 <div class="row-fluid">
 <?php if(!$master->locked):?>
-    <div class="span5 well"> 
+    <div class="span5 well">
+    	<strong>Нов Налог за Продажба</strong> 
 			<?=form_hidden('order_list_id',$master->id)?>
 			<?=form_hidden('distributor_id',$master->distributor_id)?>
 			<?=form_hidden('date',$master->date)?>	
@@ -20,13 +20,15 @@
 		<hr>
 			<?=uif::controlGroup('dropdown','','prodname_fk',[])?>	
 		<div class="input-append">
-			<?=uif::formElement('text','','quantity','','placeholder="Земена Кол."')?>
+			<?=uif::formElement('text','','quantity','','placeholder="Земено"')?>
 		</div>
 		<span class="uom"></span>
 		<div class="input-append">
-			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратена Кол."')?>
+			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено"')?>
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
+			<?=uif::button('icon-save','primary','onClick="submit_form()"')?>
 		</div>
+
 		<hr>
 		<table class="table table-condensed temp-table">
 			<thead>
@@ -49,27 +51,21 @@
 				<strong>Ставката е заклучена! Потребно е да ја отклучите за натамошна работа</strong>
 			</div>
 		<?php endif;?>
-		<dl class="dl-horizontal">
-			<dt>Датум</dt>
-			<dd><?=$master->date?></dd>
-			<dt>Дистрибутер</dt>
-			<dd><?=$master->distributor?></dd>
-			<dt>Документ</dt>
-			<dd><?=uif::isNull($master->ext_doc)?></dd>
-			<dt>Код</dt>
-			<dd><?=uif::isNull($master->code)?></dd>
-			<dt>Белешка</dt>
-			<dd><?=uif::isNull($master->note)?></dd>
-			<?php if($this->session->userdata('admin')):?>
-		        <dt>Оператор:</dt>
-		        <dd><?=$master->operator;?></dd>  
-		    <?php endif;?>
-		</dl>
+
 		<table class="table table-condensed">
+			<caption>
+				<p class="well well-small">
+					<i class="icon-calendar"> </i> <?=uif::date($master->date)?>
+					| <i class="icon-user"></i> <?=$master->distributor?>
+					| <i class="icon-tag"></i> <?=uif::isNull($master->ext_doc)?>
+					<!-- | <i class="icon-barcode"> </i><?=uif::isNull($master->code)?>
+					| <i class="icon-align-left"> </i><?=uif::isNull($master->note)?> -->
+					| <i class="icon-eye-open"> </i><?=$master->operator?>
+				</p>
+			</caption>
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
-					<th>Датум</th>
 					<th>Купувач</th>
 					<th>Плаќање</th>
 					<th>Внес</th>
@@ -80,7 +76,6 @@
 			<?php foreach ($results as $row):?>
 				<tr data-id=<?=$row->id?>>
 					<td><?=uif::viewIcon('orders',$row->id)?></td>
-					<td><?=uif::date($row->dateshipped)?></td>
 					<td><?=$row->company?></td>
 					<td><?=$row->name?></td>
 					<td><?=uif::date($row->dateofentry)?></td>
