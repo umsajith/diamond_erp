@@ -100,13 +100,14 @@ class Orders extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			//Inserts Master details
-			$master = array(
-							'order_list_id'=>$_POST['order_list_id'],
-							'dateshipped'=>$_POST['dateshipped'],
-						 	'partner_fk'=>$_POST['partner_fk'],
-							'distributor_fk'=>$_POST['distributor_fk'],
-							'payment_mode_fk'=>$_POST['payment_mode_fk'],
-							'inserted_by'=>$this->session->userdata('userid'));
+			$master = [
+				'order_list_id'=>$_POST['order_list_id'],
+				'dateshipped'=>$_POST['dateshipped'],
+			 	'partner_fk'=>$_POST['partner_fk'],
+				'distributor_fk'=>$_POST['distributor_fk'],
+				'payment_mode_fk'=>$_POST['payment_mode_fk'],
+				'inserted_by'=>$this->session->userdata('userid')
+			];
 			
 			$order_fk = $this->co->insert($master);
 			
@@ -116,16 +117,28 @@ class Orders extends MY_Controller {
 				foreach (json_decode($_POST['components'],true) as $detail)
 				{
 					//Inserts all Detail records into the database
-					$this->cod->insert(array(
+					$this->cod->insert([
 							'order_fk'=>$order_fk,
 							'prodname_fk'=>$detail['id'],
 							'quantity'=>$detail['quantity'],
-							'returned_quantity'=>$detail['returned_quantity']));
+							'returned_quantity'=>$detail['returned_quantity']
+						]);
 				}
-				echo 1;
+
+				$lastRecord = $this->co->select_single($order_fk);
+				$out = [
+					'id' => $lastRecord->id,
+					'company' => $lastRecord->company,
+					'payment' => $lastRecord->name,
+					'dateshipped' => $lastRecord->dateshipped,
+					'dateofentry' => $lastRecord->dateofentry
+				];
+				//$this->utilities->flash('add','',false);
+				header('Content-Type: application/json');
+				echo (json_encode($out));
+				exit;
 			}
 		}
-
 		exit;
 	}
 
@@ -283,7 +296,7 @@ class Orders extends MY_Controller {
 			$this->utilities->flash('void','orders');
 
 		if($this->co->delete($id))
-			$this->utilities->flash('delete','orders');
+			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
 		else
 			$this->utilities->flash('error','orders');
 	}
