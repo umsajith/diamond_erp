@@ -130,9 +130,10 @@ class UIF {
 		return '<i class="'.$icon.'"'.$attributes.'>'.''.'</i>';
 	}
 
-	public static function date($timestamp = '', $format = '%d/%m/%Y')
+	public static function date($timestamp = null, $format = '%d/%m/%Y')
 	{	
-		return ($timestamp != '') ? mdate($format,mysql_to_unix($timestamp)) : '-';
+		return (!is_null($timestamp) AND $timestamp != '0000-00-00') ?
+				mdate($format,mysql_to_unix($timestamp)) : '-';
 	}
 
 	public static function isNull($value = '', $extra = '')

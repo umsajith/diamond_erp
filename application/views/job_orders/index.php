@@ -43,11 +43,7 @@
 		<td><?=uif::isNull($row->work_hours)?></td>
 		<td><?=uif::isNull($row->shift)?></td>
 		<td><?=uif::date($row->dateofentry)?></td>
-		<td>
-		<?php if(!$row->locked):?>
-			<?=uif::actionGroup('job_orders',$row->id)?>
-		<?php endif;?>
-		</td>
+		<td><?=(!$row->locked) ? uif::actionGroup('job_orders',$row->id) : '' ?></td>
 	</tr>
 	<?php endforeach;?>
 	</tbody>

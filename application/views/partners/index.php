@@ -34,7 +34,7 @@
 	<?php foreach($results as $row):?>
 		<tr data-id=<?=$row->id?>>
 			<td><?=uif::viewIcon('partners',$row->id)?></td>
-			<td><?=($row->is_mother) ? uif::staticIcon('icon-hospital') : ''?></td>
+			<td><?=($row->is_mother) ? uif::staticIcon('icon-building') : ''?></td>
 			<td><?=$row->id?></td>
 			<td><?=$row->company?></td>
 			<td><?=uif::isNull($row->contperson)?></td>			

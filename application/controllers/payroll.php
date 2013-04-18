@@ -21,7 +21,7 @@ class Payroll extends MY_Controller {
 		$this->data['heading'] = 'Преглед на Плати';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -30,11 +30,9 @@ class Payroll extends MY_Controller {
 			'date_from'=>'Од',
 			'date_to'=>'До',
 			'acc_wage'=>'Учинок',
-			'social_cont'=>'Придонеси',
-			'comp_mobile_sub'=>'Тел.Суб',
 			'bonuses'=>'Бонуси',
 			'gross_wage'=>'Бруто',
-			'fixed_wage'=>'Фиксна Плата',
+			'fixed_wage'=>'Нето',
 			'expenses'=>'Трошоци',
 			'paid_wage'=>'Доплата',
 			'dateofentry'=>'Внес'

@@ -18,7 +18,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = 'Додатоци';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 		
 		//Columns which can be sorted by
@@ -85,7 +85,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = 'Трошоци';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 		
 		//Columns which can be sorted by
@@ -152,7 +152,7 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = 'Придонеси';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
 		$this->data['categories'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 		
 		//Columns which can be sorted by
@@ -347,7 +347,7 @@ class Payroll_extra extends MY_Controller {
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->utilities->get_employees();
 		$this->data['categories'] = 
-			$this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
+		$this->utilities->get_dropdown('id', 'name','exp_cd_payroll_extra_cat','- Категорија -');
 	}
 	
 	public function view($id)
