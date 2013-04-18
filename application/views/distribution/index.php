@@ -3,7 +3,7 @@
 	<div class="span12" id="content-main-buttons">
 		<?=uif::linkButton('distribution/insert_inbound','icon-download-alt')?>
 		<?=uif::linkButton('distribution/insert_outbound','icon-upload-alt')?>
-		<?=uif::linkButton('distribution/insert_return','icon-retweet')?>
+		<?=uif::linkButton('distribution/insert_return','icon-retweet','info')?>
 	</div>
 </div>
 <hr>
