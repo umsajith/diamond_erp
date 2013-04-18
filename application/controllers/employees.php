@@ -32,7 +32,6 @@ class Employees extends MY_Controller {
 			'is_manager'=>'Менаџер',
 			'is_distributer'=>'Дистрибутер',
 			'fixed_wage'=>'Нето',
-			'comp_mobile_sub'=>'Тел.Суб.',
 			'status'=>'Статус'
 		);
 

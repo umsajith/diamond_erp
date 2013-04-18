@@ -21,7 +21,7 @@ class Payroll extends MY_Controller {
 		$this->data['heading'] = 'Преглед на Плати';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
+		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -437,38 +437,36 @@ class Payroll extends MY_Controller {
 
 	public function report_pdf()
 	{	
-		if($_POST)
-		{
-			$this->load->helper('dompdf');
-			$this->load->helper('file');
-			
-			$report_data['results'] = $this->pr->report($_POST);
-			$report_data['date_from'] = $_POST['date_from'];
-			$report_data['date_to'] = $_POST['date_to'];
-			
-			$this->load->model('hr/task_model','tsk');
-			$this->load->model('hr/employees_model','emp');
+		if(!$_POST) show_404();
 
-			if(strlen($_POST['employee_fk']))
-			{
-				$report_data['employee'] = $this->emp->select_single($_POST['employee_fk']);	
-			}
-			
-			if($report_data['results'])
-			{
-				$html = $this->load->view('payroll/report_pdf',$report_data, true);
-			
-				$file_name = random_string();
-				
-				header("Content-type: application/pdf");
-				header("Content-Disposition: attachment; filename='{$file_name}'");
-				
-				pdf_create($html,$file_name);
-				exit;
-			}
-			else
-				exit;
+		$this->load->helper('dompdf');
+		$this->load->helper('file');
+		
+		$report_data['results'] = $this->pr->report($_POST);
+		$report_data['date_from'] = $_POST['date_from'];
+		$report_data['date_to'] = $_POST['date_to'];
+		
+		$this->load->model('hr/task_model','tsk');
+		$this->load->model('hr/employees_model','emp');
+
+		if(strlen($_POST['employee_fk']))
+		{
+			$report_data['employee'] = $this->emp->select_single($_POST['employee_fk']);	
 		}
+		
+		if($report_data['results'])
+		{
+			$html = $this->load->view('payroll/report_pdf',$report_data, true);
+		
+			$file_name = random_string();
+			
+			header("Content-type: application/pdf");
+			header("Content-Disposition: attachment; filename='{$file_name}'");
+			
+			pdf_create($html,$file_name);
+		}
+	
+		exit;
 	}
 
 	/**

@@ -38,7 +38,6 @@
 			<td><?=($row->is_manager) ? uif::staticIcon('icon-ok'):'-'?></td>
 			<td><?=($row->is_distributer) ? uif::staticIcon('icon-ok'):'-'?></td>
 			<td><?=uif::isNull($row->fixed_wage)?></td>
-			<td><?=uif::isNull($row->comp_mobile_sub)?></td>
 			<td><?=($row->status=='active') ? 
 				uif::staticIcon('icon-ok-sign text-success') : 
 				uif::staticIcon('icon-minus-sign text-error')?></td>

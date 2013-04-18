@@ -198,7 +198,7 @@ class UIF {
 				break;
 			case 'checkbox':
 				foreach ($value[0] as $v) {
-					$out .= '<label class="radio inline">';
+					$out .= '<label class="checkbox">';
 					$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
 							set_radio($name,$v,(($value[1]!=='')) ? 
 							($v==$value[1]->$name) ? true : false : '' ).'/>';

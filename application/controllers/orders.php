@@ -247,47 +247,44 @@ class Orders extends MY_Controller {
 	
 	public function report_pdf()
 	{	
-		if($_POST)
-		{
-			$this->load->helper('dompdf');
-			$this->load->helper('file');
-			
-			//print_r($_POST); die;
-			$report_data['results'] = $this->co->report($_POST);
-			$report_data['datefrom'] = $_POST['datefrom'];
-			$report_data['dateto'] = $_POST['dateto'];
-			
-			$this->load->model('partners/partners_model','par');
-			$this->load->model('hr/employees_model','emp');
+		if(!$_POST) show_404();
 
-			if(strlen($_POST['distributor_fk']))
-			{
-				$report_data['distributer'] = $this->emp->select_single($_POST['distributor_fk']);	
-			}
-			if(strlen($_POST['partner_fk']))
-			{
-				$report_data['partner'] = $this->par->select_single($_POST['partner_fk']);	
-			}
-			if(strlen($_POST['payment_mode_fk']))
-			{
-				$report_data['payment'] = $this->utilities->get_single($_POST['payment_mode_fk'],'exp_cd_payment_modes');	
-			}
-			
-			if($report_data['results'])
-			{
-				$html = $this->load->view('orders/report_pdf',$report_data, true);
-			
-				$file_name = random_string();
-				
-				header("Content-type: application/pdf");
-				header("Content-Disposition: attachment; filename='{$file_name}'");
-				
-				pdf_create($html,$file_name);
-				exit;
-			}
-			else
-				exit;
+		$this->load->helper('dompdf');
+		$this->load->helper('file');
+		
+		$report_data['results'] = $this->co->report($_POST);
+		$report_data['datefrom'] = $_POST['datefrom'];
+		$report_data['dateto'] = $_POST['dateto'];
+		
+		$this->load->model('partners/partners_model','par');
+		$this->load->model('hr/employees_model','emp');
+
+		if(strlen($_POST['distributor_fk']))
+		{
+			$report_data['distributer'] = $this->emp->select_single($_POST['distributor_fk']);	
 		}
+		if(strlen($_POST['partner_fk']))
+		{
+			$report_data['partner'] = $this->par->select_single($_POST['partner_fk']);	
+		}
+		if(strlen($_POST['payment_mode_fk']))
+		{
+			$report_data['payment'] = $this->utilities->get_single($_POST['payment_mode_fk'],'exp_cd_payment_modes');	
+		}
+		
+		if($report_data['results'])
+		{
+			$html = $this->load->view('orders/report_pdf',$report_data, true);
+		
+			$file_name = random_string();
+			
+			header("Content-type: application/pdf");
+			header("Content-Disposition: attachment; filename='{$file_name}'");
+			
+			pdf_create($html,$file_name);
+			exit;
+		}
+		exit;
 	}
 	
 	public function delete($id = false)

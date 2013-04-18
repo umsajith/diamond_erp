@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width">
     <title><?=$heading.' - '.$G_title?></title>  
     <link rel="icon" type="image/png" href="<?=base_url('favicon.ico')?>"> 
-    <link rel="stylesheet" href="<?=base_url('css/normalize.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
     <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />
