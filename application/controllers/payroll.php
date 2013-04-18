@@ -429,7 +429,7 @@ class Payroll extends MY_Controller {
 		}
 		
 		//Dropdown Menus
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
 		
 		//Heading
 		$this->data['heading'] = 'Рипорт на Плати';

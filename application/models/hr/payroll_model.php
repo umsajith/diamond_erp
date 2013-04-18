@@ -416,10 +416,8 @@ class Payroll_model extends MY_Model {
 			MAX(pr.paid_wage) AS max_paid_wage,
 			MIN(pr.paid_wage) AS min_paid_wage');
 
-		
 		$this->db->where('pr.date_from >=',$options['date_from']);
 		$this->db->where('pr.date_to <=',$options['date_to']);
-
 
 		$this->db->where('pr.status','active');
 

@@ -10,17 +10,17 @@
 <hr>
 <div class="row-fluid">
 	<div class="span4 well">
-	<?=form_open('job_orders/report',"id='report'")?>
-		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
-		<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
-		<?=uif::controlGroup('dropdown','','assigned_to',[$employees])?>
-		<?=uif::controlGroup('dropdown','','task_fk',[$tasks])?>
-		<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3],''])?>
-	<?=form_close()?>
+		<?=form_open('job_orders/report',"id='report'")?>
+			<?=uif::load('_validation')?>
+			<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
+			<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
+			<?=uif::controlGroup('dropdown','','assigned_to',[$employees])?>
+			<?=uif::controlGroup('dropdown','','task_fk',[$tasks])?>
+			<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3],''])?>
+		<?=form_close()?>
 	</div>
 	<div class="span8">
-		<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
+		<?php if (isset($results) AND is_array($results) AND count($results)):?>
 		<table class="table table-stripped table-condensed table-hover tablesorter" id="report-table">
 			<thead>
 				<tr>
@@ -40,7 +40,7 @@
 					<td><?=round($row->avg,2)?></td>
 					<td><?=$row->max?></td>
 					<td><?=$row->min?></td>
-					<td><?=$row->count;?></td>
+					<td><?=$row->count?></td>
 				</tr>
 			<?php endforeach;?>
 		</tbody>

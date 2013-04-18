@@ -10,17 +10,17 @@
 <hr>
 <div class="row-fluid">
 	<div class="span4 well">
-	<?=form_open('orders/report',"id='report'")?>
-		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
-		<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
-		<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors])?>
-		<?=uif::controlGroup('dropdown','','partner_fk',[$customers])?>
-		<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment])?>
-	<?=form_close()?>
+		<?=form_open('orders/report',"id='report'")?>
+			<?=uif::load('_validation')?>
+			<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
+			<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
+			<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors])?>
+			<?=uif::controlGroup('dropdown','','partner_fk',[$customers])?>
+			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment])?>
+		<?=form_close()?>
 	</div>
 	<div class="span8">
-		<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
+		<?php if (isset($results) AND is_array($results) AND count($results)):?>
 		<table class="table table-stripped table-condensed table-hover tablesorter" id="report-table">
 			<thead>
 				<tr>

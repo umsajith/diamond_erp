@@ -3,9 +3,16 @@
 /*
  * ERP Global Settings
  */
+
+/**
+ * DECPRICATED CONFIG
+ */
 $config['G_title'] = 'Diamond ERP';
 $config['G_version'] = '2.0.0 Alpha';
 $config['G_currency'] = ' ден.';
+
+$config['glCurrSh'] = ' ден.';
+$config['glCurrLn'] = ' денар';
 
 /*
  * Company Global Settings
