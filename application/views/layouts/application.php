@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
-    <title><?=$heading.' - '.$G_title?></title>  
+    <title><?=$heading.' &raquo; '.$G_title?></title>  
     <link rel="icon" type="image/png" href="<?=base_url('favicon.ico')?>"> 
-    <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css" type="text/css')?>">
-    <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css" type="text/css')?>">
-    <link rel="stylesheet" href="<?=base_url('css/select2.css" type="text/css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css" type="text/css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/typeahead-bootstrap.css" type="text/css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/datepicker.css" type="text/css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css" type="text/css')?>"/>
+    <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css')?>">
+    <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css')?>">
+    <link rel="stylesheet" href="<?=base_url('css/select2.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/typeahead-bootstrap.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/datepicker.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
 </head>
 <body>
