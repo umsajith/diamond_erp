@@ -2,7 +2,7 @@
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::button('icon-file','primary','onClick=location.reload(true)')?>
-		<?=uif::button('icon-cog','success','onClick=doReport()')?>
+		<?=uif::button('icon-cog','success','onClick=cd.doReport("form#report")')?>
 		<?=uif::button('icon-print','info',
 		'onClick=cd.generatePdf("'.site_url('orders/report_pdf').'","form#report") id="generate-pdf"')?>
 	</div>
@@ -47,7 +47,6 @@
 
 <script>
 	$(function() {
-
 		$("select").select2();
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
@@ -56,11 +55,6 @@
 		if(submited == 0){
 			$("#generate-pdf").hide();
 		}
-
 	});
-
-	function doReport(){
-		$("form#report").submit();
-	}
 </script>
 

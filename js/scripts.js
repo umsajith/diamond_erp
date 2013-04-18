@@ -239,6 +239,10 @@ var cd = (function(){
 		}).data('datepicker');
 	}
 
+	obj.doReport = function(form){
+		$(form).submit();
+	}
+
 	obj.generatePdf = function(url, form){
 		$.download(url,$(form).serialize());
 	}
