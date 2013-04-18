@@ -28,10 +28,10 @@ class Employees extends MY_Controller {
 			'comp_mobile'=>'Мобилен',
 			'position'=>'Работно Место',
 			'department'=>'Сектор',
-			'fixed_wage_only'=>'Само ФП',
+			'fixed_wage_only'=>'С.Нето',
 			'is_manager'=>'Менаџер',
 			'is_distributer'=>'Дистрибутер',
-			'fixed_wage'=>'Фиксна Плата',
+			'fixed_wage'=>'Нето',
 			'comp_mobile_sub'=>'Тел.Суб.',
 			'status'=>'Статус'
 		);

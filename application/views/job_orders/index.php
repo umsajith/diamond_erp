@@ -23,7 +23,7 @@
 	    	<?php foreach ($columns as $col_name => $col_display):?>
     		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
     			<?=anchor("job_orders/index/{$query_id}/{$col_name}/".
-    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
+    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
     		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>

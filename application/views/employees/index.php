@@ -1,46 +1,58 @@
-<h2><?php echo $heading?></h2>
-<hr>
-	<a href="<?php echo site_url('employees/insert');?>" class="button"><span class="add">Внес</span></a>
-<div class="filters">
-    <?php echo form_open('employees/search');?>
-	    <?php echo form_dropdown('poss_fk', $possitions, set_value('poss_fk')); ?>
-	    <?php echo form_dropdown('role_id', $roles, set_value('role_id')); ?>
-	    <?php echo form_submit('','',"class='filter'");?>
-    <?php echo form_close();?>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<div class="span3" id="content-main-buttons">
+		<?=uif::linkInsertButton('employees/insert')?>
+	</div>
+	<div class="span9 text-right" id="content-main-filters">
+		<?=form_open('employees/search','class="form-inline"')?>
+			<?=uif::formElement('dropdown','','poss_fk',[$possitions])?>
+			<?=uif::formElement('dropdown','','role_id',[$roles])?>
+			<?=uif::filterButton()?>
+    	<?=form_close()?>
+	</div>
 </div>
-<table class="master_table">
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
+<hr>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid">  
+	<thead>
 	<tr>
 		<th>&nbsp;</th>
 		<?php foreach ($columns as $col_name => $col_display):?>
-			<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-    			<?php echo anchor("employees/index/$query_id/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
+    			<?=anchor("employees/index/{$query_id}/{$col_name}/".
+    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 			</th>
     	<?php endforeach;?>
 		<th>&nbsp;</th>
 	</tr>
+	</thead>
+	<tbody>
 	<?php foreach($results as $row):?>
-		<tr>
-			<td class="code" align="center"><?php echo anchor('employees/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td><?php echo $row->fname. ' '.$row->lname;?></td>
-			<td><?php echo ($row->comp_mobile) ? $row->comp_mobile : '-';?></td>
-			<td><?php echo $row->position;?></td>
-			<td><?php echo $row->department;?></td>
-			<td><?php echo ($row->fixed_wage_only) ?'Да':'-';?></td>
-			<td><?php echo ($row->is_manager) ?'Да':'-';?></td>
-			<td><?php echo ($row->is_distributer) ?'Да':'-';?></td>
-			<td><?php echo ($row->fixed_wage != 0) ? $row->fixed_wage.$G_currency:'-';?></td>
-			<td><?php echo ($row->comp_mobile_sub != 0) ? $row->comp_mobile_sub.$G_currency:'-';?></td>
-			<td align="center"><?php echo ($row->status=='active')?'Активна':'Неактивна';?></td>
-			<td class="functions">
-				<?php echo anchor('employees/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('employees/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-			</td>
+		<tr data-id=<?=$row->id?>>
+			<td><?=uif::viewIcon('employees',$row->id)?></td>
+			<td><?=$row->fname. ' '.$row->lname?></td>
+			<td><?=uif::isNull($row->comp_mobile)?></td>
+			<td><?=$row->position?></td>
+			<td><?=$row->department?></td>
+			<td><?=($row->fixed_wage_only) ? uif::staticIcon('icon-ok'):'-'?></td>
+			<td><?=($row->is_manager) ? uif::staticIcon('icon-ok'):'-'?></td>
+			<td><?=($row->is_distributer) ? uif::staticIcon('icon-ok'):'-'?></td>
+			<td><?=uif::isNull($row->fixed_wage)?></td>
+			<td><?=uif::isNull($row->comp_mobile_sub)?></td>
+			<td><?=($row->status=='active') ? 
+				uif::staticIcon('icon-ok-sign text-success') : 
+				uif::staticIcon('icon-minus-sign text-error')?></td>
+			<td><?=uif::actionGroup('employees',$row->id)?></td>
 		</tr>
-
 	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
+	</tbody>
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>
+
+<script>
+	$(function(){
+		$("select").select2();
+	});	
+</script>
