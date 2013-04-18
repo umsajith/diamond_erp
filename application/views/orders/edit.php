@@ -63,7 +63,9 @@
 				<td><?php echo $i;?></td>
 				<td><?php echo $row->prodname;?></td>
 				<td><?php echo $row->pcname;?></td>
-				<td class="ordered_qty" id="<?php echo $row->id;?>"><?php echo $row->quantity;?></td>
+				<td>
+					<a href="#" id="quantity" data-pk="<?=$row->id?>"><?php echo $row->quantity;?></a>
+				</td>
 				<td class="left"><?php echo $row->uname;?></td>
 				<td class="returned_qty" id="<?php echo $row->id;?>"><?php echo ($row->returned_quantity == NULL ? '-' : $row->returned_quantity); ?></td>
 				<td class="left"><?php echo $row->uname;?></td>
@@ -141,21 +143,32 @@ $(function() {
 			dateFormat: "yy-mm-dd",
 			maxDate: +0,
 		});
+		$('#quantity').editable({
+		    type: 'text',
+		    url: "<?=site_url('orders_details/ajxEditQty')?>",
+		    title: 'Qty'
+		});
+
+		// $("#quantity").editable({
+		//     type: 'text',
+		//     url: "<?=site_url('orders_details/ajxEditQty')?>",
+		//     title: 'Qty'
+		// });
 
 		//Edit in Place
-		$(".ordered_qty").editable("<?php echo site_url('orders_details/ajxEditQty'); ?>", {
-		    	indicator : 'Saving...',
-		    	tooltip   : 'Click to edit...',
-		    	id : 'id',
-		    	name : 'quantity'
-		});
+		// $(".ordered_qty").editable("<?php echo site_url('orders_details/ajxEditQty'); ?>", {
+		//     	indicator : 'Saving...',
+		//     	tooltip   : 'Click to edit...',
+		//     	id : 'id',
+		//     	name : 'quantity'
+		// });
 
-		$(".returned_qty").editable("<?php echo site_url('orders_details/ajxEditRetQty'); ?>", {
-	    	indicator : 'Saving...',
-	    	tooltip   : 'Click to edit...',
-	    	id : 'id',
-	    	name : 'returned_quantity'
-		});
+		// $(".returned_qty").editable("<?php echo site_url('orders_details/ajxEditRetQty'); ?>", {
+	 //    	indicator : 'Saving...',
+	 //    	tooltip   : 'Click to edit...',
+	 //    	id : 'id',
+	 //    	name : 'returned_quantity'
+		// });
 
 		//Client Side Validation
 		$("#order").submit(function(){

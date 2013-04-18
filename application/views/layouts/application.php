@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css')?>">
     <link rel="stylesheet" href="<?=base_url('css/font-awesome.min.css')?>">
     <link rel="stylesheet" href="<?=base_url('css/select2.css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/select2-bootstrap.css')?>" />
-    <link rel="stylesheet" href="<?=base_url('css/typeahead-bootstrap.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/select2bs.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/typeahead.css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/datepicker.css')?>" />
+    <link rel="stylesheet" href="<?=base_url('css/editable.css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css')?>"/>
     <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
 </head>
@@ -65,12 +66,13 @@
     <!-- JAVASCRIPT LOADING -->
     <script src="<?=base_url('js/modernizr.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
-    <script src="<?=base_url('js/bootstrap-datepicker.js')?>"></script>
-    <script src="<?=base_url('js/bootstrap-datepicker.mk.js')?>"></script>
+    <script src="<?=base_url('js/datepicker.js')?>"></script>
+    <script src="<?=base_url('js/datepicker.mk.js')?>"></script>
     <script src="<?=base_url('js/bootbox.min.js')?>"></script> 
     <script src="<?=base_url('js/pnotify.min.js')?>"></script>
     <script src="<?=base_url('js/select2.js')?>"></script>
     <script src="<?=base_url('js/typeahead.min.js')?>"></script>
+    <script src="<?=base_url('js/editable.min.js')?>"></script>
     <script src="<?=base_url('js/plugins.js')?>"></script>
     <script src="<?=base_url('js/scripts.js')?>"></script> 
     <!-- END OF JAVASCRIPT LOADING -->

@@ -34,11 +34,14 @@ class Orders_details extends MY_Controller {
 	//AJAX - Edits the Quantity of Products from an Order
 	public function ajxEditQty()
 	{
-		$id = json_decode($_POST['id']);
-		$data['quantity'] = json_decode($_POST['quantity']);
-		
-		if($this->cod->update($id,$data))
-			echo json_encode($data['quantity']);
+		//print_r($_POST);die;
+
+		$id = $_POST['pk'];
+		$in['quantity'] = $_POST['value'];
+
+		if($this->cod->update($id,$in))
+			echo $data['quantity'];
+
 		exit;	
 	}
 	
