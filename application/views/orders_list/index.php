@@ -43,11 +43,7 @@
 			<td><?=uif::isNull($row->ext_doc)?></td>
 			<td><?=uif::isNull($row->code)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
-			<td>
-			<?php if(!$row->locked):?>
-				<?=uif::actionGroup('orders_list',$row->id)?>
-			<?php endif;?>
-			</td>
+			<td><?=(!$row->locked) ? uif::actionGroup('orders_list',$row->id) : ''?></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

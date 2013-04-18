@@ -49,9 +49,6 @@
 	</div>
 </div>
 
-<div id="container" style="margin: 0"></div>
-
-
 <script>
 	$(function() {
 
@@ -70,8 +67,4 @@
 	function doReport(){
 		$("form#report").submit();
 	}
-
-	// function generatePdf(){
-	// 	$.download("<?=site_url('job_orders/report_pdf')?>",$("form#report").serialize());
-	// }
 </script>
