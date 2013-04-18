@@ -20,7 +20,7 @@
 	</thead> 
 	<tbody>
 	<?php foreach($results as $row):?>
-		<tr <?=($row->alert_quantity >= $row->quantity ? ' class="warning" '  : '')?>>
+		<tr <?=($row->alert_quantity >= $row->quantity) ? ' class="warning" '  : ''?>>
 			<td><?=uif::linkIcon('inventory/digg/'.$row->pid,'icon-folder-open')?></td>
 			<td><?=$row->prodname?></td>
 			<td><?=$row->pcname?></td>
