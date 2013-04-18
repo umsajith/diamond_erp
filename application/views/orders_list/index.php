@@ -16,7 +16,7 @@
 	</div>
 </div>
 <hr>
-<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
 <table class="table table-stripped table-hover data-grid"> 
 	<thead> 
 		<tr>

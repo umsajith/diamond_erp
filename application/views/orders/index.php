@@ -1,48 +1,53 @@
-<h2><?php echo $heading?></h2>
-<hr>
-	<a href="<?php echo site_url('orders_list');?>" class="button"><span class="add">Внес</span></a>
-<div class="filters"> 
-    <?php echo form_open('orders/search');?>
-	    <?php echo form_dropdown('partner_fk', $customers, set_value('partner_fk')); ?>
-	    <?php echo form_dropdown('distributor_fk', $distributors, set_value('distributor_fk')); ?>
-	    <?php echo form_dropdown('payment_mode_fk', $modes_payment, set_value('payment_mode_fk')); ?>
-	    <?php echo form_dropdown('postalcode_fk',$postalcodes, set_value('postalcode_fk'));?>
-	    <?php echo form_submit('','',"class='filter'");?>
-    <?php echo form_close();?>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<div class="span12 text-right" id="content-main-filters">
+		<?=form_open('orders/search','class="form-inline"')?>
+			<?=uif::formElement('dropdown','','partner_fk',[$customers])?>
+			<?=uif::formElement('dropdown','','distributor_fk',[$distributors])?>
+			<?=uif::formElement('dropdown','','payment_mode_fk',[$modes_payment])?>
+			<?=uif::formElement('dropdown','','postalcode_fk',[$postalcodes])?>
+			<?=uif::button('icon-search','primary','type="submit"')?>
+    	<?=form_close()?>
+	</div>
 </div>
-<table class="master_table">   
-<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
-	<tr>
-    	<th>&nbsp;</th>
-    	<th>&nbsp;</th>
-    	<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-    			<?php echo anchor("orders/index/$query_id/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-    		</th>
-	    <?php endforeach;?>
-    	<th>&nbsp;</th>
-    </tr>
+<hr>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid">
+	<thead>
+		<tr>
+	    	<th colspan="2">&nbsp;</th>
+	    	<?php foreach ($columns as $col_name => $col_display):?>
+	    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : "";?>>
+	    			<?php echo anchor("orders/index/{$query_id}/{$col_name}/".
+	    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    		</th>
+		    <?php endforeach;?>
+	    	<th>&nbsp;</th>
+	    </tr>
+    </thead>
+    <tbody>
 	<?php foreach($results as $row):?>
-	<tr>
-			<td class="code" align="center"><?php echo anchor('orders/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td class="code" align="center"><?php echo ($row->locked == 0 ? '' : "<span class='lock_icon'></span>");?></td>
-			<td><?php echo (($row->dateshipped == null) || ($row->dateshipped == '0000-00-00') ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateshipped))); ?></td>
-			<td><?php echo $row->company;?></td>
-			<td><?php echo $row->fname . ' ' . $row->lname; ?></td>
-			<td><?php echo ($row->name == null ? '-' : $row->name); ?></td>
-			<td><?php echo mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry));?></td>
-			<td><?php echo ($row->order_list_id) ? 
-				anchor("orders_list/view/{$row->order_list_id}",'Линк') :'-'; ?></td>	
-			<td class="functions">
-			<?php if($row->locked != 1):?>
-				<?php echo anchor('orders/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('orders/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-			<?php endif;?>
-			</td>
-	</tr>
+		<tr data-id=<?=$row->id?>>
+			<td><?=uif::viewIcon('orders',$row->id)?></td>
+			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : ''?></td>
+			<td><?=uif::date($row->dateshipped)?></td>
+			<td><?=$row->company;?></td>
+			<td><?=$row->fname . ' ' . $row->lname; ?></td>
+			<td><?=uif::isNull($row->name)?></td>
+			<td><?=uif::date($row->dateofentry)?></td>
+			<td><?=($row->order_list_id) ? 
+				uif::linkIcon("orders_list/view/{$row->order_list_id}",'icon-link'):'-';?></td>	
+			<td><?=(!$row->locked) ? uif::actionGroup('orders',$row->id) : ''?></td>
+		</tr>
 	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
+	</tbody> 
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>
+
+<script>
+	$(function(){
+		$("select").select2();
+	});	
+</script>
