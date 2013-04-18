@@ -76,8 +76,12 @@ class MY_Controller extends CI_Controller
         parent::__construct();
 
         $this->_check_authentication();
-        //if(!$this->input->is_ajax_request())
-        $this->_load_sub_modules();
+
+        //Loads sub-modules if request are non-Ajax
+        if(!$this->input->is_ajax_request())
+        {
+            $this->_load_sub_modules();
+        }
 
         $this->_load_models();
         $this->_load_helpers();

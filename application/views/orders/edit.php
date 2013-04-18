@@ -64,7 +64,7 @@
 				<td><?php echo $row->prodname;?></td>
 				<td><?php echo $row->pcname;?></td>
 				<td>
-					<a href="#" id="quantity" data-pk="<?=$row->id?>"><?php echo $row->quantity;?></a>
+					<a href="#" class="qty" name="quantity" data-pk="<?=$row->id?>"><?php echo $row->quantity;?></a>
 				</td>
 				<td class="left"><?php echo $row->uname;?></td>
 				<td class="returned_qty" id="<?php echo $row->id;?>"><?php echo ($row->returned_quantity == NULL ? '-' : $row->returned_quantity); ?></td>
@@ -143,7 +143,7 @@ $(function() {
 			dateFormat: "yy-mm-dd",
 			maxDate: +0,
 		});
-		$('#quantity').editable({
+		$('.qty').editable({
 		    type: 'text',
 		    url: "<?=site_url('orders_details/ajxEditQty')?>",
 		    title: 'Qty'
