@@ -68,10 +68,10 @@ class Partners extends MY_Controller {
 	
 	public function search()
 	{
-		(strlen($_POST['q'])) ? $_POST['partner_type'] = '' : '';
-		(strlen($_POST['q'])) ? $_POST['postalcode_fk'] = '' : '';
-		(strlen($_POST['partner_type'])) ? $_POST['q'] = '' : '';
-		(strlen($_POST['postalcode_fk'])) ? $_POST['q'] = '' : '';
+		// (strlen($_POST['q'])) ? $_POST['partner_type'] = '' : '';
+		// (strlen($_POST['q'])) ? $_POST['postalcode_fk'] = '' : '';
+		// (strlen($_POST['partner_type'])) ? $_POST['q'] = '' : '';
+		// (strlen($_POST['postalcode_fk'])) ? $_POST['q'] = '' : '';
 
 		$query_array = array(
 			'partner_type' => $this->input->post('partner_type'),

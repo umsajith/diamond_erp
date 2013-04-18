@@ -8,7 +8,7 @@
 			<?=uif::formElement('dropdown','','prodname_fk',[$products])?>
 			<?=uif::formElement('dropdown','','partner_fk',[$vendors])?>
 			<?=uif::formElement('dropdown','','pcname_fk',[$categories])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

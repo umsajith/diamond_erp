@@ -9,7 +9,7 @@
 			<?=uif::formElement('dropdown','','task_fk',[$tasks])?>
 			<?=uif::formElement('dropdown','','assigned_to',[$employees])?>
 			<?=uif::formElement('dropdown','','shift',[[''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3']])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

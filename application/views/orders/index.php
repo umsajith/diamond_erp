@@ -6,7 +6,7 @@
 			<?=uif::formElement('dropdown','','distributor_fk',[$distributors])?>
 			<?=uif::formElement('dropdown','','payment_mode_fk',[$modes_payment])?>
 			<?=uif::formElement('dropdown','','postalcode_fk',[$postalcodes])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

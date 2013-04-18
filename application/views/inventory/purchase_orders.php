@@ -8,7 +8,7 @@
 		<?=form_open('inventory/po_search','class="form-inline"')?>
 			<?=uif::formElement('dropdown','','prodname_fk',[$products])?>
 			<?=uif::formElement('dropdown','','pcname_fk',[$categories])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

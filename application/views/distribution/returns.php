@@ -7,7 +7,7 @@
 		<?=form_open('distribution/return_search','class="form-inline"')?>
 			<?=uif::formElement('dropdown','','prodname_fk',[$products])?>
 			<?=uif::formElement('dropdown','','distributor_fk',[$distributors])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

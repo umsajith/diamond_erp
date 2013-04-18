@@ -71,15 +71,15 @@ class Orders_list extends MY_Controller {
 
 	public function search()
 	{
-		(strlen($_POST['q'])) ? $_POST['distributor_id'] = '' : '';
-		(strlen($_POST['distributor_id'])) ? $_POST['q'] = '' : '';
+		//(strlen($_POST['q'])) ? $_POST['distributor_id'] = '' : '';
+		//(strlen($_POST['distributor_id'])) ? $_POST['q'] = '' : '';
 
 		$query_array = array(
 			'distributor_id' => $this->input->post('distributor_id'),
 			'q' => $this->input->post('q')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("orders_list/index/$query_id");
+		redirect("orders_list/index/{$query_id}");
 	}
 
 	public function insert()

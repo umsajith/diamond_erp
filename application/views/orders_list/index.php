@@ -9,9 +9,9 @@
 	</div>	
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('orders_list/search','class="form-inline"')?>
+			<?=uif::formElement('text','','q','','placeholder="Пребарувај по Документ/Код"')?>
 			<?=uif::formElement('dropdown','','distributor_id',[$distributors])?>
-			<?=form_hidden('q','')?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

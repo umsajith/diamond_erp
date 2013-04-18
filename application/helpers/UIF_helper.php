@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * UI Components Factory
- * CodeIgniter Twitter Bootstrap
+ * UI Components Factory for CodeIgniter elements with Twitter Bootstrap
  * @author Marko Aleksic <psybaron@gmail.com>
  */
 class UIF {
@@ -81,6 +80,11 @@ class UIF {
 		}
 
 		return '<button class="btn '.$type.'"'.$attributes.'><i class="'.$icon.'"></i></button>';
+	}
+
+	public static function filterButton()
+	{
+		return self::button('icon-search','primary','type="submit"');
 	}
 
 	public static function submitButton()

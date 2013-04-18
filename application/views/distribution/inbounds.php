@@ -6,7 +6,7 @@
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('distribution/in_search','class="form-inline"')?>
 			<?=uif::formElement('dropdown','','prodname_fk',[$products])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>

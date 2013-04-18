@@ -5,9 +5,10 @@
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('partners/search','class="form-inline"')?>
+			<?=uif::formElement('text','','q','','placeholder="Пребарувај по Код/Фирма"')?>
 			<?=uif::formElement('dropdown','','partner_type',[[''=>'- Тип -','cus'=>'Купувачи','ven'=>'Добавувачи','cus_ven'=>'Купувачи/Добавувачи']])?>
 			<?=uif::formElement('dropdown','','postalcode_fk',[$postalcodes])?>
-			<?=uif::button('icon-search','primary','type="submit"')?>
+			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>
 </div>
@@ -19,7 +20,7 @@
 		<th colspan="2">&nbsp;</th>
 		<?php foreach ($columns as $col_name => $col_display):?>
     	<th <?=($sort_by==$col_name) ? "class=$sort_order" : "";?>>
-			<?=anchor("partners/index/$query_id/$col_name/".
+			<?=anchor("partners/index/{$query_id}/{$col_name}/".
 			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    </th>
 	    <?php endforeach;?>
