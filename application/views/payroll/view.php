@@ -1,89 +1,82 @@
-<h2><?php echo $heading; ?></h2>
+<?=uif::contentHeader($heading,$master)?>
+        <?=uif::linkDeleteButton("payroll/delete/{$master->id}")?>
+        <?=uif::linkButton("payroll/payroll_pdf/{$master->id}",'icon-print','info')?>
 <hr>
-	<div id="meta">
-		<p>бр.<?php echo $master->id;?></p>
-		<p><?php echo $master->dateofentry;?></p>
-	</div>
-	<div id="buttons">
-		<a href="<?php echo site_url("payroll/delete/{$master->id}");?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-		<a href="<?php echo site_url("payroll/payroll_pdf/{$master->id}");?>" class="button"><span class="pdf">PDF</span></a>
-	</div>
-<hr>
-<div class="f_left">
-	<dl>
-        <dt>Работник:</dt>
-        <dd><?php echo anchor("employees/view/$master->eid",$master->fname . ' ' . $master->lname); ?></dd>
-        <dt>Месец:</dt>
-        <dd><?php echo mdate('%m/%Y',strtotime($master->date_from));?></dd>
+<div class="row-fluid">
+	<div class="span5 well well-small">
+		<dl class="dl-horizontal">
+		<dt>Работник:</dt>
+		<dd><?=anchor("employees/view/{$master->eid}",$master->fname . ' ' . $master->lname); ?></dd>
+		<dt>Месец:</dt>
+		<dd><?=uif::date($master->date_from,'%m/%Y')?></dd>
 		<dt>Од Датум:</dt>
-        <dd><?php echo $master->date_from;?></dd>
-        <dt>До Датум:</dt>
-        <dd><?php echo $master->date_to;?></dd>
-        <?php if($master->acc_wage != 0):?>
-	       <dt>Учинок:</dt>
-           <dd><strong><?php echo $master->acc_wage;?></strong></dd>
-        <?php endif;?>
-        <?php if($master->fixed_wage_only == 1):?>
-	        <dt>Фиксна Плата:</dt>
-	        <dd><?php echo '+'.$master->fixed_wage;?></dd>
-        <?php endif;?>
-        <dt>Придонеси + Здр.:</dt>
-        <dd><?php echo '+' . $master->social_cont; ?></dd>
-        <dt>Тел.Субвенција:</dt>
-        <dd><?php echo '+'.$master->comp_mobile_sub;?></dd>
-        <dt>Бонуси:</dt>
-        <dd><?php echo '+'.$master->bonuses;?></dd>
-        <dt>Бруто:</dt>
-        <dd><strong><?php echo '= '.$master->gross_wage;?></strong></dd>
-        <?php if($master->fixed_wage != 0):?>
-	        <dt>Плата на сметка:</dt>
-	        <dd><?php echo '-'.$master->fixed_wage;?></dd>
-        <?php endif;?>
-        <?php if($master->social_cont != 0):?>
-	        <dt>Придонеси + Здр.:</dt>
-	        <dd><?php echo '-'.$master->social_cont;?></dd>
-        <?php endif;?>
-        <dt>Трошоци:</dt>
-        <dd><?php echo $master->expenses;?></dd>
-        <dt>Доплата:</dt>
-        <dd><strong><?php echo '= '.$master->paid_wage; ?></strong></dd>
-        <dt>Код:</dt>
-        <dd><?php echo $master->code;?></dd>
+		<dd><?=$master->date_from;?></dd>
+		<dt>До Датум:</dt>
+		<dd><?=$master->date_to;?></dd>
+		<?php if($master->acc_wage != 0):?>
+		<dt>Учинок:</dt>
+		<dd><strong><?=$master->acc_wage;?></strong></dd>
+		<?php endif;?>
+		<?php if($master->fixed_wage_only == 1):?>
+		<dt>Фиксна Плата:</dt>
+		<dd><?='+'.$master->fixed_wage;?></dd>
+		<?php endif;?>
+		<dt>Придонеси + Здр.:</dt>
+		<dd><?='+' . $master->social_cont; ?></dd>
+		<dt>Тел.Субвенција:</dt>
+		<dd><?='+'.$master->comp_mobile_sub;?></dd>
+		<dt>Бонуси:</dt>
+		<dd><?='+'.$master->bonuses;?></dd>
+		<dt>Бруто:</dt>
+		<dd><strong><?=$master->gross_wage;?></strong></dd>
+		<?php if($master->fixed_wage != 0):?>
+		<dt>Плата на сметка:</dt>
+		<dd><?='-'.$master->fixed_wage;?></dd>
+		<?php endif;?>
+		<?php if($master->social_cont != 0):?>
+		<dt>Придонеси + Здр.:</dt>
+		<dd><?='-'.$master->social_cont;?></dd>
+		<?php endif;?>
+		<dt>Трошоци:</dt>
+		<dd><?=$master->expenses;?></dd>
+		<dt>Доплата:</dt>
+		<dd><strong><?=$master->paid_wage; ?></strong></dd>
+		<dt>Код:</dt>
+		<dd><?=$master->code;?></dd>
 	</dl>
 </div>
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
-<div class="f_right">
-	<h3>Детален Преглед на Калкулација за Плата</h3>
-<?php if (isset($results) AND is_array($results) AND count($results)):?>
-<table class="master_table">
-	<tr>
-		<th>Работна Задача</th>
-		<th>Работни Налози</th>
-		<th>Вкупно</th>
-		<th>Цена</th>
-		<th>Износ</th>
-		<th>&nbsp;</th>	
-	</tr>
-<?php foreach($results as $row):?>
-		<tr>
-			<td><?php echo $row->taskname;?></td>
-			<td><?php echo $row->count;?></td>
-			<td><?php echo $row->final_quantity . ' ' . $row->uname;?></td>
-			<td><?php echo ' x '.$row->calculation_rate.$G_currency ;?></td>
-			<td><?php echo $row->calculation_rate* $row->final_quantity;?></td>
-			<td width="25px">&nbsp;</td>		
-		</tr>
-<?php endforeach;?>
-</table>
-
+<div class="span7">
+	<?php if (isset($results) AND is_array($results) AND count($results)):?>
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Работна Задача</th>
+				<th>Работни Налози</th>
+				<th>Вкупно</th>
+				<th>Цена</th>
+				<th>Износ</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($results as $row):?>
+			<tr>
+				<td><?php echo $row->taskname;?></td>
+				<td><?php echo $row->count;?></td>
+				<td><?php echo $row->final_quantity . ' ' . $row->uname;?></td>
+				<td><?php echo ' x '.$row->calculation_rate.$G_currency ;?></td>
+				<td><?php echo $row->calculation_rate* $row->final_quantity;?></td>	
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	</table>
 <!-- JOB ORDERS WAGE CALCUALTION -->
-<table class="master_table_calc">
-	<tr>	
-			<td><strong>ПЛАТА ПО УЧИНОК:</strong></td>
-			<td width="100px" align="center"><?php echo $master->acc_wage;?></td>
-			<td width="10px">&nbsp;</td>
-	</tr>
-</table>
+	<div class="row-fluid">
+		<div class="span12 alert alert-info">
+			<strong>ПЛАТА ПО УЧИНОК:</strong>
+			<strong class="pull-right"><?php echo $master->acc_wage;?></strong>
+		</div>
+	</div>
 <!-- JOB ORDERS WAGE CALCUALTION END -->
 <?php endif;?>
 
@@ -91,195 +84,146 @@
 <?php if(isset($master->fixed_wage_only) AND $master->fixed_wage_only == 1):?>
 	<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
 	<?php if(isset($master->fixed_wage)):?>
-		<table class="master_table_calc">
-			<tr>	
-				<td><strong>ФИКСНА ПЛАТА:</strong></td>
-				<td width="100px" align="center"><?php echo $master->fixed_wage;?></td>
-				<td width="10px">&nbsp;</td>
-			</tr>
-		</table>	
+	<div class="row-fluid">
+		<div class="span12 alert alert-info">
+			<strong>ФИКСНА ПЛАТА:</strong>
+			<strong class="pull-right"><?php echo $master->fixed_wage;?></strong>
+		</div>
+	</div>	
 	<?php endif;?>
 <?php endif;?>	
 <!-- ======================================FOR DISTRIBUTORS====================================== -->
 <?php if(isset($distribution) AND is_array($distribution)):?>
-	<table class="master_table">
-		<tr>
-			<th>Производ</th>
-			<th>Категорија</th>
-			<th>Вкупно</th>
-			<th>Провизија</th>
-			<th>Износ</th>
-			<th>&nbsp;</th>
-		</tr>
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Производ</th>
+				<th>Категорија</th>
+				<th>Вкупно</th>
+				<th>Провизија</th>
+				<th>Износ</th>
+			</tr>
+		</thead>
+		<tbody>
 		<?php foreach($distribution as $row):?>
-				<tr>
-					<td><?php echo $row->prodname;?></td>
-					<td><?php echo $row->pcname;?></td>
-					<td><?php echo $row->quantity . ' ' . $row->uname;?></td>
-					<td><?php echo ' x '.$row->commision_rate.$G_currency;?></td>
-					<td><?php echo round($row->quantity * $row->commision_rate,2);?></td>
-					<td>&nbsp;</td>
-				</tr>
+			<txr>
+				<td><?php echo $row->prodname;?></td>
+				<td><?php echo $row->pcname;?></td>
+				<td><?php echo $row->quantity . ' ' . $row->uname;?></td>
+				<td><?php echo $row->commision_rate.$G_currency;?></td>
+				<td><?php echo round($row->quantity * $row->commision_rate,2);?></td>
+			</tr>
 		<?php endforeach;?>
+		</tbody>
 	</table>
 	<!-- ACCUMULATIVE WAGE CALCUATION -->
-	<table class="master_table_calc">
-		<tr>	
-			<td><strong>ПЛАТА ПО УЧИНОК:</strong></td>
-			<td width="100px" align="center"><?php echo $master->acc_wage;?></td>
-			<td width="10px">&nbsp;</td>
-		</tr>
-	</table>	
+	<div class="row-fluid">
+		<div class="span12 alert alert-info">
+			<strong>ПЛАТА ПО УЧИНОК:</strong>
+			<strong class="pull-right"><?php echo $master->acc_wage;?></strong>
+		</div>
+	</div>
 <?php endif;?>
 
 <!-- ======================================GENEARAL CALCULATIONS====================================== -->
-<table class="master_table">
-	<tr>
-		<th>Категорија</th>
-		<th>&nbsp;</th>
-		<th>&nbsp;</th>
-		<th>Износ</th>
-		<th>&nbsp;</th>
-	</tr>
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Категорија</th>
+				<th>Износ</th>
+			</tr>
+		</thead>
 <!-- SOCIAL CONTRIBUTION -->
-<?php if($master->social_cont>0):?>
-	<tr>
-		<td>Придонеси + Здравствено Осигурување</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="90px" id="social_cont">
-			<?php
-				echo $master->social_cont;
-			?>
-		</td>
-		<td width="25px">&nbsp;</td>
-	</tr>
-<?php endif;?>
+		<tbody>
+		<?php if($master->social_cont>0):?>
+			<tr>
+				<td>Придонеси + Здравствено Осигурување</td>
+				<td><?php echo $master->social_cont?></td>
+			</tr>
+		<?php endif;?>
 <!-- COMPANY MOBILE SUBSIDY -->
-<?php if($master->comp_mobile_sub>0):?>
-	<tr>
-		<td>Телефонска Субвенција</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="90px" id="comp_mobile_sub">
-			<?php
-				echo $master->comp_mobile_sub;
-			?>
-		</td>
-		<td width="25px">&nbsp;</td>		
-	</tr>
-<?php endif;?>
+		<?php if($master->comp_mobile_sub>0):?>
+			<tr>
+				<td>Телефонска Субвенција</td>
+				<td><?php echo $master->comp_mobile_sub;?></td>		
+			</tr>
+		<?php endif;?>
 <!-- BONUSES -->
-<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
-	<?php foreach($extras_plus as $row):?>
-		<tr>
-			<td><?php echo $row->name;?></td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td width="90px">
-				<?php 
-					echo $row->amount;
-				?>
-			</td>
-			<td width="25px">&nbsp;</td>
-			
-		</tr>
-	<?php endforeach;?>	
-</table>
-<?php endif;?>
+	<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
+		<?php foreach($extras_plus as $row):?>
+			<tr>
+				<td><?php echo $row->name;?></td>
+				<td><?php echo $row->amount?></td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	<?php endif;?>
+	</table>
 
 <!-- BRUTO WAGE CALCUALTION -->
-<table class="master_table_calc">
-	<tr>	
-			<td><strong>БРУТО ПЛАТА:</strong></td>
-			<td width="10px">&nbsp;</td><td width="10px">&nbsp;</td>
-			<td width="100px" align="center"><?php echo $master->gross_wage;?></td>
-			<td width="10px">&nbsp;</td>
-	</tr>
-</table>
+	<div class="row-fluid">
+		<div class="span12 alert alert-info">
+			<strong>БРУТО ПЛАТА:</strong>
+			<strong class="pull-right"><?php echo $master->gross_wage;?></strong>
+		</div>
+	</div>	
 <!-- BRUTO WAGE CALCULATION END -->
 
-<?php if(isset($extras_minus)):?>
-<table class="master_table"> 
-	<tr>
-		<th>Категорија</th>
-		<th></th>
-		<th></th>
-		<th>Износ</th>
-		<th></th>
-	</tr>
-<?php endif;?>
+	<?php if(isset($extras_minus)):?>
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Категорија</th>
+				<th>Износ</th>
+			</tr>
+		</thead>
+	<?php endif;?>
 	
 <!-- FIXED WAGE -->
-<?php if($master->fixed_wage>0):?>
-	<tr>
-		<td>Фиксна Плата на Сметка</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="90px" id="fixed_wage">
-			<?php 
-				echo '-'.$master->fixed_wage;
-			?>
-		</td>
-		<td width="25px">&nbsp;</td>
-			
-	</tr>
-<?php endif;?>
+	<?php if($master->fixed_wage>0):?>
+		<tbody>
+			<tr>
+				<td>Фиксна Плата на Сметка</td>
+				<td><?php echo '-'.$master->fixed_wage;?></td>
+			</tr>
+	<?php endif;?>
 
 <!-- SOCIAL CONTRIBUTION -->
-<?php if($master->social_cont>0):?>
-	<tr>
-		<td>Придонеси + Здравствено Осигурување</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="90px" id="social_cont">
-			<?php
-				echo '-' . $master->social_cont;
-			?>
-		</td>
-		<td width="25px">&nbsp;</td>
-	</tr>
-<?php endif;?>
+	<?php if($master->social_cont>0):?>
+		<tr>
+			<td>Придонеси + Здравствено Осигурување</td>
+			<td><?php echo '-' . $master->social_cont;?></td>
+		</tr>
+	<?php endif;?>
 
 <!-- EXPENSES -->
-<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
+	<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 	<?php foreach($extras_minus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td width="90px">
-				<?php 
-					echo $row->amount;
-				?>
-			</td>
-			<td width="25px">&nbsp;</td>
-			
+			<td><?php echo $row->amount?></td>
 		</tr>
 	<?php endforeach;?>
-</table>
-<?php endif;?>
-
-<?php if (isset($master->fixed_wage) OR isset($master->expenses)):?>
-<table class="master_table_calc">
-	<tr>	
-			<td><strong>ТРОШОЦИ:</strong></td>
-			<td width="100px" align="center" id="gross_exp"><?php echo $gross_exp = -($master->fixed_wage) + $master->expenses - $master->social_cont;?></td>
-			<td width="10px">&nbsp;</td>
-	</tr>
-</table>
-<?php endif;?>
-
-<!-- PAID WAGE -->
-<?php if (isset($master->paid_wage)):?>
-	<hr>
-	<table class="master_table_calc">
-		<tr>	
-			<td><strong>ДОПЛАТА:</strong></td>
-			<td width="100px" align="center"><?php echo $master->paid_wage; ?></td>
-			<td width="10px">&nbsp;</td>
-		</tr>
+		</tbody>
+	<?php endif;?>
 	</table>
-<?php endif;?>
-<hr>
+	<?php if (isset($master->fixed_wage) OR isset($master->expenses)):?>
+	<div class="row-fluid">
+		<div class="span12 alert">
+			<strong>ТРОШОЦИ:</strong>
+			<strong class="pull-right"><?=$gross_exp = -($master->fixed_wage) + 
+			$master->expenses - $master->social_cont;?></strong>
+		</div>
+	</div>
+	<?php endif;?>
+	<!-- PAID WAGE -->
+	<?php if (isset($master->paid_wage)):?>
+		<div class="row-fluid">
+			<div class="span12 alert alert-success">
+				<strong>ДОПЛАТА:</strong>
+				<strong class="pull-right"><?=$master->paid_wage?></strong>
+			</div>
+		</div>
+	<?php endif;?>
+	</div>
 </div>
