@@ -23,8 +23,19 @@
 		</dl>
 	</div>
 	<div class="span7">
+		<div class="well well-small form-inline text-right">
+			<?=uif::formElement('dropdown','','prodname_fk',[$products],' class="input-large"')?>
+			<div class="input-append">
+				<?=uif::formElement('text','','quantity','','placeholder="Земено" class="input-medium"')?>
+				<span class="add-on uom"></span>
+			</div>
+			<div class="input-append">
+				<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено" class="input-small"')?>
+				<?=uif::button('icon-plus-sign','success','onClick="addProduct();"')?>
+			</div>
+		</div>
 		<?php if (isset($details) AND is_array($details) AND count($details) > 0):?>
-		<table class="table table-condensed">
+		<table class="table table-condensed ordered-products">
 			<thead>
 		    <tr>
 		    	<th>&nbsp;</th>
@@ -37,13 +48,20 @@
 		    </thead>
 		    <tbody><?php $i = 1;?>
 			<?php foreach($details as $row):?>
-				<tr>
+				<tr class="product-row" data-pid=<?=$row->pid?>>
 					<td><?=$i?></td>
 					<td><?=$row->prodname?></td>
 					<td><?=$row->pcname?></td>
-					<td><?=$row->quantity?></td>
-					<td><?=$row->returned_quantity?></td>
-					<td><?=$row->uname?></td>
+					<td>
+						<a href="#" class="editable" data-original-title="Земено" data-name="quantity"
+						data-pk="<?=$row->id?>"><?=$row->quantity?></a>
+					</td>
+					<td>
+						<a href="#" class="editable" data-original-title="Вратено" data-name="returned_quantity"
+						data-pk="<?=$row->id?>"><?=$row->returned_quantity?></a>
+					</td>
+					<td class="left"><?=$row->uname;?></td>
+					<td><?=uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"')?></td>
 				</tr><?php $i++;?>
 			<?php endforeach;?>
 			</tbody>
@@ -53,8 +71,61 @@
         <div class="alert">
             <i class="icon-lock"></i>
             <strong>Овој налог за продажба е заклучен по калкулација за плата #
-            <?=anchor("payroll/view/$master->payroll_fk",$master->payroll_fk);?></strong>
+            <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk);?></strong>
         </div>
     <?php endif;?>
 	</div>
 </div>
+
+<script>
+	$(function(){
+		$("select").select2();
+		$('.editable').editable({
+		    type: 'text',
+		    url: "<?=site_url('orders_details/ajxEditQty')?>",
+		    title: 'Qty'
+		});
+	});
+	function submit_form(){
+		$("#order-form").submit();
+	}
+
+	//Add Product Function
+	function addProduct(){
+
+		var order_fk = "<?=$master->id?>";
+		var product = $("select[name=prodname_fk]");
+		var qty = $("input[name=quantity]");
+		var rqty = $("input[name=returned_quantity]");
+
+		var exists = false;
+
+		$("table.ordered-products tr.product-row").each(function() {
+			if($(this).data("pid") == product.val()){
+				exists = true;
+			}
+		});
+
+		if(exists) {
+			alert("Product Exists!");
+			return false;
+		}
+
+		var out = {
+			order_fk : order_fk,
+			prodname_fk : product.val(),
+			quantity : qty.val(),
+			returned_quantity : rqty.val()
+		};
+		$.post("<?=site_url('orders_details/ajxAddProduct')?>",out,function(){
+		   location.reload(true);
+		});	
+	}
+
+	//Remove Product Function
+	function removeProduct(id){
+		$.post("<?=site_url('orders_details/ajxRemoveProduct')?>",{id:id},function(){
+			location.reload(true);
+		});
+	}
+</script>

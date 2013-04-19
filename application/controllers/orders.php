@@ -193,7 +193,6 @@ class Orders extends MY_Controller {
 		
 		//Dropdown Menus
 		$this->data['customers'] = $this->par->dropdown('customers');
-		$this->data['products'] = $this->prod->get_products('salable',false,true);
 		$this->data['distributors'] = $this->utilities->get_distributors();
 		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
 	}
@@ -205,7 +204,8 @@ class Orders extends MY_Controller {
 			$this->utilities->flash('void','orders');
 
 		//Retreives data from DETAIL Model
-		$this->data['details'] = $this->cod->select(array('id'=>$id));
+		$this->data['products'] = $this->prod->get_products('salable',false,true);
+		$this->data['details'] = $this->cod->select(['id'=>$id]);
 
 		//Heading
 		$this->data['heading'] = "Налог за Продажба";
