@@ -221,7 +221,12 @@ class UIF {
 	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')
 	{
 		$out  = '<div class="control-group">';
-		$out .= '<label class="control-label">'.$label.'</label>';
+		
+		if($label != '')
+		{
+			$out .= '<label class="control-label">'.$label.'</label>';
+		}
+
 		$out .= '<div class="controls">';
 
 		$out .= self::formElement($type, $label, $name, $value, $attributes);

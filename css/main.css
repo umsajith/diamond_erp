@@ -33,5 +33,7 @@ footer {font-size: 10px; border-top: 1px solid #ccc; margin-top: 5px; padding:20
 
 /* Font Awesome Icon Size Overwrite */
 [class^="icon-"],[class*=" icon-"] {font-size: 14px;}
+
 /* Datepicker  Icon Top Margin Fix */
+.datepicker {padding: 0;}
 .datepicker i {margin-top: 3px;}
