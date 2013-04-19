@@ -32,7 +32,7 @@
             <dt>Мин. Количина:</dt>
             <dd><?=uif::isNull($master->alert_quantity)?></dd>
             <dt>Опис:</dt>
-            <dd><?=$master->description?></dd>
+            <dd><?=uif::isNull($master->description)?></dd>
             <dt>Се Продава:</dt>
             <dd><?=($master->salable)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>Се Купува:</dt>
