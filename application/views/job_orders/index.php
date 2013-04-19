@@ -2,7 +2,7 @@
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::linkInsertButton('job_orders/insert')?>
-		<?=uif::button('icon-ok','success','onClick=cd.completeJobOrders("'.site_url('job_orders/ajxComplete').'")')?>
+		<?=uif::button('icon-ok-sign','success','onClick=cd.completeJobOrders("'.site_url('job_orders/ajxComplete').'")')?>
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('job_orders/search','class="form-inline"')?>

@@ -1,7 +1,7 @@
 <?=uif::contentHeader($heading,$master)?>
     <?php if(!$master->locked):?>
-        <?=uif::linkButton("job_orders/edit/$master->id",'icon-edit','warning')?>
-        <?=uif::linkDeleteButton("job_orders/delete/$master->id")?>
+        <?=uif::linkButton("job_orders/edit/{$master->id}",'icon-edit','warning')?>
+        <?=uif::linkDeleteButton("job_orders/delete/{$master->id}")?>
         <hr>
     <?php endif;?>
 <div class="row-fluid">

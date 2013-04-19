@@ -1,46 +1,4 @@
 /**
- * Macedonian i18n for the jQuery UI date picker plugin.
- * @author Marko Aleksic <psybaron@gmail.com>
- */
-// jQuery(function($){
-// 	$.datepicker.regional['mk'] = {
-// 		closeText: 'Затвори',
-// 		prevText: '&#x3c;',
-// 		nextText: '&#x3e;',
-// 		currentText: 'Денес',
-// 		monthNames: ['Јануари','Февруари','Март','Април','Мај','Јуни',
-// 		'Јули','Август','Септември','Октомври','Ноември','Декември'],
-// 		monthNamesShort: ['Јан','Феб','Мар','Апр','Мај','Јун',
-// 		'Јул','Авг','Сеп','Окт','Ное','Дек'],
-// 		dayNames: ['Недела','Понеделник','Вторник','Среда','Четврток','Петок','Сабота'],
-// 		dayNamesShort: ['Нед','Пон','Вто','Сре','Чет','Пет','Саб'],
-// 		dayNamesMin: ['Не','По','Вт','Ср','Че','Пе','Са'],
-// 		weekHeader: 'Нед',
-// 		dateFormat: 'dd/mm/yy',
-// 		firstDay: 1,
-// 		isRTL: false,
-// 		showMonthAfterYear: false,
-// 		yearSuffix: ''};
-// 	$.datepicker.setDefaults($.datepicker.regional['mk']);
-// });
-
-/*
- * Jeditable - jQuery in place edit plugin
- *
- * Copyright (c) 2006-2009 Mika Tuupola, Dylan Verheul
- *
- * Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
- *
- * Project home:
- *   http://www.appelsiini.net/projects/jeditable
- *
- * Based on editable by Dylan Verheul <dylan_at_dyve.net>:
- *    http://www.dyve.net/jquery/?editable
- *
- */
-
- /**
  * Macedonian translation for bootstrap-datepicker
  * Marko Aleksic <psybaron@gmail.com>
  */
@@ -57,7 +15,6 @@
 
 /**
  * Select2 Macedonian translation.
- * 
  * Author: Marko Aleksic <psybaron@gmail.com>
  */
 (function ($) {

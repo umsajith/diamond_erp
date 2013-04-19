@@ -1,7 +1,7 @@
 <?=uif::contentHeader($heading,$master)?>
     <?=uif::linkButton("products/edit/{$master->id}",'icon-edit','warning')?>
     <?=uif::linkDeleteButton("products/delete/{$master->id}")?>
-    <hr>
+<hr>
 <div class="row-fluid">
     <div class="span6 well well-small">  
         <dl class="dl-horizontal">
