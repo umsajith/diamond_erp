@@ -9,8 +9,9 @@
 	<hr>
 <div class="row-fluid">
 <?php if(!$master->locked):?>
-    <div class="span5 well">
-    	<strong>Нов Налог за Продажба</strong> 
+    <div class="span5 well well-small">
+    	<h4>Нов Налог за Продажба</h4>
+    	<hr>
 			<?=form_hidden('order_list_id',$master->id)?>
 			<?=form_hidden('distributor_id',$master->distributor_id)?>
 			<?=form_hidden('date',$master->date)?>	

@@ -3,16 +3,16 @@
 <hr>
 <div class="row-fluid">
 	<div class="span5 well">
-	<?=form_open("orders/edit/{$master->id}",'id="order-form"')?>
-		<?=uif::controlGroup('datepicker','','dateshipped',$master)?>
-		<?=uif::controlGroup('dropdown','','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
-		<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
-		<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment,$master],'placeholder="Плаќање"')?>	
-		<?=uif::controlGroup('dropdown','','ostatus',
-		[['pending'=>'Примена','completed'=>'Испорачана','rejected'=>'Одбиена'],$master],'placeholder="Статус"')?>	
-		<?=uif::controlGroup('textarea','','comments',$master,'placeholder="Белешка"')?>	
-		<?=form_hidden('id',$master->id)?>
-	<?=form_close()?>
+		<?=form_open("orders/edit/{$master->id}",'id="order-form"')?>
+			<?=uif::controlGroup('datepicker','','dateshipped',$master)?>
+			<?=uif::controlGroup('dropdown','','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
+			<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
+			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment,$master],'placeholder="Плаќање"')?>	
+			<?=uif::controlGroup('dropdown','','ostatus',
+			[['pending'=>'Примена','completed'=>'Испорачана','rejected'=>'Одбиена'],$master],'placeholder="Статус"')?>	
+			<?=uif::controlGroup('textarea','','comments',$master,'placeholder="Белешка"')?>	
+			<?=form_hidden('id',$master->id)?>
+		<?=form_close()?>
 	</div>
 	<div class="span7">
 		<div class="well well-small form-inline text-right">
@@ -41,14 +41,16 @@
 			<tbody><?php $i = 1;?>
 				<?php foreach($details as $row):?>
 				<tr class="product-row" data-pid=<?=$row->pid?>>
-						<td><?=$i;?></td>
-						<td><?=$row->prodname;?></td>
-						<td><?=$row->pcname;?></td>
+						<td><?=$i?></td>
+						<td><?=$row->prodname?></td>
+						<td><?=$row->pcname?></td>
 						<td>
-							<a href="#" class="editable" data-original-title="Земено" data-name="quantity" data-pk="<?=$row->id?>"><?=$row->quantity;?></a>
+							<a href="#" class="editable" data-original-title="Земено" data-name="quantity"
+							data-pk="<?=$row->id?>"><?=$row->quantity?></a>
 						</td>
 						<td>
-							<a href="#" class="editable" data-original-title="Вратено" data-name="returned_quantity" data-pk="<?=$row->id?>"><?=$row->returned_quantity;?></a>
+							<a href="#" class="editable" data-original-title="Вратено" data-name="returned_quantity"
+							data-pk="<?=$row->id?>"><?=$row->returned_quantity?></a>
 						</td>
 						<td class="left"><?=$row->uname;?></td>
 						<td><?=uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"')?></td>
@@ -78,13 +80,6 @@
 
 	function submit_form(){
 		$("#order-form").submit();
-	}
-
-	//Remove Product Function
-	function removeProduct(id){
-		$.post("<?=site_url('orders_details/ajxRemoveProduct')?>",{id:id},function(){
-			location.reload(true);
-		});
 	}
 
 	//Add Product Function
@@ -119,7 +114,11 @@
 		   location.reload(true);
 		});	
 	}
-	
-	
-	
+
+	//Remove Product Function
+	function removeProduct(id){
+		$.post("<?=site_url('orders_details/ajxRemoveProduct')?>",{id:id},function(){
+			location.reload(true);
+		});
+	}
 </script>

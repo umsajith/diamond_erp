@@ -23,19 +23,10 @@
 				Ставката која сакате да ја избришете <strong>НЕМОЖЕ</strong> да биде повратена!\
 			</div>';
 
-		bootbox.animate(false);
-		bootbox.dialog(text,[{
-		    "label" : cnlBtn
-		}, {
-		    "label" : okBtn,
-		    "class" : "btn-danger",
-		    "callback": function() {
-		         window.location.href = e.target.href;
-		    }
-		}]);
-	    // bootbox.confirm(text, cnlBtn, okBtn, function(result) {
-	    //     if(result){window.location.href = e.target.href;}
-	    // });
+		bootbox.animate(false);	
+	    bootbox.confirm(text, cnlBtn, okBtn, function(result) {
+	        if(result){window.location.href = e.target.href;}
+	    });
 	    return false;
 	});
 		
