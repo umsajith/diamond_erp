@@ -234,6 +234,7 @@ class UIF {
 	/**
 	 * Resource Loader
 	 * - loads partials from views/includes folder by default
+	 * TODO: Add paramenet to enabling load to pass data object to view
 	 */
 	public static function load($resource = '', $folder = 'includes')
 	{

@@ -186,7 +186,7 @@ class Orders extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = "Корекција na Налог за Продажба";
+		$this->data['heading'] = "Корекција на Налог за Продажба";
 		
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->cod->select(array('id'=>$id));

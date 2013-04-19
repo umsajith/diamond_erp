@@ -67,7 +67,6 @@
     <script src="<?=base_url('js/modernizr.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
     <script src="<?=base_url('js/datepicker.js')?>"></script>
-    <script src="<?=base_url('js/datepicker.mk.js')?>"></script>
     <script src="<?=base_url('js/bootbox.min.js')?>"></script> 
     <script src="<?=base_url('js/pnotify.min.js')?>"></script>
     <script src="<?=base_url('js/select2.js')?>"></script>

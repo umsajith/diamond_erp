@@ -1,213 +1,125 @@
-<h2><?php echo $heading; ?></h2>
+<?=uif::contentHeader($heading,$master)?>
+    <?=uif::button('icon-save','primary','onClick="submit_form()"')?>
 <hr>
-<?php echo form_open('orders/edit/'.$master->id,"id='order'");?>
-	<div id="buttons">
-		<?php echo form_submit('','Сними','class="save"'); ?>
+<div class="row-fluid">
+	<div class="span5 well">
+	<?=form_open("orders/edit/{$master->id}",'id="order-form"')?>
+		<?=uif::controlGroup('datepicker','','dateshipped',$master)?>
+		<?=uif::controlGroup('dropdown','','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
+		<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
+		<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment,$master],'placeholder="Плаќање"')?>	
+		<?=uif::controlGroup('dropdown','','ostatus',
+		[['pending'=>'Примена','completed'=>'Испорачана','rejected'=>'Одбиена'],$master],'placeholder="Статус"')?>	
+		<?=uif::controlGroup('textarea','','comments',$master,'placeholder="Белешка"')?>	
+		<?=form_hidden('id',$master->id)?>
+	<?=form_close()?>
 	</div>
-<hr>
-<div id="west">
-<fieldset class="data_form">
-	<legend>Основни Информации</legend>
-	<table class="data_forms_wide">	
-        <tr>
-        	<td class="label"><?php echo form_label('Купувач:');?><span class='req'>*</span></td>
-		    <td><?php echo form_dropdown('partner_fk',$customers,set_value('partner_fk',$master->partner_fk));?></td>
-        </tr>
-        <tr>
-             <td class="label"><?php echo form_label('Испорачано на:');?><span class='req'>*</span></td>
-            <td><?php echo form_input('dateshipped',set_value('dateshipped',$master->dateshipped)); ?></td>
-            
-            <td  class="label"><?php echo form_label('Дистрибутер:');?><span class='req'>*</span></td>
-            <td><?php echo form_dropdown('distributor_fk',$distributors,set_value('distributor_fk',$master->distributor_fk)); ?></td>
-        </tr>
-        <tr>
-            <td class="label"><?php echo form_label('Плаќање:');?><span class='req'>*</span></td>
-            <td><?php echo form_dropdown('payment_mode_fk', $modes_payment,set_value('payment_mode_fk',$master->payment_mode_fk)); ?></td>
-            <td class="label"><?php echo form_label('Статус на Нарачка: ');?></td>
-            <td><?php echo form_dropdown('ostatus',array('pending'=>'Примена','completed'=>'Испорачана','rejected'=>'Одбиена'),set_value('ostatus',$master->ostatus)); ?></td>	
-        </tr>
-	</table>
-</fieldset>
-<fieldset class="data_form">
-	<legend>Белешка</legend>
-	<table class="data_forms">	
-        <tr>
-            <td colspan="4"><?php echo form_textarea('comments',set_value('comments',$master->comments),"class='wide'");?></td>
-        </tr> 
-	</table >
-</fieldset>
-
-<?php echo form_hidden('id',$master->id);?>
-<?php echo form_close();?>
-<fieldset class="data_form">
-	<legend>Продизводи</legend>
-   Производ: <?php echo form_dropdown('',$products,'',"id='newprod'")?>
-   Количина: <?php echo form_input('','',"id='qty'")?>
-   <span class="add_icon" onclick="addProduct(<?php echo $master->id;?>);">&nbsp;&nbsp;&nbsp;</span>
-</fieldset>
-<?php if (isset($details) && is_array($details) && count($details) > 0):?>
-<table id="order_grid" class="details">
-	<tr>
-   		<th>&nbsp;</th>
-    	<th>Производ</th>
-    	<th>Категорија</th>
-    	<th>Количина</th>
-    	<th>&nbsp;</th>
-    	<th>Вратена Кол.</th>
-    	<th>&nbsp;</th>
-    	<th>&nbsp;</th>
-	</tr>
-	<?php $i = 1;?>
-		<?php foreach($details as $row):?>
-		<tr id="<?php echo $row->pid;?>">
-				<td><?php echo $i;?></td>
-				<td><?php echo $row->prodname;?></td>
-				<td><?php echo $row->pcname;?></td>
-				<td>
-					<a href="#" class="qty" name="quantity" data-pk="<?=$row->id?>"><?php echo $row->quantity;?></a>
-				</td>
-				<td class="left"><?php echo $row->uname;?></td>
-				<td class="returned_qty" id="<?php echo $row->id;?>"><?php echo ($row->returned_quantity == NULL ? '-' : $row->returned_quantity); ?></td>
-				<td class="left"><?php echo $row->uname;?></td>
-				<td><span class="removeprod" onclick="removeProduct('<?php echo $row->id;?>');">&nbsp;</span></td>		
-		</tr>
-		<?php $i++;?>
-	<?php endforeach;?>
-</table>
-<?php endif;?>
+	<div class="span7">
+		<div class="well well-small form-inline text-right">
+			<?=uif::formElement('dropdown','','prodname_fk',[$products],' class="input-large"')?>
+			<div class="input-append">
+				<?=uif::formElement('text','','quantity','','placeholder="Земено" class="input-medium"')?>
+				<span class="add-on uom"></span>
+			</div>
+			<div class="input-append">
+				<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено" class="input-small"')?>
+				<?=uif::button('icon-plus-sign','success','onClick="addProduct();"')?>
+			</div>
+		</div>
+		<?php if (isset($details) AND is_array($details) AND count($details)):?>
+		<table class="table table-condensed ordered-products">
+			<thead>
+				<tr>
+			   		<th>&nbsp;</th>
+			    	<th>Производ</th>
+			    	<th>Категорија</th>
+			    	<th>Земено</th>
+			    	<th>Вратено</th>
+			    	<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody><?php $i = 1;?>
+				<?php foreach($details as $row):?>
+				<tr class="product-row" data-pid=<?=$row->pid?>>
+						<td><?=$i;?></td>
+						<td><?=$row->prodname;?></td>
+						<td><?=$row->pcname;?></td>
+						<td>
+							<a href="#" class="editable" data-original-title="Земено" data-name="quantity" data-pk="<?=$row->id?>"><?=$row->quantity;?></a>
+						</td>
+						<td>
+							<a href="#" class="editable" data-original-title="Вратено" data-name="returned_quantity" data-pk="<?=$row->id?>"><?=$row->returned_quantity;?></a>
+						</td>
+						<td class="left"><?=$row->uname;?></td>
+						<td><?=uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"')?></td>
+				</tr><?php $i++;?>
+			<?php endforeach;?>
+			</tbody>
+		</table>
+		<?php else:?>
+			<?=uif::load('_no_records')?>
+		<?php endif;?>
+	</div>
 </div>
 
 <script>
-
-	//Remove Product Function
-	function removeProduct(id) 
-	{
-		var toremove = id;
-		$.post("<?php echo site_url('orders_details/ajxRemoveProduct'); ?>",
-				   {id:id},
-				   function(data){
-					   if(data){
-						   $("#"+toremove).parent("tr").remove();
-						   $.pnotify(data.message);
-					   }
-				   },"json"
-			   );
-		return false;	
-	}
-
-	//Add Product Function
-	function addProduct(id) 
-	{
-		var product = $("select#newprod");
-		var qty = $("input#qty");
-
-		if (product.val() == '')
-		  {
-			$.pnotify({pnotify_text:"Изберете Производ!",pnotify_type: 'error'});
-			product.focus();
-		    return false;
-		  }
-		if (qty.val() == '' || qty.val() <= 0)
-		  {
-			$.pnotify({pnotify_text:"Внесете валидна количина!",pnotify_type: 'error'});
-			qty.focus();
-		    return false;
-		  }
-
-		//Searches if product alredy exists
-		var exists = $("table#order_grid").find("tr#"+product.val());
-
-		if(exists.size() == 1)
-		{
-			$.pnotify({pnotify_text:"Производот веќе постои!",pnotify_type: 'error'});
-			qty.val(" ");
-			product.val(" ").focus();
-			return false;
-		}
+	$(function() {
 		
-		$.post("<?php echo site_url('orders_details/ajxAddProduct'); ?>",
-				   {order_fk:id,prodname_fk:product.val(),quantity:qty.val()},
-				   function(data){
-						   product.val(" ");
-						   qty.val(" ");
-						   location.reload(true);
-					},"json");
-		
-		return false;	
-	}
-	
-$(function() {
-		
-		//Date Pickers
-		$( "input[name=dateshipped]" ).datepicker({
-			dateFormat: "yy-mm-dd",
-			maxDate: +0,
-		});
-		$('.qty').editable({
+		$("select").select2();
+		var options = {future: false};
+		cd.datepicker(".datepicker",options);
+
+		$('.editable').editable({
 		    type: 'text',
 		    url: "<?=site_url('orders_details/ajxEditQty')?>",
 		    title: 'Qty'
 		});
+	});
 
-		// $("#quantity").editable({
-		//     type: 'text',
-		//     url: "<?=site_url('orders_details/ajxEditQty')?>",
-		//     title: 'Qty'
-		// });
+	function submit_form(){
+		$("#order-form").submit();
+	}
 
-		//Edit in Place
-		// $(".ordered_qty").editable("<?php echo site_url('orders_details/ajxEditQty'); ?>", {
-		//     	indicator : 'Saving...',
-		//     	tooltip   : 'Click to edit...',
-		//     	id : 'id',
-		//     	name : 'quantity'
-		// });
-
-		// $(".returned_qty").editable("<?php echo site_url('orders_details/ajxEditRetQty'); ?>", {
-	 //    	indicator : 'Saving...',
-	 //    	tooltip   : 'Click to edit...',
-	 //    	id : 'id',
-	 //    	name : 'returned_quantity'
-		// });
-
-		//Client Side Validation
-		$("#order").submit(function(){
-			
-			var partner_fk = $("select[name=partner_fk]").val(); 
-			var dateshipped = $("input[name=dateshipped]").val();
-			var distributor_fk = $("select[name=distributor_fk]").val();
-			var payment_mode = $("select[name=payment_mode_fk]").val();
-
-			  if (partner_fk == '')
-			  {
-			    $.pnotify({pnotify_text:"Полето Купувач е задожително!",pnotify_type: 'error'});
-			    $("input[name=partner_fk]").focus();
-			    return false;
-			  }
-			  
-			  if (dateshipped == '')
-			  {
-			    $.pnotify({pnotify_text:"Полето 'Испорачано на' е задожително!",pnotify_type: 'error'});
-			    $("input[name=dateshipped]").focus();
-			    return false;
-			  }
-
-			  if (distributor_fk == '')
-			  {
-			    $.pnotify({pnotify_text:"Полето 'Дистрибутер' е задожително!",pnotify_type: 'error'});
-			    $("select[name=distributor_fk]").focus();
-			    return false;
-			  }
-
-			  if (payment_mode == '')
-			  {
-			    $.pnotify({pnotify_text:"Полето 'Плаќање' е задожително!",pnotify_type: 'error'});
-				$("select[name=payment_mode_fk]").focus();
-			    return false;
-			  }
-
-			  $("input[name=submit]").attr("disabled", "disabled");
+	//Remove Product Function
+	function removeProduct(id){
+		$.post("<?=site_url('orders_details/ajxRemoveProduct')?>",{id:id},function(){
+			location.reload(true);
 		});
-});	
+	}
+
+	//Add Product Function
+	function addProduct(){
+
+		var product = $("select[name=prodname_fk]");
+		var qty = $("input[name=quantity]");
+		var rqty = $("input[name=returned_quantity]");
+		var order_fk = "<?=$master->id?>";
+
+		var exists = false;
+
+		$("table.ordered-products tr.product-row").each(function() {
+			var pid = $(this).data("pid");
+			if(pid == product.val()){
+				exists = true;
+			}
+		});
+
+		if(exists) {
+			alert("Product Exists!");
+			return false;
+		}
+
+		var out = {
+			order_fk : order_fk,
+			prodname_fk : product.val(),
+			quantity : qty.val(),
+			returned_quantity : rqty.val()
+		};
+		$.post("<?=site_url('orders_details/ajxAddProduct')?>",out,function(){
+		   location.reload(true);
+		});	
+	}
+	
+	
 	
 </script>

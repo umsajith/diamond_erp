@@ -6,7 +6,7 @@
     <?php else:?>
 		<?=uif::button('icon-unlock','info','onClick=cd.unlockOrderList("'.site_url('orders_list/ajxUnlock').'",'.$master->id.')')?>
     <?php endif;?>
-        <hr>
+	<hr>
 <div class="row-fluid">
 <?php if(!$master->locked):?>
     <div class="span5 well">
@@ -21,8 +21,8 @@
 			<?=uif::controlGroup('dropdown','','prodname_fk',[])?>	
 		<div class="input-append">
 			<?=uif::formElement('text','','quantity','','placeholder="Земено"')?>
+			<span class="add-on uom"></span>
 		</div>
-		<span class="uom"></span>
 		<div class="input-append">
 			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено"')?>
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
@@ -89,7 +89,7 @@
 			</tbody>	
 		</table>
 	</div>
-	<?php endif ?>
+	<?php endif; ?>
 </div>
 <script>
 	$(function(){

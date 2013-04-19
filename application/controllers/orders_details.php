@@ -14,47 +14,44 @@ class Orders_details extends MY_Controller {
 	//AJAX - Adds New Product in Order Details
 	public function ajxAddProduct()
 	{
+		//TODO ADD Validation
 		$data['order_fk'] = $_POST['order_fk'];
 		$data['prodname_fk'] = $_POST['prodname_fk'];
 		$data['quantity'] = $_POST['quantity'];
+		$data['returned_quantity'] = $_POST['returned_quantity'];
 
-		if($this->cod->insert($data))
-			echo 1;
+		if(!$this->cod->insert($data))
+			$this->output->set_status_header(500);
+
 		exit;		
 	}
 	
 	//AJAX - Removes Products from an Order
 	public function ajxRemoveProduct()
 	{
-		if($this->cod->delete(json_decode($_POST['id'])))
-			echo json_encode(array('message'=>'Производот е успешно избришан'));
+		if(!$this->cod->delete($_POST['id']))
+			$this->output->set_status_header(500);
+		
 		exit;
 	}
 	
-	//AJAX - Edits the Quantity of Products from an Order
+	//AJAX - Edits the Quantity/Returned Qty of Products from an Order
 	public function ajxEditQty()
 	{
-		$in['quantity'] = $this->input->post('value');
+		//TODO ADD Validation
 
-		if($this->cod->update($_POST['pk'],$in))
-			$this->output->set_status_header(200);
-		else
-			$this->output->set_status_header(500);		
+		if(!in_array($_POST['name'],['quantity','returned_quantity']))
+		{
+			$this->output->set_status_header(400);
+			exit;
+		}
+
+		if(!$this->cod->update($_POST['pk'],[$_POST['name']=>$_POST['value']]))
+			$this->output->set_status_header(500);	
 
 		exit;	
 	}
-	
-	//AJAX - Edits the Returned Quantity of Products from an Order
-	public function ajxEditRetQty()
-	{	
-		$id = json_decode($_POST['id']);
-		$data['returned_quantity'] = json_decode($_POST['returned_quantity']);
-		
-		if($this->cod->update($id,$data))
-			echo json_encode($data['returned_quantity']);
-		exit;		
-	}
-	
+
 	public function delete($id = false)
 	{
 		$this->data['master'] = $this->co->select_single($id);
