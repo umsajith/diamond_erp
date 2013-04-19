@@ -13,9 +13,16 @@
 	});
 
 	$(document).on("click",".confirm-delete", function(e) {
-		console.log(e);
+		var text = '\
+				<h4 class="text-error">Вниманмие!</h4>\
+				<hr>\
+			<div class="alert alert-error">\
+				<i class="icon-warning-sign"></i>\
+				Ставката која сакате да ја избришете <strong>НЕМОЖЕ</strong> да биде повратена!\
+			</div>';
+
 		bootbox.animate(false);
-	    bootbox.confirm("Sure you want to proceed?", function(result) {
+	    bootbox.confirm(text, function(result) {
 	        if(result){window.location.href = e.target.href;}
 	    });
 	    return false;
