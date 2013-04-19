@@ -13,8 +13,10 @@
 	});
 
 	$(document).on("click",".confirm-delete", function(e) {
+		var okBtn = "Продолжи";
+		var cnlBtn = "Откажи";
 		var text = '\
-				<h4 class="text-error">Вниманмие!</h4>\
+				<h4 class="text-error">Внимание!</h4>\
 				<hr>\
 			<div class="alert alert-error">\
 				<i class="icon-warning-sign"></i>\
@@ -22,9 +24,18 @@
 			</div>';
 
 		bootbox.animate(false);
-	    bootbox.confirm(text, function(result) {
-	        if(result){window.location.href = e.target.href;}
-	    });
+		bootbox.dialog(text,[{
+		    "label" : cnlBtn
+		}, {
+		    "label" : okBtn,
+		    "class" : "btn-danger",
+		    "callback": function() {
+		         window.location.href = e.target.href;
+		    }
+		}]);
+	    // bootbox.confirm(text, cnlBtn, okBtn, function(result) {
+	    //     if(result){window.location.href = e.target.href;}
+	    // });
 	    return false;
 	});
 		
@@ -46,9 +57,7 @@ var cd = (function(){
 	obj.notify = function(text, type){
 
 		$.pnotify.defaults.title = "Diamond ERP";
-
 		$.pnotify.defaults.sticker = false;
-
 		$.pnotify.defaults.delay = 1750;
 
 		var pnotify_opt = {
@@ -202,6 +211,7 @@ var cd = (function(){
 			format: "yyyy-mm-dd",
 			autoclose: true,
 			language: 'mk',
+			weekStart: 1,
 			onRender: function(date) {
 				return date.valueOf() < now.valueOf() ? 'disabled' : '';
 		  }
