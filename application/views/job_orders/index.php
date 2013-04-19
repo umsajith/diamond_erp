@@ -21,7 +21,7 @@
 	    	<th><input type="checkbox" class="check-all">&nbsp;</th>
 	    	<th colspan="3">&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
+    		<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
     			<?=anchor("job_orders/index/{$query_id}/{$col_name}/".
     			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display)?>
     		</th>
@@ -43,7 +43,7 @@
 		<td><?=uif::isNull($row->work_hours)?></td>
 		<td><?=uif::isNull($row->shift)?></td>
 		<td><?=uif::date($row->dateofentry)?></td>
-		<td><?=(!$row->locked) ? uif::actionGroup('job_orders',$row->id) : '' ?></td>
+		<td><?=(!$row->locked) ? uif::actionGroup('job_orders',$row->id) : '';?></td>
 	</tr>
 	<?php endforeach;?>
 	</tbody>

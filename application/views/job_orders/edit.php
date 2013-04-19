@@ -1,5 +1,5 @@
 <?=uif::contentHeader($heading)?>
-	<?=form_open("job_orders/edit/$job_order->id",'class="form-horizontal"')?>
+	<?=form_open("job_orders/edit/{$job_order->id}",'class="form-horizontal"')?>
     <?=uif::submitButton();?>
 	<hr>
 <div class="row-fluid">
@@ -16,9 +16,9 @@
 		<?=uif::controlGroup('textarea','Забелешка','description',$job_order)?>
 		<?=form_hidden('id',$job_order->id)?>
 		<?=form_hidden('task_fk',$job_order->task_fk)?>
+	<?=form_close()?>
 	</div>
 </div>
-	<?=form_close()?>
 <script>
 	$(function() {
 		var options = {future: false};

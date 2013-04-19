@@ -24,7 +24,6 @@ class Products extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'code'=>'Шифра',
 			'prodname'=>'Назив',
 			'ptname_fk'=>'Тип',
 			'pcname_fk'=>'Категорија',
@@ -33,7 +32,6 @@ class Products extends MY_Controller {
 			'alert_quantity'=>'Мин.Кол.',
 			'retail_price'=>'МПЦ',
 			'whole_price1'=>'ГПЦ1',
-			'whole_price2'=>'ГПЦ2',
 			'commision'=>'Рабат',
 			'tax_rate_fk'=>'ДДВ'
 		);
@@ -104,6 +102,9 @@ class Products extends MY_Controller {
 		$this->form_validation->set_rules('description','description','trim');
 		$this->form_validation->set_rules('alert_quantity','alert quantity','trim|numeric');
 		$this->form_validation->set_rules('commision','commision','trim|numeric');
+		$this->form_validation->set_rules('salable','salable','trim|numeric');
+		$this->form_validation->set_rules('purchasable','purchasable','trim|numeric');
+		$this->form_validation->set_rules('stockable','stockable','trim|numeric');
 		
 		//Check if form has passed validation
 		if ($this->form_validation->run())

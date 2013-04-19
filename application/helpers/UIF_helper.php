@@ -138,7 +138,7 @@ class UIF {
 
 	public static function isNull($value = '', $extra = '')
 	{
-		return ($value != '') ? $value.$extra : '-';
+		return ($value != '' AND $value != 0) ? $value.$extra : '-';
 	}
 
 	// public function deleteButton($uri = '',$id = '')
@@ -197,11 +197,22 @@ class UIF {
 				}
 				break;
 			case 'checkbox':
-				foreach ($value[0] as $v) {
+				if(is_array($value[0]))
+				{	
+					foreach ($value[0] as $v) {
+						$out .= '<label class="checkbox">';
+						$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
+								set_radio($name,$v,(($value[1]!=='')) ? 
+								($v==$value[1]->$name) ? true : false : '' ).'/>';
+						$out .= '</label>';
+					}
+				}
+				else
+				{
 					$out .= '<label class="checkbox">';
-					$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
-							set_radio($name,$v,(($value[1]!=='')) ? 
-							($v==$value[1]->$name) ? true : false : '' ).'/>';
+					$out .= '<input type="checkbox" name="'.$name.'" value="'.$value[0].'"'.
+							set_checkbox($name,$value[0],(($value[1]!=='')) ? 
+							($value[0]==$value[1]->$name) ? true : false : '' ).'/>';
 					$out .= '</label>';
 				}
 				break;
