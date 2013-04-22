@@ -106,16 +106,35 @@ class Products_model extends MY_Model {
 		
 		return $this->db->affected_rows();
 	}
+
+	public function generateDropdown($options = [])
+	{
+		$this->db->select('p.id,p.prodname,u.uname,pc.pcname')
+			->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT')
+			->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+
+		if(isset($options['salable']))
+			$this->db->where('p.salable',$options['salable']);
+		if(isset($options['purchasable']))
+			$this->db->where('p.purchasable',$options['purchasable']);
+		if(isset($options['stockable']))
+			$this->db->where('p.stockable',$options['stockable']);
+				
+		$this->db->where('p.status','active');
+
+		$this->db->order_by('p.prodname','asc');
+		
+		return $this->db->get($this->_table.' AS p')->result();
+	}
 	
 	public function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
 	{
-		if(!in_array($type,array('salable','purchasable')))
-			die();
+		if(!in_array($type,array('salable','purchasable'))) die();
 			
 		//Query
-		$this->db->select('p.id,p.prodname,u.uname,pc.pcname');
-		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
-		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+		$this->db->select('p.id,p.prodname,u.uname,pc.pcname')
+			->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT')
+			->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 
 		if($type == 'salable')
 		{

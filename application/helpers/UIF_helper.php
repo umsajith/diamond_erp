@@ -138,17 +138,8 @@ class UIF {
 
 	public static function isNull($value = '', $extra = '')
 	{
-		return ($value != '' AND $value != 0) ? $value.$extra : '-';
+		return ($value != '' OR $value != 0) ? $value.$extra : '-';
 	}
-
-	// public function deleteButton($uri = '',$id = '')
-	// {
-	// 	$out = form_open(site_url('job_orders/delete'),'class="delete-form"');
-	// 	$out .= form_hidden('id',$id);
-	// 	$out .= '<button type="submit" class="btn btn-link icon-trash confirm-delete"></button>';
-	// 	$out .= form_close();
-	// 	return $out;
-	// }
 
 	public static function viewIcon($controller = '', $id = '', $method = 'view')
 	{

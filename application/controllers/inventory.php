@@ -39,7 +39,6 @@ class Inventory extends MY_Controller {
 			'qty_current'=>'Лагер',
 			'quantity'=>'Количина',
 			'partner_fk'=>'Добавувач',
-			'assigned_to'=>'Задолжение',
 			'purchase_method'=>'Начин',
 			'po_status'=>'Статус',
 			'dateofentry'=>'Внес'
@@ -291,7 +290,7 @@ class Inventory extends MY_Controller {
 				$this->utilities->flash('error','goods_receipts');
 		}
 		//Load Partner model for Dropdown creation
-		$this->data['partners'] = $this->par->dropdown('vendors');
+		$this->data['vendors'] = $this->par->dropdown('vendors');
 
 		//Heading
 		$this->data['heading'] = 'Внес на Приемница';
@@ -324,6 +323,8 @@ class Inventory extends MY_Controller {
 			else	
 				$this->utilities->flash('error','purchase_orders');
 		}
+
+		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
 
 		//Heading
 		$this->data['heading'] = 'Внес на Нарачка';
@@ -364,8 +365,8 @@ class Inventory extends MY_Controller {
 	public function edit($page,$id)
 	{
 		
-		if(!in_array($page, array('po','gr','adj')))
-			$page = 'po';
+		//if(!in_array($page,['po','gr','adj']))
+		//	$page = 'po';
 			
 		$this->data['page'] = $page;		
 		
@@ -373,24 +374,24 @@ class Inventory extends MY_Controller {
 		{
 			$heading = 'Нарачка';
 			$redirect = 'purchase_orders';
+			$this->view = 'inventory/edit_po';
 			
-			$this->data['employees'] = $this->utilities->get_employees();
+			$this->data['employees'] = $this->utilities->get_employees('all',' ');
 		}	
 		if($page == 'gr')
 		{
 			$heading = 'Приемница';
 			$redirect = 'goods_receipts';
+			$this->view = 'inventory/edit_gr';
 
 			$this->form_validation->set_rules('partner_fk','vendor','trim|required');
 			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
 		}
 		
 		//Retreives ONE product from the database
-		$this->data['goods_receipt'] = $this->inv->select_single($id);
-		
-		//If there is nothing, redirects
-		if(!$this->data['goods_receipt'])
-			$this->utilities->flash('void',$redirect);
+		$this->data['result'] = $this->inv->select_single($id);
+
+		if(!$this->data['result']) show_404();
 					
 		//Defining Validation Rules	
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');

@@ -25,7 +25,7 @@
 		cd.datepicker(".datepicker",options);
 
 		$("#employee").select2();
-		$("#tasks").select2({placeholder: "- Работна Задача -",allowClear: true});
+		$("#tasks").select2();
 
 		cd.dropdownTasks("<?=site_url('employees/ajxGetTasks')?>","<?=$job_order->task_fk?>");
 		$("#employee").trigger("change");

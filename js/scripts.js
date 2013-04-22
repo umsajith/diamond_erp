@@ -74,7 +74,7 @@ var cd = (function(){
 
 		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
 		  if(data) location.reload(true);
-		}, 'json');
+		});
 	}
 
 	obj.completeJobOrders = function(url){
@@ -90,16 +90,62 @@ var cd = (function(){
 
 		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
 		  if(data) location.reload(true);
-		}, 'json');
+		});
+	}
+
+	obj.dropdownProducts = function(url, options){
+
+		var data;
+		var product = $("input[name=prodname_fk]");
+		var products = $("select#products");
+		var uom = $("#uom"); 
+		var category = $("#category");
+		var firstRun = true;
+
+		products.select2();
+
+		if(options !== undefined && options.prodname_fk){
+			var prodname_fk = options.prodname_fk;
+		}
+		
+		$.getJSON(url, options, function(result) {
+			data = result;
+			var opts = '<option></option>';
+			$.each(result, function(i, row){
+				if((row.id === prodname_fk) && firstRun){
+	    			products.select2('data',{id:row.id,text:row.prodname});
+	    			uom.val(row.uname);
+	    			category.val(row.pcname);
+	    			firstRun = false;
+				}
+				opts += '<option value="' + row.id + '">' + row.prodname + '</option>';
+			});
+			products.html(opts);
+		});
+		/*
+		 * When product is changed, populates the UOM and Category
+		 * of corresponding product into field (disabled or add-on)
+		 *
+		 */
+		products.on("change",function(e) {
+			product.val($(this).val());
+			if(e.val !== ''){
+				uom.val(data[this.selectedIndex-1].uname);  
+				category.val(data[this.selectedIndex-1].pcname);  
+			} else {
+				uom.val('');
+				category.val('');
+			}
+		});
 	}
 
 	obj.dropdownTasks = function(url, task_fk){
 
 		var data;
+		var task = $("input[name=task_fk]");
 		var tasks = $("select#tasks");
 		var employees = $("select#employee");
 		var uname = $("input#uname");
-		var task = $("input[name=task_fk]");
 		var firstRun = true;
 		/*
 		 * When an employee is changed, searches the tasks assigned
@@ -119,7 +165,7 @@ var cd = (function(){
 		    			uname.val(row.uname);
 		    			firstRun = false;
 					}
-					options += '<option value="' + row.id + '" data-uname="'+ row.uname +'">' + row.taskname + '</option>';
+					options += '<option value="' + row.id + '">' + row.taskname + '</option>';
 				});
 				tasks.html(options);
 			});	
@@ -154,7 +200,7 @@ var cd = (function(){
 
 		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
 		  if(data) location.reload(true);
-		}, 'json');
+		});
 	}
 
 	obj.unlockOrderList = function(url, id){
@@ -171,7 +217,7 @@ var cd = (function(){
 
 		$.post(url,{ids:JSON.stringify(ids)}, function(data) {
 		  if(data) location.reload(true);
-		}, 'json');
+		});
 	}
 
 	obj.datepicker = function(field, options){

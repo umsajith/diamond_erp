@@ -273,6 +273,8 @@ class Inventory_model extends MY_Model {
 			$data['dateoforder'] = null;
 		if(!strlen($data['dateofexpiration']))
 			$data['dateofexpiration'] = null;
+		if(!strlen($data['datereceived']))
+			$data['datereceived'] = null;
 		if(!strlen($data['price']))
 			$data['price'] = null;		
 		if(!strlen($data['partner_fk']))

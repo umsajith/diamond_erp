@@ -59,7 +59,7 @@
         <div class="alert">
             <i class="icon-lock"></i>
             <strong>Овој работен налог е заклучен по калкулација за плата #
-            <?=anchor("payroll/view/$master->payroll_fk",$master->payroll_fk);?></strong>
+            <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk);?></strong>
         </div>
     <?php endif;?>  
     </div>

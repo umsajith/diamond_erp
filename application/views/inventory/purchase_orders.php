@@ -20,8 +20,8 @@
 			<th><input type="checkbox" class="check-all">&nbsp;</th>
 			<th>&nbsp;</th>
 			<?php foreach ($columns as $col_name => $col_display):?>
-	    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
-	    			<?=anchor("inventory/purchase_orders/$query_id/$col_name/".
+	    		<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+	    			<?=anchor("inventory/purchase_orders/{$query_id}/{$col_name}/".
 	    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
 		    <?php endforeach;?>
@@ -45,7 +45,6 @@
 		<td><?=($row->qty_current == 0) ? '-' : $row->qty_current.' '.$row->uname?></td>
 		<td><?=($row->quantity == 0) ? '-' : $row->quantity.' '.$row->uname?></td>
 		<td><?=uif::isNull($row->company)?></td>
-		<td><?=uif::isNull($row->assigned)?></td>
 		<td>
 			<?php switch ($row->purchase_method) 
 			{

@@ -23,8 +23,8 @@
 </div>
 <script>
 	$(function() {
-		$("#employee").select2();
-		$("#tasks").select2();
+		$("select#employee").select2();
+		$("select#tasks").select2();
 
 		cd.dropdownTasks("<?=site_url('employees/ajxGetTasks')?>");
 		var options = {future: false};

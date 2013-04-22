@@ -196,6 +196,14 @@ class Products extends MY_Controller {
 			$this->utilities->flash('error','products');
 	}
 
+	public function ajxGetProducts()
+	{
+		$this->data = $this->prod->generateDropdown($_GET);
+		header('Content-Type: application/json',true);     
+		echo json_encode($this->data);
+		exit;
+	}
+
 	public function dropdown($type)
 	{
 		$this->data = $this->prod->get_products($type);
