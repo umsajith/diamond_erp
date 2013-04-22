@@ -8,7 +8,7 @@
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
             <dt>Датум:</dt>
-            <dd><?=uif::isNull($master->datedue)?></dd>
+            <dd><?=uif::date($master->datedue)?></dd>
             <dt>Работник:</dt>
             <dd><?=$master->fname.' '.$master->lname;?></dd>
             <dt>Работна Задача:</dt>
@@ -49,7 +49,7 @@
                 <tr>
                     <td><?=$row->prodname?></td>
                     <td><?=$row->pcname?></td>
-                    <td><?=$row->quantity. ' ' .$row->uname?></td>
+                    <td><?=$row->quantity.' '.$row->uname?></td>
                 </tr>
                 <?php endforeach;?>
             </tbody>

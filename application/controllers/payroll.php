@@ -217,9 +217,9 @@ class Payroll extends MY_Controller {
 			$this->load->model('production/Joborders_model');
 			$this->load->model('orders/Co_model');
 			$this->load->model('orders/Cod_model');
-			$this->load->model('hr/Payroll_extra_model');
+			$this->load->model('hr/Payroll_extra_model','pem');
 			$this->load->model('hr/Task_model');
-			$this->load->model('hr/Employees_model');
+			$this->load->model('hr/Employees_model','emp');
 			
 			/*
 			 *  Checks if there is any Payroll for this specific
@@ -242,10 +242,9 @@ class Payroll extends MY_Controller {
 				$this->data['dateto'] = $_POST['dateto'];
 				$this->data['submited'] = 1;
 				
-				$this->data['employee_master'] = $this->Employees_model->get($_POST['employee']);
+				$this->data['employee_master'] = $this->emp->get($_POST['employee']);
 
-				if(!$this->data['employee_master'])
-					$this->utilities->flash('void','payroll/calculate');
+				if(!$this->data['employee_master']) show_404();
 
 				$this->data['employee'] = $this->data['employee_master']->id;
 				
@@ -274,7 +273,9 @@ class Payroll extends MY_Controller {
 					 * and calculating with standard rate per unit.
 					 */
 					foreach ($this->data['job_orders'] as $row)
+					{
 						$this->data['acc_wage'] += round($row->rate_per_unit * $row->final_quantity,2);
+					}
 				}
 				
 				/*
@@ -322,20 +323,22 @@ class Payroll extends MY_Controller {
 				 * at the months
 				 */
 				//$this->data['social_cont'] = $this->data['employee_master']->social_cont;
-				$this->data['social_cont'] = $this->Payroll_extra_model->get_soc_contr($this->data['employee'],
-					array('datefrom' => $this->data['datefrom'],'dateto' => $this->data['dateto']));
+				$this->data['social_cont'] = $this->pem->get_soc_contr($this->data['employee'],
+					['datefrom' => $this->data['datefrom'],'dateto' => $this->data['dateto']]);
 				
 				/*
 				 * Retrevies all payroll bonuses
 				 */
-				$this->data['extras_plus'] = $this->Payroll_extra_model->calc_extras(array(
+				$this->data['extras_plus'] = $this->pem->calc_extras(array(
 								'employee_fk' => $this->data['employee'],
 								'datefrom' => $this->data['datefrom'],
 								'dateto' => $this->data['dateto']	
 								),0);
 					$this->data['bonuses'] = 0;
 					foreach ($this->data['extras_plus'] as $item)
-						$this->data['bonuses'] += $item->amount;	
+					{
+						$this->data['bonuses'] += $item->amount;
+					}
 
 				/*
 				 * GROSS WAGE CALCULATIONS
@@ -355,8 +358,10 @@ class Payroll extends MY_Controller {
 				 * If employee has fixed wage only, add fixed wage into
 				 * gross calculation
 				 */
-				if($this->data['fixed_wage_only'] == 1)
+				if($this->data['fixed_wage_only'])
+				{
 					$this->data['gross_wage'] += $this->data['fixed_wage'];
+				}
 					
 				$this->data['gross_wage'] += $this->data['social_cont'];
 				$this->data['gross_wage'] += $this->data['comp_mobile_sub'];
@@ -365,24 +370,34 @@ class Payroll extends MY_Controller {
 				/*
 				 * Retrevies all payroll expenses
 				 */
-				$this->data['extras_minus'] = $this->Payroll_extra_model->calc_extras(array(
+				$this->data['extras_minus'] = $this->pem->calc_extras([
 								'employee_fk' => $this->data['employee'],
 								'datefrom' => $this->data['datefrom'],
 								'dateto' => $this->data['dateto']	
-								),1);
+								],1);
+
 					$this->data['expenses'] = 0;
 					foreach ($this->data['extras_minus'] as $item)
+					{
 						$this->data['expenses'] -= $item->amount;
+					}
 					/*
 					 * Expenses are expressed in negative numbers
 					 */
-					$this->data['expenses'] = $this->data['expenses'] * -1;
+					$this->data['expenses'] *= -1;
 						
 				/*
 				 * GROSS EXPENSES CALCULATIONS
 				 */
 				$this->data['gross_exp'] = 0;
-				$this->data['gross_exp'] -= $this->data['fixed_wage'];
+				/**
+				 * If employee has fixed wage only, does not
+				 * subtract it from the gross expenses 
+				 */
+				if(!$this->data['fixed_wage_only'])
+				{
+					$this->data['gross_exp'] -= $this->data['fixed_wage'];
+				}
 				$this->data['gross_exp'] += $this->data['expenses'];
 				$this->data['gross_exp'] -= $this->data['social_cont'];
 						
@@ -398,7 +413,7 @@ class Payroll extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Калкулација на Плата';
 		
-		$this->data['employees'] = $this->utilities->get_employees();
+		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
 	}
 
 	public function report()

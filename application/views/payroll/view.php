@@ -1,50 +1,50 @@
 <?=uif::contentHeader($heading,$master)?>
-        <?=uif::linkDeleteButton("payroll/delete/{$master->id}")?>
-        <?=uif::linkButton("payroll/payroll_pdf/{$master->id}",'icon-print','info')?>
-<hr>
+    <?=uif::linkDeleteButton("payroll/delete/{$master->id}")?>
+    <?=uif::linkButton("payroll/payroll_pdf/{$master->id}",'icon-print','info')?>
+	<hr>
 <div class="row-fluid">
 	<div class="span5 well well-small">
 		<dl class="dl-horizontal">
-		<dt>Работник:</dt>
-		<dd><?=anchor("employees/view/{$master->eid}",$master->fname . ' ' . $master->lname); ?></dd>
-		<dt>Месец:</dt>
-		<dd><?=uif::date($master->date_from,'%m/%Y')?></dd>
-		<dt>Од Датум:</dt>
-		<dd><?=$master->date_from;?></dd>
-		<dt>До Датум:</dt>
-		<dd><?=$master->date_to;?></dd>
-		<?php if($master->acc_wage != 0):?>
-		<dt>Учинок:</dt>
-		<dd><strong><?=$master->acc_wage;?></strong></dd>
-		<?php endif;?>
-		<?php if($master->fixed_wage_only == 1):?>
-		<dt>Фиксна Плата:</dt>
-		<dd><?='+'.$master->fixed_wage;?></dd>
-		<?php endif;?>
-		<dt>Придонеси + Здр.:</dt>
-		<dd><?='+' . $master->social_cont; ?></dd>
-		<dt>Тел.Субвенција:</dt>
-		<dd><?='+'.$master->comp_mobile_sub;?></dd>
-		<dt>Бонуси:</dt>
-		<dd><?='+'.$master->bonuses;?></dd>
-		<dt>Бруто:</dt>
-		<dd><strong><?=$master->gross_wage;?></strong></dd>
-		<?php if($master->fixed_wage != 0):?>
-		<dt>Плата на сметка:</dt>
-		<dd><?='-'.$master->fixed_wage;?></dd>
-		<?php endif;?>
-		<?php if($master->social_cont != 0):?>
-		<dt>Придонеси + Здр.:</dt>
-		<dd><?='-'.$master->social_cont;?></dd>
-		<?php endif;?>
-		<dt>Трошоци:</dt>
-		<dd><?=$master->expenses;?></dd>
-		<dt>Доплата:</dt>
-		<dd><strong><?=$master->paid_wage; ?></strong></dd>
-		<dt>Код:</dt>
-		<dd><?=$master->code;?></dd>
-	</dl>
-</div>
+			<dt>Работник:</dt>
+			<dd><?=anchor("employees/view/{$master->eid}",$master->fname . ' ' . $master->lname)?></dd>
+			<dt>Месец:</dt>
+			<dd><?=uif::date($master->date_from,'%m/%Y')?></dd>
+			<dt>Од Датум:</dt>
+			<dd><?=uif::date($master->date_from)?></dd>
+			<dt>До Датум:</dt>
+			<dd><?=uif::date($master->date_to)?></dd>
+			<?php if($master->acc_wage != 0):?>
+				<dt>Учинок:</dt>
+				<dd><strong><?=$master->acc_wage?></strong></dd>
+			<?php endif;?>
+			<?php if($master->fixed_wage_only == 1):?>
+				<dt>Фиксна Плата:</dt>
+				<dd><?='+'.$master->fixed_wage?></dd>
+			<?php endif;?>
+			<dt>Придонеси + Здр.:</dt>
+			<dd><?='+' . $master->social_cont?></dd>
+			<dt>Тел.Субвенција:</dt>
+			<dd><?='+'.$master->comp_mobile_sub?></dd>
+			<dt>Бонуси:</dt>
+			<dd><?='+'.$master->bonuses?></dd>
+			<dt>Бруто:</dt>
+			<dd><strong><?=$master->gross_wage?></strong></dd>
+			<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
+				<dt>Плата на сметка:</dt>
+				<dd><?='-'.$master->fixed_wage;?></dd>
+			<?php endif;?>
+			<?php if($master->social_cont):?>
+				<dt>Придонеси + Здр.:</dt>
+				<dd><?='-'.$master->social_cont;?></dd>
+			<?php endif;?>
+			<dt>Трошоци:</dt>
+			<dd><?=$master->expenses?></dd>
+			<dt>Доплата:</dt>
+			<dd><strong><?=$master->paid_wage?></strong></dd>
+			<dt>Код:</dt>
+			<dd><?=$master->code;?></dd>
+		</dl>
+	</div>
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 <div class="span7">
 	<?php if (isset($results) AND is_array($results) AND count($results)):?>
@@ -61,11 +61,11 @@
 		<tbody>
 		<?php foreach($results as $row):?>
 			<tr>
-				<td><?php echo $row->taskname;?></td>
-				<td><?php echo $row->count;?></td>
-				<td><?php echo $row->final_quantity . ' ' . $row->uname;?></td>
-				<td><?php echo ' x '.$row->calculation_rate.$G_currency ;?></td>
-				<td><?php echo $row->calculation_rate* $row->final_quantity;?></td>	
+				<td><?=$row->taskname;?></td>
+				<td><?=$row->count;?></td>
+				<td><?=$row->final_quantity.' '.$row->uname;?></td>
+				<td><?=$row->calculation_rate;?></td>
+				<td><?=$row->calculation_rate * $row->final_quantity;?></td>	
 			</tr>
 		<?php endforeach;?>
 		</tbody>
@@ -78,22 +78,22 @@
 		</div>
 	</div>
 <!-- JOB ORDERS WAGE CALCUALTION END -->
-<?php endif;?>
+	<?php endif;?>
 
 <!-- ======================================FIXED WAGE ONLY EMPLYOEES====================================== -->
-<?php if(isset($master->fixed_wage_only) AND $master->fixed_wage_only == 1):?>
-	<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
-	<?php if(isset($master->fixed_wage)):?>
-	<div class="row-fluid">
-		<div class="span12 alert alert-info">
-			<strong>ФИКСНА ПЛАТА:</strong>
-			<strong class="pull-right"><?php echo $master->fixed_wage;?></strong>
-		</div>
-	</div>	
-	<?php endif;?>
-<?php endif;?>	
+	<?php if(isset($master->fixed_wage_only) AND $master->fixed_wage_only):?>
+		<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
+		<?php if(isset($master->fixed_wage)):?>
+		<div class="row-fluid">
+			<div class="span12 alert alert-info">
+				<strong>ФИКСНА ПЛАТА:</strong>
+				<strong class="pull-right"><?php echo $master->fixed_wage;?></strong>
+			</div>
+		</div>	
+		<?php endif;?>
+	<?php endif;?>	
 <!-- ======================================FOR DISTRIBUTORS====================================== -->
-<?php if(isset($distribution) AND is_array($distribution)):?>
+	<?php if(isset($distribution) AND is_array($distribution)):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
@@ -106,12 +106,12 @@
 		</thead>
 		<tbody>
 		<?php foreach($distribution as $row):?>
-			<txr>
-				<td><?php echo $row->prodname;?></td>
-				<td><?php echo $row->pcname;?></td>
-				<td><?php echo $row->quantity . ' ' . $row->uname;?></td>
-				<td><?php echo $row->commision_rate.$G_currency;?></td>
-				<td><?php echo round($row->quantity * $row->commision_rate,2);?></td>
+			<tr>
+				<td><?=$row->prodname;?></td>
+				<td><?=$row->pcname;?></td>
+				<td><?=$row->quantity . ' ' . $row->uname;?></td>
+				<td><?=$row->commision_rate.$G_currency;?></td>
+				<td><?=round($row->quantity * $row->commision_rate,2);?></td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>
@@ -123,7 +123,7 @@
 			<strong class="pull-right"><?php echo $master->acc_wage;?></strong>
 		</div>
 	</div>
-<?php endif;?>
+	<?php endif;?>
 
 <!-- ======================================GENEARAL CALCULATIONS====================================== -->
 	<table class="table table-condensed">
@@ -169,7 +169,7 @@
 	</div>	
 <!-- BRUTO WAGE CALCULATION END -->
 
-	<?php if(isset($extras_minus)):?>
+	<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
@@ -177,10 +177,8 @@
 				<th>Износ</th>
 			</tr>
 		</thead>
-	<?php endif;?>
-	
 <!-- FIXED WAGE -->
-	<?php if($master->fixed_wage>0):?>
+	<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
 		<tbody>
 			<tr>
 				<td>Фиксна Плата на Сметка</td>
@@ -197,7 +195,6 @@
 	<?php endif;?>
 
 <!-- EXPENSES -->
-	<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 	<?php foreach($extras_minus as $row):?>
 		<tr>
 			<td><?php echo $row->name;?></td>
@@ -211,8 +208,15 @@
 	<div class="row-fluid">
 		<div class="span12 alert">
 			<strong>ТРОШОЦИ:</strong>
-			<strong class="pull-right"><?=$gross_exp = -($master->fixed_wage) + 
-			$master->expenses - $master->social_cont;?></strong>
+			<?php 
+				$gross_exp = $master->expenses;
+				if(!$master->fixed_wage_only)
+				{
+					$gross_exp -= $master->fixed_wage;
+				}
+				$gross_exp -= $master->social_cont;
+			?>
+			<strong class="pull-right"><?=$gross_exp;?></strong>
 		</div>
 	</div>
 	<?php endif;?>
