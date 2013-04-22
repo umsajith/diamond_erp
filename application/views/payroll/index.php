@@ -18,8 +18,8 @@
 			<th>&nbsp;</th>
 			<?php foreach ($columns as $col_name => $col_display):?>
 	    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
-	    			<?=anchor("payroll/index/$query_id/$col_name/".
-	    				(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    			<?=anchor("payroll/index/{$query_id}/{$col_name}/".
+	    				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 				</th>
 	    	<?php endforeach;?>
 			<th>&nbsp;</th>
@@ -30,7 +30,6 @@
 		<tr data-id=<?=$row->id?>>
 			<td><?=uif::viewIcon('payroll',$row->id)?></td>
 			<td><?=$row->fname.' '.$row->lname?></td>
-			<td><?=uif::date($row->date_from,'%m/%Y')?></td>
 			<td><?=uif::date($row->date_from)?></td>
 			<td><?=uif::date($row->date_to)?></td>
 			<td><?=uif::isNull($row->acc_wage)?></td>

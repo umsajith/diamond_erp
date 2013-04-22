@@ -14,8 +14,7 @@ class Payroll_model extends MY_Model {
 			$this->db->where_in('p.employee_fk',$query_array['employee_fk']);
 
 		//Sort
-		if($sort_by == 'employee')
-			$sort_by = "e.fname";
+		if($sort_by == 'employee') $sort_by = "e.fname";
 			
 		$this->db->order_by($sort_by,$sort_order);
 			

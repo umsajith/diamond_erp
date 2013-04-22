@@ -26,7 +26,6 @@ class Payroll extends MY_Controller {
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
 			'employee'=>'Работник',
-			'for_month'=>'Месец',
 			'date_from'=>'Од',
 			'date_to'=>'До',
 			'acc_wage'=>'Учинок',
@@ -80,11 +79,10 @@ class Payroll extends MY_Controller {
 	public function search()
 	{
 		$query_array = array(
-			'employee_fk' => $this->input->post('employee_fk'),
-			'for_month' => $this->input->post('for_month')
+			'employee_fk' => $this->input->post('employee_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("payroll/index/$query_id");
+		redirect("payroll/index/{$query_id}");
 	}
 	
 	public function insert()
