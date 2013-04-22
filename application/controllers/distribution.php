@@ -61,7 +61,7 @@ class Distribution extends MY_Controller {
 		 */
 		//Defining Validation Rules
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+		$this->form_validation->set_rules('quantity','quantity','required');
 		$this->form_validation->set_rules('distributor_fk','distributor','numeric|trim');
 		$this->form_validation->set_rules('ext_doc','external document','trim');
 		$this->form_validation->set_rules('note','comments','trim');
@@ -128,8 +128,7 @@ class Distribution extends MY_Controller {
 		 */
 		$pages = array('in','out','ret');
 		
-		if(!in_array($page, $pages))
-			$this->utilities->flash('void','distribution');		
+		if(!in_array($page, $pages)) show_404();
 
 		$this->data['page'] = $page;
 		/*
@@ -138,20 +137,22 @@ class Distribution extends MY_Controller {
 		 * if set, or defaults
 		 */
 		$this->data['result'] = $this->whr->select_single($id);
-		if(!$this->data['result'])
-			$this->utilities->flash('void','distribution');
+		if(!$this->data['result']) show_404();
 		
 		if($page == 'out')
 		{
 			$this->data['heading'] = 'Корекција на Испратница';
 			$this->data['distributors'] = $this->utilities->get_distributors();
 			$redirect = 'outbounds';
+			$this->form_validation->set_rules('quantity','quantity','required');
 		}
 		
 		if($page == 'in')
 		{
 			$this->data['heading'] = 'Корекција на Приемница';
 			$redirect = 'inbounds';
+			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+
 		}
 		
 		if($page == 'ret')
@@ -159,6 +160,7 @@ class Distribution extends MY_Controller {
 			$this->data['heading'] = 'Корекција на Повратница';
 			$this->data['distributors'] = $this->utilities->get_distributors();
 			$redirect = 'returns';
+			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
 		}
 		
 		//Defining Validation Rules
@@ -166,7 +168,6 @@ class Distribution extends MY_Controller {
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');
 		$this->form_validation->set_rules('note','comments','trim');
 		$this->form_validation->set_rules('ext_doc','external document','trim');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -180,7 +181,7 @@ class Distribution extends MY_Controller {
 				 * inventory deductions again for the new quantity
 				 * according to the Bill of Materials
 				 */
-				if($redirect === 'inbounds')
+				if($page === 'in')
 					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
 				
 				$this->utilities->flash('add','distribution/'.$redirect);
@@ -234,14 +235,11 @@ class Distribution extends MY_Controller {
 		 * Inbound or Outbound
 		 */
 		$this->data['master'] = $this->whr->select_single($id);
-		
-		if(!$this->data['master'])
-			$this->utilities->flash('void','distribution');
+		if(!$this->data['master']) show_404();
 			
-		$pages = array('in','out','ret');
-		
-		if(!in_array($page, $pages))
-			$this->utilities->flash('void','distribution');
+		$pages = ['in','out','ret'];
+
+		if(!in_array($page, $pages)) show_404();
 		
 		/*
 		 * Pass the page in the view

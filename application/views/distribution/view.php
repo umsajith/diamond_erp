@@ -1,49 +1,49 @@
-<h2><?php echo $heading; ?></h2>
+<?=uif::contentHeader($heading,$master)?>
+    <?=uif::linkButton("distribution/edit/{$page}/{$master->id}",'icon-edit','warning')?>
+    <?=uif::linkDeleteButton("distribution/delete/{$page}/{$master->id}")?>
 <hr>
-	<div id="meta">
-			<p>бр.<?php echo $master->id;?></p>
-			<p><?php echo $master->dateofentry;?></p>
+<div class="row-fluid">
+    <div class="span5 well well-small">  
+        <dl class="dl-horizontal">
+	        <dt>Датум:</dt>
+	        <dd><?=uif::date($master->dateoforigin)?></dd>         
+	        <dt>Артикл:</dt>
+	        <dd><?=$master->prodname?></dd>
+	        <dt>Количина:</dt>
+	        <dd><?=$master->quantity .' '.  $master->uname?></dd>
+	        <?php if(in_array($page,['out','ret'])): ?> 
+	        	<dt>Дистрибутер:</dt>
+	        	<dd><?=(!is_null($master->distributor_fk)) ? $master->fname. ' '.$master->lname : '-';?></dd>
+	        <?php endif; ?> 
+	        <dt>Документ:</dt>
+	        <dd><?=uif::isNull($master->ext_doc)?></dd> 
+	        <dt>Забелешка:</dt>
+	        <dd><?=($master->note) ? $master->note : '-'?></dd>
+	        <dt>Оператор:</dt>
+	        <dd><?=$master->assignfname .' '.  $master->assignlname?></dd>
+		</dl>
 	</div>
-	<div id="buttons">
-		<a href="<?php echo site_url("distribution/edit/{$page}/{$master->id}");?>" class="button"><span class="edit">Корекција</span></a>
-		<a href="<?php echo site_url("distribution/delete/{$page}/{$master->id}");?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-	</div>	
-<hr>
-<div class="f_left">
-	<dl>
-        <dt>Производ:</dt>
-        <dd><?php echo $master->prodname;?></dd>
-        <dt>Количина:</dt>
-        <dd><?php echo $master->quantity .' '.  $master->uname;?></dd> 
-        <dt>Датум:</dt>
-        <dd><?php echo ($master->dateoforigin == null) ? '-' : mdate('%d/%m/%Y',mysql_to_unix($master->dateoforigin)); ?></dd>         
-        <dt>Дистрибутер:</dt>
-        <dd><?php echo ($master->distributor_fk == null ? '-' : $master->fname. ' '.$master->lname); ?></dd> 
-        <dt>Документ:</dt>
-        <dd><?php echo ($master->ext_doc == null ? '-' : $master->ext_doc); ?></dd> 
-        <dt>Оператор:</dt>
-        <dd><?php echo $master->assignfname .' '.  $master->assignlname;?></dd>
-        <dt>Забелешка:</dt>
-        <dd><?php echo ($master->note) ? $master->note : '-';?></dd>
-	</dl>
+	<div class="span7">
+		<?php if (isset($details) AND is_array($details) AND count($details)):?>
+		<table class="table table-condensed table-bordered">
+        <caption><h4>Употребени Репро-Материјали</h4></caption>
+	        <thead>
+			    <tr>
+			    	<th>Aртикл</th>
+			    	<th>Категорија</th>
+			    	<th>Количина</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+			<?php foreach($details as $row):?>
+				<tr>
+					<td><?=$row->prodname?></td>
+					<td><?=$row->pcname?></td>
+					<td><?=$row->quantity.' '.$row->uname?></td>
+				</tr>
+			<?php endforeach;?>
+			</tbody>
+		</table>
+		<?php endif;?>
+	</div>
 </div>
-<?php if (isset($details) && is_array($details) && count($details)):?>
-<div class="f_right">
-	<h3>Употребени Репро-Материјали</h3>
-	<table class="master_table">
-    <tr>
-    	<th>Производ</th>
-    	<th>Категорија</th>
-    	<th>Количина</th>
-    </tr>
-	<?php foreach($details as $row):?>
-	<tr>
-		<td><?php echo $row->prodname;?></td>
-		<td><?php echo $row->pcname;?></td>
-		<td><?php echo $row->quantity. ' ' .$row->uname;?></td>
-	</tr>
-	<?php endforeach;?>
-	</table>
-</div>
-<?php endif;?>
-<?php $this->load->view('includes/_del_dialog');?>

@@ -15,7 +15,7 @@
             <dd><?=$master->taskname;?></dd>
             <?php if ($master->calculation_rate): ?>
                 <dt>Основна Цена:</dt>
-                <dd><?=$master->calculation_rate.$G_currency.'/'.$master->uname;?></dd>
+                <dd><?=$master->calculation_rate.' / '.$master->uname;?></dd>
             <?php endif; ?>
             <dt>Количина:</dt>
             <dd><?=$master->assigned_quantity.' '.$master->uname ;?></dd>

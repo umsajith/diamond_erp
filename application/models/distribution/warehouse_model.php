@@ -367,7 +367,12 @@ class Warehouse_model extends MY_Model {
 		 * quantity
 		 */
 		if(isset($data['is_out']) AND $data['is_out'] == 1)
-			$data['quantity'] = $data['quantity'] * -1;
+		{
+			if($data['quantity'] > 0)
+			{
+				$data['quantity'] = $data['quantity'] * -1;
+			}
+		}
 			
 		if(!strlen($data['dateoforigin']))
 			$data['dateoforigin'] = mdate('%Y-%m-%d');
@@ -396,7 +401,10 @@ class Warehouse_model extends MY_Model {
 		 */
 		if($page == 'out')
 		{
-			$data['quantity'] = $data['quantity'] * -1;
+			if($data['quantity'] > 0)
+			{
+				$data['quantity'] = $data['quantity'] * -1;
+			}
 			
 			$data['qty_current'] = $this->current_qty($data['prodname_fk']);
 			
