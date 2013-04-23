@@ -139,7 +139,7 @@ var cd = (function(){
 		});
 	}
 
-	obj.dropdownTasks = function(url, task_fk){
+	obj.cascadeEmployeesTasks = function(url, task_fk){
 
 		var data;
 		var task = $("input[name=task_fk]");

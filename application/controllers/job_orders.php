@@ -127,7 +127,7 @@ class Job_orders extends MY_Controller {
 		$this->data['last'] = $this->jo->get_last();
 
 		//Heading
-		$this->data['heading'] = 'Внес на Работен Налог';
+		$this->data['heading'] = 'Нов Работен Налог';
 	}
 	
 	public function edit($id)

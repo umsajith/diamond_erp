@@ -26,7 +26,7 @@
 		$("select#employee").select2();
 		$("select#tasks").select2();
 
-		cd.dropdownTasks("<?=site_url('employees/ajxGetTasks')?>");
+		cd.cascadeEmployeesTasks("<?=site_url('employees/ajxGetTasks')?>");
 		var options = {future: false};
 		cd.datepicker("input[name=datedue]",options);
 	});

@@ -132,7 +132,7 @@ class Employees extends MY_Controller {
 		$this->data['locations'] = $this->utilities
 			->get_dropdown('id', 'name','exp_cd_locations','- Локација -');		
 		//Heading
-		$this->data['heading'] = 'Внеси Нов Работник';
+		$this->data['heading'] = 'Нов Работник';
 	}
 	
 	public function edit($id)
@@ -147,8 +147,6 @@ class Employees extends MY_Controller {
 		//If Submit has been posted (EDIT form Submitted), runs the code below
 		if($_POST)
 		{
-			unset($_POST['task']);
-		
 			//Defining Validation Rules
 			$this->form_validation->set_rules('fname','first name','trim|required');
 			$this->form_validation->set_rules('lname','last name','trim|required');
@@ -181,14 +179,11 @@ class Employees extends MY_Controller {
 			
 		}
 		// Generating dropdown menu's
-		$this->data['tasks'] = $this->utilities->get_dropdown('id', 'taskname','exp_cd_tasks','- Работна Задача -');
 		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
 		$this->data['managers'] = $this->utilities->get_managers();
 		$this->data['positions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
 		$this->data['roles'] = $this->utilities->get_dropdown('id', 'name','exp_cd_roles','- Корисничка Група -',false);
 		$this->data['locations'] = $this->utilities->get_dropdown('id', 'name','exp_cd_locations','- Локација -');	
-
-		$this->data['assigned_tasks'] = $this->empt->select($id);
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работник';
@@ -201,6 +196,9 @@ class Employees extends MY_Controller {
 		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->emp->select_single($id);
+		$this->data['assigned_tasks'] = $this->empt->select($id);
+		$this->data['tasks'] = $this->utilities->get_dropdown('id', 
+			'taskname','exp_cd_tasks','- Работна Задача -');
 		
 		if(!$this->data['master']) 
 			$this->utilities->flash('void','employees');	
@@ -217,28 +215,33 @@ class Employees extends MY_Controller {
 			$this->utilities->flash('error','employees');			
 	}
 
-	public function ajxAssignTask()
+	public function assignTask()
 	{
+		if(!$_POST) show_404();
+
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('task_fk','tasks','trim|required');			
+		$this->form_validation->set_rules('task_fk','tasks','trim|required');
+
 		if ($this->form_validation->run())
 		{
 			if($this->empt->insert($_POST))
-				echo 1;	
+				$this->utilities->flash('add',$_SERVER['HTTP_REFERER']);
+			else
+				$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
 		}
-		exit;
 	}
 
-	public function ajxDeleteTask()
+	public function unassignTask($id)
 	{
-		if($this->empt->delete($_POST['id']))
-			echo 1;	
-		exit;
+		if($this->empt->delete($id))
+			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+		else
+			$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
 	}
 
 	public function ajxGetTasks()
 	{	
-		if(!$_GET['employee']) exit;
+		if(!$_GET['employee']) show_404();
 		header('Content-Type: application/json',true); 
 		echo $this->empt->dropdown($_GET['employee']);
 		exit;

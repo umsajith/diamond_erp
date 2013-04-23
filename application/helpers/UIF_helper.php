@@ -171,6 +171,9 @@ class UIF {
 			case 'text':
 				$out .= form_input($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
+			case 'password':
+				$out .= form_password($name,set_value($name,($value) ? $value->$name : ''),$attributes);
+				break;
 			case 'dropdown':
 				$out .= form_dropdown($name,(isset($value[0])) ? $value[0] : [],
 					set_value($name,(isset($value[1])) ? $value[1]->$name : ''),$attributes);
@@ -179,18 +182,36 @@ class UIF {
 				$out .= form_textarea($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
 			case 'radio':
-				foreach ($value[0] as $v) {
-					$out .= '<label class="radio inline">';
-					$out .= $v.'<input type="radio" name="'.$name.'" value="'.$v.'"'.
-							set_radio($name,$v,(($value[1]!=='')) ? 
-							($v==$value[1]->$name) ? true : false : '' ).'/>';
-					$out .= '</label>';
+				if(self::_isAssoc($value[0]))
+				{
+					$keys = array_keys($value[0]);
+					$labels = array_values($value[0]);
+					foreach ($keys as $key=>$v) 
+					{
+						$out .= '<label class="radio inline">';
+						$out .= $labels[$key].'<input type="radio" name="'.$name.'" value="'.$v.'"'.
+								set_radio($name,$v,(($value[1]!=='')) ? 
+								($v==$value[1]->$name) ? true : false : '' ).'/>';
+						$out .= '</label>';
+					}
+				}
+				else 
+				{
+					foreach ($value[0] as $v) 
+					{
+						$out .= '<label class="radio inline">';
+						$out .= $v.'<input type="radio" name="'.$name.'" value="'.$v.'"'.
+								set_radio($name,$v,(($value[1]!=='')) ? 
+								($v==$value[1]->$name) ? true : false : '' ).'/>';
+						$out .= '</label>';
+					}
 				}
 				break;
 			case 'checkbox':
 				if(is_array($value[0]))
 				{	
-					foreach ($value[0] as $v) {
+					foreach ($value[0] as $v) 
+					{
 						$out .= '<label class="checkbox">';
 						$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
 								set_radio($name,$v,(($value[1]!=='')) ? 
@@ -238,6 +259,22 @@ class UIF {
 		return $out;
 	}
 
+	public static function formPair($type = '', $label = '', $name = '', $value = '', $attributes = '')
+	{
+		$out  = '';
+		
+		if($label != '')
+		{
+			$out .= '<label>'.$label.'</label>';
+		}
+
+		$out .= self::formElement($type, $label, $name, $value, $attributes);
+
+		//$out .= '<span class="help-block">'.$label.'</span>';
+
+		return $out;
+	}
+
 	/**
 	 * Resource Loader
 	 * - loads partials from views/includes folder by default
@@ -247,5 +284,13 @@ class UIF {
 	{
 		$CI =& get_instance();
 		return $CI->load->view($folder.'/'.$resource);
+	}
+
+	/**
+	 * Helper Functions
+	 */
+	private static function _isAssoc($arr)
+	{
+	    return (array_keys($arr) !== range(0, count($arr) - 1));
 	}
 }
