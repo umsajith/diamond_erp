@@ -26,6 +26,6 @@
 </div>
 <script>
 	$(function() {
-		$("select").select2();
+		$("select").select2();z
 	});
 </script>

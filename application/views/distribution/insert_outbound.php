@@ -23,6 +23,6 @@
 		$("input[name=dateoforigin]").val("<?=uif::date(time(),'%Y-%m-%d')?>");
 		$("select").select2();
 		var args = {salable: 1};
-		cd.dropdownProducts("<?=site_url('products/ajxGetProducts')?>",args)	
+		cd.dropdownProducts("<?=site_url('products/ajxGetProducts')?>",args);	
 	});
 </script>

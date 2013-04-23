@@ -120,15 +120,9 @@ class Boms extends MY_Controller {
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
 		
-		/*
+		
 		if(isset($_POST['submit']))
 		{
-			//Unsets the POST submit, so I doesnt get inserted into the db
-			unset($_POST['submit']);
-			
-			//Load Validation Library
-			$this->load->library('form_validation');
-		
 			//Defining Validation Rules
 			$this->form_validation->set_rules('prodname_fk','product','trim|required');
 			$this->form_validation->set_rules('quantity','quantity','trim|required');
@@ -136,19 +130,18 @@ class Boms extends MY_Controller {
 			
 			
 			//Check if updated form has passed validation
-			if ($this->form_validation->run())
-			{
+			// if ($this->form_validation->run())
+			// {
 				if($this->bom->update($id,$_POST))
 					$this->utilities->flash('add','boms');
 				else
 					$this->utilities->flash('error','boms');
-			}
+			// }
 		}
-		*/
+		
 		//Heading
 		$this->data['heading'] = "Корекција на Норматив";
-		
-		$this->data['products'] = $this->utilities->get_products('purchasable',false,true);
+		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom');
 	}
 	
 	//AJAX - Adds New Product in Bom Details
