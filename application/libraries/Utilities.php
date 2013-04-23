@@ -237,12 +237,15 @@ class Utilities {
                 $class = 'success';
                 break;
             case 'void':
-                $message = 'Ставката не постои!';
-                $class = 'alert';
+                // $message = 'Ставката не постои!';
+                // $class = 'alert';
+                show_404();
                 break;
             case 'deny':
-                $message = 'Забранет пристап!';
-                $class = 'error';
+                //$message = 'Забранет пристап!';
+                //$class = 'error';
+                $mesage = "<h1>403 Forbidden</h1><p>The action you tried to perform is forbidden.</p>";
+                show_error($mesage, 403);
                 break;
             case 'error':
             default:

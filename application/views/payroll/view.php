@@ -74,7 +74,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>ПЛАТА ПО УЧИНОК:</strong>
-			<strong class="pull-right"><?php echo $master->acc_wage;?></strong>
+			<strong class="pull-right"><?=$master->acc_wage;?></strong>
 		</div>
 	</div>
 <!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -87,7 +87,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ФИКСНА ПЛАТА:</strong>
-				<strong class="pull-right"><?php echo $master->fixed_wage;?></strong>
+				<strong class="pull-right"><?=$master->fixed_wage;?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -120,7 +120,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>ПЛАТА ПО УЧИНОК:</strong>
-			<strong class="pull-right"><?php echo $master->acc_wage;?></strong>
+			<strong class="pull-right"><?=$master->acc_wage;?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -138,22 +138,22 @@
 		<?php if($master->social_cont>0):?>
 			<tr>
 				<td>Придонеси + Здравствено Осигурување</td>
-				<td><?php echo $master->social_cont?></td>
+				<td><?=$master->social_cont?></td>
 			</tr>
 		<?php endif;?>
 <!-- COMPANY MOBILE SUBSIDY -->
 		<?php if($master->comp_mobile_sub>0):?>
 			<tr>
 				<td>Телефонска Субвенција</td>
-				<td><?php echo $master->comp_mobile_sub;?></td>		
+				<td><?=$master->comp_mobile_sub;?></td>		
 			</tr>
 		<?php endif;?>
 <!-- BONUSES -->
 	<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
 		<?php foreach($extras_plus as $row):?>
 			<tr>
-				<td><?php echo $row->name;?></td>
-				<td><?php echo $row->amount?></td>
+				<td><?=$row->name;?></td>
+				<td><?=$row->amount?></td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>
@@ -164,7 +164,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>БРУТО ПЛАТА:</strong>
-			<strong class="pull-right"><?php echo $master->gross_wage;?></strong>
+			<strong class="pull-right"><?=$master->gross_wage;?></strong>
 		</div>
 	</div>	
 <!-- BRUTO WAGE CALCULATION END -->
@@ -182,7 +182,7 @@
 		<tbody>
 			<tr>
 				<td>Фиксна Плата на Сметка</td>
-				<td><?php echo '-'.$master->fixed_wage;?></td>
+				<td><?='-'.$master->fixed_wage;?></td>
 			</tr>
 	<?php endif;?>
 
@@ -190,15 +190,15 @@
 	<?php if($master->social_cont>0):?>
 		<tr>
 			<td>Придонеси + Здравствено Осигурување</td>
-			<td><?php echo '-' . $master->social_cont;?></td>
+			<td><?='-' . $master->social_cont;?></td>
 		</tr>
 	<?php endif;?>
 
 <!-- EXPENSES -->
 	<?php foreach($extras_minus as $row):?>
 		<tr>
-			<td><?php echo $row->name;?></td>
-			<td><?php echo $row->amount?></td>
+			<td><?=$row->name;?></td>
+			<td><?=$row->amount?></td>
 		</tr>
 	<?php endforeach;?>
 		</tbody>

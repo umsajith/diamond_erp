@@ -22,7 +22,7 @@
 <script>
 	$(function() {
 		var options = {future: false};
-		cd.datepicker(".datepicker",options);
+		cd.datepicker("input[name=datedue]",options);
 
 		$("#employee").select2();
 		$("#tasks").select2();

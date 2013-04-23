@@ -1,36 +1,24 @@
-<h2><?php echo $heading; ?></h2>
-<?php echo form_open('payroll_extra/insert_expense');?>
-<hr>
-	<?php echo form_submit('','Сними','class="save"');?>
-<hr>
-<table class="data_forms">
-    <tr>
-        <td class="label"><?php echo form_label('Работник: ');?><span class='req'>*</span></td>
-        <td><?php echo form_dropdown('employee_fk',$employees);?></td>
-    </tr>
-    <tr>
-        <td class="label"><?php echo form_label('Категорија: ');?><span class='req'>*</span></td>
-        <td><?php echo form_dropdown('payroll_extra_cat_fk',$categories);?></td>
-    </tr>
-    <tr>
-        <td class="label"><?php echo form_label('Износ: ');?><span class='req'>*</span></td>
-        <td><?php echo form_input('amount', set_value('amount'));?></td>
-    </tr>
-    <tr>
-        <td class="label"><?php echo form_label('За датум:');?><span class='req'>*</span></td>
-        <td><?php echo form_input('for_date',set_value('for_date')); ?></td>
-    </tr>
-    <tr>
-        <td class="label"><?php echo form_label('Опис: ');?></td>
-        <td><textarea name="description" rows="5"></textarea></td>
-    </tr>
-    <?php echo form_close();?>
-</table>
-<?php echo validation_errors(); ?>
+<?=uif::contentHeader($heading)?>
+    <?=form_open('payroll_extra/insert_expense','class="form-horizontal"')?>
+    <?=uif::submitButton();?>
+    <hr>
+<div class="row-fluid">
+    <div class="span6">
+        <?=uif::load('_validation')?>
+        <?=uif::controlGroup('datepicker','Датум','for_date')?>
+        <?=uif::controlGroup('dropdown','Работник','employee_fk',[$employees])?>
+        <?=uif::controlGroup('dropdown','Категорија','payroll_extra_cat_fk',[$categories])?>
+        <?=uif::controlGroup('text','Износ','amount')?>
+        <?=uif::controlGroup('textarea','Белешка','description')?>
+     <?=form_close()?>
+    </div>
+    <div class="span6">
+        <?=uif::load('_last_job_order_view','job_orders')?>
+    </div>
+</div>
 <script>
     $(function() {
-        $( "input[name=for_date]" ).datepicker({
-        dateFormat: "yy-mm-dd"
-        });
+        $("select[name=employee_fk]").select2();
+        cd.datepicker("input[name=for_date]");
     });
 </script>

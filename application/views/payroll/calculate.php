@@ -233,13 +233,8 @@
 <script>
 	$(function() 
 	{
-
-		if(<?=$submited?>){
-			$("#insert-payroll").prop('disabled', false);
-		}
-
+		if(<?=$submited?>){ $("#insert-payroll").prop('disabled', false); }
 		$("select[name=employee]").select2();
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
-
 	});
 </script>

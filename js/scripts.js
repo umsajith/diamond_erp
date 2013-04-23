@@ -290,7 +290,7 @@ var cd = (function(){
 		}).data('datepicker');
 	}
 
-	obj.doReport = function(form){
+	obj.submit = function(form){
 		$(form).submit();
 	}
 

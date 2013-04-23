@@ -28,6 +28,6 @@
 
 		cd.dropdownTasks("<?=site_url('employees/ajxGetTasks')?>");
 		var options = {future: false};
-		cd.datepicker(".datepicker",options);
+		cd.datepicker("input[name=datedue]",options);
 	});
 </script>
