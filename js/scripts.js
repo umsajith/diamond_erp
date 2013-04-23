@@ -40,7 +40,9 @@
 
 })();
 
-//Diamond ERP API global object
+/**
+ * Diamond CD Global Object
+ */
 var cd = (function(){
 
 	var obj = {};
@@ -76,7 +78,10 @@ var cd = (function(){
 		  if(data) location.reload(true);
 		});
 	}
-
+	/**
+	 * Completes all selected(checked) Job Orders
+	 * @param  {String} url AJAX API URL
+	 */
 	obj.completeJobOrders = function(url){
 
 		var ids = $(".job-order:checked").map(function(i,n) {
@@ -236,7 +241,12 @@ var cd = (function(){
 			}
 		});  
 	}
-
+	/**
+	 * Creates a Twitter Bootstrap Datepicker
+	 * on given input field
+	 * @param  {string} field   DOM Element
+	 * @param  {Object} options Datepicker Options
+	 */
 	obj.datepicker = function(field, options){
 
 		var nowTemp = new Date();
@@ -289,11 +299,18 @@ var cd = (function(){
 		  f2.hide();
 		}).data('datepicker');
 	}
-
+	/**
+	 * Submits give form by DOM selector
+	 * @param  {string} form DOM selector
+	 */
 	obj.submit = function(form){
 		$(form).submit();
 	}
-
+	/**
+	 * Generates PDF and downloads it
+	 * @param  {string} url  
+	 * @param  {string} form DOM selector
+	 */
 	obj.generatePdf = function(url, form){
 		$.download(url,$(form).serialize());
 	}

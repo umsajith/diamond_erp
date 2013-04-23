@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * UI Components Factory for CodeIgniter elements with Twitter Bootstrap
+ * User Interface Factory - UIF
+ * Create UI elements using CodeIgniter Form Helper,
+ * Twitter Bootstrap ready
  * @author Marko Aleksic <psybaron@gmail.com>
  */
 class UIF {

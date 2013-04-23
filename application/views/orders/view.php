@@ -24,7 +24,7 @@
 	</div>
 	<div class="span7">
 		<div class="well well-small form-inline text-right">
-			<?=uif::formElement('dropdown','','prodname_fk',[$products],' class="input-large"')?>
+			<?=uif::formElement('dropdown','','prodname_fk',[],' class="input-large"')?>
 			<div class="input-append">
 				<?=uif::formElement('text','','quantity','','placeholder="Земено" class="input-medium"')?>
 				<span class="add-on uom"></span>
@@ -79,13 +79,33 @@
 
 <script>
 	$(function(){
+
 		$("select").select2();
+
 		$('.editable').editable({
 		    type: 'text',
 		    url: "<?=site_url('orders_details/ajxEditQty')?>",
 		    title: 'Qty'
 		});
+
+		var produtsSelect = $("select[name=prodname_fk]");
+
+	    $.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
+			JSONObject = result;
+			var options = '<option></option>';
+			$.each(result, function(i, row){
+				options += '<option value="' + row.id + '">' + row.prodname + '</option>';
+			});
+			produtsSelect.html(options);
+		});
+
+		$("select[name=prodname_fk]").on("change",function(e) {
+			$(this).val(e.val);
+			$("span.uom").html(JSONObject[this.selectedIndex-1].uname);
+		});	
+
 	});
+
 	function submit_form(){
 		$("#order-form").submit();
 	}

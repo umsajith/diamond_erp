@@ -13,7 +13,7 @@ class Job_orders extends MY_Controller {
 		$this->load->model('procurement/inventory_model','inv');
 		$this->load->model('hr/task_model','tsk');
     }
-	
+
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{		
 		//Page Title Segment and Heading
@@ -300,7 +300,7 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Рипорт на Производство';
 	}
-
+	
 	public function report_pdf()
 	{
 		if(!$_POST) show_404();
