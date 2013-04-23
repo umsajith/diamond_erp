@@ -45,25 +45,22 @@
 	</div>
 <?php endif; ?>
 	<?php if ($results): ?>
-	<div class="span7">
+	<div class=<?=($master->locked)?"span12":"span7"?>>
+
 		<?php if($master->locked == 1):?>
 			<div class="alert">
 				<i class="icon-lock"></i>
-				<strong>Ставката е заклучена! Потребно е да ја отклучите за натамошна работа</strong>
+				<strong>Овој Извештај е заклучен! Потребно е да го отклучите за натамошна работа.</strong>
 			</div>
 		<?php endif;?>
 
 		<table class="table table-condensed">
-			<caption>
-				<p class="well well-small">
-					<i class="icon-calendar"> </i> <?=uif::date($master->date)?>
-					| <i class="icon-user"></i> <?=$master->distributor?>
-					| <i class="icon-tag"></i> <?=uif::isNull($master->ext_doc)?>
-					<!-- | <i class="icon-barcode"> </i><?=uif::isNull($master->code)?>
-					| <i class="icon-align-left"> </i><?=uif::isNull($master->note)?> -->
-					| <i class="icon-eye-open"> </i><?=$master->operator?>
-				</p>
-			</caption>
+			<div class="text-center">
+			<div class="span2"><i class="icon-calendar"> </i> <?=uif::date($master->date)?></div>
+			<div class="span4"><i class="icon-user"> </i> <?=$master->distributor?></div>
+			<div class="span2"><i class="icon-tag"> </i> <?=uif::isNull($master->ext_doc)?></div>
+			<div class="span4"><i class="icon-eye-open"> </i><?=$master->operator?></div>
+			</div>
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
@@ -145,7 +142,7 @@
 
     $.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
 		JSONObject = result;
-		var options = '';
+		var options = '<option></option>';
 		$.each(result, function(i, row){
 			options += '<option value="' + row.id + '">' + row.prodname + '</option>';
 		});

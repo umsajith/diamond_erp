@@ -1,5 +1,4 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="<?php echo base_url();?>js/jquery-1.4.4.min.js" type="text/javascript"></script>
 <style media="all">
 * {
 	padding:0px;
@@ -17,7 +16,7 @@ h1 {
 	margin: 0 auto;
 }
 body {
-	font-family: 'verdana';
+	font-family: Verdana;
 	font-size: 9pt;
 }
 
@@ -56,8 +55,7 @@ span#label{
 
 <div id="period">
 	<h1>Рипорт на Продажба</h1>
-  <span id="label">Од:</span> <?php echo $datefrom;?>
-  <span id="label">До:</span> <?php echo $dateto; ?><br/>
+  <span id="label">Период:</span> <?=uif::date($datefrom);?> - <?=uif::date($dateto);?></span><br/>
   <span id="label">Дистрибутер:</span> <?php echo (isset($distributer))?$distributer->fname.' '.$distributer->lname:'-'; ?><br/>
   <span id="label">Купувач:</span> <?php echo (isset($partner->company))?$partner->company:'-'; ?><br/> 
   <span id="label">Плаќање:</span> <?php echo (isset($payment->name))?$payment->name:'-'; ?>
