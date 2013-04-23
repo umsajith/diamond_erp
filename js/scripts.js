@@ -220,6 +220,23 @@ var cd = (function(){
 		});
 	}
 
+	obj.insertPayroll = function(url){
+
+		var payrollData = $("form#payroll-data").serialize();
+
+		$("#insert-payroll").prop('disabled', true);
+		$("#insert-payroll i").attr('class','icon-spinner icon-spin');
+
+		$.post(url, payrollData, function(data){
+			if(data){
+				location.replace(data);
+			}else {
+				this.notify("Проблем при внесување на плата. Обидете се повторно.");
+				location.reload(true);
+			}
+		});  
+	}
+
 	obj.datepicker = function(field, options){
 
 		var nowTemp = new Date();

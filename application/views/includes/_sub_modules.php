@@ -1,4 +1,4 @@
-<ul class="nav nav-list">
+<ul class="nav nav-tabs nav-stacked">
 	<!-- <li class="nav-header">Производство</li> -->
 	<?php foreach ($sub_modules as $sub_module):?>
 		<?php

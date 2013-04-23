@@ -121,12 +121,10 @@ class Payroll extends MY_Controller {
 			if($_POST['payroll_fk'])
 			{
 				$this->utilities->flash('add','',false);
-				$this->output->set_content_type('application/json');
-				echo json_encode(array('redirect'=>site_url('payroll/view/'.$_POST['payroll_fk'])));
+				echo site_url('payroll/view/'.$_POST['payroll_fk']);
 			}
-			
-			exit;	
 		}
+		exit;	
 	}
 	
 	public function view($id)

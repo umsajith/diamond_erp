@@ -2,7 +2,8 @@
 <div class="row-fluid">
 	<div class="span3" id="content-main-buttons">
 		<?=uif::button('icon-file','primary','onClick=location.reload(true)')?>
-		<?=uif::button('icon-plus','danger','id="add_payroll"')?>
+		<?=uif::button('icon-plus','danger',
+		'onClick=cd.insertPayroll("'.site_url('payroll/insert').'") id="insert-payroll" disabled')?>
 	</div>
 </div>
 <hr>
@@ -34,12 +35,12 @@
 			<tbody>
 			<?php foreach($job_orders as $row):?>
 				<tr>
-					<td><?php echo $row->taskname;?></td>
-					<td><?php echo $row->count;?></td>
-					<td><?php echo $row->final_quantity.' '.$row->uname;?></td>
-					<td><?php echo round($row->final_quantity / $row->count,2).' '.$row->uname;?></td>
-					<td><?php echo $row->rate_per_unit;?></td>
-					<td><?php echo $row->rate_per_unit * $row->final_quantity;?></tr>
+					<td><?=$row->taskname;?></td>
+					<td><?=$row->count;?></td>
+					<td><?=$row->final_quantity.' '.$row->uname;?></td>
+					<td><?=round($row->final_quantity / $row->count,2).' '.$row->uname;?></td>
+					<td><?=$row->rate_per_unit;?></td>
+					<td><?=$row->rate_per_unit * $row->final_quantity;?></tr>
 			<?php endforeach;?>
 			</tbody>
 		</table>
@@ -47,7 +48,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ПЛАТА ПО УЧИНОК:</strong>
-				<strong class="pull-right"><?php echo $acc_wage;?></strong>
+				<strong class="pull-right"><?=$acc_wage;?></strong>
 			</div>
 		</div>
 	<!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -60,7 +61,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ФИКСНА ПЛАТА:</strong>
-				<strong class="pull-right"><?php echo $fixed_wage;?></strong>
+				<strong class="pull-right"><?=$fixed_wage;?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -80,11 +81,11 @@
 			<tbody>
 			<?php foreach($distribution as $row):?>
 				<tr>
-					<td><?php echo $row->prodname;?></td>
-					<td><?php echo $row->pcname;?></td>
-					<td><?php echo $row->quantity . ' ' . $row->uname;?></td>
-					<td><?php echo $row->commision.' ден.';?></td>
-					<td><?php echo round($row->quantity * $row->commision,2).' ден.';?></td>
+					<td><?=$row->prodname;?></td>
+					<td><?=$row->pcname;?></td>
+					<td><?=$row->quantity . ' ' . $row->uname;?></td>
+					<td><?=$row->commision.' ден.';?></td>
+					<td><?=round($row->quantity * $row->commision,2).' ден.';?></td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>
@@ -93,7 +94,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ПЛАТА ПО УЧИНОК:</strong>
-				<strong class="pull-right"><?php echo $acc_wage;?></strong>
+				<strong class="pull-right"><?=$acc_wage;?></strong>
 			</div>
 		</div>	
 	<?php endif;?>
@@ -114,7 +115,7 @@
 			<tr>
 				<td>Придонеси + Здравствено Осигурување</td>
 
-				<td><?php echo $social_cont;?></td>
+				<td><?=$social_cont;?></td>
 				<td></td>
 			</tr>
 		<?php endif;?>
@@ -123,7 +124,7 @@
 		<?php if(isset($comp_mobile_sub) AND $comp_mobile_sub>0):?>
 			<tr>
 				<td>Телефонска Субвенција</td>
-				<td><?php echo $comp_mobile_sub;?></td>	
+				<td><?=$comp_mobile_sub;?></td>	
 			</tr>	
 		<?php endif;?>
 
@@ -131,8 +132,8 @@
 		<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
 			<?php foreach($extras_plus as $row):?>
 				<tr>
-					<td><?php echo $row->name;?></td>
-					<td><?php echo $row->amount;?></td>
+					<td><?=$row->name;?></td>
+					<td><?=$row->amount;?></td>
 				</tr>
 			<?php endforeach;?>
 		<?php endif;?>
@@ -144,7 +145,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>БРУТО ПЛАТА:</strong>
-			<strong class="pull-right"><?php echo $gross_wage;?></strong>
+			<strong class="pull-right"><?=$gross_wage;?></strong>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -164,7 +165,7 @@
 		<?php if(isset($fixed_wage) AND $fixed_wage>0 AND !$fixed_wage_only):?>
 		<tr>
 			<td>Фиксна Плата на Сметка</td>
-			<td><?php echo '-'.$fixed_wage;?></td>		
+			<td><?='-'.$fixed_wage;?></td>		
 		</tr>
 		<?php endif;?>
 
@@ -172,7 +173,7 @@
 		<?php if(isset($social_cont) AND $social_cont>0):?>
 		<tr>
 			<td>Придонеси + Здравствено Осигурување</td>
-			<td><?php echo '-' . $social_cont;?></td>
+			<td><?='-' . $social_cont;?></td>
 		</tr>
 		<?php endif;?>
 
@@ -180,8 +181,8 @@
 		<?php if (isset($extras_minus) AND is_array($extras_minus) AND count($extras_minus)):?>
 			<?php foreach($extras_minus as $row):?>
 				<tr>
-					<td><?php echo $row->name;?></td>
-					<td><?php echo $row->amount;?></td>	
+					<td><?=$row->name;?></td>
+					<td><?=$row->amount;?></td>	
 				</tr>
 			<?php endforeach;?>
 		<?php endif;?>
@@ -208,63 +209,37 @@
 	<?php endif;?>
 
 	<?php if($submited):?>
-	<?php echo form_open('',"id='hidden_form'");?>
-		<?php echo form_hidden('employee_fk',set_value('employee_fk',$employee));?>
-		<?php echo form_hidden('date_from',set_value('date_from',$datefrom));?>
-		<?php echo form_hidden('date_to',set_value('date_to',$dateto));?>
+	<?=form_open('','id="payroll-data"')?>
+		<?=form_hidden('employee_fk',set_value('employee_fk',$employee))?>
+		<?=form_hidden('date_from',set_value('date_from',$datefrom))?>
+		<?=form_hidden('date_to',set_value('date_to',$dateto))?>
 		
-		<?php echo form_hidden('acc_wage',set_value('acc_wage',$acc_wage));?>
-		<?php echo form_hidden('social_cont',set_value('acc_wage',$social_cont));?>
-		<?php echo form_hidden('comp_mobile_sub',set_value('acc_wage',$comp_mobile_sub));?>
-		<?php echo form_hidden('bonuses',set_value('acc_wage',$bonuses));?>
-		<?php echo form_hidden('gross_wage',set_value('gross_wage',$gross_wage));?>
-		<?php echo form_hidden('fixed_wage',set_value('fixed_wage',$fixed_wage));?>
-		<?php echo form_hidden('expenses',set_value('expenses',$expenses));?>
-		<?php echo form_hidden('paid_wage',set_value('paid_wage',$paid_wage));?>
-		<?php echo form_hidden('fixed_wage_only',set_value('fixed_wage_only',$fixed_wage_only));?>
+		<?=form_hidden('acc_wage',set_value('acc_wage',$acc_wage))?>
+		<?=form_hidden('social_cont',set_value('acc_wage',$social_cont))?>
+		<?=form_hidden('comp_mobile_sub',set_value('acc_wage',$comp_mobile_sub))?>
+		<?=form_hidden('bonuses',set_value('acc_wage',$bonuses))?>
+		<?=form_hidden('gross_wage',set_value('gross_wage',$gross_wage))?>
+		<?=form_hidden('fixed_wage',set_value('fixed_wage',$fixed_wage))?>
+		<?=form_hidden('expenses',set_value('expenses',$expenses))?>
+		<?=form_hidden('paid_wage',set_value('paid_wage',$paid_wage))?>
+		<?=form_hidden('fixed_wage_only',set_value('fixed_wage_only',$fixed_wage_only))?>
 		
-		<?php echo form_hidden('is_distributer',set_value('is_distributer',$is_distributer));?>
-	<?php echo form_close();?>
+		<?=form_hidden('is_distributer',set_value('is_distributer',$is_distributer))?>
+	<?=form_close()?>
 	<?php endif;?>
 	</div>
 </div>
 
 <script>
+	$(function() 
+	{
 
-$(function() {
+		if(<?=$submited?>){
+			$("#insert-payroll").prop('disabled', false);
+		}
 
-		//Date Pickers From-To.
 		$("select[name=employee]").select2();
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 
-		//SUBMITS the data to the Server
-		$("#add_payroll").on("click",function(){
-			
-			$(this).attr('disabled','disabled');
-
-			$("div#ajx_div_loader").show();
-
-			//Serializes the Hidden Form containing all calculation data
-			var variables = $("form#hidden_form").serialize();
-
-			//$(this).attr("disabled", "disabled");
-			//event.preventDefault();
-
-			//AJAX Post variables to payroll/insert
-			$.post("<?=site_url('payroll/insert')?>",
-					variables,
-				   function(data){
-					   if(data){
-						   //Upon success, redirects to new payroll created
-						   location.replace(data.redirect);
-					   }
-					   else {
-						   //Hard refresh if fail
-						   location.reload(true);
-					   }
-				   },"json");
-			return false;   
-		});
 	});
-	
 </script>
