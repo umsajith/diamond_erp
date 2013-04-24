@@ -14,8 +14,8 @@
 		<?=uif::controlGroup('text','Работни Часови','work_hours',$job_order)?>
 		<?=uif::controlGroup('radio','Смена','shift',[[1,2,3],$job_order])?>
 		<?=uif::controlGroup('textarea','Забелешка','description',$job_order)?>
-		<?=form_hidden('id',$job_order->id)?>
 		<?=form_hidden('task_fk',$job_order->task_fk)?>
+		<?=form_hidden('id',$job_order->id)?>
 	<?=form_close()?>
 	</div>
 </div>

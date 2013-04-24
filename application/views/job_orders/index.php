@@ -37,9 +37,9 @@
 			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
 			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
 			<td><?=uif::date($row->datedue)?></td>
-			<td><?= $row->fname. ' ' .$row->lname;?></td>
+			<td><?= $row->fname. ' ' .$row->lname?></td>
 			<td><?=$row->taskname;?></td>
-			<td><?=$row->assigned_quantity.' '.$row->uname;?></td>
+			<td><?=$row->assigned_quantity.' '.$row->uname?></td>
 			<td><?=uif::isNull($row->work_hours)?></td>
 			<td><?=uif::isNull($row->shift)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>

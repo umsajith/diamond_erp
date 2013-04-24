@@ -82,7 +82,7 @@ class Positions extends MY_Controller {
 			$this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
 
 		//Heading
-		$this->data['heading'] = 'Внес на Работно Место';
+		$this->data['heading'] = 'Ново Работно Место';
 	}
 	
 	public function edit($id)

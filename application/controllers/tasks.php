@@ -81,7 +81,7 @@ class Tasks extends MY_Controller {
 		$this->data['boms'] = $this->utilities->get_boms();
 
 		//Heading
-		$this->data['heading'] = 'Внес на Работна Задача';
+		$this->data['heading'] = 'Нова Работна Задача';
 	}
     
 	public function edit($id)

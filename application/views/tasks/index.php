@@ -1,33 +1,35 @@
-<h2><?php echo $heading?></h2>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<?=uif::linkInsertButton('tasks/insert')?>
 <hr>
-	<a href="<?php echo site_url('tasks/insert');?>" class="button"><span class="add">Внес</span></a>
-<table class="master_table">
-<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
-	<tr>
-		<th>&nbsp;</th>
-		<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-    			<?php echo anchor("tasks/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-    		</th>
-    	<?php endforeach;?>
-		<th>&nbsp;</th>
-	</tr>
-	<?php foreach($results as $row):?>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid">  
+	<thead>
 		<tr>
-			<td class="code" align="center"><?php echo anchor('tasks/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td><?php echo $row->taskname;?></td>
-			<td><?php echo ($row->is_production==1)?$row->name:'-';?></td>
-			<td><?php echo $row->base_unit . ' ' . $row->uname;?></td>
-			<td><?php echo $row->rate_per_unit.$G_currency;?></td>
-			<td><?php echo $row->rate_per_unit_bonus.$G_currency;?></td>
-			<td class="functions">
-				<?php echo anchor('tasks/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('tasks/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-			</td>
+			<th>&nbsp;</th>
+			<?php foreach ($columns as $col_name => $col_display):?>
+		    	<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+	    			<?=anchor("tasks/index/$col_name/".
+	    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    		</th>
+	    	<?php endforeach;?>
+			<th>&nbsp;</th>
 		</tr>
-	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
+	</thead>
+	<tbody>
+		<?php foreach($results as $row):?>
+			<tr>
+				<td><?=uif::viewIcon('tasks',$row->id)?></td>
+				<td><?=$row->taskname;?></td>
+				<td><?=($row->is_production == 1)?$row->name:'-'?></td>
+				<td><?=$row->base_unit.' '.$row->uname?></td>
+				<td><?=$row->rate_per_unit.$G_currency?></td>
+				<td><?=$row->rate_per_unit_bonus.$G_currency?></td>
+				<td><?=uif::actionGroup('tasks',$row->id)?></td>
+			</tr>
+		<?php endforeach;?>
+	</tbody>
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>

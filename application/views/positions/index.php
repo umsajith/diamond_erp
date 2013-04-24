@@ -1,33 +1,34 @@
-<h2><?php echo $heading?></h2>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<?=uif::linkInsertButton('positions/insert')?>
 <hr>
-	<a href="<?php echo site_url('positions/insert');?>" class="button"><span class="add">Внес</span></a>
-<table class="master_table">
-<?php if (isset($results) AND is_array($results) AND count($results) > 0):?>
-	<tr>
-		<th>&nbsp;</th>
-		<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-    			<?php echo anchor("positions/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-    		</th>
-    	<?php endforeach;?>
-		<th>&nbsp;</th>
-	</tr>
-	<?php foreach($results as $row):?>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid">
+	<thead>
 		<tr>
-			<td class="code" align="center"><?php echo anchor('positions/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-			<td><?php echo $row->position;?></td>
-			<td><?php echo $row->department;?></td>
-			<td align="center"><?php echo ($row->base_salary == 0 ? '-' : $row->base_salary); ?></td>
-            <td align="center"><?php echo ($row->bonus == 0 ? '-' : $row->bonus . '%'); ?></td>
-            <td align="center"><?php echo ($row->commision == 0 ? '-' : $row->commision . '%'); ?></td>
-			<td class="functions">
-				<?php echo anchor('positions/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('positions/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-			</td>
+			<th>&nbsp;</th>
+			<?php foreach ($columns as $col_name => $col_display):?>
+    			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+	    			<?=anchor("positions/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    		</th>
+	    	<?php endforeach;?>
+			<th>&nbsp;</th>
 		</tr>
-	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
+	</thead>
+	<tbody>
+		<?php foreach($results as $row):?>
+		<tr>
+			<td><?=uif::viewIcon('positions',$row->id)?></td>
+			<td><?=$row->position?></td>
+			<td><?=$row->department?></td>
+			<td><?=uif::isNull($row->base_salary)?></td>
+            <td><?=uif::isNull($row->bonus,' %')?></td>
+            <td><?=uif::isNull($row->commision,' %')?></td>
+			<td><?=uif::actionGroup('positions',$row->id)?></td>
+		</tr>
+		<?php endforeach;?>
+	</tbody>
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>
