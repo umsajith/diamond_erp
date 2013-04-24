@@ -18,9 +18,9 @@
 		<?=uif::controlGroup('text','Провизија','commision')?>
 		<?=uif::controlGroup('text','Мин. Количина','alert_quantity')?>
 		<?=uif::controlGroup('textarea','Опис','description')?>
-		<?=uif::controlGroup('checkbox','Се Продава','salable',[1,''])?>
-		<?=uif::controlGroup('checkbox','Се Купува','purchasable',[1,''])?>
-		<?=uif::controlGroup('checkbox','Состојба','stockable',[1,''])?>
+		<?=uif::controlGroup('checkbox','Се Продава','salable',[1])?>
+		<?=uif::controlGroup('checkbox','Се Купува','purchasable',[1])?>
+		<?=uif::controlGroup('checkbox','Состојба','stockable',[1])?>
 	<?=form_close()?>
 	</div>
 </div>

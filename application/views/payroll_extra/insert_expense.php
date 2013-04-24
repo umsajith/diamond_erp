@@ -12,9 +12,6 @@
         <?=uif::controlGroup('textarea','Белешка','description')?>
      <?=form_close()?>
     </div>
-    <div class="span6">
-        <?=uif::load('_last_job_order_view','job_orders')?>
-    </div>
 </div>
 <script>
     $(function() {

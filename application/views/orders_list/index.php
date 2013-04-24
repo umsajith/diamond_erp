@@ -24,8 +24,8 @@
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : "";?>>
-    			<?=anchor("orders_list/index/$query_id/$col_name/".
+    		<th <?=($sort_by==$col_name) ? "class={$sort_order}" : "";?>>
+    			<?=anchor("orders_list/index/{$query_id}/{$col_name}/".
     				(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
     		</th>
 	    	<?php endforeach;?>
@@ -33,25 +33,24 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($results as $row):?>
+		<?php foreach ($results as $row):?>
 		<tr data-id=<?=$row->id?>>
 			<td><input type="checkbox" value="<?=$row->id?>" class="order-list"></td>
 			<td><?=uif::viewIcon('orders_list',$row->id)?></td>
-			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
+			<td><?=($row->locked) ? uif::staticIcon('icon-lock'):''?></i></td>
 			<td><?=uif::date($row->date)?></td>
 			<td><?=$row->distributor; ?></td>
 			<td><?=uif::isNull($row->ext_doc)?></td>
 			<td><?=uif::isNull($row->code)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
-			<td><?=(!$row->locked) ? uif::actionGroup('orders_list',$row->id) : ''?></td>
+			<td><?=(!$row->locked) ? uif::actionGroup('orders_list',$row->id):''?></td>
 		</tr>
-	<?php endforeach; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>	
 <?php else:?>
 	<?=uif::load('_no_records')?>
 <?php endif;?>
-
 <script>
 	$(function(){
 		$("select").select2();

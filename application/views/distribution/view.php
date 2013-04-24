@@ -25,8 +25,8 @@
 	</div>
 	<div class="span7">
 		<?php if (isset($details) AND is_array($details) AND count($details)):?>
-		<table class="table table-condensed table-bordered">
         <div class="legend">Употребени Репро-Материјали</div>
+		<table class="table table-condensed table-bordered">
 	        <thead>
 			    <tr>
 			    	<th>Aртикл</th>
@@ -35,13 +35,13 @@
 			    </tr>
 		    </thead>
 		    <tbody>
-			<?php foreach($details as $row):?>
+				<?php foreach($details as $row):?>
 				<tr>
 					<td><?=$row->prodname?></td>
 					<td><?=$row->pcname?></td>
 					<td><?=$row->quantity.' '.$row->uname?></td>
 				</tr>
-			<?php endforeach;?>
+				<?php endforeach;?>
 			</tbody>
 		</table>
 		<?php endif;?>

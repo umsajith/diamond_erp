@@ -17,11 +17,7 @@
 		<?=form_hidden('id',$master->id)?>
 	<?=form_close()?>
 	</div>
-	<div class="span6">
-		
-	</div>
 </div>
-	
 <script>
 	$(function() {
 		$("select").select2();

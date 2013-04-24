@@ -58,7 +58,7 @@ class Departments extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Сектор';
+		$this->data['heading'] = 'Нов на Сектор';
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('department','department','trim|required');

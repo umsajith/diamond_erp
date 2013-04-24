@@ -1,5 +1,5 @@
 <?=uif::contentHeader($heading)?>
-	<?=form_open("orders_list/edit/$master->id",'class="form-horizontal"')?>
+	<?=form_open("orders_list/edit/{$master->id}",'class="form-horizontal"')?>
     <?=uif::submitButton();?>
 	<hr>
 <div class="row-fluid">

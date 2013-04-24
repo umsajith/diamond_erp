@@ -87,7 +87,7 @@
                 <tr>
                     <td><?=uif::viewIcon('orders',$row->id)?></td>
                     <td><?=uif::date($row->dateshipped)?></td>
-                    <td><?=$row->fname . ' ' . $row->lname; ?></td>
+                    <td><?=$row->fname . ' ' . $row->lname?></td>
                     <td><?=uif::isNull($row->name)?></td>
                     <td><?=uif::date($row->dateofentry)?></td>
                     <td><?=(!$row->locked) ? uif::actionGroup('orders',$row->id) : ''?></td>    

@@ -12,7 +12,7 @@
         <?=uif::controlGroup('text','Провизија (%)','commision',$position)?>
         <?=uif::controlGroup('textarea','Квалификации','requirements',$position)?>
         <?=uif::controlGroup('textarea','Белешка','description',$position)?>
-        <?=form_hidden('id',$position->id); ?>
+        <?=form_hidden('id',$position->id)?>
         <?=form_close()?>
     </div>
 </div>

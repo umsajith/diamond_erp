@@ -34,8 +34,8 @@
 		<tr data-id=<?=$row->id?>>
 			<td><?=((!$row->is_completed)) ? '<input type="checkbox" value='.$row->id.' class="job-order">' : '&nbsp;'?></td>
 			<td><?=uif::viewIcon('job_orders',$row->id)?></td>
-			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : '';?></td>
-			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : '';?></i></td>
+			<td><?=($row->is_completed) ? uif::staticIcon('icon-ok') : ''?></td>
+			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : ''?></i></td>
 			<td><?=uif::date($row->datedue)?></td>
 			<td><?= $row->fname. ' ' .$row->lname?></td>
 			<td><?=$row->taskname;?></td>
@@ -43,7 +43,7 @@
 			<td><?=uif::isNull($row->work_hours)?></td>
 			<td><?=uif::isNull($row->shift)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
-			<td><?=(!$row->locked) ? uif::actionGroup('job_orders',$row->id) : '';?></td>
+			<td><?=(!$row->locked) ? uif::actionGroup('job_orders',$row->id) : ''?></td>
 		</tr>
 		<?php endforeach;?>
 	</tbody>

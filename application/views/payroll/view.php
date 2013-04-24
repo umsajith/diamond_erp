@@ -31,11 +31,11 @@
 			<dd><strong><?=$master->gross_wage?></strong></dd>
 			<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
 				<dt>Плата на сметка:</dt>
-				<dd><?='-'.$master->fixed_wage;?></dd>
+				<dd><?='-'.$master->fixed_wage?></dd>
 			<?php endif;?>
 			<?php if($master->social_cont):?>
 				<dt>Придонеси + Здр.:</dt>
-				<dd><?='-'.$master->social_cont;?></dd>
+				<dd><?='-'.$master->social_cont?></dd>
 			<?php endif;?>
 			<dt>Трошоци:</dt>
 			<dd><?=$master->expenses?></dd>

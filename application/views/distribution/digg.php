@@ -40,10 +40,10 @@
 			</td>
 			<td><?=uif::date($row->dateoforigin)?></td>
 			<td><?=uif::linkIcon("distribution/view/{$page}/{$row->id}",'icon-link')?></td>	
-			<td><?=$row->qty_current .' '. $row->uname;?></td>	
-			<td><?=($row->quantity>0) ? $row->quantity. ' ' . $row->uname : '-';?></td>
-			<td><?=($row->quantity<0) ? $row->quantity. ' ' . $row->uname : '-';?></td>
-			<td><?=$row->quantity + $row->qty_current .' ' . $row->uname;?></td>	
+			<td><?=$row->qty_current.' '.$row->uname;?></td>	
+			<td><?=($row->quantity>0) ? $row->quantity.' '.$row->uname : '-';?></td>
+			<td><?=($row->quantity<0) ? $row->quantity.' '.$row->uname : '-';?></td>
+			<td><?=$row->quantity + $row->qty_current.' '.$row->uname;?></td>	
 			<td><?=uif::isNull($row->ext_doc)?></td>
 			<?php if($this->session->userdata('admin')):?>
 				<td><?=$row->assignfname. ' ' . $row->assignlname;?></td>

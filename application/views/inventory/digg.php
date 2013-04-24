@@ -16,7 +16,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach($results as $row):?>
+		<?php foreach($results as $row):?>
 		<tr>
 			<td><?=(!$row->is_use) ?
 				uif::staticIcon('icon-circle-arrow-down') :
@@ -33,17 +33,17 @@
 					echo uif::linkIcon("job_orders/view/$row->job_order_fk",'icon-link');
 			?>
 			</td>	
-			<td><?=$row->qty_current.' '.$row->uname;?></td>
-			<td><?=($row->quantity > 0) ? $row->quantity.' '.$row->uname:'-';?></td>
-			<td><?=($row->quantity < 0) ? $row->quantity.' '.$row->uname:'-';?></td>
+			<td><?=$row->qty_current.' '.$row->uname?></td>
+			<td><?=($row->quantity > 0) ? $row->quantity.' '.$row->uname:'-'?></td>
+			<td><?=($row->quantity < 0) ? $row->quantity.' '.$row->uname:'-'?></td>
 			<td><?=$row->quantity+$row->qty_current.' '.$row->uname;?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 			<?php if($this->session->userdata('admin')):?>
-				<td><?=$row->fname. ' ' . $row->lname;?></td>
+				<td><?=$row->fname. ' ' . $row->lname?></td>
 			<?php endif;?>
 		</tr>
 		<?php endforeach;?>
-		</tbody>
+	</tbody>
 </table>
 <?php else:?>
 	<?=uif::load('_no_records')?>

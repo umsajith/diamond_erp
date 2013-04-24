@@ -16,12 +16,12 @@
     	</tr>
     </thead>
     <tbody>
-	<?php foreach($results as $row):?>
+		<?php foreach($results as $row):?>
 		<tr>
 			<td><?=$row->department?></td>
 			<td><?=uif::actionGroup('departments',$row->id)?></td>
 		</tr>
-	<?php endforeach;?>
+		<?php endforeach;?>
 	</tbody>
 </table>
 <?php else:?>

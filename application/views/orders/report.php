@@ -31,20 +31,19 @@
 		    	</tr>
 		    </thead>
 		    <tbody>
-			<?php foreach($results as $row):?>
+				<?php foreach($results as $row):?>
 				<tr>
 					<td><?=$row->prodname?></td>
 					<td><?=$row->quantity.' '.$row->uname?></td>
 					<td><?=$row->returned_quantity.' '.$row->uname?></td>
 					<td><?=round($row->returned_quantity/$row->quantity,3).' %'?></td>
 				</tr>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
 			</tbody>
 			</table>
 		<?php endif;?>
 	</div>
 </div>
-
 <script>
 	$(function() {
 		$("select").select2();

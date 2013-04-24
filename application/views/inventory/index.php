@@ -19,7 +19,7 @@
 		</tr>
 	</thead> 
 	<tbody>
-	<?php foreach($results as $row):?>
+		<?php foreach($results as $row):?>
 		<tr <?=($row->alert_quantity >= $row->quantity) ? ' class="warning" '  : ''?>>
 			<td><?=uif::linkIcon('inventory/digg/'.$row->pid,'icon-folder-open')?></td>
 			<td><?=$row->prodname?></td>
@@ -29,7 +29,7 @@
 			<td><?=round($row->maxprice,3).$G_currency?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 		</tr>
-	<?php endforeach;?>
+		<?php endforeach;?>
 	</tbody>
 </table>
 <?php else:?>

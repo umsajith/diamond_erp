@@ -8,11 +8,11 @@
 	<div class="span5 well well-small">
 		<dl class="dl-horizontal">
 	        <dt>Датум</dt>
-	        <dd><?=$master->dateshipped; ?></dd>
+	        <dd><?=uif::date($master->dateshipped)?></dd>
 	        <dt>Купувач:</dt>
-	        <dd><?=anchor("partners/view/$master->pid",$master->company);?></dd>
+	        <dd><?=anchor("partners/view/$master->pid",$master->company)?></dd>
 	        <dt>Дистрибутер:</dt>
-	        <dd><?=$master->lname . ' ' . $master->fname; ?></dd>
+	        <dd><?=$master->lname . ' ' . $master->fname?></dd>
 	        <dt>Извештај:</dt>
 	        <dd><?=($master->order_list_id) ?
 	        	anchor("orders_list/view/$master->order_list_id",'#'.$master->order_list_id) : '-' ; ?></dd>
@@ -41,17 +41,17 @@
 		<div class="legend">Артикли во овој Налог за Продажба</div>
 		<table class="table table-condensed ordered-products">
 			<thead>
-		    <tr>
-		    	<th>&nbsp;</th>
-		    	<th>Производ</th>
-		    	<th>Категорија</th>
-		    	<th>Земено</th>
-		    	<th>Вратено</th>
-		    	<th>&nbsp;</th>
-		    </tr>
+			    <tr>
+			    	<th>&nbsp;</th>
+			    	<th>Производ</th>
+			    	<th>Категорија</th>
+			    	<th>Земено</th>
+			    	<th>Вратено</th>
+			    	<th>&nbsp;</th>
+			    </tr>
 		    </thead>
 		    <tbody><?php $i = 1;?>
-			<?php foreach($details as $row):?>
+				<?php foreach($details as $row):?>
 				<tr class="product-row" data-pid=<?=$row->pid?>>
 					<td><?=$i?></td>
 					<td><?=$row->prodname?></td>
@@ -77,7 +77,7 @@
 						uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"'):' '?>
 					</td>
 				</tr><?php $i++;?>
-			<?php endforeach;?>
+				<?php endforeach;?>
 			</tbody>
 		</table>
 		<?php endif;?>
@@ -85,12 +85,11 @@
         <div class="alert">
             <i class="icon-lock"></i>
             <strong>Овој налог за продажба е заклучен по калкулација за плата #
-            <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk);?></strong>
+            <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk)?></strong>
         </div>
     <?php endif;?>
 	</div>
 </div>
-
 <script>
 	$(function(){
 

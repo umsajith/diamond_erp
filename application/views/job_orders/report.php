@@ -16,7 +16,7 @@
 			<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
 			<?=uif::controlGroup('dropdown','','assigned_to',[$employees])?>
 			<?=uif::controlGroup('dropdown','','task_fk',[$tasks])?>
-			<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3],''])?>
+			<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3]])?>
 		<?=form_close()?>
 	</div>
 	<div class="span8">
@@ -33,7 +33,7 @@
 		    	</tr>
 		    </thead>
 		    <tbody>
-			<?php foreach($results as $row):?>
+				<?php foreach($results as $row):?>
 				<tr>
 					<td><?=$row->taskname.' ('.$row->uname.')'?></td>
 					<td><?=$row->sum?></td>
@@ -42,13 +42,12 @@
 					<td><?=$row->min?></td>
 					<td><?=$row->count?></td>
 				</tr>
-			<?php endforeach;?>
+				<?php endforeach;?>
 		</tbody>
 		</table>
 		<?php endif;?>
 	</div>
 </div>
-
 <script>
 	$(function() {
 		$("select").select2();

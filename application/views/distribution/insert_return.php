@@ -13,7 +13,7 @@
 		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_fk',[$distributors])?>
 		<?=uif::controlGroup('text','Документ','ext_doc')?>
 		<?=uif::controlGroup('textarea','Белешка','note')?>
-		<?=form_hidden('inserted_by',$this->session->userdata('userid'));?>
+		<?=form_hidden('inserted_by',$this->session->userdata('userid'))?>
 	<?=form_close()?>
 	</div>
 </div>

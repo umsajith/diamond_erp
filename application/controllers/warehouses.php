@@ -58,7 +58,7 @@ class Warehouses extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Магацин';
+		$this->data['heading'] = 'Нов на Магацин';
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('wname','warehouse name','trim|required');

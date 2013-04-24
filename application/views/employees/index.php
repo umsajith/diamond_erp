@@ -49,7 +49,6 @@
 <?php else:?>
 	<?=uif::load('_no_records')?>
 <?php endif;?>
-
 <script>
 	$(function(){
 		$("select").select2();

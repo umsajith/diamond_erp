@@ -1,16 +1,20 @@
 <?=uif::contentHeader($heading)?>
 <div class="row-fluid">
-	<?=uif::linkInsertButton('positions/insert')?>
-<hr>
+		<div class="span3" id="content-main-buttons">
+		<?=uif::linkInsertButton('positions/insert')?>
+		<hr>
+	</div>
+</div>
 <?php if (isset($results) AND is_array($results) AND count($results)):?>
 <table class="table table-stripped table-hover data-grid">
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
 			<?php foreach ($columns as $col_name => $col_display):?>
-    			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
-	    			<?=anchor("positions/index/$col_name/".(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-	    		</th>
+			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+    			<?=anchor("positions/index/{$col_name}/".
+    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		</th>
 	    	<?php endforeach;?>
 			<th>&nbsp;</th>
 		</tr>

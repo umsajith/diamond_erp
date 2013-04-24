@@ -19,16 +19,16 @@
 		<tr>
 			<th>&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-    			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
-	    			<?=anchor("products/index/{$query_id}/{$col_name}/".
-	    			(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
-	    		</th>
+			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+    			<?=anchor("products/index/{$query_id}/{$col_name}/".
+    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
     	</tr>
     </thead>
     <tbody>
-	<?php foreach($results as $row):?>
+		<?php foreach($results as $row):?>
 		<tr data-id=<?=$row->id?>>
 			<td><?=uif::viewIcon('products',$row->id)?></td>
 			<td><?=$row->prodname?></td>
@@ -43,12 +43,11 @@
 			<td><?=$row->rate?></td>
 			<td><?=uif::actionGroup('products',$row->id)?></td>
 		</tr>
-	<?php endforeach;?>
+		<?php endforeach;?>
 </table>
 <?php else:?>
 	<?=uif::load('_no_records')?>
 <?php endif;?>
-
 <script>
 	$(function(){
 		$("select").select2();

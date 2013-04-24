@@ -15,7 +15,6 @@
             <dd><?=$master->mstatus?></dd>
             <dt>Пол:</dt>
             <dd><?=($master->gender == 'm' ? 'Машки' : 'Женски')?></dd>
-
             <dt>Адреса:</dt>
             <dd><?=uif::isNull($master->address)?></dd>
             <dt>Град:</dt>
@@ -30,12 +29,10 @@
             <dd><?=uif::isNull($master->phone)?></dd>
             <dt>Е-Меил:</dt>
             <dd><?=uif::isNull($master->email)?></dd>
-
             <dt>Корисничка Група:</dt>
             <dd><?=uif::isNull($master->role_name)?></dd>
             <dt>Корисничко Име:</dt>
             <dd><?=uif::isNull($master->username)?></dd>
-
             <dt>Банка:</dt>
             <dd><?=uif::isNull($master->bank)?></dd>
             <dt>Број на Сметка:</dt>
@@ -49,18 +46,18 @@
             <dd><?=uif::isNull($master->social_cont)?></dd>
             <dt>Тел.Субвенција:</dt>
             <dd><?=uif::isNull($master->comp_mobile_sub)?></dd>
-
             <dt>Работно Место:</dt>
             <dd><?=uif::isNull($master->position)?></dd>
             <dt>Дистрибутер:</dt>
-            <dd><?=($master->is_distributer)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dd><?=($master->is_distributer) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>Менаџер:</dt>
-            <dd><?=($master->is_manager)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>            
+            <dd><?=($master->is_manager) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>            
             <dt>Почеток:</dt>
             <dd><?=uif::isNull($master->start_date)?></dd>
             <dt>Крај:</dt>
-            <dd><?=uif::isNull($master->stop_date)?></dd>           
-            	
+            <dd><?=uif::isNull($master->stop_date)?></dd>                  	
             <dt>Белешка:</dt>
             <dd><?=uif::isNull($master->note)?></dd>   
         </dl>
@@ -86,7 +83,7 @@
             <tbody>
                 <?php foreach ($assigned_tasks as $task):?>
                 <tr data-tid=<?=$task->id?>>
-                    <td><?=$task->taskname;?></td>
+                    <td><?=$task->taskname?></td>
                     <td><?=uif::linkIcon("employees/unassignTask/{$task->id}",'icon-trash','danger btn-mini')?></td>
                 </tr>
                 <?php endforeach;?>

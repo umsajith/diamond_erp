@@ -58,7 +58,7 @@ class Uom extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на ЕМ';
+		$this->data['heading'] = 'Нова на ЕМ';
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('uname','UOM name','trim|required');

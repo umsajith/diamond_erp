@@ -1,6 +1,6 @@
 <?=uif::contentHeader($heading,$master)?>
 	<?php if(!$master->locked):?>
-        <?=uif::linkButton("orders_list/edit/$master->id",'icon-edit','warning')?>
+        <?=uif::linkButton("orders_list/edit/{$master->id}",'icon-edit','warning')?>
         <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
 		<?=uif::button('icon-lock','info','onClick=cd.lockOrderList("'.site_url('orders_list/ajxLock').'",'.$master->id.')')?>
     <?php else:?>
@@ -43,21 +43,20 @@
 <?php endif; ?>
 	<?php if ($results): ?>
 	<div class=<?=($master->locked)?"span12":"span7"?>>
-
 		<?php if($master->locked == 1):?>
 			<div class="alert">
 				<i class="icon-lock"></i>
 				<strong>Овој Извештај е заклучен! Потребно е да го отклучите за натамошна работа.</strong>
 			</div>
 		<?php endif;?>
-
-		<table class="table table-condensed">
+		<div class="legend">Налози за продажба во овој Извештај</div>
 			<div class="text-center">
-			<div class="span2"><i class="icon-calendar"> </i> <?=uif::date($master->date)?></div>
-			<div class="span4"><i class="icon-user"> </i> <?=$master->distributor?></div>
-			<div class="span2"><i class="icon-tag"> </i> <?=uif::isNull($master->ext_doc)?></div>
-			<div class="span4"><i class="icon-eye-open"> </i><?=$master->operator?></div>
+				<div class="span2"><i class="icon-calendar"> </i> <?=uif::date($master->date)?></div>
+				<div class="span4"><i class="icon-user"> </i> <?=$master->distributor?></div>
+				<div class="span2"><i class="icon-tag"> </i> <?=uif::isNull($master->ext_doc)?></div>
+				<div class="span4"><i class="icon-eye-open"> </i><?=$master->operator?></div>
 			</div>
+		<table class="table table-condensed">
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
@@ -68,7 +67,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($results as $row):?>
+				<?php foreach ($results as $row):?>
 				<tr data-id=<?=$row->id?>>
 					<td><?=uif::viewIcon('orders',$row->id)?></td>
 					<td><?=$row->company?></td>
@@ -80,7 +79,7 @@
 					<?php endif;?>
 					</td>
 				</tr>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
 			</tbody>	
 		</table>
 	</div>

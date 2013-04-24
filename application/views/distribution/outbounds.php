@@ -18,9 +18,9 @@
 		<tr>
 			<th>&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-    			<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
-	    			<?=anchor("distribution/outbounds/$query_id/$col_name/".
-	    			(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+    			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+	    			<?=anchor("distribution/outbounds/{$query_id}/{$col_name}/".
+	    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
@@ -30,10 +30,10 @@
 		<tr data-id=<?=$row->id?>>
 			<td><?=uif::viewIcon('distribution',$row->id,'view/out')?></td>
 			<td><?=uif::date($row->dateoforigin)?></td>
-			<td><?=$row->prodname;?></td>		
-			<td><?=$row->qty_current.' '.$row->uname;?></td>
-			<td><?=$row->quantity.' '.$row->uname;?></td>
-			<td><?=$row->quantity + $row->qty_current.' '.$row->uname;?></td>
+			<td><?=$row->prodname?></td>		
+			<td><?=$row->qty_current.' '.$row->uname?></td>
+			<td><?=$row->quantity.' '.$row->uname?></td>
+			<td><?=$row->quantity + $row->qty_current.' '.$row->uname?></td>
 			<td><?=uif::isNull($row->distributor)?></td>
 			<td><?=uif::isNull($row->ext_doc)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
@@ -45,7 +45,6 @@
 <?php else:?>
 	<?=uif::load('_no_records')?>
 <?php endif;?>
-
 <script>
 	$(function(){
 		$("select").select2();

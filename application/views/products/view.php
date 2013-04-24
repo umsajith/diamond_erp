@@ -34,11 +34,14 @@
             <dt>Опис:</dt>
             <dd><?=uif::isNull($master->description)?></dd>
             <dt>Се Продава:</dt>
-            <dd><?=($master->salable)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dd><?=($master->salable) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>Се Купува:</dt>
-            <dd><?=($master->purchasable)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dd><?=($master->purchasable) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>Состојба:</dt>
-            <dd><?=($master->stockable)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dd><?=($master->stockable) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
         </dl>
     </div>
 </div>
