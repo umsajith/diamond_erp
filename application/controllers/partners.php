@@ -100,6 +100,9 @@ class Partners extends MY_Controller {
 			$this->form_validation->set_rules('bank','bank','trim');
 			$this->form_validation->set_rules('account_no','account number','trim|numeric');
 			$this->form_validation->set_rules('address','address','trim');
+			$this->form_validation->set_rules('is_mother','','trim');
+			$this->form_validation->set_rules('is_vendor','','trim');
+			$this->form_validation->set_rules('is_customer','','trim');
 			
 			//Cheks if the Partner has been created through AJAX post
 			$ajax = false;

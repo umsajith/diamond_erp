@@ -22,7 +22,7 @@
 			<?=uif::controlGroup('text','Е-Меил','email')?>
 		<div class="legend">Логин Инфомации</div>
 			<?=uif::controlGroup('dropdown','Корисничка Група','role_id',[$roles])?>
-			<?=uif::controlGroup('checkbox','Логирање','can_login',[1,''])?>
+			<?=uif::controlGroup('checkbox','Логирање','can_login',[1])?>
 			<?=uif::controlGroup('text','Корисничко Име','username')?>
 			<?=uif::controlGroup('password','Лозинка','password')?>
 	</div>
@@ -30,15 +30,15 @@
 		<div class="legend">Финансиски Информации</div>
 			<?=uif::controlGroup('text','Банка','bank')?>		
 			<?=uif::controlGroup('text','Број на Сметка','account_no')?>		
-			<?=uif::controlGroup('checkbox','Само Фиксна Плата','fixed_wage_only',[1,''])?>		
+			<?=uif::controlGroup('checkbox','Само Фиксна Плата','fixed_wage_only',[1])?>		
 			<?=uif::controlGroup('text','Фиксна Плата','fixed_wage')?>		
 			<?=uif::controlGroup('text','Придонеси','social_cont')?>		
 			<?=uif::controlGroup('text','Служ.Моб.Субвенција','comp_mobile_sub')?>	
 		<div class="legend">Информации за Работнен Однос</div>
 			<?=uif::controlGroup('dropdown','Работно Место','poss_fk',[$positions])?>
 			<?=uif::controlGroup('dropdown','Менаџер','manager_fk',[$managers])?>
-			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1,''])?>		
-			<?=uif::controlGroup('checkbox','Менаџер','is_manager',[1,''])?>
+			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1])?>		
+			<?=uif::controlGroup('checkbox','Менаџер','is_manager',[1])?>
 			<?=uif::controlGroup('datepicker','Почеток','start_date')?>	
 			<?=uif::controlGroup('dropdown','Локација','location_id',[$locations])?>
 	</div>

@@ -145,15 +145,17 @@ class Boms extends MY_Controller {
 	//AJAX - Edits the Quantity of Products from a Bom
 	public function ajxEditQty()
 	{
-		if(!in_array($_POST['name'],['quantity']))
+		$this->form_validation->set_rules('value','','required|numeric');
+
+		if (($_POST['value'] < 0) OR (!$this->form_validation->run()))
 		{
-			$this->output->set_status_header(400);
-			exit;
+			$this->output->set_status_header(500,'Внесете валидна вредност');
 		}
-
-		if(!$this->bomd->update($_POST['pk'],[$_POST['name']=>$_POST['value']]))
-			$this->output->set_status_header(500);	
-
+		else
+		{
+			if(!$this->bomd->update($_POST['pk'],[$_POST['name']=>$_POST['value']]))
+				$this->output->set_status_header(500);
+		}
 		exit;
 	}
 

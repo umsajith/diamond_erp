@@ -23,6 +23,7 @@
 		</dl>
 	</div>
 	<div class="span7">
+		<?php if(!$master->locked):?>
 		<div class="legend">Додавање артикл</div>
 		<div class="well well-small form-inline text-right">
 			<?=uif::formElement('dropdown','','prodname_fk',[],' class="input-large"')?>
@@ -35,6 +36,7 @@
 				<?=uif::button('icon-plus-sign','success','onClick="addProduct();"')?>
 			</div>
 		</div>
+		<?php endif;?>
 		<?php if (isset($details) AND is_array($details) AND count($details)):?>
 		<div class="legend">Артикли во овој Налог за Продажба</div>
 		<table class="table table-condensed ordered-products">
@@ -55,15 +57,25 @@
 					<td><?=$row->prodname?></td>
 					<td><?=$row->pcname?></td>
 					<td>
-						<a href="#" class="editable" data-original-title="Земено" data-name="quantity"
-						data-pk="<?=$row->id?>"><?=$row->quantity?></a>
+						<?php if(!$master->locked):?>
+							<a href="#" class="editable" data-original-title="Земено" 
+							data-name="quantity" data-pk="<?=$row->id?>"><?=$row->quantity?></a>
+						<?php else:?>
+							<?=$row->quantity?>
+						<?php endif;?>
 					</td>
 					<td>
-						<a href="#" class="editable" data-original-title="Вратено" data-name="returned_quantity"
-						data-pk="<?=$row->id?>"><?=$row->returned_quantity?></a>
+						<?php if(!$master->locked):?>
+							<a href="#" class="editable" data-original-title="Вратено" 
+							data-name="returned_quantity" data-pk="<?=$row->id?>"><?=$row->returned_quantity?></a>
+						<?php else:?>
+							<?=$row->returned_quantity?>
+						<?php endif;?>
 					</td>
 					<td class="left"><?=$row->uname;?></td>
-					<td><?=uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"')?></td>
+					<td><?=(!$master->locked) ? 
+						uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"'):' '?>
+					</td>
 				</tr><?php $i++;?>
 			<?php endforeach;?>
 			</tbody>

@@ -41,7 +41,8 @@
             <dt>Број на Сметка:</dt>
             <dd><?=uif::isNull($master->account_no)?></dd>
             <dt>Само Фиксна Плата:</dt>
-            <dd><?=($master->fixed_wage_only)? uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dd><?=($master->fixed_wage_only) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>Фиксна Плата:</dt>
             <dd><?=uif::isNull($master->fixed_wage)?></dd>
             <dt>Придонеси:</dt>

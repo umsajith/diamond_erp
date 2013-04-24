@@ -1,122 +1,100 @@
-<h2><?php echo $heading; ?></h2>
-<hr>
-    <div id="meta">
-        <p>бр.<?php echo $master->id;?></p>
-        <p><?php echo $master->dateofentry;?></p>
+<?=uif::contentHeader($heading,$master)?>
+    <?=uif::linkButton("partners/edit/{$master->id}",'icon-edit','warning')?>
+    <?=uif::linkDeleteButton("partners/delete/{$master->id}")?>
+    <hr>
+<div class="row-fluid">
+    <div class="span5 well well-small">  
+        <dl class="dl-horizontal">
+            <dt>Назив:</dt>
+            <dd><?=$master->company;?></dd>
+            <dt>Контакт Лице:</dt>
+            <dd><?=uif::isNull($master->contperson)?></dd>
+            <dt>Купувач:</dt>
+            <dd><?=($master->is_customer) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dt>Добавувач:</dt>
+            <dd><?=($master->is_vendor) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dt>HQ:</dt>
+            <dd><?=($master->is_mother) ? 
+                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
+            <dt>Код:</dt>
+            <dd><?=uif::isNull($master->id)?></dd>
+            <dt>Адреса:</dt>
+            <dd><?=uif::isNull($master->address)?></dd>
+            <dt>Град:</dt>
+            <dd><?=$master->name;?></dd>
+            <dt>Поштенски Код:</dt>
+            <dd><?=$master->postalcode;?></dd>
+            <dt>Телефон:</dt>
+            <dd><?=uif::isNull($master->phone1)?></dd>
+            <dt>Телефон 2:</dt>
+            <dd><?=uif::isNull($master->phone2)?></dd>
+            <dt>Факс:</dt>
+            <dd><?=uif::isNull($master->fax)?></dd>
+            <dt>Мобилен:</dt>
+            <dd><?=uif::isNull($master->mobile)?></dd>
+            <dt>Е-Меил:</dt>
+            <dd><?=uif::isNull($master->email)?></dd>
+            <dt>WWW:</dt>
+            <dd><?=uif::isNull($master->web)?></dd>
+            <dt>Банка:</dt>
+            <dd><?=uif::isNull($master->bank)?></dd>
+            <dt>Број на Сметка:</dt>
+            <dd><?=uif::isNull($master->account_no)?></dd>
+            <dt>ДБ:</dt>
+            <dd><?=uif::isNull($master->tax_no)?></dd>
+	   </dl>
     </div>
-    <div id="buttons">
-        <a href="<?php echo site_url('partners/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
-        <a href="<?php echo site_url('partners/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
-    </div>
-<hr>
-<!-- LEFT SIDE  -->
-<div class="f_left">
-	<dl>
-        <dt>Назив:</dt>
-        <dd><?php echo $master->company;?></dd>
-        <dt>Код:</dt>
-        <dd><?php echo ($master->id == NULL ? '-' : $master->id);?></dd>
-        <dt>Контакт Лице:</dt>
-        <dd><?php echo ($master->contperson == NULL ? '-' : $master->contperson);?></dd>
-        <dt>Тип на Партнер:</dt>
-        <dd>
-       		<?php  
-                if($master->is_customer==1 AND $master->is_vendor==0) echo 'Купувач';
-                if($master->is_vendor==1 AND $master->is_customer==0) echo 'Добавувач';
-                if($master->is_vendor==1 AND $master->is_customer==1) echo 'Купувач/Добавувач';
-                ?>
-		</dd>
-        <dt>Адреса:</dt>
-        <dd><?php echo ($master->address == NULL ? '-' : $master->address);?></dd>
-        <dt>Град:</dt>
-        <dd><?php echo $master->name;?></dd>
-        <dt>Поштенски Код:</dt>
-        <dd><?php echo $master->postalcode;?></dd>
-        <dt>Телефон:</dt>
-        <dd><?php echo ($master->phone1 == NULL ? '-' : $master->phone1);?></dd>
-        <dt>Телефон 2:</dt>
-        <dd><?php echo ($master->phone2 == NULL ? '-' : $master->phone2);?></dd>
-        <dt>Факс:</dt>
-        <dd><?php echo ($master->fax == NULL ? '-' : $master->fax);?></dd>
-        <dt>Мобилен:</dt>
-        <dd><?php echo ($master->mobile == NULL ? '-' : $master->mobile);?></dd>
-        <dt>Е-меил:</dt>
-        <dd><?php echo ($master->email == NULL ? '-' : $master->email);?></dd>
-        <dt>Веб страна:</dt>
-        <dd><?php echo ($master->web == NULL ? '-' : $master->web);?></dd>
-
-        <dt>Банка:</dt>
-        <dd><?php echo ($master->bank == NULL ? '-' : $master->bank);?></dd>
-        <dt>Број на Сметка:</dt>
-        <dd><?php echo ($master->account_no == NULL ? '-' : $master->account_no);?></dd>
-        <dt>Даночен Број:</dt>
-        <dd><?php echo ($master->tax_no == NULL ? '-' : $master->tax_no);?></dd>
-	</dl>
-</div>
-
-<!-- RIGHT SIDE  -->
-<div class="f_right">
-<?php if($master->is_mother==1):?>
-<h3>Подружници кои припаѓаат на <?php echo $master->company;?></h3>
-<table class="master_table">   
-<?php if (isset($subs) AND is_array($subs) AND count($subs) > 0):?>
-    <tr>
-        <th>&nbsp;</th>
-        <th>Купувач</th>
-        <th>Град</th>
-        <th>Телефон</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php foreach($subs as $row):?>
-    <tr>
-        <td class="code" align="center"><?php echo anchor('partners/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-        <td><?php echo $row->company;?></td>
-        <td><?php echo $row->name;?></td>
-        <td><?php echo ($row->phone1)?$row->phone1:'-';?></td>
-        <td class="functions">
-            <?php echo anchor('partners/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-            <?php echo anchor('partners/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-        </td>
-    </tr>
-    <?php endforeach;?>
-<?php else:?>
-    <?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
-</table>
-<?php endif; ?>
-
-<?php if($master->is_customer==1):?>
-<h3>Последни 10 Нарачки од <?php echo $master->company;?></h3>
-<table class="master_table">   
-<?php if (isset($orders) AND is_array($orders) AND count($orders) > 0):?>
-    <tr>
-        <th>&nbsp;</th>
-        <th>Испорачано</th>
-        <th>Купувач</th>
-        <th>Дистрибутер</th>
-        <th>Плаќање</th>
-        <th>Внес</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php foreach($orders as $row):?>
-    <tr>
-        <td class="code" align="center"><?php echo anchor('orders/view/'.$row->id,'&nbsp;','class="view_icon"');?></td>
-        <td><?php echo (($row->dateshipped == NULL) || ($row->dateshipped == '0000-00-00') ? '-' : mdate('%d/%m/%Y',mysql_to_unix($row->dateshipped))); ?></td>
-        <td><?php echo $row->company;?></td>
-        <td><?php echo $row->fname . ' ' . $row->lname; ?></td>
-        <td><?php echo ($row->name == NULL ? '-' : $row->name); ?></td>
-        <td><?php echo mdate('%d/%m/%Y',mysql_to_unix($row->dateofentry));?></td>
-        <td class="functions">
-        <?php if($row->locked != 1):?>
-            <?php echo anchor('orders/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-            <?php echo anchor('orders/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
+    <div class="span7">
+        <?php if (isset($subs) AND is_array($subs) AND count($subs)):?>
+        <div class="legend">Подружници кои припаѓаат на <?=$master->company;?></div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Купувач</th>
+                    <th>Град</th>
+                </tr>
+            </thead> 
+            <tbody>
+                <?php foreach($subs as $row):?>
+                <tr>
+                    <td><?=uif::viewIcon('partners',$row->id)?></td>
+                    <td><?=$row->company?></td>
+                    <td><?=$row->name?></td>
+                </tr>
+                <?php endforeach;?>
+            </tbody>  
+        </table>
         <?php endif;?>
-        </td>
-    </tr>
-    <?php endforeach;?>
-<?php else:?>
-    <?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
-</table>
-<?php endif;?>
+
+        <?php if (isset($orders) AND is_array($orders) AND count($orders)):?>
+        <div class="legend">Последни 10 Нарачки од <?=$master->company;?></div>
+        <table class="table table-condensed"> 
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Испорачано</th>
+                    <th>Дистрибутер</th>
+                    <th>Плаќање</th>
+                    <th>Внес</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead> 
+            <tbody> 
+                <?php foreach($orders as $row):?>
+                <tr>
+                    <td><?=uif::viewIcon('orders',$row->id)?></td>
+                    <td><?=uif::date($row->dateshipped)?></td>
+                    <td><?=$row->fname . ' ' . $row->lname; ?></td>
+                    <td><?=uif::isNull($row->name)?></td>
+                    <td><?=uif::date($row->dateofentry)?></td>
+                    <td><?=(!$row->locked) ? uif::actionGroup('orders',$row->id) : ''?></td>    
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php endif;?>
+    </div>
 </div>
