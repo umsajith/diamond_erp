@@ -44,6 +44,10 @@ class Permissions_model extends MY_Model {
 
 	public function insert_role_resource($role_id,$resource_id,$permission)
 	{
+		/**
+		 * @todo create composite unique index in db
+		 * (role_id,resource_id), and no need for checking duplicates
+		 */
 		if($this->check_duplicate_role_resource($role_id,$resource_id))
 			return false;
 

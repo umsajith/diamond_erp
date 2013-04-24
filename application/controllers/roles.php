@@ -58,7 +58,7 @@ class Roles extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Корисничка Група';
+		$this->data['heading'] = 'Нова Корисничка Група';
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('name','user group name','trim|required');
@@ -72,7 +72,7 @@ class Roles extends MY_Controller {
 				$this->utilities->flash('error','roles');
 		}
 
-		$this->data['parents'] = $this->Roles_model->dropdown_master();
+		$this->data['parents'] = $this->rl->dropdown_master();
 	}
 	/**
 	 * Edits entry by passed primary_key
@@ -99,7 +99,7 @@ class Roles extends MY_Controller {
 				$this->utilities->flash('error','roles');
 		}
 
-		$this->data['parents'] = $this->Roles_model->dropdown_master();
+		$this->data['parents'] = $this->rl->dropdown_master();
 	}
 
 	public function view($id)
@@ -114,11 +114,8 @@ class Roles extends MY_Controller {
 
 		$this->data['resources'] = $this->Permissions_model->get_resources_by_role_id($id);
 
-		$this->data['dd_permissions'] = array(
-				''=>'- Permission -',
-				'allow'=>'Allow',
-				'deny'=>'Deny'
-			);
+		$this->data['dd_permissions'] = [''=>'','allow'=>'Allow','deny'=>'Deny'];
+
 		$this->data['dd_resources'] = $this->Resources_model->dropdown_all();
 	}
 

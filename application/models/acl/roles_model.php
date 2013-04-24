@@ -23,7 +23,7 @@ class Roles_model extends MY_Model {
 
 	protected function set_nulls($role)
     {
-        if(trim($role['parent_id'] == ''))
+        if(isset($role['parent_id']) AND trim($role['parent_id'] == ''))
         	$role['parent_id'] = null;
         return $role;
     }

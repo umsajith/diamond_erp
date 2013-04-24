@@ -59,7 +59,7 @@ class Resources_model extends MY_Model {
        $results = $this->db->get()->result();
        
        $data = array();
-       $data[''] =  '- Resources -';
+       $data[''] =  ' ';
   
        foreach ($results as $row)
        {
