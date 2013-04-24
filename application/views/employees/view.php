@@ -65,6 +65,7 @@
         </dl>
     </div>
     <div class="span7">
+        <div class="legend">Доделување работни задачи</div>
         <?=form_open("employees/assignTask")?>
             <div class="well well-small form-horizontal">
                 <?=uif::formElement('dropdown','','task_fk',[$tasks],' class="input-xlarge"')?>
@@ -73,6 +74,7 @@
             </div>  
         <?=form_close()?>
         <?php if(isset($assigned_tasks) AND count($assigned_tasks)):?>
+        <div class="legend">Доделени работни задачи</div>
         <table class="table table-condensed assigned-tasks">
             <thead>
                 <tr>

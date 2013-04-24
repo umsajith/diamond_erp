@@ -58,10 +58,10 @@ class Cproduct extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Категорија на Артикли';
+		$this->data['heading'] = 'Нова Категорија на Артикли';
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('pcname','product type name','trim|required');
+		$this->form_validation->set_rules('pcname','product category','trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -87,7 +87,7 @@ class Cproduct extends MY_Controller {
 			$this->utilities->flash('void','cproduct');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('pcname','product type name','trim|required');
+		$this->form_validation->set_rules('pcname','product category name','trim|required');
 				
 		if ($this->form_validation->run())
 		{

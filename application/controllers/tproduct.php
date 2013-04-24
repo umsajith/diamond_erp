@@ -58,7 +58,7 @@ class Tproduct extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Тип на Артикли';
+		$this->data['heading'] = 'Нов Тип на Артикл';
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('ptname','product type name','trim|required');
@@ -78,7 +78,7 @@ class Tproduct extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Тип на Артикли';
+		$this->data['heading'] = 'Корекција на Тип на Артикл';
 
 		$this->data['result'] = $this->tpr->get($id);
 		if(!$this->data['result'])

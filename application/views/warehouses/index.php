@@ -1,14 +1,15 @@
-<h2><?php echo $heading; ?></h2>
+<?=uif::contentHeader($heading)?>
+<div class="row-fluid">
+	<?=uif::linkInsertButton('warehouses/insert')?>
 <hr>
-	<a href="<?php echo site_url('warehouses/insert');?>" class="button"><span class="add">Внес</span></a>
-<table class="master_table">
-<?php if (isset($results) && is_array($results) && count($results) > 0):?>
+<?php if (isset($results) AND is_array($results) AND count($results)):?>
+<table class="table table-stripped table-hover data-grid">  
 	<thead>
 		<tr>
-			<th>&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-	    		<th <?php if($sort_by==$col_name) echo "class=$sort_order";?>>
-	    			<?php echo anchor("warehouses/index/$col_name/".(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
+	    		<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
+	    			<?=anchor("warehouses/index/{$col_name}/".
+	    			(($sort_order=='desc' && $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
 	    	<?php endforeach;?>
 	    	<th>&nbsp;</th>
@@ -17,17 +18,12 @@
     <tbody>
 	<?php foreach($results as $row):?>
 		<tr>
-			<td>&nbsp;</td>
-			<td><?php echo $row->wname;?></td>
-			<td class="functions">
-				<?php echo anchor('warehouses/edit/'.$row->id,'&nbsp;','class="edit_icon"');?> | 
-				<?php echo anchor('warehouses/delete/'.$row->id,'&nbsp;','class="del_icon"');?>
-			</td>
+			<td><?=$row->wname?></td>
+			<td><?=uif::actionGroup('warehouses',$row->id)?></td>
 		</tr>
 	<?php endforeach;?>
-<?php else:?>
-	<?php $this->load->view('includes/_no_records');?>
-<?php endif;?>
 	</tbody>
 </table>
-<?php $this->load->view('includes/_pagination');?>
+<?php else:?>
+	<?=uif::load('_no_records')?>
+<?php endif;?>
