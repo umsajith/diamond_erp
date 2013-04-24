@@ -10,9 +10,9 @@ body {padding-top: 45px;}
 .ui-pnotify-icon {padding-top:5px;}
 
 /* Template areas */
-nav {}
+nav {font-variant:small-caps;text-transform: lowercase; font-size: 14px;}
 header {}
-aside {}
+aside {font-variant:small-caps;text-transform: lowercase; font-size: 14px;}
 div[role=main]{outline:1px solid #ddd; padding:5px;}
 footer {font-size: 10px; border-top: 1px solid #ddd; margin-top: 5px; padding:20px;}
 

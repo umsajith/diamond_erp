@@ -19,7 +19,7 @@
     </div>
     <div class="span7">
          <?=form_open('boms/addProduct','id="add-product-form"')?>
-                <div class="legend">Додавање сировини и репроматеријали на норматив</div>
+                <div class="legend">Додавање сировини и репро-материјали на норматив</div>
             <div class="well well-small form-horizontal">
                     <?=uif::formElement('dropdown','Артикл','prodname_fk',[],'id="products" class="input-large"')?>
                 <div class="input-append">
@@ -31,7 +31,7 @@
             </div>  
         <?=form_close()?>
         <?php if (isset($details) AND is_array($details) AND count($details)):?>
-            <div class="legend">Сировини и репроматеријали во овој норматив</div>
+            <div class="legend">Сировини и репро-материјали во овој норматив</div>
         <table class="table table-condensed">
             <thead>
             <tr>
