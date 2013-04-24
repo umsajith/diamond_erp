@@ -47,6 +47,7 @@
 	</div>
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 <div class="span7">
+	<div class="legend">Детален преглед на калкулација за плата</div>
 	<?php if (isset($results) AND is_array($results) AND count($results)):?>
 	<table class="table table-condensed">
 		<thead>

@@ -34,7 +34,7 @@
 				<?=uif::button('icon-plus-sign','success','onClick="addProduct();"')?>
 			</div>
 		</div>
-		<?php if (isset($details) AND is_array($details) AND count($details) > 0):?>
+		<?php if (isset($details) AND is_array($details) AND count($details)):?>
 		<table class="table table-condensed ordered-products">
 			<thead>
 		    <tr>
@@ -105,10 +105,6 @@
 		});	
 
 	});
-
-	function submit_form(){
-		$("#order-form").submit();
-	}
 
 	//Add Product Function
 	function addProduct(){

@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 			<?=uif::load('_validation')?>
-		<legend>Основни Информации</legend>
+		<div class="legend">Основни Информации</div>
 			<?=uif::controlGroup('text','Име','fname',$employee)?>
 			<?=uif::controlGroup('text','Презиме','lname',$employee)?>
 			<?=uif::controlGroup('datepicker','ДНР','dateofbirth',$employee)?>
@@ -13,28 +13,28 @@
 			<?=uif::controlGroup('dropdown','Брачна Состојба','mstatus',
 			[[''=>'','single'=>'Слободен/а','married'=>'Во Брак','divorced'=>'Разведен/а'],$employee])?>
 			<?=uif::controlGroup('radio','Пол','gender',[['m'=>'Машко','f'=>'Женско'],$employee])?>
-		<legend>Контакт Информации</legend>	
+		<div class="legend">Контакт Информации</div>	
 			<?=uif::controlGroup('text','Адреса','address',$employee)?>
 			<?=uif::controlGroup('dropdown','Град','postcode_fk',[$postalcodes,$employee])?>
 			<?=uif::controlGroup('text','Службен Мобилен','comp_mobile',$employee)?>
 			<?=uif::controlGroup('text','Мобилен','mobile',$employee)?>
 			<?=uif::controlGroup('text','Телефон','phone',$employee)?>
 			<?=uif::controlGroup('text','Е-Меил','email',$employee)?>
-		<legend>Логин Инфомации</legend>
+		<div class="legend">Логин Инфомации</div>
 			<?=uif::controlGroup('dropdown','Корисничка Група','role_id',[$roles,$employee])?>
 			<?=uif::controlGroup('checkbox','Логирање','can_login',[1,$employee])?>
 			<?=uif::controlGroup('text','Корисничко Име','username',$employee)?>
 			<?=uif::controlGroup('password','Лозинка','password')?>
 	</div>
 	<div class="span6">
-		<legend>Финансиски Информации</legend>
+		<div class="legend">Финансиски Информации</div>
 			<?=uif::controlGroup('text','Банка','bank',$employee)?>		
 			<?=uif::controlGroup('text','Број на Сметка','account_no',$employee)?>		
 			<?=uif::controlGroup('checkbox','Само Фиксна Плата','fixed_wage_only',[1,$employee])?>		
 			<?=uif::controlGroup('text','Фиксна Плата','fixed_wage',$employee)?>		
 			<?=uif::controlGroup('text','Придонеси','social_cont',$employee)?>		
 			<?=uif::controlGroup('text','Служ.Моб.Субвенција','comp_mobile_sub',$employee)?>	
-		<legend>Информации за Работнен Однос</legend>
+		<div class="legend">Информации за Работнен Однос</div>
 			<?=uif::controlGroup('dropdown','Работно Место','poss_fk',[$positions,$employee])?>
 			<?=uif::controlGroup('dropdown','Менаџер','manager_fk',[$managers,$employee])?>
 			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1,$employee])?>		
@@ -46,7 +46,7 @@
 </div>
 <div class="row-fluid">
 	<div class="span12">
-		<legend>Белешка</legend>
+		<div class="legend">Белешка</div>
 		<?=uif::formElement('textarea','','note',$employee,'class="input-block-level"')?>
 		<?=form_hidden('id',$employee->id)?>
 		<?=form_close()?>

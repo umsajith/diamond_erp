@@ -19,19 +19,4 @@ class Bomdetails_model extends MY_Model {
 		
 		return $this->db->get($this->_table.' AS b')->result();
 	}
-	
-	public function update($id,$quantity)
-	{
-		//Qualifications
-		if(isset($quantity))
-			$this->db->set('quantity',$quantity);
-		
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table);
-		
-		return $this->db->affected_rows();
-	}
 }

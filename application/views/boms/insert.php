@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('text','Назив','prodname')?>
+		<?=uif::controlGroup('text','Назив','name')?>
 		<?=uif::controlGroup('text','Количина','quantity')?>
 		<?=uif::controlGroup('dropdown','ЕМ','uname_fk',[$uoms])?>
 		<?=uif::controlGroup('text','Конверзија','conversion')?>

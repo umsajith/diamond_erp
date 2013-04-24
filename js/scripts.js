@@ -179,13 +179,14 @@ var cd = (function(){
 		 *
 		 */
 		products.on("change",function(e) {
-			product.val($(this).val());
+			console.log($(this).val());
+			products.val($(this).val());
 			if(e.val !== ''){
-				uom.val(data[this.selectedIndex-1].uname);  
-				category.val(data[this.selectedIndex-1].pcname);  
+				uom.html(data[this.selectedIndex-1].uname);
+				category.html(data[this.selectedIndex-1].pcname);
 			} else {
-				uom.val('');
-				category.val('');
+				uom.html('');
+				category.html('');
 			}
 		});
 	}

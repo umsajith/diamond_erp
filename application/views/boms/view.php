@@ -1,43 +1,73 @@
-<h2><?php echo $heading; ?></h2>
-<hr>
-<div id="buttons">
-	<a href="<?php echo site_url('boms/edit/'.$master->id);?>" class="button"><span class="edit">Корекција</span></a>
-	<a href="<?php echo site_url('boms/delete/'.$master->id);?>" class="button" id="delete"><span class="delete">Бришење</span></a>
+<?=uif::contentHeader($heading,$master)?>
+    <?=uif::linkButton("boms/edit/{$master->id}",'icon-edit','warning')?>
+    <?=uif::linkDeleteButton("boms/delete/{$master->id}")?>
+    <hr>
+<div class="row-fluid">
+    <div class="span5 well well-small">  
+        <dl class="dl-horizontal">
+            <dt>Назив:</dt>
+            <dd><?=$master->name;?></dd>
+            <dt>Количина:</dt>
+            <dd><?=$master->quantity.' '.$master->uname2;?></dd>
+            <dt>Конверзија:</dt>
+            <dd><?=$master->quantity.' '.$master->uname2.' = '.$master->quantity * $master->conversion.' '.$master->uname;?></dd>
+            <dt>Артикл:</dt>
+            <dd><?=uif::isNull($master->prodname)?></dd>
+            <dt>Статус:</dt>
+            <dd><?=($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>      
+	   </dl>
+    </div>
+    <div class="span7">
+         <?=form_open('boms/addProduct','id="add-product-form"')?>
+                <div class="legend">Додавање сировини и репроматеријали на норматив</div>
+            <div class="well well-small form-horizontal">
+                    <?=uif::formElement('dropdown','Артикл','prodname_fk',[],'id="products" class="input-large"')?>
+                <div class="input-append">
+                    <?=uif::formElement('text','','quantity','','placeholder="Количина" class="input-medium"')?>
+                    <span class="add-on uom"></span>
+                    <?=form_hidden('bom_fk',$master->id)?>
+                    <?=uif::button('icon-plus-sign','success','onClick="cd.submit(#add-product-form);"')?>
+                </div>
+            </div>  
+        <?=form_close()?>
+        <?php if (isset($details) AND is_array($details) AND count($details)):?>
+            <div class="legend">Сировини и репроматеријали во овој норматив</div>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Артикл</th>
+                <th>Категорија</th>
+                <th>Количина</th>
+                <th>ЕМ</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($details as $row):?>
+                <tr data-pid=<?=$row->prodname_fk?>>
+                    <td><?=$row->prodname?></td>
+                    <td><?=$row->pcname?></td>
+                    <td>
+                        <a href="#" class="editable" data-original-title="Количина" data-name="quantity"
+                        data-pk="<?=$row->id?>"><?=$row->quantity?></a>
+                    </td>
+                    <td><?=$row->uname?></td>
+                    <td><?=uif::linkIcon("boms/removeProduct/{$row->id}",'icon-trash')?></td>
+                </tr>
+            <?php endforeach;?>
+            </tbody>
+        </table>
+        <?php endif;?>
+    </div>
 </div>
-<hr>
-<div class="f_left">
-	<dl>
-        <dt>Назив:</dt>
-        <dd><?php echo $master->name;?></dd>
-        <dt>Производ:</dt>
-        <dd><?php echo ($master->prodname) ? $master->prodname : '-';?></dd>
-        <dt>Количина:</dt>
-        <dd><?php echo $master->quantity.' '.$master->uname2;?></dd>
-        <dt>Конверзија:</dt>
-        <dd><?php echo $master->quantity . ' ' . $master->uname2 . ' = ' .$master->quantity*$master->conversion.' '.$master->uname;?></dd>
-        <dt>Внес:</dt>
-        <dd><?php echo $master->dateofentry;?></dd>
-        <dt>Статус:</dt>
-        <dd><?php echo ($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>      
-	</dl>
-</div>
-<div class="f_right">
-    <table class="master_table">
-        <tr>
-        	<th>Артикл</th>
-        	<th>Категорија</th>
-        	<th>Количина</th>
-        </tr>
-    <?php if (isset($details) && is_array($details) && count($details) > 0):?>
-    	<?php foreach($details as $row):?>
-    	<tr>
-    		<td><?php echo $row->prodname;?></td>
-    		<td><?php echo $row->pcname;?></td>
-    		<td><?php echo round($row->quantity,6). ' ' .$row->uname;?></td>
-    	</tr>
-    	<?php endforeach;?>
-    <?php else:?>
-    	<?php $this->load->view('includes/_no_records');?>
-    <?php endif;?>
-    </table>
-</div>
+<script>
+    $(function(){
+        $('.editable').editable({
+            type: 'text',
+            url: "<?=site_url('boms/ajxEditQty')?>",
+            title: 'Qty'
+        });
+        var options = {select : "#products",aux1 : "span.uom"};
+        cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options); 
+    });
+</script>

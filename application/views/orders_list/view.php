@@ -10,8 +10,7 @@
 <div class="row-fluid">
 <?php if(!$master->locked):?>
     <div class="span5 well well-small">
-    	<h4>Нов Налог за Продажба</h4>
-    	<hr>
+		<div class="legend">Нов налог за продажба</div>
 			<?=form_hidden('order_list_id',$master->id)?>
 			<?=form_hidden('distributor_id',$master->distributor_id)?>
 			<?=form_hidden('date',$master->date)?>	
@@ -29,8 +28,6 @@
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
 			<?=uif::button('icon-save','primary','onClick="submit_form()"')?>
 		</div>
-
-		<hr>
 		<table class="table table-condensed temp-table">
 			<thead>
 		    	<tr>

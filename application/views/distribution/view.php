@@ -26,7 +26,7 @@
 	<div class="span7">
 		<?php if (isset($details) AND is_array($details) AND count($details)):?>
 		<table class="table table-condensed table-bordered">
-        <caption><h4>Употребени Репро-Материјали</h4></caption>
+        <div class="legend">Употребени Репро-Материјали</div>
 	        <thead>
 			    <tr>
 			    	<th>Aртикл</th>

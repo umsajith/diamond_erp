@@ -71,37 +71,9 @@ class Boms extends MY_Controller {
 			$id = $this->bom->insert($_POST);
 			
 			if($id)
-				$this->utilities->flash('add','boms/edit/'.$id);
+				$this->utilities->flash('add',"boms/view/{$id}");
 			else
 				$this->utilities->flash('error','boms');
-		/*
-			$master = array(
-							'name'=>$_POST['name'],
-							'quantity'=>$_POST['quantity']);
-			$bom_fk = $this->bom->insert($master);
-			
-			if($bom_fk)
-			{
-				//Decode the JSON object int Ass.array and loop through detail records
-				foreach (json_decode($_POST['components'],TRUE) as $detail)
-				{
-					//Inserts all Detail records into the database
-					$this->bomd->insert(array(
-							'bom_fk'=>$bom_fk,
-							'prodname_fk'=>$detail['id'],
-							'quantity'=>$detail['quantity']));	
-				}
-				$this->session->set_flashdata('flash','Record successfuly added');
-				echo json_encode(array('success'=>TRUE));
-				exit;
-			}
-			else
-			{
-				$this->session->set_flashdata('flash','Database error');
-				echo json_encode(array('success'=>FALSE));
-				exit;	
-			}	
-		*/
 		}
 
 		//Heading
@@ -121,7 +93,7 @@ class Boms extends MY_Controller {
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
 		
 		
-		if(isset($_POST['submit']))
+		if($_POST)
 		{
 			//Defining Validation Rules
 			$this->form_validation->set_rules('prodname_fk','product','trim|required');
@@ -130,13 +102,13 @@ class Boms extends MY_Controller {
 			
 			
 			//Check if updated form has passed validation
-			// if ($this->form_validation->run())
-			// {
+			if ($this->form_validation->run())
+			{
 				if($this->bom->update($id,$_POST))
 					$this->utilities->flash('add','boms');
 				else
 					$this->utilities->flash('error','boms');
-			// }
+			}
 		}
 		
 		//Heading
@@ -145,36 +117,46 @@ class Boms extends MY_Controller {
 	}
 	
 	//AJAX - Adds New Product in Bom Details
-	public function add_product()
+	public function addProduct()
 	{
-		$data['bom_fk'] = json_decode($_POST['bom_fk']);
-		$data['prodname_fk'] = json_decode($_POST['prodname_fk']);
-		$data['quantity'] = json_decode($_POST['quantity']);
-		
-		if($this->bomd->insert($data))
-			echo 1;
-		exit;
+		$this->form_validation->set_rules('bom_fk','bom fk','trim|required');
+		$this->form_validation->set_rules('prodname_fk','product','trim|required');
+		$this->form_validation->set_rules('quantity','quantity','trim|required');
+
+		if ($this->form_validation->run())
+		{
+			if($this->bomd->insert($_POST))
+				$this->utilities->flash('add',"boms/view/".$_POST['bom_fk']);
+		}
+
+		$this->utilities->flash('error',"boms/view/".$_POST['bom_fk']);
+	}
+
+	public function removeProduct($id)
+	{
+		if(!$id) show_404();
+
+		if($this->bomd->delete($id))
+			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+
+		$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
 	}
 	
 	//AJAX - Edits the Quantity of Products from a Bom
-	public function edit_qty()
+	public function ajxEditQty()
 	{
-		$data['id'] = json_decode($_POST['id']);
-		$data['quantity'] = json_decode($_POST['quantity']);
-		
-		if($this->bomd->update($data['id'],$data['quantity']))
-			echo json_encode($data['quantity']);
-		exit;	
-	}
-	
-	//AJAX - Removes Products from a Bom
-	public function remove_product()
-	{
-		if($this->bomd->delete(json_decode($_POST['id'])))
-			echo 1;
+		if(!in_array($_POST['name'],['quantity']))
+		{
+			$this->output->set_status_header(400);
+			exit;
+		}
+
+		if(!$this->bomd->update($_POST['pk'],[$_POST['name']=>$_POST['value']]))
+			$this->output->set_status_header(500);	
+
 		exit;
 	}
-	
+
 	public function view($id = false)
 	{
 		//Retreives data from MASTER Model

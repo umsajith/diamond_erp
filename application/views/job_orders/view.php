@@ -35,8 +35,8 @@
     </div>
     <div class="span7">
     <?php if (isset($details) AND is_array($details) AND count($details)):?>
+        <div class="legend">Употребени Сировини</div>
         <table class="table table-condensed table-bordered">
-            <caption><h4>Употребени Сировини</h4></caption>
             <thead>
                 <tr>
                     <th>Артикл</th>

@@ -26,15 +26,11 @@ footer {font-size: 10px; border-top: 1px solid #ddd; margin-top: 5px; padding:20
 .desc:after {content:'▼';}
 .data-grid-actions2 {width:45px;}
 .data-grid {border-bottom:1px solid #ddd;}
-.data-grid th {background-color:#0088aa; color:#fff;}
-.data-grid th a {color:#fff; text-decoration:none;}
+.data-grid th {background-color:#0088aa; color:#ffffff;}
+.data-grid th a {color:#ffffff; text-decoration:none;}
 .data-grid td {padding-right: 0px;}
-.data-grid td a {color:#222; text-decoration:none;}
-
-.action-group a {color:#222; text-decoration:none;}
-
-/* Global overwrtie of legend tag */
-legend {font-size: 13px; font-style: italic; margin-bottom: 10px;}
+.data-grid td a {color:#333333; text-decoration:none;}
+.action-group a {color:#333333; text-decoration:none;}
 
 /* Font Awesome Icon Size Overwrite */
 [class^="icon-"],[class*=" icon-"] {font-size: 14px;}
@@ -45,3 +41,22 @@ dl {margin-bottom:10px;}
 /* Datepicker  Icon Top Margin Fix */
 .datepicker {padding:0;}
 .datepicker i {margin-top: 3px;}
+
+/* Custom Legend Class */
+.legend {
+	display: block;
+	-webkit-padding-start: 2px;
+	-webkit-padding-end: 2px;
+	border-image: initial;
+	width: 100%;
+	padding: 0;
+	line-height: 40px;
+	color: #333333;
+	border: 0;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 13px; 
+	font-weight: bold; 
+	margin-bottom: 10px; 
+	font-variant:small-caps; 
+	text-transform: lowercase;
+}
