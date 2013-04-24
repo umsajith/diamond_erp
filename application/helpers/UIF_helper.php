@@ -7,12 +7,12 @@
  */
 class UIF {
 
-	protected $CI;
+	// protected $CI;
 
-	public function __construct()
-	{
-		$this->CI =& get_instance();
-	}
+	// public function __construct()
+	// {
+	// 	$this->CI =& get_instance();
+	// }
 
 	public static function contentHeader($mainTitle = '', $meta = '')
 	{
@@ -192,7 +192,7 @@ class UIF {
 					{
 						$out .= '<label class="radio inline">';
 						$out .= $labels[$key].'<input type="radio" name="'.$name.'" value="'.$v.'"'.
-								set_radio($name,$v,(($value[1]!=='')) ? 
+								set_radio($name,$v,(isset($value[1])AND($value[1]!=='')) ? 
 								($v==$value[1]->$name) ? true : false : '' ).'/>';
 						$out .= '</label>';
 					}
@@ -203,7 +203,7 @@ class UIF {
 					{
 						$out .= '<label class="radio inline">';
 						$out .= $v.'<input type="radio" name="'.$name.'" value="'.$v.'"'.
-								set_radio($name,$v,(($value[1]!=='')) ? 
+								set_radio($name,$v,(isset($value[1])AND($value[1]!=='')) ? 
 								($v==$value[1]->$name) ? true : false : '' ).'/>';
 						$out .= '</label>';
 					}
@@ -216,7 +216,7 @@ class UIF {
 					{
 						$out .= '<label class="checkbox">';
 						$out .= $v.' <input type="checkbox" name="'.$name.'" value="'.$v.'"'.
-								set_radio($name,$v,(($value[1]!=='')) ? 
+								set_radio($name,$v,(isset($value[1])AND($value[1]!=='')) ? 
 								($v==$value[1]->$name) ? true : false : '' ).'/>';
 						$out .= '</label>';
 					}
@@ -225,7 +225,7 @@ class UIF {
 				{
 					$out .= '<label class="checkbox">';
 					$out .= '<input type="checkbox" name="'.$name.'" value="'.$value[0].'"'.
-							set_checkbox($name,$value[0],(($value[1]!=='')) ? 
+							set_checkbox($name,$value[0],(isset($value[1])AND($value[1]!=='')) ? 
 							($value[0]==$value[1]->$name) ? true : false : '' ).'/>';
 					$out .= '</label>';
 				}

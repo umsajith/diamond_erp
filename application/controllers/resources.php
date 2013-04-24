@@ -21,6 +21,7 @@ class Resources extends MY_Controller {
 		$this->form_validation->set_rules('title','title','trim|required');
 		$this->form_validation->set_rules('controller','controller','trim|required');
 		$this->form_validation->set_rules('order','order','trim|integer|required');
+		$this->form_validation->set_rules('visible','visible','integer');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
@@ -50,13 +51,10 @@ class Resources extends MY_Controller {
 			$this->form_validation->set_rules('title','title','trim|required');
 			$this->form_validation->set_rules('controller','controller','trim|required');
 			$this->form_validation->set_rules('order','order','trim|integer');
+			$this->form_validation->set_rules('visible','visible','integer');
 				
 			if ($this->form_validation->run())
 			{
-				//print_r($_POST); die;
-				if(!strlen($_POST['parent_id']))
-					unset($_POST['parent_id']);
-
 				if($this->Resources_model->update($_POST['id'],$_POST))
 					$this->utilities->flash('add','resources');
 				else

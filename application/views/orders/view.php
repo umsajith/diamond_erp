@@ -23,6 +23,7 @@
 		</dl>
 	</div>
 	<div class="span7">
+		<div class="legend">Додавање артикл</div>
 		<div class="well well-small form-inline text-right">
 			<?=uif::formElement('dropdown','','prodname_fk',[],' class="input-large"')?>
 			<div class="input-append">
@@ -35,6 +36,7 @@
 			</div>
 		</div>
 		<?php if (isset($details) AND is_array($details) AND count($details)):?>
+		<div class="legend">Артикли во овој Налог за Продажба</div>
 		<table class="table table-condensed ordered-products">
 			<thead>
 		    <tr>

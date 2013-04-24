@@ -14,38 +14,7 @@
 		<?=form_hidden('id',$master->id)?>
 	<?=form_close()?>
 	</div>
-	<div class="span6">
-		<?php if (isset($details) AND is_array($details) AND count($details)):?>
-		<table class="table table-condensed">
-			<thead>
-				<tr>
-			   		<th>&nbsp;</th>
-			    	<th>Производ</th>
-			    	<th>Категорија</th>
-			    	<th>Земено</th>
-			    	<th>Вратено</th>
-			    	<th>&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody><?php $i = 1;?>
-				<?php foreach($details as $row):?>
-				<tr>
-					<td><?=$i?></td>
-					<td><?=$row->prodname?></td>
-					<td><?=$row->pcname?></td>
-					<td><?=$row->quantity?></td>
-					<td><?=$row->returned_quantity?></td>
-					<td><?=$row->uname;?></td>
-				</tr><?php $i++;?>
-			<?php endforeach;?>
-			</tbody>
-		</table>
-		<?php else:?>
-			<?=uif::load('_no_records')?>
-		<?php endif;?>
-	</div>
 </div>
-
 <script>
 	$(function() {
 		$("select").select2();
