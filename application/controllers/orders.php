@@ -281,8 +281,7 @@ class Orders extends MY_Controller {
 			header("Content-type: application/pdf");
 			header("Content-Disposition: attachment; filename='{$file_name}'");
 			
-			pdf_create($html,$file_name);
-			exit;
+			mkpdf($html,$file_name);
 		}
 		exit;
 	}
