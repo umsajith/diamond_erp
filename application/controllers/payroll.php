@@ -87,8 +87,7 @@ class Payroll extends MY_Controller {
 	
 	public function insert()
 	{
-		if(!$_POST)
-			redirect('payroll');
+		if(!$_POST) show_404();
 		
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
@@ -170,16 +169,15 @@ class Payroll extends MY_Controller {
 	
 	public function payroll_pdf($id)
 	{
+		if(!$id) show_404();
+
 		$this->load->helper('dompdf');
-		$this->load->helper('file');
 		
 		//Loading Models
 		$this->load->model('hr/Payroll_extra_model');
 			
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->pr->select_single($id);
-
-		//print_r($this->data['master']); die;
 		
 		//If there is nothing, redirects
 		if(!$this->data['master'])
@@ -189,8 +187,13 @@ class Payroll extends MY_Controller {
 		$html = $this->load->view('payroll/payroll_pdf',$this->data, true);
 		
 		$file_name = $this->data['master']->employee_fk.'_'.$this->data['master']->date_from;
+
+		header("Content-type: application/pdf");
+		header("Content-Disposition: attachment; filename='{$file_name}'");
 		
-		pdf_create($html,$file_name);
+		mkpdf($html,$file_name);
+
+		exit;
 	}
 	
 	public function calculate()
@@ -476,7 +479,6 @@ class Payroll extends MY_Controller {
 			
 			mkpdf($html,$file_name);
 		}
-	
 		exit;
 	}
 
