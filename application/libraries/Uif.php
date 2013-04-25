@@ -278,6 +278,16 @@ class UIF {
 	}
 
 	/**
+	 * Currency Formater
+	 * Formats given number (integer or decimal)
+	 * into country specific monetary format w/ or wo/ currency
+	 */
+	public static function cf($number = 0, $decimalSeparator = '.', $thousandsSeparator = ' ', $precission = 2)
+	{
+		return number_format($number, $precission, $decimalSeparator, $thousandsSeparator);
+	}
+
+	/**
 	 * Resource Loader
 	 * - loads partials from views/includes folder by default
 	 * TODO: Add paramenet to enabling load to pass data object to view

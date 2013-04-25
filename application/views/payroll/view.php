@@ -75,7 +75,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>ПЛАТА ПО УЧИНОК:</strong>
-			<strong class="pull-right"><?=$master->acc_wage;?></strong>
+			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
 		</div>
 	</div>
 <!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -88,7 +88,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ФИКСНА ПЛАТА:</strong>
-				<strong class="pull-right"><?=$master->fixed_wage;?></strong>
+				<strong class="pull-right"><?=uif::cf($master->fixed_wage)?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -121,7 +121,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>ПЛАТА ПО УЧИНОК:</strong>
-			<strong class="pull-right"><?=$master->acc_wage;?></strong>
+			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -153,7 +153,7 @@
 	<?php if (isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus)):?>
 		<?php foreach($extras_plus as $row):?>
 			<tr>
-				<td><?=$row->name;?></td>
+				<td><?=$row->name?></td>
 				<td><?=$row->amount?></td>
 			</tr>
 		<?php endforeach;?>
@@ -165,7 +165,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>БРУТО ПЛАТА:</strong>
-			<strong class="pull-right"><?=$master->gross_wage;?></strong>
+			<strong class="pull-right"><?=uif::cf($master->gross_wage)?></strong>
 		</div>
 	</div>	
 <!-- BRUTO WAGE CALCULATION END -->
@@ -217,7 +217,7 @@
 				}
 				$gross_exp -= $master->social_cont;
 			?>
-			<strong class="pull-right"><?=$gross_exp;?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_exp)?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -226,7 +226,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
 				<strong>ДОПЛАТА:</strong>
-				<strong class="pull-right"><?=$master->paid_wage?></strong>
+				<strong class="pull-right"><?=uif::cf($master->paid_wage)?></strong>
 			</div>
 		</div>
 	<?php endif;?>

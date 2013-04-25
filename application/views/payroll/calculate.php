@@ -48,7 +48,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ПЛАТА ПО УЧИНОК:</strong>
-				<strong class="pull-right"><?=$acc_wage;?></strong>
+				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
 			</div>
 		</div>
 	<!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -61,7 +61,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ФИКСНА ПЛАТА:</strong>
-				<strong class="pull-right"><?=$fixed_wage;?></strong>
+				<strong class="pull-right"><?=uif::cf($fixed_wage)?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -81,11 +81,11 @@
 			<tbody>
 			<?php foreach($distribution as $row):?>
 				<tr>
-					<td><?=$row->prodname;?></td>
-					<td><?=$row->pcname;?></td>
-					<td><?=$row->quantity . ' ' . $row->uname;?></td>
-					<td><?=$row->commision.' ден.';?></td>
-					<td><?=round($row->quantity * $row->commision,2).' ден.';?></td>
+					<td><?=$row->prodname?></td>
+					<td><?=$row->pcname?></td>
+					<td><?=$row->quantity . ' ' . $row->uname?></td>
+					<td><?=$row->commision?></td>
+					<td><?=round($row->quantity * $row->commision,2)?></td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>
@@ -94,7 +94,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong>ПЛАТА ПО УЧИНОК:</strong>
-				<strong class="pull-right"><?=$acc_wage;?></strong>
+				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
 			</div>
 		</div>	
 	<?php endif;?>
@@ -145,7 +145,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>БРУТО ПЛАТА:</strong>
-			<strong class="pull-right"><?=$gross_wage;?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_wage)?></strong>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -193,7 +193,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert">
 			<strong>ТРОШОЦИ:</strong>
-			<strong class="pull-right"><?=$gross_exp;?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_exp)?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -203,7 +203,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
 				<strong>ДОПЛАТА:</strong>
-				<strong class="pull-right"><?=$paid_wage?></strong>
+				<strong class="pull-right"><?=uif::cf($paid_wage)?></strong>
 			</div>
 		</div>
 	<?php endif;?>
