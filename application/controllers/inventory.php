@@ -309,13 +309,6 @@ class Inventory extends MY_Controller {
 		{			
 			//Inserts a Purchase Order
 			$_POST['type'] = 'po';
-			$_POST['po_status'] = 'pending';
-			
-			//Sets the Partner to NULL
-			$_POST['partner_fk'] = null;
-
-			//Sets the Date of Order  to NOW
-			$_POST['dateoforder'] = mdate("%Y-%m-%d",now());
 			
 			//Successful validation
 			if($this->inv->insert($_POST))
@@ -343,13 +336,6 @@ class Inventory extends MY_Controller {
 		{
 			//Inserts an adjustment
 			$_POST['type'] = 'adj';
-			
-			//Sets the Partner to NULL
-			$_POST['partner_fk'] = null;
-			
-			//If is_use is checkd, reverts the sign of quantity
-			if(isset($_POST['is_use'])&&($_POST['is_use'])==1)
-				$_POST['quantity'] = $_POST['quantity']* (-1);
 			
 			//Successful validation
 			if($this->inv->insert($_POST))

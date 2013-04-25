@@ -1,5 +1,5 @@
 <?=uif::contentHeader($heading,$master)?>
-    <?=uif::linkDeleteButton("inventory/adj/delete/{$master->id}")?>
+    <?=uif::linkDeleteButton("inventory/delete/adj/{$master->id}")?>
 <hr>
 <div class="row-fluid">
     <div class="span5 well well-small">  

@@ -5,6 +5,10 @@ class Inventory_model extends MY_Model {
 
 	protected $_location;
 
+	public $before_create = ['setNull','setDefaults'];
+
+	public $before_update = ['setNull'];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -194,52 +198,27 @@ class Inventory_model extends MY_Model {
 		return $this->db->get($this->_table.' AS i')->result();
 	}
 	
-	public function insert ($data = array())
-	{	
-		/*
-		 * If Goods Receipt has been inserted,
-		 * marks Date Received NOW
-		 */
-		if($data['type']=='gr')
-			$data['datereceived'] = mdate("%Y-%m-%d",now());
-		/*
-		 * If Purchase Order has been inserted,
-		 * marks Date Ordered NOW
-		 */
-		if($data['type']=='po')
-			$data['dateoforder'] = mdate("%Y-%m-%d",now());
-		
-		/*
-		 * Sets Date of Order, Date of Expiration
-		 * and Price to NULL if the value has not
-		 * been set
-		 */
-		if(isset($data['dateoforder']) AND !strlen($data['dateoforder']))
-			$data['dateoforder'] = null;
-		if(isset($data['dateofexpiration']) AND !strlen($data['dateofexpiration']))
-			$data['dateofexpiration'] = null;
-		if(isset($data['price']) AND !strlen($data['price']))
-			$data['price'] = null;
-
-		/**
-		 * Inserts default working location ID
-		 */
-		if($this->_location)
-			$data['location_id'] = $this->_location;
+	// public function insert ($data = array())
+	// {
+	// 	/**
+	// 	 * Inserts default working location ID
+	// 	 */
+	// 	//if($this->_location)
+	// 	//	$data['location_id'] = $this->_location;
 				
-		/*
-		 * Calculates the Quantity at Hand of product
-		 * before change,and saves it 
-		 * in attribute - qty_current
-		 */
-		$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+		
+	// 	 // * Calculates the Quantity at Hand of product
+	// 	 // * before change,and saves it 
+	// 	 // * in attribute - qty_current
+		 
+	// 	//$data['qty_current'] = $this->current_qty($data['prodname_fk']);
 			
-		$data['received_by'] = $this->session->userdata('userid');
 		
-		$this->db->insert($this->_table,$data);
 		
-		return $this->db->insert_id();
-	}
+	// 	$this->db->insert($this->_table,$data);
+		
+	// 	return $this->db->insert_id();
+	// }
 	
 	private function current_qty($product_id)
 	{
@@ -262,32 +241,16 @@ class Inventory_model extends MY_Model {
 			return false;
 	}
 	
-	public function update($id,$data = array())
-	{	
-		/*
-		 * Sets Date of Order, Date of Expiration
-		 * ,Price, Partner and Assigned To to NULL
-		 * if the value has not been set
-		 */		
-		if(!strlen($data['dateoforder']))
-			$data['dateoforder'] = null;
-		if(!strlen($data['dateofexpiration']))
-			$data['dateofexpiration'] = null;
-		if(!strlen($data['datereceived']))
-			$data['datereceived'] = null;
-		if(!strlen($data['price']))
-			$data['price'] = null;		
-		if(!strlen($data['partner_fk']))
-			$data['partner_fk'] = null;	
-		if(!strlen($data['assigned_to']))
-			$data['assigned_to'] = null;
-				
-		$this->db->where('id',$id);		
-
-		$this->db->update($this->_table,$data);
+	// public function update($id,$data = array())
+	// {	
 		
-		return $this->db->affected_rows();
-	}
+				
+	// 	$this->db->where('id',$id);		
+
+	// 	$this->db->update($this->_table,$data);
+		
+	// 	return $this->db->affected_rows();
+	// }
 	
 	public function receive_po($options = array())
 	{
@@ -397,4 +360,72 @@ class Inventory_model extends MY_Model {
 		
 		return $this->db->get()->result_array();
 	}
+
+	////////////////
+	// OBSERVERS //-------------------------------------------------------------
+	////////////////
+	protected function setNull($row)
+    {
+        /*
+		 * Sets Date of Order, Date of Expiration
+		 * ,Price, Partner and Assigned To to NULL
+		 * if the value has not been set
+		 */		
+		if(!strlen($row['dateoforder'])) $row['dateoforder'] = null;
+
+		if(!strlen($row['dateofexpiration'])) $row['dateofexpiration'] = null;
+
+		if(!strlen($row['datereceived'])) $row['datereceived'] = null;
+
+		if(!strlen($row['price'])) $row['price'] = null;		
+
+		if(!strlen($row['partner_fk'])) $row['partner_fk'] = null;
+
+		if(!strlen($row['assigned_to'])) $row['assigned_to'] = null;
+
+        return $row;
+    }
+
+    protected function setDefaults($row)
+    {
+    	/*
+		 * If Goods Receipt has been inserted
+		 */
+		if($row['type'] == 'gr')
+		{
+			$row['datereceived'] = mdate("%Y-%m-%d",now());
+		}
+		/*
+		 * If Purchase Order has been inserted
+		 */
+		if($row['type'] == 'po')
+		{
+			$row['dateoforder'] = mdate("%Y-%m-%d",now());
+			$row['po_status'] = 'pending';
+			$row['partner_fk'] = null;
+		}
+		/*
+		 * If Adjustment has been inserted
+		 */
+		if($row['type'] == 'adj')
+		{
+			$row['partner_fk'] = null;
+			if(isset($row['is_use']) AND ($row['is_use'])==1)
+			{
+				$row['quantity'] = $row['quantity'] * (-1);
+			}
+		}
+
+		/**
+		 * Sets operator inserting into Inventory
+		 */
+		$row['received_by'] = $this->session->userdata('userid');
+		/**
+		 * If location is specified, insert into that location
+		 */
+		if($this->_location) $row['location_id'] = $this->_location;
+
+		return $row;
+    }
+
 }

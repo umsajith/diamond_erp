@@ -1,6 +1,6 @@
 <?=uif::contentHeader($heading,$master)?>
     <?=uif::linkButton("inventory/edit/po/{$master->id}",'icon-edit','warning')?>
-    <?=uif::linkDeleteButton("inventory/po/delete/{$master->id}")?>
+    <?=uif::linkDeleteButton("inventory/delete/po/{$master->id}")?>
 <hr>
 <div class="row-fluid">
     <div class="span5 well well-small">  
@@ -29,7 +29,7 @@
 				?>
 			</dd>
 		    <dt>Задолжение:</dt>
-		    <dd><?=(!is_null($master->assigned_to)) ? $master->assignfname.' '.$master->assignlname:'-';?></dd>
+		    <dd><?=(!is_null($master->assigned_to)) ? $master->assignfname.' '.$master->assignlname:'-'?></dd>
 		    <dt>Статус:</dt>
 			<dd><?=$master->po_status?></dd>
 		    <dt>Нарачано:</dt>
@@ -38,7 +38,7 @@
 			<dd><?=uif::isNull($master->comments)?></dd>
 			<?php if($this->session->userdata('admin')):?>
 		        <dt>Оператор:</dt>
-		        <dd><?=$master->fname. ' '.$master->lname;?></dd>
+		        <dd><?=$master->fname. ' '.$master->lname?></dd>
 		    <?php endif;?>
 		</dl>
 	</div>
