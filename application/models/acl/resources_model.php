@@ -3,8 +3,8 @@ class Resources_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_resources';
 
- 	public $before_create = array('set_nulls');
-	public $before_update = array('set_nulls');
+ 	public $before_create = ['set_nulls'];
+	public $before_update = ['set_nulls'];
 
 	public function get_all_resources()
 	{

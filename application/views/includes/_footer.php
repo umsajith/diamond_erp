@@ -1,5 +1,5 @@
 <p class="text-right">
-	Diamond ERP © 2011 - 2013.
-	<?php echo anchor('http://www.carniadesign.com','Carnia Design Studio')?>. 
-	All Rights Reserved.<br> Version <?php echo $G_version; ?> - CI Version <?php echo CI_VERSION;?>
+	<?=$glAppTitle?> © 2011 - 2013.
+	<?=anchor('http://www.carniadesign.com','Carnia Design Studio')?>. All Rights Reserved.<br>
+	<?=$glAppTitle?> v<?=$glAppVersion?> | CodeIgniter v<?=CI_VERSION?>
 </p>
