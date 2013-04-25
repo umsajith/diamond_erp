@@ -26,7 +26,7 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <div class="brand" id="diamond-logo">
-                    <img src="<?=base_url('img/diamond_erp_logo_30.png')?>" alt="">
+                    <img src="<?=base_url('img/erp_logo.png')?>" alt="">
                 </div>
                 <div class="nav-collapse collapse">
                     <?=uif::load('_navigation')?>
