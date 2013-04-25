@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','dateoforigin',uif::date(time(),'%Y-%m-%d'))?>
+		<?=uif::controlGroup('datepicker','Датум','dateoforigin',uif::today())?>
 		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[],'id="products"')?>
 		<?=uif::controlGroup('text','Количина','quantity')?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>

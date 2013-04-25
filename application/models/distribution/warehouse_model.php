@@ -3,6 +3,8 @@ class Warehouse_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_warehouse';
 
+	public $before_create = ['setDefaults'];
+
 	protected $_location;
 
 	public function __construct()
@@ -351,46 +353,23 @@ class Warehouse_model extends MY_Model {
 		return $this->db->get($this->_table.' AS w')->result();
 	}
 	
-	public function insert ($data = array())
-	{	
-		/**
-		 * Sets default location ID when user
-		 * inserts new entry
-		 */
-		if($this->_location)
-			$data['location_id'] = $this->_location;
-
-		/*
-		 * Sets all outbound warehouse entries to
-		 * have negative values, hence when making
-		 * warehouse leves, same are deducted from total
-		 * quantity
-		 */
-		if(isset($data['is_out']) AND $data['is_out'] == 1)
-		{
-			if($data['quantity'] > 0)
-			{
-				$data['quantity'] = $data['quantity'] * -1;
-			}
-		}
-			
-		if(!strlen($data['dateoforigin']))
-			$data['dateoforigin'] = mdate('%Y-%m-%d');
-
-		if(!strlen($data['distributor_fk']))
-			$data['distributor_fk'] = null;
-			
-		/*
-		 * Calculates the Quantity at Hand of product
-		 * before change,and saves it 
-		 * in attribute - qty_current
-		 */
-		$data['qty_current'] = $this->current_qty($data['prodname_fk']);
-			
-		$this->db->insert($this->_table,$data);
+	// public function insert ($data = array())
+	// {	
 		
-		return $this->db->insert_id();
-	}
+			
+		
+			
+		
+	// 	 * Calculates the Quantity at Hand of product
+	// 	 * before change,and saves it 
+	// 	 * in attribute - qty_current
+		 
+	// 	//$data['qty_current'] = $this->current_qty($data['prodname_fk']);
+			
+	// 	$this->db->insert($this->_table,$data);
+		
+	// 	return $this->db->insert_id();
+	// }
 
 	public function update($id,$data = array(),$page)
 	{	
@@ -480,4 +459,36 @@ class Warehouse_model extends MY_Model {
 		$results = $this->db->delete('exp_cd_inventory');
 		return $this->db->affected_rows();
 	}
+
+	////////////////
+	// OBSERVERS //
+	////////////////
+	
+	 protected function setDefaults($row)
+    {
+    	if(!isset($row['dateoforigin'])) $row['dateoforigin'] = mdate('%Y-%m-%d');
+
+		if(!strlen($row['distributor_fk'])) $row['distributor_fk'] = null;
+
+		/*
+		 * Sets all outbound warehouse entries to
+		 * have negative values, hence when making
+		 * warehouse leves, same are deducted from total
+		 * quantity
+		 */
+		if(isset($row['is_out']) AND $row['is_out'])
+		{
+			if($row['quantity'] > 0)
+			{
+				$row['quantity'] = $row['quantity'] * -1;
+			}
+		}
+		
+		/**
+		 * If location is specified, insert into that location
+		 */
+		if($this->_location) $row['location_id'] = $this->_location;
+
+		return $row;
+    }
 }

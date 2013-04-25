@@ -9,12 +9,14 @@
 		<?=uif::controlGroup('text','Количина','quantity')?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
 		<?=uif::controlGroup('text','Категорија','','','id="category" disabled')?>
+		<?=uif::controlGroup('datepicker','Нарачано','dateoforder',uif::today())?>
 		<?=uif::controlGroup('textarea','Белешка','comments')?>
 		<?=form_close()?>
 	</div>
 </div>
 <script>	
 	$(function() {
+		cd.datepicker('input[name=dateoforder]');
 		cd.dropdownProducts("<?=site_url('products/ajxGetProducts')?>")	
 	});
 </script>

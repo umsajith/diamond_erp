@@ -15,7 +15,7 @@
 		<?=uif::controlGroup('text','Документ','ext_doc')?>
 		<?=uif::controlGroup('text','Цена (без ДДВ)','price')?>
 		<?=uif::controlGroup('datepicker','Нарачано','dateoforder')?>
-		<?=uif::controlGroup('datepicker','Примено','datereceived')?>
+		<?=uif::controlGroup('datepicker','Примено','datereceived',uif::today())?>
 		<?=uif::controlGroup('datepicker','Траење','dateofexpiration')?>
 		<?=uif::controlGroup('textarea','Белешка','comments')?>
 	<?=form_close()?>

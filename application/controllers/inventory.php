@@ -274,6 +274,8 @@ class Inventory extends MY_Controller {
 		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
 		$this->form_validation->set_rules('purchase_method','purchase method','trim|required');
 		$this->form_validation->set_rules('price','price','trim|numeric');
+		$this->form_validation->set_rules('datereceived','date received','trim|required');
+		$this->form_validation->set_rules('dateoforder','date of order','trim');
 		$this->form_validation->set_rules('dateofexpiration','date of expiration','trim');
 		$this->form_validation->set_rules('comments','comments','trim');
 		

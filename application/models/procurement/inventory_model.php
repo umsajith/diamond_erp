@@ -400,7 +400,11 @@ class Inventory_model extends MY_Model {
 		 */
 		if($row['type'] == 'po')
 		{
-			$row['dateoforder'] = mdate("%Y-%m-%d",now());
+			if(!isset($row['dateoforder']))
+			{
+				$row['dateoforder'] = mdate("%Y-%m-%d",now());
+			}
+			
 			$row['po_status'] = 'pending';
 			$row['partner_fk'] = null;
 		}

@@ -138,6 +138,11 @@ class UIF {
 				mdate($format,mysql_to_unix($timestamp)) : '-';
 	}
 
+	public static function today()
+	{
+		return mdate('%Y-%m-%d');
+	}
+
 	public static function isNull($value = '', $extra = '')
 	{
 		return ($value != '' OR $value != 0) ? $value.$extra : '-';
