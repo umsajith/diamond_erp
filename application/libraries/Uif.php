@@ -232,7 +232,8 @@ class UIF {
 				break;
 			case 'datepicker':
 				$out .= '<div class="input-append date datepicker" data-date-format="yyyy-mm-dd">';
-				$out .= form_input($name,set_value($name,($value) ? $value->$name : ''),$attributes);
+				$out .= form_input($name,set_value($name,($value !== '') ?
+				(is_object($value)) ? $value->$name : $value : ''),$attributes);
 				$out .=	'<span class="add-on"><i class="icon-calendar"></i></span></div>';
 				break;
 			default:

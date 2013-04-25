@@ -16,6 +16,6 @@
 	$(function() {
 		$("#distributors").select2();
 		var options = {future: false};
-		cd.datepicker(".datepicker",options);
+		cd.datepicker("input[name=date]",options);
 	});
 </script>

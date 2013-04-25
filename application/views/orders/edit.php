@@ -4,6 +4,7 @@
 <hr>
 <div class="row-fluid">
 	<div class="span6">
+		<?=uif::load('_validation')?>
 		<?=uif::controlGroup('datepicker','Датум','dateshipped',$master)?>
 		<?=uif::controlGroup('dropdown','Купувач','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
 		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
@@ -19,6 +20,6 @@
 	$(function() {
 		$("select").select2();
 		var options = {future: false};
-		cd.datepicker(".datepicker",options);
+		cd.datepicker("input[name=dateshipped]",options);
 	});
 </script>

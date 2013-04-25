@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','dateoforigin')?>
+		<?=uif::controlGroup('datepicker','Датум','dateoforigin',uif::date(time(),'%Y-%m-%d'))?>
 		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[],'id="products"')?>
 		<?=uif::controlGroup('text','Количина','quantity')?>
 		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
@@ -20,7 +20,6 @@
 <script>	
 	$(function() {
 		cd.datepicker("input[name=dateoforigin]");
-		$("input[name=dateoforigin]").val("<?=uif::date(time(),'%Y-%m-%d')?>");
 		$("select").select2();
 		var args = {salable: 1};
 		cd.dropdownProducts("<?=site_url('products/ajxGetProducts')?>",args);	

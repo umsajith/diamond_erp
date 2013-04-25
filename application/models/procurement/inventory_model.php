@@ -412,7 +412,10 @@ class Inventory_model extends MY_Model {
 			$row['partner_fk'] = null;
 			if(isset($row['is_use']) AND ($row['is_use'])==1)
 			{
-				$row['quantity'] = $row['quantity'] * (-1);
+				if($row['quantity'] > 0)
+				{
+					$row['quantity'] = $row['quantity'] * (-1);
+				}
 			}
 		}
 

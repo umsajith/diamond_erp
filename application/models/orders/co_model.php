@@ -4,6 +4,8 @@ class Co_model extends MY_Model {
 	
 	//Database table of the Model
 	protected $_table = 'exp_cd_orders';
+
+	public $before_create = ['setDefaults'];
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -98,62 +100,62 @@ class Co_model extends MY_Model {
 		return $this->db->get($this->_table.' AS o')->result();
 	}
 	
-	public function insert ($data = array())
-	{
-		/*
-		 * By default, all inserted Orders are
-		 * Dispatch Note, hence they are Complete(Delivered)
-		 */
-		$data['ostatus'] = 'completed';
+	// public function insert ($data = array())
+	// {
+	// 	/*
+	// 	 * By default, all inserted Orders are
+	// 	 * Dispatch Note, hence they are Complete(Delivered)
+	// 	 */
+	// 	$data['ostatus'] = 'completed';
 
-		// Inserts the whole data array into the database table
-		$this->db->insert($this->_table,$data);
+	// 	// Inserts the whole data array into the database table
+	// 	$this->db->insert($this->_table,$data);
 		
-		return $this->db->insert_id();
-	}
+	// 	return $this->db->insert_id();
+	// }
 	
-	public function update($id,$data = array())
-	{
-		/*
-		 * If Order Status is updated, Continues with
-		 * the corresponding actions for each Order Status
-		 * 
-		 */
-		/*
-		if ($data['ostatus'] == 'pending' || $data['ostatus'] == 'rejected')
-		{
-			$data['completed'] = 0;
-			$data['dateshipped'] = null;
-		}
+	// public function update($id,$data = array())
+	// {
+	// 	/*
+	// 	 * If Order Status is updated, Continues with
+	// 	 * the corresponding actions for each Order Status
+	// 	 * 
+	// 	 */
 		
-		if($data['ostatus'] == 'completed' && isset($data['dateshipped']) && ($data['dateshipped'] == ''))
-		{
-			$data['completed'] = 0;
-			$data['dateshipped'] = null;
-			$data['ostatus'] = 'pending';
-		}
+	// 	if ($data['ostatus'] == 'pending' || $data['ostatus'] == 'rejected')
+	// 	{
+	// 		$data['completed'] = 0;
+	// 		$data['dateshipped'] = null;
+	// 	}
+		
+	// 	if($data['ostatus'] == 'completed' && isset($data['dateshipped']) && ($data['dateshipped'] == ''))
+	// 	{
+	// 		$data['completed'] = 0;
+	// 		$data['dateshipped'] = null;
+	// 		$data['ostatus'] = 'pending';
+	// 	}
 	
-		if($data['ostatus'] == 'completed' && !isset($data['dateshipped']))
-		{
-			$data['completed'] = 1;
-			$data['dateshipped'] = mdate('%Y-%m-%d');
-			$data['ostatus'] = 'completed';
-		}
+	// 	if($data['ostatus'] == 'completed' && !isset($data['dateshipped']))
+	// 	{
+	// 		$data['completed'] = 1;
+	// 		$data['dateshipped'] = mdate('%Y-%m-%d');
+	// 		$data['ostatus'] = 'completed';
+	// 	}
 
-		if($data['ostatus'] == 'completed' && isset($data['dateshipped']))
-		{
-			$data['dateshipped'] = $data['dateshipped'];
-		}
-		*/
+	// 	if($data['ostatus'] == 'completed' && isset($data['dateshipped']))
+	// 	{
+	// 		$data['dateshipped'] = $data['dateshipped'];
+	// 	}
 		
-		//This ID
-		$this->db->where('id',$id);
 		
-		//Updating
-		$this->db->update($this->_table,$data);
+	// 	//This ID
+	// 	$this->db->where('id',$id);
 		
-		return $this->db->affected_rows();
-	}
+	// 	//Updating
+	// 	$this->db->update($this->_table,$data);
+		
+	// 	return $this->db->affected_rows();
+	// }
 	
 	/*
 	 * Gets all the Order delivered within 
@@ -266,5 +268,15 @@ class Co_model extends MY_Model {
 		}
 		else
 			return false;
+	}
+
+	////////////////
+	// OBSERVERS //
+	////////////////
+	
+	protected function setDefaults($row)
+	{
+		$row['ostatus'] = 'completed';
+		return $row;
 	}
 }

@@ -170,6 +170,7 @@ class Orders extends MY_Controller {
 		{	
 			//Defining Validation Rules
 			$this->form_validation->set_rules('partner_fk','partner','trim|required');
+			$this->form_validation->set_rules('distributor_fk','distributor','trim|required');
 			$this->form_validation->set_rules('dateshipped','date shipped','trim|required');
 			$this->form_validation->set_rules('comments','comments','trim');
 			$this->form_validation->set_rules('payment_mode_fk','payment mode','trim|required');
@@ -187,9 +188,6 @@ class Orders extends MY_Controller {
 
 		//Heading
 		$this->data['heading'] = "Корекција на Налог за Продажба";
-		
-		//Retreives data from DETAIL Model
-		$this->data['details'] = $this->cod->select(array('id'=>$id));
 		
 		//Dropdown Menus
 		$this->data['customers'] = $this->par->dropdown('customers');
