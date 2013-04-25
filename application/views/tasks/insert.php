@@ -6,7 +6,7 @@
     <div class="span6">
         <?=uif::load('_validation')?>
         <?=uif::controlGroup('text','Назив','taskname')?>
-        <?=uif::controlGroup('text','Основна Единица','ptname')?>
+        <?=uif::controlGroup('text','Основна Единица','base_unit')?>
         <?=uif::controlGroup('dropdown','ЕМ','uname_fk',[$uoms])?>
         <?=uif::controlGroup('dropdown','Норматив','bom_fk',[$boms])?>
         <?=uif::controlGroup('text','Основна Цена','rate_per_unit')?>
