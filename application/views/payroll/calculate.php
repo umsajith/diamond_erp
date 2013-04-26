@@ -233,8 +233,8 @@
 <script>
 	$(function() 
 	{
-		if(<?=$submited?>){ $("#insert-payroll").prop('disabled', false); }
-		$("select[name=employee]").select2();
+		cd.dd("select[name=employee]","Работник");
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
+		if(<?=$submited?>){ $("#insert-payroll").prop('disabled', false); }
 	});
 </script>
