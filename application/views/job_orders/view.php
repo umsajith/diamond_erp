@@ -2,7 +2,10 @@
     <?php if(!$master->locked):?>
         <?=uif::linkButton("job_orders/edit/{$master->id}",'icon-edit','warning')?>
         <?=uif::linkDeleteButton("job_orders/delete/{$master->id}")?>
-        <hr>
+    <?php if(!$master->is_completed):?>
+        <?=uif::button('icon-ok-sign','success','onClick=cd.completeJobOrders("'.site_url('job_orders/ajxComplete').'",'.$master->id.')')?>
+    <?php endif; ?>
+    <hr>
     <?php endif;?>
 <div class="row-fluid">
     <div class="span5 well well-small">  
@@ -26,7 +29,11 @@
             <dt>Смена:</dt>
             <dd><?=uif::isNull($master->shift)?></dd>            
             <dt>Забелешка:</dt>
-            <dd><?=uif::isNull($master->description)?></dd>            
+            <dd><?=uif::isNull($master->description)?></dd> 
+            <?php if($master->is_completed):?>
+                <dt>Заклучен:</dt>
+                <dd><?=uif::staticIcon('icon-ok')?></dd>  
+            <?php endif;?>           
             <?php if($this->session->userdata('admin')):?>
                 <dt>Оператор:</dt>
                 <dd><?=$master->operator;?></dd>  

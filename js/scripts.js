@@ -82,11 +82,13 @@ var cd = (function(){
 	 * Completes all selected(checked) Job Orders
 	 * @param  {String} url AJAX API URL
 	 */
-	obj.completeJobOrders = function(url){
+	obj.completeJobOrders = function(url, id){
 
-		var ids = $(".job-order:checked").map(function(i,n) {
-	        return $(n).val();
-	    }).get();
+	    if(!id) {
+			var ids = $(".job-order:checked").map(function(i,n) {
+	        	return $(n).val();
+	    	}).get();
+		} else ids = id;
 
 		if(ids.length == 0){
 			this.notify("Потребно е да селектирате барем една ставка");

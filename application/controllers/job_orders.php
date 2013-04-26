@@ -169,7 +169,7 @@ class Job_orders extends MY_Controller {
 	 */
 	public function ajxComplete()
 	{	
-		if($this->jo->completeJobOrders(json_decode($_POST['ids'])))
+		if($this->jo->update_many(json_decode($_POST['ids']),['is_completed'=>1],true))
 			echo 1;
 		exit;	
 	}

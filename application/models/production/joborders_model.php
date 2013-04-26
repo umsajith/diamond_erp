@@ -18,7 +18,8 @@ class Joborders_model extends MY_Model {
 		[ 'field' => 'work_hours',			'label' => '','rules' => 'trim'],
 		[ 'field' => 'defect_quantity', 	'label' => '','rules' => 'trim'],
 		[ 'field' => 'shift', 		'label' => '','rules' => 'trim'],
-		[ 'field' => 'description', 'label' => '','rules' => 'trim']
+		[ 'field' => 'ext_doc', 'label' => '','rules' => 'trim'],
+		[ 'field' => 'is_completed', 'label' => '','rules' => 'trim']
     ];
 
 	public function __construct()
@@ -126,7 +127,7 @@ class Joborders_model extends MY_Model {
 		
 		return $this->db->get($this->_table.' AS j')->row();
 	}
-	
+
 	public function get_last()
 	{
 		$this->db->select('j.*,t.taskname,e.fname,e.lname,u.uname');
@@ -144,83 +145,6 @@ class Joborders_model extends MY_Model {
 		
 		return $this->db->get()->last_row();
 	}
-	
-	// public function insert($data = array())
-	// {
-	// 	$data['assigned_by'] = $this->session->userdata('userid');
-
-	// 	if($this->_location)
-	// 		$data['location_id'] = $this->_location;
-
-	// 	$data['final_quantity'] = $data['assigned_quantity'];
-			 
-	// 	$this->db->insert($this->_table,$data);
-		
-	// 	return $this->db->insert_id();
-	// }
-	
-	// public function update($id,$data = array())
-	// {
-	// 	//Set final_quantity to assigned_quantity by default (Change of business login)
-	// 	$data['final_quantity'] = $data['assigned_quantity'];
-
-	// 	$this->db->set('is_completed',0);
-
-	// 	$this->db->where('id',$id);
-
-	// 	$this->db->update($this->_table,$data);
-		
-	// 	return $this->db->affected_rows();
-	//}
-	
-	public function completeJobOrders($ids)
-	{
-		$this->db->where_in('id',$ids);
-		$this->db->update($this->_table,['is_completed' => 1]);
-		return $this->db->affected_rows();	
-	}
-	
-	// function get_qty($id)
-	// {
-	// 	$this->db->select('assigned_quantity');
-	// 	$this->db->from($this->table);
-	// 	$this->db->where('id',$id);
-	// 	$this->db->limit(1);
-	// 	$query = $this->db->get();
-		
-	// 	if($query)
-	// 		return $query->row();
-	// 	else
-	// 		return false;
-	// }
-	
-	// function has_fqty($id)
-	// {
-	// 	$this->db->select('final_quantity, is_completed');
-	// 	$this->db->from($this->table);
-	// 	$this->db->where('id',$id);
-	// 	$this->db->limit(1);
-	// 	$query = $this->db->get();
-		
-	// 	if($query)
-	// 		return $query->row();
-	// 	else
-	// 		return false;	
-	// }
-	
-	// function has_final($id)
-	// {
-	// 	$this->db->select('final_quantity');
-	// 	$this->db->from($this->table);
-	// 	$this->db->where('id',$id);
-	// 	$this->db->limit(1);
-	// 	$query = $this->db->get()->row();
-		
-	// 	if($query->final_quantity != 0 || $query->final_quantity != null)
-	// 		return true;
-	// 	else
-	// 		return false;	
-	// }
 	
 	public function get_task($id)
 	{
@@ -301,11 +225,14 @@ class Joborders_model extends MY_Model {
 	////////////////
 	protected function setNull($row)
 	{
-		if(empty($row['work_hours'])) $row['work_hours'] = null;
-
-		if(empty($row['defect_quantity'])) $row['defect_quantity'] = null;
-
-		if(empty($row['assigned_quantity'])) $row['assigned_quantity'] = null;
+		// is_completed is done only through Ajax Call,
+		// so if it not set, then process the values within -
+		// not overwrtiting them witn NULL
+		if(!isset($row['is_completed']))
+		{
+			if(empty($row['work_hours'])) $row['work_hours'] = null;
+			if(empty($row['defect_quantity'])) $row['defect_quantity'] = null;	
+		}
 
 		return $row;
 	}
@@ -326,9 +253,14 @@ class Joborders_model extends MY_Model {
 		/**
 		 * @todo Add updated_by DB field, and get from session before update
 		 */
+		/**
+		 * By default, final quantity is assigned quanity,
+		 * since as requested, job orders are not inserted
+		 * prior to completion.
+		 */
 		$row['final_quantity'] = $row['assigned_quantity'];
 
-		$row['is_completed'] = 0;
+		if(!isset($row['is_completed'])) $row['is_completed'] = 0;
 
 		return $row;
 	}

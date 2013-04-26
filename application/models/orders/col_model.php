@@ -5,6 +5,16 @@ class Col_model extends MY_Model {
 	//Database table of the Model
 	protected $_table = 'exp_cd_orders_list';
 
+	public $before_create = ['setDefaults'];
+
+	public $validate = [
+        [ 'field' => 'date', 'label' => 'date','rules' => 'trim|required'],
+		[ 'field' => 'distributor_id', 'label' => 'distributor','rules' => 'required'],
+		[ 'field' => 'ext_doc', 'label' => '','rules' => 'trim'],
+		[ 'field' => 'locked', 'label' => '','rules' => 'trim'],
+		[ 'field' => 'note', 'label' => '','rules' => 'trim']
+    ];
+
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
 		//Selects and returns all records from table----------------------------------------------------
@@ -69,4 +79,9 @@ class Col_model extends MY_Model {
 		return $this->db->get($this->_table.' AS ol')->row();
 	}
 
+	protected function setDefaults($row)
+	{
+		$row['inserted_by'] = $this->session->userdata('userid');
+		return $row;
+	}
 }

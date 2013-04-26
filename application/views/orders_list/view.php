@@ -41,7 +41,6 @@
 		</table>
 	</div>
 <?php endif; ?>
-	<?php if ($results): ?>
 	<div class=<?=($master->locked)?"span12":"span7"?>>
 		<?php if($master->locked == 1):?>
 			<div class="alert">
@@ -56,6 +55,7 @@
 				<div class="span2"><i class="icon-tag"> </i> <?=uif::isNull($master->ext_doc)?></div>
 				<div class="span4"><i class="icon-eye-open"> </i><?=$master->operator?></div>
 			</div>
+	<?php if ($results): ?>
 		<table class="table table-condensed">
 			<thead>
 				<tr>

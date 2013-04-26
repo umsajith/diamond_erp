@@ -77,16 +77,10 @@ class Orders_list extends MY_Controller {
 	public function insert()
 	{
 		$this->data['heading'] = "Внес на Извештај";
-
-		$this->form_validation->set_rules('date','date','trim|required');
-		$this->form_validation->set_rules('distributor_id','distributer','trim|required');
-		$this->form_validation->set_rules('note','note','trim');
-		$this->form_validation->set_rules('ext_doc','dokument','trim');
 		
 		//Check if form has been submited
-		if ($this->form_validation->run())
+		if ($_POST)
 		{
-			$_POST['inserted_by'] = $this->session->userdata('userid');
 			if($order_id = $this->col->insert($_POST))
 				$this->utilities->flash('add',"orders_list/view/{$order_id}");
 		}
@@ -108,15 +102,9 @@ class Orders_list extends MY_Controller {
 		 * Prevents from editing locked record
 		 */
 		if($this->data['master']->locked) $this->utilities->flash('deny','orders_list');
-
-		$this->form_validation->set_rules('id','id','required');
-		$this->form_validation->set_rules('date','date','trim|required');
-		$this->form_validation->set_rules('distributor_id','distributer','trim|required');
-		$this->form_validation->set_rules('note','note','trim');
-		$this->form_validation->set_rules('ext_doc','dokument','trim');
 		
 		//Check if form has been submited
-		if ($this->form_validation->run())
+		if ($_POST)
 		{
 			if($this->col->update($_POST['id'],$_POST))
 				$this->utilities->flash('update','orders_list');
@@ -155,14 +143,14 @@ class Orders_list extends MY_Controller {
 
 	public function ajxLock()
 	{
-		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>1)))
+		if($this->col->update_many(json_decode($_POST['ids']), ['locked'=>1],true))
 			echo 1;
 		exit;	
 	}
 
 	public function ajxUnlock()
 	{
-		if($this->col->update_many(json_decode($_POST['ids']), array('locked'=>0)))
+		if($this->col->update_many(json_decode($_POST['ids']), ['locked'=>0],true))
 			echo 1;
 		exit;	
 	}
