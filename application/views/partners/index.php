@@ -57,7 +57,7 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select[name=partner_type]").select2({placeholder:'Тип'});
-		$("select[name=postalcode_fk]").select2({placeholder:'Град'});
+		cd.dd("select[name=partner_type]",'Тип');
+		cd.dd("select[name=postalcode_fk]",'Град');
 	});	
 </script>

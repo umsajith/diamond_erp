@@ -50,7 +50,9 @@
 </div>
 <script>
 	$(function() {
-		$("select").select2();
+
+		cd.dd("select[name=assigned_to]",'Работник');
+		cd.dd("select[name=task_fk]",'Работна Задача');
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 

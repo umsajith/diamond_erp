@@ -44,7 +44,7 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select[name=prodname_fk]").select2({placeholder:'Артикл'});
-		$("select[name=pcname_fk]").select2({placeholder:'Категорија'});
+		cd.dd("select[name=prodname_fk]",'Артикл');
+		cd.dd("select[name=pcname_fk]",'Категорија');
 	});
 </script>

@@ -53,6 +53,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select[name=distributor_id]").select2({placeholder: "Дистрибутер"});
+		cd.dd("select[name=distributor_id]","Дистрибутер");
 	});	
 </script>

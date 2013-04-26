@@ -61,6 +61,19 @@ var cd = (function(){
 		};
 		$.pnotify(pnotify_opt);
 	};
+	/**
+	 * Create select2 dropdown list
+	 * @param  {DOM selector} selector
+	 * @param  {string} placeholder 
+	 * @param  {Object} args        Additional options
+	 */
+	obj.dd = function(selector, placeholder, args)
+	{
+		$(selector).select2({
+			placeholder: placeholder,
+			allowClear: true
+		});
+	}
 
 	obj.receivePurchaseOrders = function(url, id){
 		if(!id) {

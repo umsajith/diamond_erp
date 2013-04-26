@@ -51,7 +51,7 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select[name=poss_fk]").select2({placeholder:'Работно Место'});
-		$("select[name=role_id]").select2({placeholder:'Корисничка Група'});
+		cd.dd("select[name=poss_fk]",'Работно Место');
+		cd.dd("select[name=role_id]",'Корисничка Група');
 	});	
 </script>

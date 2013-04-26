@@ -46,7 +46,10 @@
 </div>
 <script>
 	$(function() {
-		$("select").select2();
+		
+		cd.dd("select[name=distributor_fk]",'Дистрибутер');
+		cd.dd("select[name=partner_fk]",'Партнер');
+		cd.dd("select[name=payment_mode_fk]",'Плаќање');
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 

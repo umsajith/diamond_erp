@@ -45,6 +45,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select[name=employee_fk]").select2({placeholder:'Работник'});
+		cd.dd("select[name=employee_fk]",'Работник');
 	});	
 </script>

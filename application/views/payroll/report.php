@@ -97,7 +97,8 @@
 
 <script>
 	$(function() {
-		$("select").select2();
+
+		cd.dd("select[name=employee_fk]",'Работник');
 
 		cd.dateRange('input[name=date_from]','input[name=date_to]');
 
