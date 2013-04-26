@@ -182,7 +182,7 @@ class UIF {
 				$out .= form_password($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
 			case 'dropdown':
-				$out .= form_dropdown($name,(isset($value[0])) ? $value[0] : [],
+				$out .= form_dropdown($name,(isset($value[0])) ? self::ev($value[0]) : [],
 					set_value($name,(isset($value[1])) ? $value[1]->$name : ''),$attributes);
 				break;
 			case 'textarea':
@@ -247,6 +247,11 @@ class UIF {
 		}
 
 		return $out;
+	}
+
+	private static function ev($array = [])
+	{
+		return [''=>''] + $array;
 	}
 
 	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')

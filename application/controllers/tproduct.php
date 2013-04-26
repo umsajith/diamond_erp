@@ -7,7 +7,7 @@ class Tproduct extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('products/tproduct_model','tpr');
+		$this->load->model('products/type_model','tpr');
 	}
     
     /**

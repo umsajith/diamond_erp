@@ -45,6 +45,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=prodname_fk]").select2({placeholder: "Артикл"});
 	});	
 </script>

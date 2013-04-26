@@ -7,7 +7,7 @@ class Cproduct extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('products/cproduct_model','cpr');
+		$this->load->model('products/category_model','cpr');
 	}
     
     /**

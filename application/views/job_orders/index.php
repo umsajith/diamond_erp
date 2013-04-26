@@ -54,6 +54,8 @@
 
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=task_fk]").select2({placeholder: "Работна Задача"});
+		$("select[name=assigned_to]").select2({placeholder: "Работник"});
+		$("select[name=shift]").select2({placeholder: "Смена"});
 	});	
 </script>

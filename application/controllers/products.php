@@ -9,7 +9,12 @@ class Products extends MY_Controller {
 		parent::__construct();
 
 		//Load Models
-		$this->load->model('products/products_model','prod');	
+		$this->load->model('products/products_model','prod');
+		$this->load->model('products/type_model','type');
+		$this->load->model('products/category_model','category');
+		$this->load->model('warehouses/warehouses_model','warehouse');
+		$this->load->model('uom/uom_model','uom');
+		$this->load->model('financial/taxrates_model','tr');
 	}
 
 	public function index($query_id = 0,$sort_by = 'prodname', $sort_order = 'asc', $offset = 0)
@@ -110,12 +115,11 @@ class Products extends MY_Controller {
 		}
 		
 		// Generating dropdown menu's
-		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
-		$this->data['product_types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
-		$this->data['product_cates'] = 
-			$this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
-		$this->data['tax_rates'] = $this->utilities->get_dropdown('id', 'rate','exp_cd_tax_rates','- ДДВ -');  	  		
+		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
+		$this->data['product_types'] = $this->type->dropdown('id','ptname');
+		$this->data['product_cates'] = $this->category->dropdown('id','pcname');
+		$this->data['uoms'] = $this->uom->dropdown('id','uname');
+		$this->data['tax_rates'] = $this->tr->dropdown('id','rate');
 
 		//Heading
 		$this->data['heading'] = 'Нов Артикл';
@@ -158,12 +162,11 @@ class Products extends MY_Controller {
 		}
 		
 		// Generating dropdown menu's
-		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
-		$this->data['product_types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
-		$this->data['product_cates'] = 
-			$this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
-		$this->data['tax_rates'] = $this->utilities->get_dropdown('id', 'rate','exp_cd_tax_rates','- ДДВ -');  	  		
+		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
+		$this->data['product_types'] = $this->type->dropdown('id','ptname');
+		$this->data['product_cates'] = $this->category->dropdown('id','pcname');
+		$this->data['uoms'] = $this->uom->dropdown('id','uname');
+		$this->data['tax_rates'] = $this->tr->dropdown('id','rate');		
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Артикл';
