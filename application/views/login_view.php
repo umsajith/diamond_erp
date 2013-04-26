@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css')?>">
     <style>
     	body {margin-top: 25px; background-color: #444;}
+    	.shadow{-moz-box-shadow: 3px 3px 4px #222;-webkit-box-shadow: 3px 3px 4px #222;box-shadow: 3px 3px 4px #222;}
 		.login-well {background-color: #fff; padding: 20px;}
 		.login {width: 360px;}
 		.login-actions {margin-top: 0;}
@@ -24,20 +25,21 @@
 				<div id="login-logo">
 					<img src="<?=base_url('img/erp_logo_big.png')?>"/>
 				</div>
-
-				<div class="login-well">
-					<form action="<?=site_url('login')?>" method="post" id="loginForm">
-					<p class="text-center">Please enter your credentials to access the application</p>
-					<hr>
-						<input type="text" name="username" id="username" class="input-block-level" placeholder="Username">
-						<input type="password" name="password" id="password" class="input-block-level" placeholder="Password">
-					<div class="alert alert-error login-alert"></div>      
-				</div>
+				<div class="shadow">
+					<div class="login-well">
+						<form action="<?=site_url('login')?>" method="post" id="loginForm">
+						<p class="text-center">Please enter your credentials to access the application</p>
+						<hr>
+							<input type="text" name="username" id="username" class="input-block-level" placeholder="Username">
+							<input type="password" name="password" id="password" class="input-block-level" placeholder="Password">
+						<div class="alert alert-error login-alert"></div>      
+					</div>
 					<div class="form-actions login-actions">
 						<button type="submit" class="btn btn-primary input-medium pull-right"><strong>Login</strong></button>
 					</div>
-					</form>
-			</div>
+						</form>
+					</div>
+				</div>
 		</div>
         <?=validation_errors()?>
     </div>
