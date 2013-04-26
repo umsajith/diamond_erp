@@ -5,6 +5,22 @@ class Joborders_model extends MY_Model {
 
 	protected $_location;
 
+	public $before_create = ['setNull','setDefaults'];
+
+	public $before_update = ['setNull','processUpdate'];
+
+	public $validate = [
+        [ 'field' => 'datedue', 	'label' => 'date due','rules' => 'required'],
+		[ 'field' => 'assigned_to', 'label' => 'employee','rules' => 'required'],
+		[ 'field' => 'task_fk', 	'label' => 'task','rules' => 'required'],
+		[ 'field' => 'assigned_quantity', 	'label' => 'assigned quantity',
+			'rules' => 'trim|required|greater_than[0]'],
+		[ 'field' => 'work_hours',			'label' => '','rules' => 'trim'],
+		[ 'field' => 'defect_quantity', 	'label' => '','rules' => 'trim'],
+		[ 'field' => 'shift', 		'label' => '','rules' => 'trim'],
+		[ 'field' => 'description', 'label' => '','rules' => 'trim'],
+    ];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,17 +50,14 @@ class Joborders_model extends MY_Model {
 		if(strlen($query_array['shift']))
 			$this->db->where_in('j.shift',$query_array['shift']);
 
-		if($sort_by == 'assigned_to')
-			$sort_by = 'e.fname';
-		if($sort_by == 'task_fk')
-			$sort_by = 't.taskname';
+		if($sort_by == 'assigned_to') $sort_by = 'e.fname';
+		if($sort_by == 'task_fk') $sort_by = 't.taskname';
 
 		/**
 		 * If user has specific location set,
 		 * display job orders for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('j.location_id',$this->_location);
+		if($this->_location) $this->db->where('j.location_id',$this->_location);
 		
 		//Sort by and Sort Order
 		$this->db->order_by($sort_by,$sort_order);
@@ -69,8 +82,7 @@ class Joborders_model extends MY_Model {
 		 * If user has specific location set,
 		 * display job orders for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
+		if($this->_location) $this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -126,65 +138,45 @@ class Joborders_model extends MY_Model {
 		 * If user has specific location set,
 		 * display job orders for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('j.location_id',$this->_location);
+		if($this->_location) $this->db->where('j.location_id',$this->_location);
 		
 		$this->db->from($this->_table.' AS j');
 		
 		return $this->db->get()->last_row();
 	}
 	
-	public function insert($data = array())
-	{
-		$data['assigned_by'] = $this->session->userdata('userid');
+	// public function insert($data = array())
+	// {
+	// 	$data['assigned_by'] = $this->session->userdata('userid');
 
-		if($this->_location)
-			$data['location_id'] = $this->_location;
+	// 	if($this->_location)
+	// 		$data['location_id'] = $this->_location;
 
-		if(!strlen($data['work_hours']))
-			 $data['work_hours'] = null;
-		if(!strlen($data['defect_quantity']))
-			 $data['defect_quantity'] = null;
-
-		$data['final_quantity'] = $data['assigned_quantity'];
+	// 	$data['final_quantity'] = $data['assigned_quantity'];
 			 
-		$this->db->insert($this->_table,$data);
+	// 	$this->db->insert($this->_table,$data);
 		
-		return $this->db->insert_id();
-	}
+	// 	return $this->db->insert_id();
+	// }
 	
-	public function update($id,$data = array())
-	{
-		/*
-		 * If Defect Qty is not set,
-		 * sets it to NULL
-		 */
-		if(!strlen($data['defect_quantity']))
-			$data['defect_quantity'] = null;
-		/*
-		 * If Work Hrs is not set,
-		 * sets it to NULL
-		 */		
-		if(!strlen($data['work_hours']))
-			 $data['work_hours'] = null;
+	// public function update($id,$data = array())
+	// {
+	// 	//Set final_quantity to assigned_quantity by default (Change of business login)
+	// 	$data['final_quantity'] = $data['assigned_quantity'];
 
-		//Set final_quantity to assigned_quantity by default (Change of business login)
-		$data['final_quantity'] = $data['assigned_quantity'];
+	// 	$this->db->set('is_completed',0);
 
-		$this->db->set('is_completed',0);
+	// 	$this->db->where('id',$id);
 
-		$this->db->where('id',$id);
-
-		$this->db->update($this->_table,$data);
+	// 	$this->db->update($this->_table,$data);
 		
-		return $this->db->affected_rows();
-	}
+	// 	return $this->db->affected_rows();
+	//}
 	
-	public function complete($id)
+	public function completeJobOrders($ids)
 	{
-		$this->db->set('is_completed',1);
-		$this->db->where('id',$id);
-		$this->db->update($this->_table);	
+		$this->db->where_in('id',$ids);
+		$this->db->update($this->_table,['is_completed' => 1]);
 		return $this->db->affected_rows();	
 	}
 	
@@ -239,8 +231,8 @@ class Joborders_model extends MY_Model {
 		
 		if($query)
 			return $query->row();
-		else
-			return false;	
+		
+		return false;	
 	}
 	
 	public function payroll($options=array())
@@ -302,5 +294,42 @@ class Joborders_model extends MY_Model {
 		$this->db->order_by('t.taskname','asc');
 		
 		return $this->db->get($this->_table.' AS jo')->result();
+	}
+
+	////////////////
+	// OBSERVERS //
+	////////////////
+	protected function setNull($row)
+	{
+		if(empty($row['work_hours'])) $row['work_hours'] = null;
+
+		if(empty($row['defect_quantity'])) $row['defect_quantity'] = null;
+
+		if(empty($row['assigned_quantity'])) $row['assigned_quantity'] = null;
+
+		return $row;
+	}
+
+	protected function setDefaults($row)
+	{
+		$row['final_quantity'] = $row['assigned_quantity'];
+
+		$row['assigned_by'] = $this->session->userdata('userid');
+
+		if($this->_location) $row['location_id'] = $this->_location;
+
+		return $row;
+	}
+
+	protected function processUpdate($row)
+	{
+		/**
+		 * @todo Add updated_by DB field, and get from session before update
+		 */
+		$row['final_quantity'] = $row['assigned_quantity'];
+
+		$row['is_completed'] = 0;
+
+		return $row;
 	}
 }
