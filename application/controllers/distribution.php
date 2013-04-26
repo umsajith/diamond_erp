@@ -42,7 +42,7 @@ class Distribution extends MY_Controller {
 			if($warehouse_id = $this->whr->insert($_POST))
 			{
 				$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
-				$this->utilities->flash('add','distribution');
+				$this->utilities->flash('add','distribution/inbounds');
 			}		
 			else
 				$this->utilities->flash('error','distribution/inbounds');
@@ -78,7 +78,7 @@ class Distribution extends MY_Controller {
 			
 			//Inserts into databse and reports outcome
 			if($this->whr->insert($_POST))
-				$this->utilities->flash('add','distribution');
+				$this->utilities->flash('add','distribution/outbounds');
 			else
 				$this->utilities->flash('error','distribution/outbounds');
 		}
@@ -110,7 +110,7 @@ class Distribution extends MY_Controller {
 			
 			//Inserts into databse and reports outcome
 			if($this->whr->insert($_POST))
-				$this->utilities->flash('add','distribution');		
+				$this->utilities->flash('add','distribution/returns');		
 			else
 				$this->utilities->flash('error','distribution/returns');
 		}

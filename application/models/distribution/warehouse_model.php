@@ -225,7 +225,8 @@ class Warehouse_model extends MY_Model {
 		$this->db->limit($limit , $offset);
 		
 		$this->db->where('w.is_return',1);
-
+		$this->db->where('is_out',null);
+		
 		/**
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
@@ -244,6 +245,7 @@ class Warehouse_model extends MY_Model {
 		if(strlen($query_array['distributor_fk']))
 			$this->db->where_in('distributor_fk',$query_array['distributor_fk']);
 			
+		$this->db->where('is_out',null);
 		$this->db->where('is_return',1);
 		/**
 		 * If user has specific location set,
