@@ -47,6 +47,7 @@
 
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=employee_fk]").select2({placeholder:'Работник'});
+		$("select[name=payroll_extra_cat_fk]").select2({placeholder:'Категорија'});
 	});	
 </script>

@@ -18,7 +18,7 @@
 	<tr>
 		<th>&nbsp;</th>
 		<?php foreach ($columns as $col_name => $col_display):?>
-    		<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
+    		<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
     			<?=anchor("employees/index/{$query_id}/{$col_name}/".
     			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 			</th>
@@ -51,6 +51,7 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=poss_fk]").select2({placeholder:'Работно Место'});
+		$("select[name=role_id]").select2({placeholder:'Корисничка Група'});
 	});	
 </script>

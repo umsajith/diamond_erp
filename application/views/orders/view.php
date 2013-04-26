@@ -15,7 +15,7 @@
 	        <dd><?=$master->lname . ' ' . $master->fname?></dd>
 	        <dt>Извештај:</dt>
 	        <dd><?=($master->order_list_id) ?
-	        	anchor("orders_list/view/$master->order_list_id",'#'.$master->order_list_id) : '-' ; ?></dd>
+	        	anchor("orders_list/view/{$master->order_list_id}",'#'.$master->order_list_id) : '-' ; ?></dd>
 	       	<dt>Плаќање:</dt>
 	        <dd><?=uif::isNull($master->name)?></dd>
 	        <dt>Белешка:</dt>
@@ -93,8 +93,6 @@
 <script>
 	$(function(){
 
-		$("select").select2();
-
 		$('.editable').editable({
 		    type: 'text',
 		    url: "<?=site_url('orders_details/ajxEditQty')?>",
@@ -109,7 +107,7 @@
 			$.each(result, function(i, row){
 				options += '<option value="' + row.id + '">' + row.prodname + '</option>';
 			});
-			produtsSelect.html(options);
+			produtsSelect.html(options).select2({placeholder:'Артикл'});
 		});
 
 		$("select[name=prodname_fk]").on("change",function(e) {

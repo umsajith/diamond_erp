@@ -58,6 +58,8 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=prodname_fk]").select2({placeholder:'Артикл'});
+		$("select[name=partner_fk]").select2({placeholder:'Партнер'});
+		$("select[name=pcname_fk]").select2({placeholder:'Категорија'});
 	});
 </script>

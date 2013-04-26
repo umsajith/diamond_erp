@@ -20,6 +20,8 @@ footer {font-size: 10px; margin-top: 5px; padding:20px;}
 #content-main-title h4 {margin: 0;margin-top: 5px;}
 #content-main-info p {margin: 0;margin-top: 5px;}
 #content-main-filters form {margin-bottom: 0;}
+/* Moves the select2 choice close button to left */
+.select2-search-choice-close {left: 7px;}
 
 /* Data Grids */
 .asc:after {content:'▲';}

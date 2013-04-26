@@ -50,6 +50,8 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=pcname_fk]").select2({placeholder:'Категорија'});
+		$("select[name=ptname_fk]").select2({placeholder:'Тип'});
+		$("select[name=wname_fk]").select2({placeholder:'Магацин'});
 	});	
 </script>

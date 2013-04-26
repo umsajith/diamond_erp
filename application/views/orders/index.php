@@ -47,6 +47,9 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=distributor_fk]").select2({placeholder:'Дистрибутер'});
+		$("select[name=partner_fk]").select2({placeholder:'Партнер'});
+		$("select[name=payment_mode_fk]").select2({placeholder:'Плаќање'});
+		$("select[name=postalcode_fk]").select2({placeholder:'Град'});
 	});	
 </script>

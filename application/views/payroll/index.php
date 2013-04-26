@@ -48,6 +48,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		$("select").select2();
+		$("select[name=employee_fk]").select2({placeholder:'Работник'});
 	});	
 </script>
