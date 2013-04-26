@@ -11,7 +11,7 @@ function paginate($url = '', $rows = 0, $limit = 0, $uriSegment = 0)
 {
     $CI =& get_instance();
 
-    $config['full_tag_open'] = '<div class="pagination"><ul>';
+    $config['full_tag_open'] = '<div class="pagination pagination-right"><ul>';
     $config['full_tag_close'] = '</ul></div><!--pagination-->';
     
     $config['first_tag_open'] = '<li class="prev page">';

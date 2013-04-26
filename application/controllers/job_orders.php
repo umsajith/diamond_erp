@@ -59,7 +59,7 @@ class Job_orders extends MY_Controller {
 		
 		$this->data['pagination'] = 
 		paginate("job_orders/index/{$query_id}/{$sort_by}/{$sort_order}",
-			$this->data['num_rows'],$this->limit,6); 
+			$this->data['num_rows'],$this->limit,6);
 				
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;
