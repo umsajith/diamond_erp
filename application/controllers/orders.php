@@ -84,7 +84,7 @@ class Orders extends MY_Controller {
 	public function insert()
 	{	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('partner_fk','partner','trim|required|callback_partner_exist');
+		$this->form_validation->set_rules('partner_fk','partner','trim|required');
 		$this->form_validation->set_rules('dateshipped','date shipped','trim|required');
 		$this->form_validation->set_rules('distributor_fk','distributer','trim|required');
 		$this->form_validation->set_rules('payment_mode_fk','payment mode','trim');
@@ -134,14 +134,6 @@ class Orders extends MY_Controller {
 		}
 		exit;
 	}
-
-	public function partner_exist($id)
-	{
-		if($this->par->select_single($id))
-			return true;
-
-		return false;
-	}
 	
 	public function edit($id = false)
 	{
@@ -156,8 +148,7 @@ class Orders extends MY_Controller {
 		/*
 		 * Prevents from editing locked record
 		 */
-		if($this->data['master']->locked == 1)
-			$this->utilities->flash('deny','orders');
+		if($this->data['master']->locked) $this->utilities->flash('deny','orders');
 
 		if($_POST)
 		{	
@@ -191,8 +182,8 @@ class Orders extends MY_Controller {
 	public function view($id = false)
 	{	
 		$this->data['master'] = $this->co->select_single($id);
-		if(!$this->data['master'])
-			$this->utilities->flash('void','orders');
+
+		if(!$this->data['master']) $this->utilities->flash('void','orders');
 
 		//Retreives data from DETAIL Model
 		$this->data['products'] = $this->prod->get_products('salable',false,true);
@@ -279,11 +270,14 @@ class Orders extends MY_Controller {
 	
 	public function delete($id = false)
 	{
-		if(!$this->co->select_single($id))
-			$this->utilities->flash('void','orders');
+		$order = $this->co->get($id);
+		/*
+		 * Prevents from editing locked record
+		 */
+		if($order->locked) $this->utilities->flash('deny','orders');
 
 		if($this->co->delete($id))
-			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+			$this->utilities->flash('delete','orders');
 		else
 			$this->utilities->flash('error','orders');
 	}

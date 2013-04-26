@@ -2,7 +2,7 @@
 
 class Distribution extends MY_Controller {
 	
-	protected $limit = 5;
+	protected $limit = 25;
 	
 	public function __construct()
 	{

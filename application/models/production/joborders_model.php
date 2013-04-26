@@ -18,7 +18,7 @@ class Joborders_model extends MY_Model {
 		[ 'field' => 'work_hours',			'label' => '','rules' => 'trim'],
 		[ 'field' => 'defect_quantity', 	'label' => '','rules' => 'trim'],
 		[ 'field' => 'shift', 		'label' => '','rules' => 'trim'],
-		[ 'field' => 'description', 'label' => '','rules' => 'trim'],
+		[ 'field' => 'description', 'label' => '','rules' => 'trim']
     ];
 
 	public function __construct()

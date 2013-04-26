@@ -4,6 +4,15 @@ class Cod_model extends MY_Model {
 	
 	//Database table of the Model
 	protected $_table = 'exp_cd_order_details';
+
+	public $before_update = ['setNull'];
+
+	public $validate = [
+        [ 'field' => 'order_fk', 	'label' => '','rules' => 'required'],
+		[ 'field' => 'prodname_fk', 'label' => '','rules' => 'required'],
+		[ 'field' => 'quantity', 	'label' => '','rules' => 'trim|required|greater_than[0]'],
+		[ 'field' => 'returned_quantity', 'label' => '','rules' => 'trim|greater_than[0]']
+    ];
 	
 	public function select($options = array())
 	{
@@ -39,49 +48,15 @@ class Cod_model extends MY_Model {
 
 		return $this->db->get($this->_table.' AS o')->result();
 	}
-	
-	public function insert ($data = array())
-	{		
-		// Inserts the whole data array into the database table
-		if($this->product_exist($data['order_fk'],$data['prodname_fk']))
-			return false;
-			
-		$this->db->insert($this->_table,$data);
-		
-		return $this->db->insert_id();
-	}
-	
-	public function product_exist($order_id,$product_id)
-	{		
-		/*
-		 * Checks if an entry with a supplied ORDER_ID
-		 * has already product entry with supplied PRODUCT_ID
-		 * Prevents entering same products on same order
-		 */
-		$this->db->select('id');
-		$this->db->where('order_fk',$order_id);
-		$this->db->where('prodname_fk',$product_id);
-		
-		if($this->db->get($this->_table)->row())
-			return true;
-		else
-			return false;
-	}
-	
-	public function update($id,$data = array())
-	{
-		if(isset($data['returned_quantity']))
-		{
-			if($data['returned_quantity'] == 0 OR $data['returned_quantity'] == '')
-				$data['returned_quantity'] = null;
-		}
 
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table,$data);
-		
-		return $this->db->affected_rows();
+	////////////////
+	// OBSERVERS //
+	////////////////
+	protected function setNull($row)
+	{
+		// Default returned value is 0
+		if(empty($row['returned_quantity'])) $row['returned_quantity'] = 0;
+
+		return $row;
 	}
-}
+} 
