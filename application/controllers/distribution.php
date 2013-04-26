@@ -2,7 +2,7 @@
 
 class Distribution extends MY_Controller {
 	
-	protected $limit = 25;
+	protected $limit = 5;
 	
 	public function __construct()
 	{
@@ -278,46 +278,39 @@ class Distribution extends MY_Controller {
 		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'dateoforigin'=>'Датум',
 			'prodname_fk'=>'Производ',
 			'qty_current'=>'Старо Салдо',
 			'quantity'=>'Влез',	
 			'qty_new'=>'Ново Салдо',
 			'dateofentry'=>'Внес'
-		);
+		];
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->get('prodname_fk')
-		);
+		];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('dateoforigin','prodname_fk','quantity','qty_current',
-								'qty_new','dateofentry');
+		$sort_by_array = ['dateoforigin','prodname_fk','quantity','qty_current',
+								'qty_new','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
 		$temp = $this->whr->select_all_inbound($query_array, $sort_by, $sort_order, $this->limit, $offset);
-		
+
 		//Results
 		$this->data['results'] = $temp['results'];
 		//Total Number of Rows in this Table
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("distribution/inbounds/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
-		
-		$this->data['pagination'] = $this->pagination->create_links(); 
+		$this->data['pagination'] = 
+		paginate("distribution/inbounds/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 				
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;
@@ -330,7 +323,7 @@ class Distribution extends MY_Controller {
 			'prodname_fk' => $this->input->post('prodname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("distribution/inbounds/$query_id");
+		redirect("distribution/inbounds/{$query_id}");
 	}
 	
 	public function outbounds($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -380,14 +373,9 @@ class Distribution extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("distribution/outbounds/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("distribution/outbounds/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -403,7 +391,7 @@ class Distribution extends MY_Controller {
 			'distributor_fk' => $this->input->post('distributor_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("distribution/outbounds/$query_id");
+		redirect("distribution/outbounds/{$query_id}");
 	}
 	
 	public function returns($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -418,9 +406,6 @@ class Distribution extends MY_Controller {
 		
 		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
 		$this->data['distributors'] = $this->utilities->get_distributors();
-		
-		//Limit Per Page
-		$limit = 25;
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -447,7 +432,7 @@ class Distribution extends MY_Controller {
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
-		$temp = $this->whr->select_all_returns($query_array, $sort_by, $sort_order, $limit, $offset);
+		$temp = $this->whr->select_all_returns($query_array, $sort_by, $sort_order, $this->limit, $offset);
 		
 		//Results
 		$this->data['results'] = $temp['results'];
@@ -455,14 +440,9 @@ class Distribution extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("distribution/returns/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("distribution/returns/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -478,7 +458,7 @@ class Distribution extends MY_Controller {
 			'distributor_fk' => $this->input->post('distributor_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("distribution/returns/$query_id");
+		redirect("distribution/returns/{$query_id}");
 	}
 	
 	public function delete($page, $id)

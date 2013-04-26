@@ -17,7 +17,7 @@
 		<tr>
 			<th>&nbsp;</th>
 	    	<?php foreach ($columns as $col_name => $col_display):?>
-    			<th <?=($sort_by==$col_name) ? "class=$sort_order" : ""?>>
+    			<th <?=($sort_by==$col_name) ? "class={$sort_order}" : ""?>>
 	    			<?=anchor("distribution/inbounds/{$query_id}/{$col_name}/".
 	    			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    		</th>
@@ -43,7 +43,6 @@
 <?php else:?>
 	<?=uif::load('_no_records')?>
 <?php endif;?>
-
 <script>
 	$(function(){
 		$("select").select2();

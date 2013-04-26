@@ -50,16 +50,9 @@ class Partners extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("partners/index/{$query_id}/{$sort_by}/{$sort_order}");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
-		
-		$this->data['pagination'] = $this->pagination->create_links(); 
+		$this->data['pagination'] = 
+		paginate("partners/index/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;
@@ -104,40 +97,13 @@ class Partners extends MY_Controller {
 			$this->form_validation->set_rules('is_vendor','','trim');
 			$this->form_validation->set_rules('is_customer','','trim');
 			
-			//Cheks if the Partner has been created through AJAX post
-			$ajax = false;
-			if(isset($_POST['ajax']) AND $_POST['ajax'] == 1)
-			{
-				$ajax = true;
-				unset($_POST['ajax']);
-			}
-			
 			//Check if form has passed validation
 			if ($this->form_validation->run())
 			{						
-				//Returns TRUE(id) if insertion successfull
 				if($this->par->insert($_POST))
-				{
-					if($ajax)
-					{
-						echo 1;
-						exit;
-					}
-						
 					$this->utilities->flash('add','partners');
-				}
 				else
-				{
-					if($ajax)
-						exit;
-						
-					$this->utilities->flash('error','partners');
-				}	
-			}
-			else
-			{
-				if($ajax)
-					exit;
+					$this->utilities->flash('error','partners');	
 			}
 		}
 		
@@ -152,8 +118,8 @@ class Partners extends MY_Controller {
 	public function edit($id)
 	{
 		$this->data['partner'] = $this->par->select_single($id);	
-		if(!$this->data['partner'])
-			$this->utilities->flash('void','partners');
+
+		if(!$this->data['partner']) $this->utilities->flash('void','partners');
 
 		if($_POST)
 		{
@@ -200,8 +166,7 @@ class Partners extends MY_Controller {
 		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->par->select_single($id);
-		if(!$this->data['master'])
-			$this->utilities->flash('void','partners');
+		if(!$this->data['master']) $this->utilities->flash('void','partners');
 		/**
 		 * If partner is Mother(has subsidiaries),
 		 * get all the subsidiaries
@@ -232,39 +197,6 @@ class Partners extends MY_Controller {
 		else
 			$this->utilities->flash('error','partners');	
 	}
-	
-	/**
-	 * For use with jQuery autocomplete. 
-	 * @return JSON
-	 */
-	// public function ajxSearch()
-	// {
-	// 	$term = $this->input->get('q',true);
-
-	// 	if (strlen($term) < 2) exit;
-
-	// 	/**
-	// 	 * Restriction options array:
-	// 	 *  is_customer = 1 (include customers)
-	// 	 *  is_mother = 0 (do not show mother companies)
-	// 	 * @var array
-	// 	 */
-	// 	$options = array(
-	// 			'is_customer'=>1,
-	// 			'is_mother'=>0
-	// 		);
-
-	// 	$rows = $this->par->partners_search($term, $options);
-
-	// 	$json_array = array();
-
-	// 	foreach ($rows as $row)
-	// 		 array_push($json_array,['id'=>$row->id,'value'=>$row->company]); 
-
-	// 	header('Content-Type: application/json');
-	// 	echo json_encode($json_array);
-	// 	exit;
-	// }
 
 	public function ajxAllPartners()
 	{

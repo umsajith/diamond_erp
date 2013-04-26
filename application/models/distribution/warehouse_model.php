@@ -81,8 +81,7 @@ class Warehouse_model extends MY_Model {
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('w.location_id',$this->_location);
+		if($this->_location) $this->db->where('w.location_id',$this->_location);
 		
 		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
@@ -93,14 +92,14 @@ class Warehouse_model extends MY_Model {
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where_in('prodname_fk',$query_array['prodname_fk']);
 			
-		$this->db->where('is_out',0);
+		$this->db->where('is_out',null);
+		$this->db->where('is_return',null);
 
 		/**
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
+		if($this->_location) $this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
@@ -156,8 +155,7 @@ class Warehouse_model extends MY_Model {
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('w.location_id',$this->_location);
+		if($this->_location) $this->db->where('w.location_id',$this->_location);
 		
 		$data['results'] = $this->db->get($this->_table.' AS w')->result();
 		
@@ -176,8 +174,7 @@ class Warehouse_model extends MY_Model {
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
+		if($this->_location) $this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table.' AS w')->row();
 		$data['num_rows'] = $temp->count;
@@ -247,14 +244,12 @@ class Warehouse_model extends MY_Model {
 		if(strlen($query_array['distributor_fk']))
 			$this->db->where_in('distributor_fk',$query_array['distributor_fk']);
 			
-		$this->db->where('is_out',0);
 		$this->db->where('is_return',1);
 		/**
 		 * If user has specific location set,
 		 * display warehouse entries for that location only!
 		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
+		if($this->_location) $this->db->where('location_id',$this->_location);
 		
 		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;

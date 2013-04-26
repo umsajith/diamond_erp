@@ -60,16 +60,9 @@ class Payroll extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll/index/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
-		
-		$this->data['pagination'] = $this->pagination->create_links();
+		$this->data['pagination'] = 
+		paginate("payroll/index/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;

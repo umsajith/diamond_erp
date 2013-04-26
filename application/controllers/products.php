@@ -60,16 +60,9 @@ class Products extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("products/index/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
-		
-		$this->data['pagination'] = $this->pagination->create_links(); 
+		$this->data['pagination'] = 
+		paginate("products/index/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 				
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;
@@ -84,7 +77,7 @@ class Products extends MY_Controller {
 			'wname_fk' => $this->input->post('wname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("products/index/$query_id");
+		redirect("products/index/{$query_id}");
 	}
 	
 	public function insert()
@@ -125,7 +118,7 @@ class Products extends MY_Controller {
 		$this->data['tax_rates'] = $this->utilities->get_dropdown('id', 'rate','exp_cd_tax_rates','- ДДВ -');  	  		
 
 		//Heading
-		$this->data['heading'] = 'Внес на Артикл';
+		$this->data['heading'] = 'Нов Артикл';
 	}
 	
 	public function edit($id)
@@ -134,8 +127,7 @@ class Products extends MY_Controller {
 		$this->data['product'] = $this->prod->select_single($id);
 		
 		//If there is nothing, redirects
-		if(!$this->data['product'])
-			$this->utilities->flash('void','products');
+		if(!$this->data['product']) $this->utilities->flash('void','products');
 		
 		//Proccesses the form with the new updated data
 		if($_POST)

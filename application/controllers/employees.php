@@ -23,7 +23,7 @@ class Employees extends MY_Controller {
 		$this->data['roles'] = $this->utilities->get_dropdown('id', 'name','exp_cd_roles','- Корисничка Група -',false);
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'employee'=>'Работник',
 			'comp_mobile'=>'Мобилен',
 			'position'=>'Работно Место',
@@ -33,19 +33,19 @@ class Employees extends MY_Controller {
 			'is_distributer'=>'Дистрибутер',
 			'fixed_wage'=>'Нето',
 			'status'=>'Статус'
-		);
+		];
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'poss_fk' => $this->input->get('poss_fk'),
 			'role_id' => $this->input->get('role_id')
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','comp_mobile','position','department','fixed_wage_only',
-								'is_manager','is_distributer','fixed_wage','comp_mobile_sub','status');
+		$sort_by_array = ['employee','comp_mobile','position','department','fixed_wage_only',
+								'is_manager','is_distributer','fixed_wage','comp_mobile_sub','status'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'employee';
 
 		//Retreive data from Model
@@ -57,16 +57,9 @@ class Employees extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("employees/index/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
-		
-		$this->data['pagination'] = $this->pagination->create_links();
+		$this->data['pagination'] = 
+		paginate("employees/index/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['sort_by'] = $sort_by;
 		$this->data['sort_order'] = $sort_order;
@@ -75,12 +68,12 @@ class Employees extends MY_Controller {
 	
 	public function search()
 	{
-		$query_array = array(
+		$query_array = [
 			'poss_fk' => $this->input->post('poss_fk'),
 			'role_id' => $this->input->post('role_id')
-		);	
+		];	
 		$query_id = $this->input->save_query($query_array);
-		redirect("employees/index/$query_id");
+		redirect("employees/index/{$query_id}");
 	}
 	
 	public function insert()
