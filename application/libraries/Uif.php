@@ -311,24 +311,4 @@ class UIF {
 	{
 	    return (array_keys($arr) !== range(0, count($arr) - 1));
 	}
-
-	//////////////
-	// TESTING //
-	//////////////
-	public static function paginate($url = '', $rows = '', $limit, $uriSegment = '')
-	{
-		$CI =& get_instance();
-
-		$config['base_url'] = site_url($url);
-		$config['total_rows'] = $rows;
-		$config['per_page'] = $limit;
-		$config['uri_segment'] = $uriSegment;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-
-		$CI->pagination->initialize($config);
-		
-		return $CI->pagination->create_links(); 
-	}
 }
