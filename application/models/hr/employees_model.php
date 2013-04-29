@@ -190,7 +190,36 @@ class Employees_model extends MY_Model {
 
 		return $this->db->affected_rows();	
 	}
+	public function generateDropdown($options = [])
+	{
+		$this->db->select("id, CONCAT(fname,' ',lname) AS name",false)
+			 ->from($this->_table)
+			 ->where('status','active');
 
+		if(!empty($options))
+		{
+			foreach ($options as $key => $value) 
+			{
+				$this->db->where($key,$value);
+			}
+		}
+
+		$this->db->order_by('fname');
+			 
+		$result = $this->db->get()->result();
+
+		$data = [];
+
+        foreach ($result as $row)
+        {
+            $data[$row->id] = $row->name;
+        }
+
+        return $data;
+	}
+	////////////////////////////
+	// Password Manipulation //
+	////////////////////////////
 	public static function hash($password) 
 	{
 		return crypt($password,self::$algo .self::$cost .'$'.self::unique_salt());

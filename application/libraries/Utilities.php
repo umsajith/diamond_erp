@@ -114,39 +114,39 @@ class Utilities {
         return $data;
     }
     
-	function get_employees($type = 'all', $empty = '')
-    {	
-    	//Generating Querry
-    	$this->CI->db->select('e.id,e.fname,e.lname');
-    	$this->CI->db->from('exp_cd_employees AS e');
-    	$this->CI->db->order_by('e.fname');
+	// function get_employees($type = 'all', $empty = '')
+ //    {	
+ //    	//Generating Querry
+ //    	$this->CI->db->select('e.id,e.fname,e.lname');
+ //    	$this->CI->db->from('exp_cd_employees AS e');
+ //    	$this->CI->db->order_by('e.fname');
     	
-    	if($type == 'fixed')
-        {
-    		$this->CI->db->where('fixed_wage_only',1);
-            $this->CI->db->where('is_distributer',0);
-        }
-    	if($type == 'variable')
-		{
-            $this->CI->db->where('fixed_wage_only',0);
-            $this->CI->db->where('is_distributer',0);
-        }
+ //    	if($type == 'fixed')
+ //        {
+ //    		$this->CI->db->where('fixed_wage_only',1);
+ //            $this->CI->db->where('is_distributer',0);
+ //        }
+ //    	if($type == 'variable')
+	// 	{
+ //            $this->CI->db->where('fixed_wage_only',0);
+ //            $this->CI->db->where('is_distributer',0);
+ //        }
     	
-    	$this->CI->db->where('status','active');
+ //    	$this->CI->db->where('status','active');
     	
-    	$array_keys_values = $this->CI->db->get()->result();
+ //    	$array_keys_values = $this->CI->db->get()->result();
         
-    	$data =  []; 
+ //    	$data =  []; 
 
-        if($empty != '')
-           $data[''] =  $empty; 
+ //        if($empty != '')
+ //           $data[''] =  $empty; 
     	
-    	//Creating Assosiative Array
-       foreach ($array_keys_values as $row)
-            $data[$row->id]= $row->fname . ' ' . $row->lname;
+ //    	//Creating Assosiative Array
+ //       foreach ($array_keys_values as $row)
+ //            $data[$row->id]= $row->fname . ' ' . $row->lname;
         
-        return $data;
-    }
+ //        return $data;
+ //    }
 	
 	function get_boms()
     {	

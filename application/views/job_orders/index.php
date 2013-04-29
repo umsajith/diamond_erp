@@ -8,7 +8,7 @@
 		<?=form_open('job_orders/search','class="form-inline"')?>
 			<?=uif::formElement('dropdown','','task_fk',[$tasks])?>
 			<?=uif::formElement('dropdown','','assigned_to',[$employees])?>
-			<?=uif::formElement('dropdown','','shift',[[''=>'- Смена -','1'=>'1','2'=>'2','3'=>'3']])?>
+			<?=uif::formElement('dropdown','','shift',[['1'=>'1','2'=>'2','3'=>'3']])?>
 			<?=uif::filterButton()?>
     	<?=form_close()?>
 	</div>

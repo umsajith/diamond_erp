@@ -12,6 +12,7 @@ class Job_orders extends MY_Controller {
 		$this->load->model('production/joborders_model','jo');
 		$this->load->model('procurement/inventory_model','inv');
 		$this->load->model('hr/task_model','tsk');
+		$this->load->model('hr/employees_model','emp');
     }
 
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -20,19 +21,19 @@ class Job_orders extends MY_Controller {
 		$this->data['heading'] = 'Работни Налози';
 		
 		//Generate dropdown menu data for Filters
-		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
-		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
+		$this->data['employees'] = $this->emp->generateDropdown();
+		$this->data['tasks'] = $this->tsk->dropdown('id','taskname');
 
 
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'datedue'=>'Датум',
-			'assigned_to'=>'Работник',
-			'task_fk'=>'Работна Задача',
-			'assigned_quantity'=>'Кол./Траење',
-			'work_hours'=>'Раб.Часови',
-			'shift'=>'Смена',
-			'dateofentry'=>'Внес'
+			'datedue'           =>'Датум',
+			'assigned_to'       =>'Работник',
+			'task_fk'           =>'Работна Задача',
+			'assigned_quantity' =>'Кол./Траење',
+			'work_hours'        =>'Раб.Часови',
+			'shift'             =>'Смена',
+			'dateofentry'       =>'Внес'
 		];
 
 		$this->input->load_query($query_id);
@@ -75,7 +76,7 @@ class Job_orders extends MY_Controller {
 			'shift' => $this->input->post('shift')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("job_orders/index/$query_id");
+		redirect("job_orders/index/{$query_id}");
 	}
 
 	public function insert()
@@ -103,7 +104,10 @@ class Job_orders extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
+		$this->data['employees'] = $this->emp->generateDropdown([
+			'is_distributer'  => 0,
+			'fixed_wage_only' => 0
+		]);
 				
 		//Retreives the Last Inserted Job Order
 		$this->data['last'] = $this->jo->get_last();
@@ -157,8 +161,10 @@ class Job_orders extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['employees'] = $this->utilities->get_employees('variable');
-		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
+		$this->data['employees'] = $this->emp->generateDropdown([
+			'is_distributer'  => 0,
+			'fixed_wage_only' => 0
+		]);
 		
 		//Heading
 		$this->data['heading'] = 'Корекција на Работен Налог';
@@ -203,57 +209,19 @@ class Job_orders extends MY_Controller {
 				//Log the report
 				$this->input->log_report($_POST);
 
-				$this->data['results'] = $this->jo->report($_POST);
+				$this->data['results']  = $this->jo->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
-				$this->data['dateto'] = $_POST['dateto'];
+				$this->data['dateto']   = $_POST['dateto'];
 				$this->data['submited'] = 1;
 
 				if(empty($this->data['results']))
 					$this->data['submited'] = 0;
-			}		
-			
-			/*
-			$data = '';
-			$categories = '';
-
-			
-			foreach ($results as $row)
-			{
-				$data .= "'$row->sum',";
-				$categories .= "'$row->taskname',";
-			}
-
-			
-			$this->data['json_data'] = substr($data,0,-1);
-			$this->data['categories'] = substr($categories,0,-1);
-			*/
-			/*
-			$gdata = array();
-			foreach($results as $one)
-			{
-				array_push($gdata, $one->avg);
-			}
-			
-			$graph = $this->jpgraph->linechart($gdata, 'This is a Line Chart');
-			
-			$graph_temp_directory = 'temp';  // in the webroot (add directory to .htaccess exclude)
-	        $graph_file_name = rand(1,3).time().'.jpg';    
-	        
-	        $graph_file_location = $graph_temp_directory . '/' . $graph_file_name;
-	                
-	        $graph->Stroke(base_url().$graph_file_location);  // create the graph and write to file
-	        
-	        $this->data['graph'] = $graph_file_location;
-			*/
-			//Runs model public functions and retreives results
-			
-			//Passes the results
-			
+			}			
 		}
 		
 		//Dropdown Menus
-		$this->data['employees'] = $this->utilities->get_employees('variable','- Работник -');
-		$this->data['tasks'] = $this->utilities->get_dropdown('id','taskname','exp_cd_tasks','- Работна Задача -');
+		$this->data['employees'] = $this->emp->generateDropdown();
+		$this->data['tasks']     = $this->tsk->dropdown('id','taskname');
 		
 		//Heading
 		$this->data['heading'] = 'Рипорт на Производство';
@@ -266,9 +234,9 @@ class Job_orders extends MY_Controller {
 		$this->load->helper('dompdf');
 		$this->load->helper('file');
 		
-		$report_data['results'] = $this->jo->report($_POST);
+		$report_data['results']  = $this->jo->report($_POST);
 		$report_data['datefrom'] = $_POST['datefrom'];
-		$report_data['dateto'] = $_POST['dateto'];
+		$report_data['dateto']   = $_POST['dateto'];
 		
 		$this->load->model('hr/task_model','tsk');
 		$this->load->model('hr/employees_model','emp');
@@ -344,12 +312,12 @@ class Job_orders extends MY_Controller {
 		foreach ($bom_components as $component)
 		{
 			$options = [
-				'prodname_fk'=> $component->prodname_fk,
-				'job_order_fk'=> $job_order_id,
-				'quantity' => (($component->quantity * $quantity) * -1),
-				'received_by' => $this->session->userdata('userid'),
-				'type' => '0',
-				'is_use' => 1
+				'prodname_fk'  => $component->prodname_fk,
+				'job_order_fk' => $job_order_id,
+				'quantity'     => (($component->quantity * $quantity) * -1),
+				'received_by'  => $this->session->userdata('userid'),
+				'type'         => '0',
+				'is_use'       => 1
 			];
 
 			unset($_POST);
