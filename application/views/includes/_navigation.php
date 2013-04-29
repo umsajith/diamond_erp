@@ -19,14 +19,15 @@
 
 		$link .= "?ref=module&id={$module->id}";
 		
-		  	//If current controller is active, marks it as down
-		 
-			$active = '';
-			if($module->id ==  $this->input->get('id'))
-			{	
-				$active = 'active';	
-			}
+	  	//If current controller is active, marks it as down
+		$active = '';
+		
+		if($module->id ==  $this->input->get('id'))
+		{	
+			$active = "class='active'";	
+		}
+
 		?>
-		<li <?="class='{$active}'"?>><?php echo anchor($link,$module->title);?></li>
+		<li <?=$active?>><?php echo anchor($link,$module->title);?></li>
 	<?php endforeach;?>
 </ul>
