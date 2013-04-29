@@ -1,6 +1,9 @@
 hr {margin-top:5px; margin-bottom:5px;}
 body {padding-top: 45px;}
 
+/* Font Awesome Icon Size Overwrite */
+[class^="icon-"],[class*=" icon-"] {font-size: 14px;}
+
 .pagination {margin:0;}
 
 #diamond-logo {padding: 5px 10px 5px 10px}
@@ -11,9 +14,14 @@ body {padding-top: 45px;}
 
 /* Template areas */
 nav {font-variant:small-caps;text-transform: lowercase; font-size: 14px;}
+
 header {}
+
 aside {font-variant:small-caps;text-transform: lowercase; font-size: 14px;}
+.aside-icon { margin-top: 6px; margin-right: -6px; float: right; color: #ccc; font-size: 12px;}
+
 div[role=main]{outline:1px solid #ddd; padding:5px;}
+
 footer {font-size: 10px; margin-top: 5px; padding:20px;}
 
 /* Main Content Header */
@@ -33,9 +41,6 @@ footer {font-size: 10px; margin-top: 5px; padding:20px;}
 .data-grid td {padding-right: 0px;}
 .data-grid td a {color:#333333; text-decoration:none;}
 .action-group a {color:#333333; text-decoration:none;}
-
-/* Font Awesome Icon Size Overwrite */
-[class^="icon-"],[class*=" icon-"] {font-size: 14px;}
 
 /* Definition List Bottom Margin Overwrite */
 dl {margin-bottom:10px;}
