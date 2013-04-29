@@ -90,7 +90,7 @@
 
 		$(".temp-table").hide();
 
-		$("select[name=payment_mode_fk]").select2();
+		$("select[name=payment_mode_fk]").select2({placeholder:"Плаќање"});
 		$("select[name=prodname_fk]").select2();
 
 		var partnersNames = [];
@@ -119,31 +119,20 @@
 			}   
 		});
 
-		$("select[name=prodname_fk]").on("change",function(e) {
-			$(this).val(e.val);
-			$("span.uom").html(JSONObject[this.selectedIndex].uname);
-		});
 		$("select[name=payment_mode_fk]").on("change",function(e) {
 			$(this).val(e.val);
 		});
 
-		/* insert new order */
-		// $("button[name=insert_order]").on('click',function(){
-		// 	submit_form();
-		// });
-
+		var options = {
+			select : "select[name=prodname_fk]",
+			placeholder : 'Артикл',
+			aux1 : "span.uom",
+			args : {
+				salable : 1
+			}
+		};
+		cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options);
 	});
-
-	var produtsSelect = $("select[name=prodname_fk]");
-
-    $.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
-		JSONObject = result;
-		var options = '<option></option>';
-		$.each(result, function(i, row){
-			options += '<option value="' + row.id + '">' + row.prodname + '</option>';
-		});
-		produtsSelect.html(options);
-	});	
 
     var products = [];
 
@@ -326,13 +315,13 @@
 		};
 
 		$.post("<?=site_url('orders/insert')?>",out,function(data){
-			 if(data){
+			 if(data) {
 			 	location.reload(true);
-			 }else{
+			 } else {
 			 	alert("Проблем при внесување! Проверети ги податоците!");
 			 	$("input[name=customer]").focus();
 			 }
-		},"json");
+		});
 		return false;
 	}
 </script>

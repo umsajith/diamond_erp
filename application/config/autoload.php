@@ -53,7 +53,7 @@ $autoload['packages'] = array();
 */
 
 $autoload['libraries'] = array('database','session','pagination',
-	'globals','utilities','form_validation','uif','air');
+	'globals','form_validation','uif','air');
 
 
 /*

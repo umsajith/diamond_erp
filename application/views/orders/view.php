@@ -95,25 +95,18 @@
 
 		$('.editable').editable({
 		    type: 'text',
-		    url: "<?=site_url('orders_details/ajxEditQty')?>",
-		    title: 'Qty'
+		    url: "<?=site_url('orders_details/ajxEditQty')?>"
 		});
 
-		var produtsSelect = $("select[name=prodname_fk]");
-
-	    $.getJSON("<?=site_url('products/dropdown/salable')?>", function(result) {
-			JSONObject = result;
-			var options = '<option></option>';
-			$.each(result, function(i, row){
-				options += '<option value="' + row.id + '">' + row.prodname + '</option>';
-			});
-			produtsSelect.html(options).select2({placeholder:'Артикл'});
-		});
-
-		$("select[name=prodname_fk]").on("change",function(e) {
-			$(this).val(e.val);
-			$("span.uom").html(JSONObject[this.selectedIndex-1].uname);
-		});	
+		var options = {
+			select : "select[name=prodname_fk]",
+			placeholder : 'Артикл',
+			aux1 : "span.uom",
+			args : {
+				salable : 1
+			}
+		};
+		cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options);
 
 	});
 

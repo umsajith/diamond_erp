@@ -49,7 +49,7 @@ class Air {
 		$CI->session->set_flashdata('type',$class);
 
 		//Redirect
-		if($redirect !== '')
+		if($redirect_to !== '')
 		{
 			redirect($redirect_to);
 		}

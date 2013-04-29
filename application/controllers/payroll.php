@@ -124,14 +124,11 @@ class Payroll extends MY_Controller {
 	
 	public function view($id)
 	{		
-		
-
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->pr->select_single($id);
 		
 		//If there is nothing, redirects
-		if(!$this->data['master'])
-			air::flash('void','payroll');
+		if(!$this->data['master']) air::flash('void','payroll');
 
 		if($this->data['master']->is_distributer == 1)
 		{

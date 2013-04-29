@@ -164,13 +164,13 @@ var cd = (function(){
 	obj.ddProducts = function(url, options){
 
 		var data;
+		var current = null;
+		var placeholder = (options.placeholder !== undefined) ? options.placeholder : '';
 		var product = $(options.hidden);
 		var products = $(options.select);
 		var uom = $(options.aux1); 
 		var category = $(options.aux2);
 		var firstRun = true;
-
-		products.select2();
 
 		if(options !== undefined && options.prodname_fk){
 			var prodname_fk = options.prodname_fk;
@@ -181,14 +181,17 @@ var cd = (function(){
 			var opts = '<option></option>';
 			$.each(result, function(i, row){
 				if((row.id === prodname_fk) && firstRun){
-	    			products.select2('data',{id:row.id,text:row.prodname});
+					current = {id:row.id, text:row.prodname};
 	    			uom.val(row.uname);
 	    			category.val(row.pcname);
 	    			firstRun = false;
 				}
 				opts += '<option value="' + row.id + '">' + row.prodname + '</option>';
 			});
-			products.html(opts);
+			products.html(opts).select2({placeholder:placeholder});
+			if(current !== null){
+				products.select2('data',current);
+			}
 		});
 		/*
 		 * When product is changed, populates the UOM and Category
@@ -196,7 +199,6 @@ var cd = (function(){
 		 *
 		 */
 		products.on("change",function(e) {
-			console.log($(this).val());
 			products.val($(this).val());
 			if(e.val !== ''){
 				uom.html(data[this.selectedIndex-1].uname);
