@@ -74,7 +74,7 @@
 					</td>
 					<td class="left"><?=$row->uname;?></td>
 					<td><?=(!$master->locked) ? 
-						uif::staticIcon('icon-trash','onClick="removeProduct('.$row->id.')"'):' '?>
+						uif::button('icon-trash','danger btn-mini','onClick="removeProduct('.$row->id.')"'):' '?>
 					</td>
 				</tr><?php $i++;?>
 				<?php endforeach;?>
@@ -117,17 +117,28 @@
 		var product = $("select[name=prodname_fk]");
 		var qty = $("input[name=quantity]");
 		var rqty = $("input[name=returned_quantity]");
-
 		var exists = false;
+
+		/**
+		 * @todo Validate for Prodcut and Qty
+		 */
 
 		$("table.ordered-products tr.product-row").each(function() {
 			if($(this).data("pid") == product.val()){
+				$(this).addClass('error').delay(5000).queue(function(){
+					$(this).removeClass('error')
+				});
 				exists = true;
+				return false;
 			}
 		});
 
 		if(exists) {
-			alert("Product Exists!");
+			cd.notify("Артиклот веќе постои. Aжурирајте ја количината.");
+			product.val('').focus();
+			qty.val('');
+			rqty.val('');
+			$("span.uom").html('');
 			return false;
 		}
 

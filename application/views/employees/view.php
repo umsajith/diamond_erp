@@ -84,7 +84,7 @@
                 <?php foreach ($assigned_tasks as $task):?>
                 <tr data-tid=<?=$task->id?>>
                     <td><?=$task->taskname?></td>
-                    <td><?=uif::linkIcon("employees/unassignTask/{$task->id}",'icon-trash','danger btn-mini')?></td>
+                    <td><?=uif::linkButton("employees/unassignTask/{$task->id}",'icon-trash','danger btn-mini')?></td>
                 </tr>
                 <?php endforeach;?>
             </tbody>
@@ -94,6 +94,6 @@
 </div>
 <script>
     $(function(){
-        $("select").select2();
+        cd.dd("select[name=task_fk]",'Работна Задача');
     });
 </script>
