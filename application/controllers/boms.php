@@ -11,6 +11,7 @@ class Boms extends MY_Controller {
 		//Load Models
 		$this->load->model('production/boms_model','bom');
 		$this->load->model('production/bomdetails_model','bomd');
+		$this->load->model('uom/uom_model','uom');
 	}
 	
 	public function index($sort_by = 'name', $sort_order = 'asc', $offset = 0)
@@ -20,9 +21,9 @@ class Boms extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'name'=>'Назив',
-			'quantity'=>'Количина',
-			'prodname'=>'Производ',
+			'name'       =>'Назив',
+			'quantity'   =>'Количина',
+			'prodname'   =>'Производ',
 			'conversion' => 'Конверзија'
 		);
 		
@@ -40,14 +41,9 @@ class Boms extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("boms/index/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 5;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("boms/index/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,5);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -79,7 +75,7 @@ class Boms extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Внес на Норматив';
 		
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom');
+		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
 	}
 	
 	public function edit($id)
@@ -91,7 +87,6 @@ class Boms extends MY_Controller {
 
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
-		
 		
 		if($_POST)
 		{
@@ -113,7 +108,8 @@ class Boms extends MY_Controller {
 		
 		//Heading
 		$this->data['heading'] = "Корекција на Норматив";
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom');
+
+		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
 	}
 	
 	//AJAX - Adds New Product in Bom Details

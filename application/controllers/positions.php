@@ -10,6 +10,7 @@ class Positions extends MY_Controller {
 		
 		//Load Models
 		$this->load->model('hr/positions_model','pos');
+		$this->load->model('hr/department_model','dept');
 	}
 	
 	public function index($sort_by = 'position', $sort_order = 'asc', $offset = 0)
@@ -19,11 +20,11 @@ class Positions extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'position'=>'Назив',
-			'department'=>'Сектор',
-			'base_salary'=>'Основна Плата',
-			'bonus'=>'Бонсу',
-			'commision'=>'Провизија'
+			'position'    =>'Назив',
+			'department'  =>'Сектор',
+			'base_salary' =>'Основна Плата',
+			'bonus'       =>'Бонсу',
+			'commision'   =>'Провизија'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -41,14 +42,9 @@ class Positions extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("positions/index/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 5;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("positions/index/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,5);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -78,8 +74,7 @@ class Positions extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['departments'] = 
-			$this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
+		$this->data['departments'] = $this->dept->dropdown('id', 'department');
 
 		//Heading
 		$this->data['heading'] = 'Ново Работно Место';
@@ -110,8 +105,7 @@ class Positions extends MY_Controller {
 		}
 		
 		//Generate dropdown menu data
-		$this->data['departments'] = 
-			$this->utilities->get_dropdown('id', 'department','exp_cd_departments','- Сектори -');
+		$this->data['departments'] = $this->dept->dropdown('id', 'department');
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работно Место';

@@ -136,7 +136,7 @@ class Orders_list extends MY_Controller {
 
 	public function delete($id)
 	{
-		$this->data['master'] = $this->col->select_one($id);
+		$this->data['master'] = $this->col->get($id);
 		if(!$this->data['master'])
 			$this->utilities->flash('void','orders_list');
 

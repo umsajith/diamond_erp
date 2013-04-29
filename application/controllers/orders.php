@@ -129,7 +129,6 @@ class Orders extends MY_Controller {
 					'dateshipped' => $lastRecord->dateshipped,
 					'dateofentry' => $lastRecord->dateofentry
 				];
-				//$this->utilities->flash('add','',false);
 				header('Content-Type: application/json');
 				echo (json_encode($out));
 				exit;
@@ -242,15 +241,15 @@ class Orders extends MY_Controller {
 
 		if(strlen($_POST['distributor_fk']))
 		{
-			$report_data['distributer'] = $this->emp->select_single($_POST['distributor_fk']);	
+			$report_data['distributer'] = $this->emp->get($_POST['distributor_fk']);	
 		}
 		if(strlen($_POST['partner_fk']))
 		{
-			$report_data['partner'] = $this->par->select_single($_POST['partner_fk']);	
+			$report_data['partner'] = $this->par->get($_POST['partner_fk']);	
 		}
 		if(strlen($_POST['payment_mode_fk']))
 		{
-			$report_data['payment'] = $this->utilities->get_single($_POST['payment_mode_fk'],'exp_cd_payment_modes');	
+			$report_data['payment'] = $this->pmm->get($_POST['payment_mode_fk']);	
 		}
 		
 		if($report_data['results'])

@@ -121,7 +121,7 @@ class Tasks extends MY_Controller {
     
 	public function delete($id)
 	{
-		if(!$this->tsk->select_single($id))
+		if(!$this->tsk->get($id))
 			$this->utilities->flash('void','tasks');
 
 		if($this->tsk->delete($id))

@@ -27,7 +27,7 @@ class Payroll extends MY_Controller {
 		$this->data['employees'] = $this->emp->generateDropdown();
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'employee'    =>'Работник',
 			'date_from'   =>'Од',
 			'date_to'     =>'До',
@@ -38,7 +38,7 @@ class Payroll extends MY_Controller {
 			'expenses'    =>'Трошоци',
 			'paid_wage'   =>'Доплата',
 			'dateofentry' =>'Внес'
-		);
+		];
 
 		$this->input->load_query($query_id);
 		
@@ -67,9 +67,9 @@ class Payroll extends MY_Controller {
 		paginate("payroll/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 		
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()

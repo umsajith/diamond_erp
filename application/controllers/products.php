@@ -23,12 +23,12 @@ class Products extends MY_Controller {
 		$this->data['heading'] = 'Артикли';
 
 		// Generating dropdown menu's
-		$this->data['warehouses'] = $this->utilities->get_dropdown('id', 'wname','exp_cd_warehouses','- Магацин -');
-		$this->data['types'] = $this->utilities->get_dropdown('id', 'ptname','exp_cd_product_type','- Тип -'); 
-		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['warehouses'] = $this->warehouse->dropdown('id', 'wname');
+		$this->data['types']      = $this->type->dropdown('id', 'ptname'); 
+		$this->data['categories'] = $this->category->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [
 			'prodname'       =>'Назив',
 			'ptname_fk'      =>'Тип',
 			'pcname_fk'      =>'Категорија',
@@ -39,14 +39,14 @@ class Products extends MY_Controller {
 			'whole_price1'   =>'ГПЦ1',
 			'commision'      =>'Рабат',
 			'tax_rate_fk'    =>'ДДВ'
-		);
+		];
 		
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
 			'ptname_fk' => $this->input->get('ptname_fk'),
 			'pcname_fk' => $this->input->get('pcname_fk'),
-			'wname_fk' => $this->input->get('wname_fk')
+			'wname_fk'  => $this->input->get('wname_fk')
 		);
 		
 		//Validates Sort by and Sort Order
@@ -69,9 +69,9 @@ class Products extends MY_Controller {
 		paginate("products/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 				
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()
@@ -118,8 +118,8 @@ class Products extends MY_Controller {
 		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
 		$this->data['product_types'] = $this->type->dropdown('id','ptname');
 		$this->data['product_cates'] = $this->category->dropdown('id','pcname');
-		$this->data['uoms'] = $this->uom->dropdown('id','uname');
-		$this->data['tax_rates'] = $this->tr->dropdown('id','rate');
+		$this->data['uoms']          = $this->uom->dropdown('id','uname');
+		$this->data['tax_rates']     = $this->tr->dropdown('id','rate');
 
 		//Heading
 		$this->data['heading'] = 'Нов Артикл';
@@ -165,8 +165,8 @@ class Products extends MY_Controller {
 		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
 		$this->data['product_types'] = $this->type->dropdown('id','ptname');
 		$this->data['product_cates'] = $this->category->dropdown('id','pcname');
-		$this->data['uoms'] = $this->uom->dropdown('id','uname');
-		$this->data['tax_rates'] = $this->tr->dropdown('id','rate');		
+		$this->data['uoms']          = $this->uom->dropdown('id','uname');
+		$this->data['tax_rates']     = $this->tr->dropdown('id','rate');		
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Артикл';

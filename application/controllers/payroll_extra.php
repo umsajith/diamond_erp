@@ -34,12 +34,12 @@ class Payroll_extra extends MY_Controller {
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'employee_fk'          => $this->input->get('employee_fk'),
 			'payroll_extra_cat_fk' => $this->input->get('payroll_extra_cat_fk'),
 			'is_expense'           => 0,
 			'is_contribution'      => 0
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -55,14 +55,9 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/index/{$query_id}/{$sort_by}/{$sort_order}");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("payroll_extra/index/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 		
@@ -122,14 +117,9 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/expenses/{$query_id}/{$sort_by}/{$sort_order}");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("payroll_extra/expenses/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 		
@@ -188,14 +178,9 @@ class Payroll_extra extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("payroll_extra/social_contributions/{$query_id}/{$sort_by}/{$sort_order}");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("payroll_extra/social_contributions/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 		

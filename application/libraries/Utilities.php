@@ -9,26 +9,26 @@ class Utilities {
         $this->CI =& get_instance();
     }
     
-	//Generates standard dropdown menu
-    function get_dropdown($key, $value, $from, $empty = '--')
-	{
-       $data = array();
+	// //Generates standard dropdown menu
+ //    function get_dropdown($key, $value, $from, $empty = '--')
+	// {
+ //       $data = array();
 
-       //Prepare query
-       $this->CI->db->select($key.','.$value);
-       $this->CI->db->order_by($value,'asc');
+ //       //Prepare query
+ //       $this->CI->db->select($key.','.$value);
+ //       $this->CI->db->order_by($value,'asc');
        
-       //Retreive data from database
-       $results = $this->CI->db->get($from)->result();
+ //       //Retreive data from database
+ //       $results = $this->CI->db->get($from)->result();
        
-       $data[''] =  $empty;
+ //       $data[''] =  $empty;
        
-       //Creating Assosiative Array
-       foreach ($results as $row)
-            $data[$row->$key]= $row->$value;
+ //       //Creating Assosiative Array
+ //       foreach ($results as $row)
+ //            $data[$row->$key]= $row->$value;
         
-        return $data;
-    }
+ //        return $data;
+ //    }
     
 	// function get_single($id, $from)
 	// {

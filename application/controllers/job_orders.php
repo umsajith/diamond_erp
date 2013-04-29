@@ -22,7 +22,7 @@ class Job_orders extends MY_Controller {
 		
 		//Generate dropdown menu data for Filters
 		$this->data['employees'] = $this->emp->generateDropdown();
-		$this->data['tasks'] = $this->tsk->dropdown('id','taskname');
+		$this->data['tasks']     = $this->tsk->dropdown('id','taskname');
 
 
 		//Columns which can be sorted by
@@ -39,9 +39,9 @@ class Job_orders extends MY_Controller {
 		$this->input->load_query($query_id);
 		
 		$query_array = [
-			'task_fk' => $this->input->get('task_fk'),
+			'task_fk'     => $this->input->get('task_fk'),
 			'assigned_to' => $this->input->get('assigned_to'),
-			'shift' => $this->input->get('shift')
+			'shift'       => $this->input->get('shift')
 		];
 		
 		//Validates Sort by and Sort Order
@@ -63,17 +63,17 @@ class Job_orders extends MY_Controller {
 		paginate("job_orders/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 				
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()
 	{
 		$query_array = array(
-			'task_fk' => $this->input->post('task_fk'),
+			'task_fk'     => $this->input->post('task_fk'),
 			'assigned_to' => $this->input->post('assigned_to'),
-			'shift' => $this->input->post('shift')
+			'shift'       => $this->input->post('shift')
 		);	
 		$query_id = $this->input->save_query($query_array);
 		redirect("job_orders/index/{$query_id}");
@@ -89,7 +89,7 @@ class Job_orders extends MY_Controller {
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
-				$production = $this->tsk->select_single($_POST['task_fk']);
+				$production = $this->tsk->get($_POST['task_fk']);
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($job_order_id,$production->id,$_POST['assigned_quantity']);
@@ -238,16 +238,13 @@ class Job_orders extends MY_Controller {
 		$report_data['datefrom'] = $_POST['datefrom'];
 		$report_data['dateto']   = $_POST['dateto'];
 		
-		$this->load->model('hr/task_model','tsk');
-		$this->load->model('hr/employees_model','emp');
-
 		if(strlen($_POST['assigned_to']))
 		{
-			$report_data['employee'] = $this->emp->select_single($_POST['assigned_to']);	
+			$report_data['employee'] = $this->emp->get($_POST['assigned_to']);	
 		}
 		if(strlen($_POST['task_fk']))
 		{
-			$report_data['task'] = $this->tsk->select_single($_POST['task_fk']);	
+			$report_data['task'] = $this->tsk->get($_POST['task_fk']);	
 		}
 		// if(strlen($_POST['shift']))
 		// {
@@ -287,7 +284,6 @@ class Job_orders extends MY_Controller {
 	private function _inventory_use($job_order_id,$task_id,$quantity)
 	{
 		//Loading Models
-		$this->load->model('hr/task_model','tsk');
 		$this->load->model('production/bomdetails_model','bomd');
 		$this->load->model('production/boms_model','bom');
 		

@@ -31,11 +31,11 @@ class Partners extends MY_Controller {
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'partner_type'  => $this->input->get('partner_type'),
 			'postalcode_fk' => $this->input->get('postalcode_fk'),
 			'q'             => $this->input->get('q')
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'asc') ? 'asc' : 'desc';
@@ -55,9 +55,9 @@ class Partners extends MY_Controller {
 		paginate("partners/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 		
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()
@@ -189,7 +189,7 @@ class Partners extends MY_Controller {
 	 */
 	public function delete($id)
 	{
-		$this->data= $this->par->select_single($id);
+		$this->data= $this->par->get($id);
 		if(!$this->data)
 			$this->utilities->flash('void','partners');
 			

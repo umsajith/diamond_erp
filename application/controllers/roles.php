@@ -7,6 +7,7 @@ class Roles extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->model('acl/roles_model','rl');
 	}
     
@@ -107,7 +108,7 @@ class Roles extends MY_Controller {
 
 		$this->data['resources'] = $this->Permissions_model->get_resources_by_role_id($id);
 
-		$this->data['dd_permissions'] = [''=>'','allow'=>'Allow','deny'=>'Deny'];
+		$this->data['dd_permissions'] = ['allow'=>'Allow','deny'=>'Deny'];
 
 		$this->data['dd_resources'] = $this->Resources_model->dropdown_all();
 	}

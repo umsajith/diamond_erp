@@ -7,6 +7,7 @@ class Tproduct extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->model('products/type_model','tpr');
 	}
     
@@ -37,14 +38,9 @@ class Tproduct extends MY_Controller {
 									->order_by($sort_by,$sort_order)->count_all();
 
 		//Pagination
-		$config['base_url'] = site_url("tproduct/index/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 5;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("tproduct/index/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,5); 
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 

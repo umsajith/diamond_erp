@@ -4,10 +4,9 @@ class Auth extends CI_Controller {
 
 	public function __construct()
 	{
-
 		parent::__construct();
 		
-		$this->load->model('auth/Auth_model','auth');
+		$this->load->model('auth/auth_model','auth');
 	}
 
 	public function index()
@@ -79,15 +78,12 @@ class Auth extends CI_Controller {
 
 	private function authenticate($user)
 	{
-		$this->load->model('acl/Permissions_model','perm');
-		$this->load->model('acl/Resources_model','res');
-
 		//Get permissions based on user role_id
-		$allow_resources = $this->perm->get_permissions($user->role_id,'allow');
-		$deny_resources = $this->perm->get_permissions($user->role_id,'deny');
+		$allow_resources = $this->Permissions_model->get_permissions($user->role_id,'allow');
+		$deny_resources = $this->Permissions_model->get_permissions($user->role_id,'deny');
 		
 		//Retreive master resources (main modules) based on resource_id
-		$modules = $this->res->get_resources($allow_resources);
+		$modules = $this->Resources_model->get_resources($allow_resources);
 
 		$this->auth->set_session($user,$modules,$allow_resources,$deny_resources);
 	}
