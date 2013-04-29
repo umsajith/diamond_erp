@@ -12,7 +12,9 @@ class Orders extends MY_Controller {
 		$this->load->model('orders/co_model','co');
 		$this->load->model('orders/cod_model','cod');
 		$this->load->model('partners/partners_model','par');
-		$this->load->model('products/Products_model','prod');
+		$this->load->model('products/products_model','prod');
+		$this->load->model('financial/paymentmode_model','pmm');
+		$this->load->model('hr/employees_model','emp');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
@@ -21,27 +23,27 @@ class Orders extends MY_Controller {
 		$this->data['heading'] = "Налози за Продажба";
 		
 		//Generate dropdown menu data
-		$this->data['customers'] = $this->par->dropdown('customers');
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
-		$this->data['distributors'] = $this->utilities->get_distributors();
-		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
-		
+		$this->data['postalcodes']   = $this->utilities->get_postalcodes();	
+		$this->data['customers']     = $this->par->dropdown('id','company');
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
+		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
+
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'dateshipped'=>'Датум',
-			'partner_fk'=>'Купувач',
-			'distributor_fk'=>'Дистрибутер',
-			'payment_mode_fk'=>'Плаќање',
-			'dateofentry'=>'Внес',
-			'order_list_id'=>'Извештај'
+			'dateshipped'     =>'Датум',
+			'partner_fk'      =>'Купувач',
+			'distributor_fk'  =>'Дистрибутер',
+			'payment_mode_fk' =>'Плаќање',
+			'dateofentry'     =>'Внес',
+			'order_list_id'   =>'Извештај'
 		);
 
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
-			'partner_fk' => $this->input->get('partner_fk'),
-			'postalcode_fk' => $this->input->get('postalcode_fk'),
-			'distributor_fk' => $this->input->get('distributor_fk'),
+			'partner_fk'      => $this->input->get('partner_fk'),
+			'postalcode_fk'   => $this->input->get('postalcode_fk'),
+			'distributor_fk'  => $this->input->get('distributor_fk'),
 			'payment_mode_fk' => $this->input->get('payment_mode_fk')
 		);
 		
@@ -72,9 +74,9 @@ class Orders extends MY_Controller {
 	public function search()
 	{
 		$query_array = array(
-			'partner_fk' => $this->input->post('partner_fk'),
-			'postalcode_fk' => $this->input->post('postalcode_fk'),
-			'distributor_fk' => $this->input->post('distributor_fk'),
+			'partner_fk'      => $this->input->post('partner_fk'),
+			'postalcode_fk'   => $this->input->post('postalcode_fk'),
+			'distributor_fk'  => $this->input->post('distributor_fk'),
 			'payment_mode_fk' => $this->input->post('payment_mode_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
@@ -94,12 +96,12 @@ class Orders extends MY_Controller {
 		{
 			//Inserts Master details
 			$master = [
-				'order_list_id'=>$_POST['order_list_id'],
-				'dateshipped'=>$_POST['dateshipped'],
-			 	'partner_fk'=>$_POST['partner_fk'],
-				'distributor_fk'=>$_POST['distributor_fk'],
-				'payment_mode_fk'=>$_POST['payment_mode_fk'],
-				'inserted_by'=>$this->session->userdata('userid')
+				'order_list_id' => $_POST['order_list_id'],
+				'dateshipped'   => $_POST['dateshipped'],
+			 	'partner_fk'    => $_POST['partner_fk'],
+				'distributor_fk'  => $_POST['distributor_fk'],
+				'payment_mode_fk' => $_POST['payment_mode_fk'],
+				'inserted_by' => $this->session->userdata('userid')
 			];
 			
 			$order_fk = $this->co->insert($master);
@@ -111,18 +113,18 @@ class Orders extends MY_Controller {
 				{
 					//Inserts all Detail records into the database
 					$this->cod->insert([
-							'order_fk'=>$order_fk,
-							'prodname_fk'=>$detail['id'],
-							'quantity'=>$detail['quantity'],
-							'returned_quantity'=>$detail['returned_quantity']
+							'order_fk'          => $order_fk,
+							'prodname_fk'       => $detail['id'],
+							'quantity'          => $detail['quantity'],
+							'returned_quantity' => $detail['returned_quantity']
 						]);
 				}
 
 				$lastRecord = $this->co->select_single($order_fk);
 				$out = [
-					'id' => $lastRecord->id,
-					'company' => $lastRecord->company,
-					'payment' => $lastRecord->name,
+					'id'          => $lastRecord->id,
+					'company'     => $lastRecord->company,
+					'payment'     => $lastRecord->name,
 					'dateshipped' => $lastRecord->dateshipped,
 					'dateofentry' => $lastRecord->dateofentry
 				];
@@ -174,9 +176,9 @@ class Orders extends MY_Controller {
 		$this->data['heading'] = "Корекција на Налог за Продажба";
 		
 		//Dropdown Menus
-		$this->data['customers'] = $this->par->dropdown('customers');
-		$this->data['distributors'] = $this->utilities->get_distributors();
-		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
+		$this->data['customers'] = $this->par->dropdown('id','company');
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
+		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
 	}
 	
 	public function view($id = false)
@@ -186,7 +188,6 @@ class Orders extends MY_Controller {
 		if(!$this->data['master']) $this->utilities->flash('void','orders');
 
 		//Retreives data from DETAIL Model
-		$this->data['products'] = $this->prod->get_products('salable',false,true);
 		$this->data['details'] = $this->cod->select(['id'=>$id]);
 
 		//Heading
@@ -219,9 +220,9 @@ class Orders extends MY_Controller {
 		}
 		
 		//Dropdown Menus
-		$this->data['distributors'] = $this->utilities->get_distributors();
-		$this->data['modes_payment'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
-		$this->data['customers'] = $this->par->dropdown('customers');
+		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
+		$this->data['customers']     = $this->par->dropdown('id','company');
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Heading
 		$this->data['heading'] = 'Рипорт на Продажба';
@@ -234,12 +235,9 @@ class Orders extends MY_Controller {
 		$this->load->helper('dompdf');
 		$this->load->helper('file');
 		
-		$report_data['results'] = $this->co->report($_POST);
+		$report_data['results']  = $this->co->report($_POST);
 		$report_data['datefrom'] = $_POST['datefrom'];
-		$report_data['dateto'] = $_POST['dateto'];
-		
-		$this->load->model('partners/partners_model','par');
-		$this->load->model('hr/employees_model','emp');
+		$report_data['dateto']   = $_POST['dateto'];
 
 		if(strlen($_POST['distributor_fk']))
 		{

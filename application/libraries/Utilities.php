@@ -103,7 +103,7 @@ class Utilities {
     	
     	$array_keys_values = $this->CI->db->get();
     	
-    	$data[''] =  '- Град -';
+    	$data =  [];
     	
     	//Creating Assosiative Array
        foreach ($array_keys_values->result() as $row)

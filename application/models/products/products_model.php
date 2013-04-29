@@ -113,6 +113,14 @@ class Products_model extends MY_Model {
 			->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT')
 			->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 
+		if(!empty($options))
+		{
+			foreach ($options as $key => $value) 
+			{
+				$this->db->where($key,$value);
+			}
+		}
+
 		if(isset($options['salable']))
 			$this->db->where('p.salable',$options['salable']);
 		if(isset($options['purchasable']))
@@ -127,6 +135,9 @@ class Products_model extends MY_Model {
 		return $this->db->get($this->_table.' AS p')->result();
 	}
 	
+	//////////////////
+	// DEPRICATED  //
+	//////////////////
 	public function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
 	{
 		if(!in_array($type,array('salable','purchasable'))) die();

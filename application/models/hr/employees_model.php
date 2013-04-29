@@ -190,6 +190,7 @@ class Employees_model extends MY_Model {
 
 		return $this->db->affected_rows();	
 	}
+	
 	public function generateDropdown($options = [])
 	{
 		$this->db->select("id, CONCAT(fname,' ',lname) AS name",false)

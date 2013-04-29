@@ -1,7 +1,7 @@
 <?=uif::contentHeader($heading,$master)?>
 	<?php if(!$master->locked):?>
         <?=uif::linkButton("orders_list/edit/{$master->id}",'icon-edit','warning')?>
-        <?=uif::linkDeleteButton("orders_list/delete/$master->id")?>
+        <?=uif::linkDeleteButton("orders_list/delete/{$master->id}")?>
 		<?=uif::button('icon-lock','info','onClick=cd.lockOrderList("'.site_url('orders_list/ajxLock').'",'.$master->id.')')?>
     <?php else:?>
 		<?=uif::button('icon-unlock','info','onClick=cd.unlockOrderList("'.site_url('orders_list/ajxUnlock').'",'.$master->id.')')?>

@@ -85,65 +85,96 @@ class Partners_model extends MY_Model {
 		//Returns the whole data array containing $results and $num_rows
 		return $data;
 	}
-	
-	public function dropdown($partner_type = null, $mothers = false)
+	/**
+	 * Generates data for dropdown menu
+	 * @param  Array $options Array of options
+	 * @return Array
+	 */
+	public function generateDropdown($options = [])
 	{
-		$this->db->select('p.id,p.company,c.name as city');
-		$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
-		$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
-		
-		if($partner_type != null)
+		$this->db->select('id, company')
+			 ->from($this->_table);
+
+		if(!empty($options))
 		{
-			if(!in_array($partner_type,array('vendors','customers')))
-				return false;
-				
-			if($partner_type == 'vendors')
+			foreach ($options as $key => $value) 
 			{
-				$this->db->where_in('p.is_vendor',1);
-				$empty = '- Добавувач -';
+				$this->db->where($key,$value);
 			}
-				
-			if($partner_type == 'customers')
-			{
-				$this->db->where_in('p.is_customer',1);
-				$empty = '- Купувач -';
-			}
-				
 		}
-		
-		if($mothers)
-		{
-			$this->db->where('p.is_mother',1);
-			$empty = '- Седиште -';
-		}
-				
-		$this->db->order_by('p.postalcode_fk','asc');
-		$this->db->order_by('p.company','asc');
-		
-		$query = $this->db->get($this->_table.' AS p');
-		
-		$options = array();
-		$options[''] = $empty;  // first item in list is 'empty'
-		$prevState = '';
-		
-		foreach ($query->result_array() as $row)
-		{
-		    if($prevState == $row['city'])
-		    {
-		        ${$prevState}[$row['id']]='&nbsp;&nbsp;'.$row['company'].'&nbsp;&nbsp;';
-		    }
-		    else
-		    {
-		        if($prevState!='')
-		        	{$options[$prevState]=$$prevState;};
-		        
-		        $prevState = $row['city'];
-		        $$prevState = array();
-		        ${$prevState}[$row['id']]='&nbsp;&nbsp;'.$row['company'].'&nbsp;&nbsp;';
-		    }
-		}
-		return $options;
+
+		$this->db->order_by('company');
+			 
+		$result = $this->db->get()->result();
+
+		$data = [];
+
+        foreach ($result as $row)
+        {
+            $data[$row->id] = $row->company;
+        }
+
+        return $data;
 	}
+	
+	// public function dropdown($partner_type = null, $mothers = false)
+	// {
+	// 	$this->db->select('p.id,p.company,c.name as city');
+	// 	$this->db->join('exp_cd_postalcode AS pc','pc.id = p.postalcode_fk','LEFT');
+	// 	$this->db->join('exp_cd_cities AS c','c.id = pc.city_fk','LEFT');
+		
+	// 	if($partner_type != null)
+	// 	{
+	// 		if(!in_array($partner_type,array('vendors','customers')))
+	// 			return false;
+				
+	// 		if($partner_type == 'vendors')
+	// 		{
+	// 			$this->db->where_in('p.is_vendor',1);
+	// 			$empty = '- Добавувач -';
+	// 		}
+				
+	// 		if($partner_type == 'customers')
+	// 		{
+	// 			$this->db->where_in('p.is_customer',1);
+	// 			$empty = '- Купувач -';
+	// 		}
+				
+	// 	}
+		
+	// 	if($mothers)
+	// 	{
+	// 		$this->db->where('p.is_mother',1);
+	// 		$empty = '- Седиште -';
+	// 	}
+				
+	// 	$this->db->order_by('p.postalcode_fk','asc');
+	// 	$this->db->order_by('p.company','asc');
+		
+	// 	$query = $this->db->get($this->_table.' AS p');
+		
+	// 	$options = array();
+	// 	$options[''] = $empty;  // first item in list is 'empty'
+	// 	$prevState = '';
+		
+	// 	foreach ($query->result_array() as $row)
+	// 	{
+	// 	    if($prevState == $row['city'])
+	// 	    {
+	// 	        ${$prevState}[$row['id']]='&nbsp;&nbsp;'.$row['company'].'&nbsp;&nbsp;';
+	// 	    }
+	// 	    else
+	// 	    {
+	// 	        if($prevState!='')
+	// 	        	{$options[$prevState]=$$prevState;};
+		        
+	// 	        $prevState = $row['city'];
+	// 	        $$prevState = array();
+	// 	        ${$prevState}[$row['id']]='&nbsp;&nbsp;'.$row['company'].'&nbsp;&nbsp;';
+	// 	    }
+	// 	}
+	// 	return $options;
+	// }
 	/**
 	 * Searches for partners match by term provided.
 	 * Limit search results by options restrictions.
@@ -151,7 +182,7 @@ class Partners_model extends MY_Model {
 	 * @param  Array  $options restriction options
 	 * @return Array of Objects          
 	 */
-	public function partners_search($term, Array $options)
+	public function partners_search($term, $options = [])
 	{
 		$this->db->select('id, company')
 	    	->like('company', $term, 'after');

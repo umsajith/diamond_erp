@@ -12,6 +12,7 @@ class Orders_list extends MY_Controller {
 		$this->load->model('orders/co_model','co');
 		$this->load->model('orders/col_model','col');
 		$this->load->model('orders/cod_model','cod');
+		$this->load->model('hr/employees_model','emp');
 	}
 
 	public function index($query_id = 0,$sort_by = 'date', $sort_order = 'desc', $offset = 0)
@@ -20,7 +21,7 @@ class Orders_list extends MY_Controller {
 		$this->data['heading'] = "Извештаи за Продажба";
 
 		//Dropdown Menus
-		$this->data['distributors'] = $this->utilities->get_distributors();
+		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -77,22 +78,26 @@ class Orders_list extends MY_Controller {
 	public function insert()
 	{
 		$this->data['heading'] = "Внес на Извештај";
+		//Dropdown Menus
+		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Check if form has been submited
 		if ($_POST)
 		{
 			if($order_id = $this->col->insert($_POST))
+			{
 				$this->utilities->flash('add',"orders_list/view/{$order_id}");
+			}
 		}
-
-		//Dropdown Menus
-		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 
 	public function edit($id)
 	{
 		//Heading
 		$this->data['heading'] = "Корекција на Извештај";
+
+		//Dropdown Menus
+		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 
 		$this->data['master'] = $this->col->select_one($id);
 		
@@ -107,11 +112,10 @@ class Orders_list extends MY_Controller {
 		if ($_POST)
 		{
 			if($this->col->update($_POST['id'],$_POST))
+			{
 				$this->utilities->flash('update','orders_list');
+			}
 		}
-
-		//Dropdown Menus
-		$this->data['distributors'] = $this->utilities->get_distributors();
 	}
 
 	public function view($id)
@@ -124,9 +128,10 @@ class Orders_list extends MY_Controller {
 			$this->utilities->flash('void','orders_list');
 
 		$this->data['results'] = $this->co->select_by_order_list($id);
-
-		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
-		$this->data['pmodes'] = $this->utilities->get_dropdown('id', 'name','exp_cd_payment_modes','- Плаќање -');
+		
+		//Dropdown Menus
+		$this->load->model('financial/paymentmode_model','pmm');
+		$this->data['pmodes'] = $this->pmm->dropdown('id','name');
 	}
 
 	public function delete($id)
