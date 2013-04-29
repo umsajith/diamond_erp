@@ -79,7 +79,7 @@ class Products extends MY_Controller {
 		$query_array = array(
 			'ptname_fk' => $this->input->post('ptname_fk'),
 			'pcname_fk' => $this->input->post('pcname_fk'),
-			'wname_fk' => $this->input->post('wname_fk')
+			'wname_fk'  => $this->input->post('wname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
 		redirect("products/index/{$query_id}");
@@ -109,9 +109,9 @@ class Products extends MY_Controller {
 		{
 			//Successful validation insets into the DB
 			if($this->prod->insert($_POST))
-				$this->utilities->flash('add','products');
+				air::flash('add','products');
 			else
-				$this->utilities->flash('error','products');
+				air::flash('error','products');
 		}
 		
 		// Generating dropdown menu's
@@ -131,7 +131,7 @@ class Products extends MY_Controller {
 		$this->data['product'] = $this->prod->select_single($id);
 		
 		//If there is nothing, redirects
-		if(!$this->data['product']) $this->utilities->flash('void','products');
+		if(!$this->data['product']) air::flash('void','products');
 		
 		//Proccesses the form with the new updated data
 		if($_POST)
@@ -155,9 +155,9 @@ class Products extends MY_Controller {
 			{
 				//Successful validation insets into the DB
 				if($this->prod->update($id,$_POST))
-					$this->utilities->flash('update','products');
+					air::flash('update','products');
 				else
-					$this->utilities->flash('error','products');	
+					air::flash('error','products');	
 			}	
 		}
 		
@@ -180,15 +180,15 @@ class Products extends MY_Controller {
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->prod->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','products');
+			air::flash('void','products');
 	}
 	
 	public function delete($id)
 	{
 		if($this->prod->delete($id))
-			$this->utilities->flash('delete','products');
+			air::flash('delete','products');
 		else
-			$this->utilities->flash('error','products');
+			air::flash('error','products');
 	}
 
 	public function ajxGetProducts()

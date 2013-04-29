@@ -102,9 +102,9 @@ class Partners extends MY_Controller {
 			if ($this->form_validation->run())
 			{						
 				if($this->par->insert($_POST))
-					$this->utilities->flash('add','partners');
+					air::flash('add','partners');
 				else
-					$this->utilities->flash('error','partners');	
+					air::flash('error','partners');	
 			}
 		}
 		
@@ -120,7 +120,7 @@ class Partners extends MY_Controller {
 	{
 		$this->data['partner'] = $this->par->select_single($id);	
 
-		if(!$this->data['partner']) $this->utilities->flash('void','partners');
+		if(!$this->data['partner']) air::flash('void','partners');
 
 		if($_POST)
 		{
@@ -143,9 +143,9 @@ class Partners extends MY_Controller {
 			{
 				//If Successfull, runs Model function	
 				if($this->par->update($_POST['id'],$_POST))
-					$this->utilities->flash('update','partners');
+					air::flash('update','partners');
 				else
-					$this->utilities->flash('error','partners');
+					air::flash('error','partners');
 			}
 		}
 		
@@ -167,7 +167,7 @@ class Partners extends MY_Controller {
 		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->par->select_single($id);
-		if(!$this->data['master']) $this->utilities->flash('void','partners');
+		if(!$this->data['master']) air::flash('void','partners');
 		/**
 		 * If partner is Mother(has subsidiaries),
 		 * get all the subsidiaries
@@ -191,12 +191,12 @@ class Partners extends MY_Controller {
 	{
 		$this->data= $this->par->get($id);
 		if(!$this->data)
-			$this->utilities->flash('void','partners');
+			air::flash('void','partners');
 			
 		if($this->par->delete($id))
-			$this->utilities->flash('delete','partners');
+			air::flash('delete','partners');
 		else
-			$this->utilities->flash('error','partners');	
+			air::flash('error','partners');	
 	}
 
 	public function ajxAllPartners()

@@ -61,9 +61,9 @@ class Roles extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->rl->insert($_POST))
-				$this->utilities->flash('add','roles');
+				air::flash('add','roles');
 			else
-				$this->utilities->flash('error','roles');
+				air::flash('error','roles');
 		}
 
 		$this->data['parents'] = $this->rl->dropdown_master();
@@ -80,7 +80,7 @@ class Roles extends MY_Controller {
 
 		$this->data['result'] = $this->rl->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','roles');
+			air::flash('void','roles');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('name','user group name','trim|required');
@@ -88,9 +88,9 @@ class Roles extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->rl->update($_POST['id'],$_POST))
-				$this->utilities->flash('update','roles');
+				air::flash('update','roles');
 			else
-				$this->utilities->flash('error','roles');
+				air::flash('error','roles');
 		}
 
 		$this->data['parents'] = $this->rl->dropdown_master();
@@ -104,7 +104,7 @@ class Roles extends MY_Controller {
 		$this->data['result'] = $this->rl->get($id);
 		
 		if(!$this->data['result'])
-			$this->utilities->flash('void','roles');
+			air::flash('void','roles');
 
 		$this->data['resources'] = $this->Permissions_model->get_resources_by_role_id($id);
 
@@ -126,12 +126,12 @@ class Roles extends MY_Controller {
 			);
 
 			if($result)
-				$this->utilities->flash('add',"roles/view/{$_POST['role_id']}");
+				air::flash('add',"roles/view/{$_POST['role_id']}");
 			else
-				$this->utilities->flash('error',"roles/view/{$_POST['role_id']}");
+				air::flash('error',"roles/view/{$_POST['role_id']}");
 		}
 		else
-			$this->utilities->flash('error',"roles/view/{$_POST['role_id']}");
+			air::flash('error',"roles/view/{$_POST['role_id']}");
 	}
 
 	/**
@@ -143,12 +143,12 @@ class Roles extends MY_Controller {
 	{
 		$this->data['result'] = $this->rl->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','roles');
+			air::flash('void','roles');
 		
 		if($this->rl->delete($this->data['result']->id))
-			$this->utilities->flash('delete','roles');
+			air::flash('delete','roles');
 		else
-			$this->utilities->flash('error','roles');
+			air::flash('error','roles');
 
 	}
 }

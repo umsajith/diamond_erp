@@ -63,9 +63,9 @@ class Cproduct extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->cpr->insert($_POST))
-				$this->utilities->flash('add','cproduct');
+				air::flash('add','cproduct');
 			else
-				$this->utilities->flash('error','cproduct');
+				air::flash('error','cproduct');
 		}
 	}
 	/**
@@ -80,7 +80,7 @@ class Cproduct extends MY_Controller {
 
 		$this->data['result'] = $this->cpr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','cproduct');
+			air::flash('void','cproduct');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('pcname','product category name','trim|required');
@@ -88,7 +88,7 @@ class Cproduct extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->cpr->update($_POST['id'],$_POST));
-				$this->utilities->flash('update','cproduct');
+				air::flash('update','cproduct');
 		}
 	}
 	/**
@@ -100,11 +100,11 @@ class Cproduct extends MY_Controller {
 	{
 		$this->data['result'] = $this->cpr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','cproduct');
+			air::flash('void','cproduct');
 
 		if($this->cpr->delete($this->data['result']->id))
-			$this->utilities->flash('delete','cproduct');
+			air::flash('delete','cproduct');
 		else
-			$this->utilities->flash('error','cproduct');
+			air::flash('error','cproduct');
 	}
 }

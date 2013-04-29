@@ -95,7 +95,7 @@ class Job_orders extends MY_Controller {
 					$this->_inventory_use($job_order_id,$production->id,$_POST['assigned_quantity']);
 				}
 				
-				$this->utilities->flash('add','job_orders');
+				air::flash('add','job_orders');
 			}
 			/**
 			 * @todo Check if insert failed AND there are no validation errors,
@@ -128,7 +128,7 @@ class Job_orders extends MY_Controller {
 		/*
 		 * Prevents from editing locked record
 		 */
-		if($this->data['job_order']->locked) $this->utilities->flash('deny','job_orders');
+		if($this->data['job_order']->locked) air::flash('deny','job_orders');
 		
 		if($_POST)
 		{
@@ -156,7 +156,7 @@ class Job_orders extends MY_Controller {
 					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
 				}
 
-				$this->utilities->flash('update','job_orders');
+				air::flash('update','job_orders');
 			}
 		}
 		
@@ -188,7 +188,7 @@ class Job_orders extends MY_Controller {
 		//Retreives data from MASTER Model //Gets the ID of the selected entry from the URL
 		$this->data['master'] = $this->jo->select_single($id);
 
-		if(!$this->data['master']) $this->utilities->flash('void','job_orders');
+		if(!$this->data['master']) air::flash('void','job_orders');
 
 		$this->data['details'] = $this->inv->select_use('job_order_fk',$this->data['master']->id);		
 	}
@@ -269,16 +269,16 @@ class Job_orders extends MY_Controller {
 	{
 		$this->data['job_order'] = $this->jo->get($id);
 
-		if(!$this->data['job_order']) $this->utilities->flash('void','job_orders');
+		if(!$this->data['job_order']) air::flash('void','job_orders');
 		/*
 		 * Prevents from deleting locked Job Orders
 		 */
-		if($this->data['job_order']->locked) $this->utilities->flash('deny','job_orders');
+		if($this->data['job_order']->locked) air::flash('deny','job_orders');
 			
 		if($this->jo->delete($id))
-			$this->utilities->flash('delete','job_orders');
+			air::flash('delete','job_orders');
 		else
-			$this->utilities->flash('error','job_orders');
+			air::flash('error','job_orders');
 	}
 
 	private function _inventory_use($job_order_id,$task_id,$quantity)

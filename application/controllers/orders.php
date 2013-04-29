@@ -145,12 +145,12 @@ class Orders extends MY_Controller {
 		 */
 		$this->data['master'] = $this->co->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','orders');
+			air::flash('void','orders');
 			
 		/*
 		 * Prevents from editing locked record
 		 */
-		if($this->data['master']->locked) $this->utilities->flash('deny','orders');
+		if($this->data['master']->locked) air::flash('deny','orders');
 
 		if($_POST)
 		{	
@@ -166,9 +166,9 @@ class Orders extends MY_Controller {
 			{
 				//If Successfull, runs Model public function
 				if($this->co->update($_POST['id'],$_POST))
-					$this->utilities->flash('update','orders');
+					air::flash('update','orders');
 				else
-					$this->utilities->flash('error','orders');
+					air::flash('error','orders');
 			}
 		}
 
@@ -185,7 +185,7 @@ class Orders extends MY_Controller {
 	{	
 		$this->data['master'] = $this->co->select_single($id);
 
-		if(!$this->data['master']) $this->utilities->flash('void','orders');
+		if(!$this->data['master']) air::flash('void','orders');
 
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->cod->select(['id'=>$id]);
@@ -272,11 +272,11 @@ class Orders extends MY_Controller {
 		/*
 		 * Prevents from editing locked record
 		 */
-		if($order->locked) $this->utilities->flash('deny','orders');
+		if($order->locked) air::flash('deny','orders');
 
 		if($this->co->delete($id))
-			$this->utilities->flash('delete','orders');
+			air::flash('delete','orders');
 		else
-			$this->utilities->flash('error','orders');
+			air::flash('error','orders');
 	}
 }

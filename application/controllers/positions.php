@@ -68,9 +68,9 @@ class Positions extends MY_Controller {
 		{
 			//Successful validation
 			if($this->pos->insert($_POST))
-				$this->utilities->flash('add','positions');
+				air::flash('add','positions');
 			else
-				$this->utilities->flash('error','positions');	
+				air::flash('error','positions');	
 		}
 		
 		//Generate dropdown menu data
@@ -84,7 +84,7 @@ class Positions extends MY_Controller {
 	{
 		$this->data['position'] = $this->pos->select_single($id);
 		if(!$this->data['position'])
-			$this->utilities->flash('void','positions');
+			air::flash('void','positions');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('position','position name','trim|required');
@@ -99,9 +99,9 @@ class Positions extends MY_Controller {
 		{
 			//Successful validation
 			if($this->pos->update($_POST['id'],$_POST))
-				$this->utilities->flash('update','positions');
+				air::flash('update','positions');
 			else
-				$this->utilities->flash('error','positions');
+				air::flash('error','positions');
 		}
 		
 		//Generate dropdown menu data
@@ -118,17 +118,17 @@ class Positions extends MY_Controller {
 
 		$this->data['master'] = $this->pos->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','positions');
+			air::flash('void','positions');
 	}
 
 	public function delete($id)
 	{
 		if(!$this->pos->get($id))
-			$this->utilities->flash('void','positions');
+			air::flash('void','positions');
 
 		if($success = $this->pos->delete($id))
-			$this->utilities->flash('delete','positions');
+			air::flash('delete','positions');
 		else
-			$this->utilities->flash('error','positions');
+			air::flash('error','positions');
 	}
 }

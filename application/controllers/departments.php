@@ -63,9 +63,9 @@ class Departments extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->dpt->insert($_POST))
-				$this->utilities->flash('add','departments');
+				air::flash('add','departments');
 			else
-				$this->utilities->flash('error','departments');
+				air::flash('error','departments');
 		}
 	}
 	/**
@@ -80,7 +80,7 @@ class Departments extends MY_Controller {
 
 		$this->data['result'] = $this->dpt->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','departments');
+			air::flash('void','departments');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('department','department','trim|required');
@@ -88,9 +88,9 @@ class Departments extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->dpt->update($_POST['id'],$_POST))
-				$this->utilities->flash('update','departments');
+				air::flash('update','departments');
 			else
-				$this->utilities->flash('error','departments');
+				air::flash('error','departments');
 		}
 	}
 	/**
@@ -102,12 +102,12 @@ class Departments extends MY_Controller {
 	{
 		$this->data['result'] = $this->dpt->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','departments');
+			air::flash('void','departments');
 		
 		if($this->dpt->delete($this->data['result']->id))
-			$this->utilities->flash('delete','departments');
+			air::flash('delete','departments');
 		else
-			$this->utilities->flash('error','departments');
+			air::flash('error','departments');
 
 	}
 }

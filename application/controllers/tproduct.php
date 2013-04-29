@@ -63,7 +63,7 @@ class Tproduct extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->tpr->insert($_POST))
-				$this->utilities->flash('add','tproduct');
+				air::flash('add','tproduct');
 		}
 	}
 	/**
@@ -78,15 +78,15 @@ class Tproduct extends MY_Controller {
 
 		$this->data['result'] = $this->tpr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','tproduct');
+			air::flash('void','tproduct');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('ptname','product type name','trim|required');
 				
 		if ($this->form_validation->run())
 		{
-			$this->tpr->update($_POST['id'],array('ptname'=>$_POST['ptname']));
-				$this->utilities->flash('update','tproduct');
+			$this->tpr->update($_POST['id'],['ptname'=>$_POST['ptname']]);
+				air::flash('update','tproduct');
 		}
 	}
 	/**
@@ -98,11 +98,11 @@ class Tproduct extends MY_Controller {
 	{
 		$this->data['result'] = $this->tpr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','tproduct');
+			air::flash('void','tproduct');
 
 		if($this->tpr->delete($this->data['result']->id))
-			$this->utilities->flash('delete','tproduct');
+			air::flash('delete','tproduct');
 		else
-			$this->utilities->flash('error','tproduct');
+			air::flash('error','tproduct');
 	}
 }

@@ -67,9 +67,9 @@ class Boms extends MY_Controller {
 			$id = $this->bom->insert($_POST);
 			
 			if($id)
-				$this->utilities->flash('add',"boms/view/{$id}");
+				air::flash('add',"boms/view/{$id}");
 			else
-				$this->utilities->flash('error','boms');
+				air::flash('error','boms');
 		}
 
 		//Heading
@@ -83,7 +83,7 @@ class Boms extends MY_Controller {
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->bom->select_single($id);
 		if(!$this->data['master']) 
-			$this->utilities->flash('void','boms');
+			air::flash('void','boms');
 
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
@@ -100,9 +100,9 @@ class Boms extends MY_Controller {
 			if ($this->form_validation->run())
 			{
 				if($this->bom->update($id,$_POST))
-					$this->utilities->flash('add','boms');
+					air::flash('add','boms');
 				else
-					$this->utilities->flash('error','boms');
+					air::flash('error','boms');
 			}
 		}
 		
@@ -122,10 +122,10 @@ class Boms extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->bomd->insert($_POST))
-				$this->utilities->flash('add',"boms/view/".$_POST['bom_fk']);
+				air::flash('add',"boms/view/".$_POST['bom_fk']);
 		}
 
-		$this->utilities->flash('error',"boms/view/".$_POST['bom_fk']);
+		air::flash('error',"boms/view/".$_POST['bom_fk']);
 	}
 
 	public function removeProduct($id)
@@ -133,9 +133,9 @@ class Boms extends MY_Controller {
 		if(!$id) show_404();
 
 		if($this->bomd->delete($id))
-			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+			air::flash('delete',$_SERVER['HTTP_REFERER']);
 
-		$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
+		air::flash('error',$_SERVER['HTTP_REFERER']);
 	}
 	
 	//AJAX - Edits the Quantity of Products from a Bom
@@ -160,7 +160,7 @@ class Boms extends MY_Controller {
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->bom->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','boms');
+			air::flash('void','boms');
 
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
@@ -172,11 +172,11 @@ class Boms extends MY_Controller {
 	public function delete($id = false)
 	{
 		if(!$this->bom->select_single($id))
-			$this->utilities->flash('void','boms');
+			air::flash('void','boms');
 		
 		if($this->bom->delete($id))
-			$this->utilities->flash('delete','boms');
+			air::flash('delete','boms');
 		else
-			$this->utilities->flash('error','boms');
+			air::flash('error','boms');
 	}
 }

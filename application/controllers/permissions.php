@@ -11,13 +11,12 @@ class Permissions extends MY_Controller {
 	{
 		$obj = $this->Permissions_model->get($id);
 
-		if(!$obj)
-			$this->utilities->flash('void',$_SERVER['HTTP_REFERER']);
+		if(!$obj) air::flash('void',$_SERVER['HTTP_REFERER']);
 		
 		if($this->Permissions_model->delete($obj->id))
-			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+			air::flash('delete',$_SERVER['HTTP_REFERER']);
 		else
-			$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
+			air::flash('error',$_SERVER['HTTP_REFERER']);
 	}
  	
 }

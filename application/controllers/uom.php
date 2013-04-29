@@ -63,7 +63,7 @@ class Uom extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->uom->insert($_POST))
-				$this->utilities->flash('add','uom');
+				air::flash('add','uom');
 		}
 	}
 	/**
@@ -78,15 +78,15 @@ class Uom extends MY_Controller {
 
 		$this->data['result'] = $this->uom->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','uom');
+			air::flash('void','uom');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('uname','UOM name','trim|required');
 				
 		if ($this->form_validation->run())
 		{
-			$this->uom->update($_POST['id'],array('uname'=>$_POST['uname']));
-				$this->utilities->flash('update','uom');
+			$this->uom->update($_POST['id'],['uname'=>$_POST['uname']]);
+				air::flash('update','uom');
 		}
 	}
 	/**
@@ -98,11 +98,11 @@ class Uom extends MY_Controller {
 	{
 		$this->data['result'] = $this->uom->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','uom');
+			air::flash('void','uom');
 		
 		if($this->uom->delete($this->data['result']->id))
-			$this->utilities->flash('delete','uom');
+			air::flash('delete','uom');
 		else
-			$this->utilities->flash('error','uom');
+			air::flash('error','uom');
 	}
 }

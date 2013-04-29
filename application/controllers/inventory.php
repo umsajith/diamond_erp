@@ -36,23 +36,23 @@ class Inventory extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'dateoforder'=>'Нарачано',
-			'prodname_fk'=>'Артикл',
-			'qty_current'=>'Лагер',
-			'quantity'=>'Количина',
-			'partner_fk'=>'Добавувач',
-			'purchase_method'=>'Начин',
-			'po_status'=>'Статус',
-			'dateofentry'=>'Внес'
+			'dateoforder'     =>'Нарачано',
+			'prodname_fk'     =>'Артикл',
+			'qty_current'     =>'Лагер',
+			'quantity'        =>'Количина',
+			'partner_fk'      =>'Добавувач',
+			'purchase_method' =>'Начин',
+			'po_status'       =>'Статус',
+			'dateofentry'     =>'Внес'
 		);
 		
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk'),
-			'partner_fk' => '',
-			'type' => 'po'
+			'pcname_fk'   => $this->input->get('pcname_fk'),
+			'partner_fk'  => '',
+			'type'        => 'po'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -85,7 +85,7 @@ class Inventory extends MY_Controller {
 	{
 		$query_array = array(
 			'prodname_fk' => $this->input->post('prodname_fk'),
-			'pcname_fk' => $this->input->post('pcname_fk')
+			'pcname_fk'   => $this->input->post('pcname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
 		redirect("inventory/purchase_orders/{$query_id}");
@@ -165,7 +165,7 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Порамнување';
 		
 		//Generate dropdown menu data
-		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
+		$this->data['products']   = $this->prod->generateDropdown(['purchasable'=>1],true);
 		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
@@ -230,7 +230,7 @@ class Inventory extends MY_Controller {
 		 */		
 		$temp = $this->inv->select_item($id,$this->limit,$offset);
 		if(!$temp)
-			$this->utilities->flash('void','inventory');
+			air::flash('void','inventory');
 				
 		//Retreive data from Model
 		$this->data['product'] = $this->prod->select_single($id);
@@ -269,9 +269,9 @@ class Inventory extends MY_Controller {
 				
 			//Inserts into databse and reports outcome
 			if($this->inv->insert($_POST))
-				$this->utilities->flash('add','goods_receipts');
+				air::flash('add','goods_receipts');
 			else
-				$this->utilities->flash('error','goods_receipts');
+				air::flash('error','goods_receipts');
 		}
 		//Load Partner model for Dropdown creation
 		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
@@ -296,9 +296,9 @@ class Inventory extends MY_Controller {
 			
 			//Successful validation
 			if($this->inv->insert($_POST))
-				$this->utilities->flash('add','purchase_orders');
+				air::flash('add','purchase_orders');
 			else	
-				$this->utilities->flash('error','purchase_orders');
+				air::flash('error','purchase_orders');
 		}
 
 		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
@@ -323,9 +323,9 @@ class Inventory extends MY_Controller {
 			
 			//Successful validation
 			if($this->inv->insert($_POST))
-				$this->utilities->flash('add','adjustments');
+				air::flash('add','adjustments');
 			else
-				$this->utilities->flash('error','adjustments');
+				air::flash('error','adjustments');
 		}
 
 		//Heading
@@ -375,9 +375,9 @@ class Inventory extends MY_Controller {
 		{
 			//Successful validation
 			if($this->inv->update($id,$_POST))
-				$this->utilities->flash('update',$redirect);
+				air::flash('update',$redirect);
 			else	
-				$this->utilities->flash('error',$redirect);
+				air::flash('error',$redirect);
 		}
 		
 		//Heading
@@ -424,7 +424,7 @@ class Inventory extends MY_Controller {
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->inv->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void',$redirect);
+			air::flash('void',$redirect);
 
 		//Heading
 		$this->data['heading'] = $heading;
@@ -445,11 +445,11 @@ class Inventory extends MY_Controller {
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->inv->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void',$redirect);
+			air::flash('void',$redirect);
 			
 		if($this->inv->delete($id))
-			$this->utilities->flash('delete',$redirect);
+			air::flash('delete',$redirect);
 		else
-			$this->utilities->flash('error',$redirect);
+			air::flash('error',$redirect);
 	}	
 }

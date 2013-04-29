@@ -215,9 +215,9 @@ class Payroll_extra extends MY_Controller {
 		{
 			//Successful validation
 			if($this->pre->insert($_POST))
-				$this->utilities->flash('add','payroll_extra');
+				air::flash('add','payroll_extra');
 			else
-				$this->utilities->flash('error','payroll_extra');		
+				air::flash('error','payroll_extra');		
 		}	
 
 		// Generating dropdown menu's
@@ -244,9 +244,9 @@ class Payroll_extra extends MY_Controller {
 			$_POST['amount'] = $_POST['amount'] * -1;
 			
 			if($this->pre->insert($_POST))
-				$this->utilities->flash('add','payroll_extra/expenses');
+				air::flash('add','payroll_extra/expenses');
 			else
-				$this->utilities->flash('error','payroll_extra/expenses');	
+				air::flash('error','payroll_extra/expenses');	
 		}	
 		
 		// Generating dropdown menu's
@@ -272,9 +272,9 @@ class Payroll_extra extends MY_Controller {
 			$_POST['payroll_extra_cat_fk'] = 7;	
 			
 			if($this->pre->insert($_POST))
-				$this->utilities->flash('add','payroll_extra/social_contributions');
+				air::flash('add','payroll_extra/social_contributions');
 			else
-				$this->utilities->flash('error','payroll_extra/social_contributions');
+				air::flash('error','payroll_extra/social_contributions');
 		}	
 		
 		$this->data['employees'] = $this->emp->generateDropdown();
@@ -290,7 +290,7 @@ class Payroll_extra extends MY_Controller {
 		if(!$this->data['payroll_extra']) show_404();
 		
 		if($this->data['payroll_extra']->locked == 1)
-			$this->utilities->flash('deny','payroll_extra');
+			air::flash('deny','payroll_extra');
 		
 		
 		if($_POST)
@@ -320,9 +320,9 @@ class Payroll_extra extends MY_Controller {
 				}	
 				
 				if($this->pre->update($_POST['id'],$_POST))
-					$this->utilities->flash('update',"payroll_extra/{$redirect}");
+					air::flash('update',"payroll_extra/{$redirect}");
 				else
-					$this->utilities->flash('error',"payroll_extra/{$redirect}");
+					air::flash('error',"payroll_extra/{$redirect}");
 
 			}
 		}
@@ -345,8 +345,8 @@ class Payroll_extra extends MY_Controller {
 	public function delete($id)
 	{
 		if($this->pre->delete($id))
-			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+			air::flash('delete',$_SERVER['HTTP_REFERER']);
 		else
-			$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
+			air::flash('error',$_SERVER['HTTP_REFERER']);
 	}	
 }

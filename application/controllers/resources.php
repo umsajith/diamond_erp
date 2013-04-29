@@ -27,9 +27,9 @@ class Resources extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->Resources_model->insert($_POST))
-				$this->utilities->flash('add','resources');
+				air::flash('add','resources');
 			else
-				$this->utilities->flash('error','resources');
+				air::flash('error','resources');
 		}	
 		
 		$this->data['parents'] = $this->Resources_model->dropdown_master();
@@ -43,7 +43,7 @@ class Resources extends MY_Controller {
 		$this->data['resource'] = $this->Resources_model->get($id);
 
 		if(!$this->data['resource'])
-			$this->utilities->flash('void','resources');
+			air::flash('void','resources');
 		
 		if($_POST)
 		{
@@ -56,9 +56,9 @@ class Resources extends MY_Controller {
 			if ($this->form_validation->run())
 			{
 				if($this->Resources_model->update($_POST['id'],$_POST))
-					$this->utilities->flash('add','resources');
+					air::flash('add','resources');
 				else
-					$this->utilities->flash('error','resources');
+					air::flash('error','resources');
 			}
 		}
 		
@@ -71,11 +71,11 @@ class Resources extends MY_Controller {
 	public function delete($id)
 	{
 		if(!$this->Resources_model->get($id))
-			$this->utilities->flash('void','resources');
+			air::flash('void','resources');
 			
 		if($this->Resources_model->delete($id))
-			$this->utilities->flash('delete','resources');
+			air::flash('delete','resources');
 		else
-			$this->utilities->flash('error','resources');
+			air::flash('error','resources');
 	}	
 }

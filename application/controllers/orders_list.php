@@ -86,7 +86,7 @@ class Orders_list extends MY_Controller {
 		{
 			if($order_id = $this->col->insert($_POST))
 			{
-				$this->utilities->flash('add',"orders_list/view/{$order_id}");
+				air::flash('add',"orders_list/view/{$order_id}");
 			}
 		}
 	}
@@ -101,19 +101,19 @@ class Orders_list extends MY_Controller {
 
 		$this->data['master'] = $this->col->select_one($id);
 		
-		if(!$this->data['master']) $this->utilities->flash('void','orders_list');
+		if(!$this->data['master']) air::flash('void','orders_list');
 
 		/*
 		 * Prevents from editing locked record
 		 */
-		if($this->data['master']->locked) $this->utilities->flash('deny','orders_list');
+		if($this->data['master']->locked) air::flash('deny','orders_list');
 		
 		//Check if form has been submited
 		if ($_POST)
 		{
 			if($this->col->update($_POST['id'],$_POST))
 			{
-				$this->utilities->flash('update','orders_list');
+				air::flash('update','orders_list');
 			}
 		}
 	}
@@ -125,7 +125,7 @@ class Orders_list extends MY_Controller {
 
 		$this->data['master'] = $this->col->select_one($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','orders_list');
+			air::flash('void','orders_list');
 
 		$this->data['results'] = $this->co->select_by_order_list($id);
 		
@@ -138,12 +138,12 @@ class Orders_list extends MY_Controller {
 	{
 		$this->data['master'] = $this->col->get($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','orders_list');
+			air::flash('void','orders_list');
 
 		if($this->col->delete($id))
-			$this->utilities->flash('delete','orders_list');
+			air::flash('delete','orders_list');
 		else
-			$this->utilities->flash('error','orders_list');
+			air::flash('error','orders_list');
 	}
 
 	public function ajxLock()

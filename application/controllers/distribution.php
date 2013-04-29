@@ -43,10 +43,10 @@ class Distribution extends MY_Controller {
 			if($warehouse_id = $this->whr->insert($_POST))
 			{
 				$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
-				$this->utilities->flash('add','distribution/inbounds');
+				air::flash('add','distribution/inbounds');
 			}		
 			else
-				$this->utilities->flash('error','distribution/inbounds');
+				air::flash('error','distribution/inbounds');
 		}
 
 		//Heading
@@ -79,9 +79,9 @@ class Distribution extends MY_Controller {
 			
 			//Inserts into databse and reports outcome
 			if($this->whr->insert($_POST))
-				$this->utilities->flash('add','distribution/outbounds');
+				air::flash('add','distribution/outbounds');
 			else
-				$this->utilities->flash('error','distribution/outbounds');
+				air::flash('error','distribution/outbounds');
 		}
 
 		//Heading
@@ -111,9 +111,9 @@ class Distribution extends MY_Controller {
 			
 			//Inserts into databse and reports outcome
 			if($this->whr->insert($_POST))
-				$this->utilities->flash('add','distribution/returns');		
+				air::flash('add','distribution/returns');		
 			else
-				$this->utilities->flash('error','distribution/returns');
+				air::flash('error','distribution/returns');
 		}
 
 		//Heading
@@ -143,7 +143,7 @@ class Distribution extends MY_Controller {
 		if($page == 'out')
 		{
 			$this->data['heading'] = 'Корекција на Испратница';
-			$this->data['distributors'] = $this->utilities->get_distributors();
+			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'outbounds';
 			$this->form_validation->set_rules('quantity','quantity','required');
 		}
@@ -159,7 +159,7 @@ class Distribution extends MY_Controller {
 		if($page == 'ret')
 		{
 			$this->data['heading'] = 'Корекција на Повратница';
-			$this->data['distributors'] = $this->utilities->get_distributors();
+			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'returns';
 			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
 		}
@@ -185,10 +185,10 @@ class Distribution extends MY_Controller {
 				if($page === 'in')
 					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
 				
-				$this->utilities->flash('add','distribution/'.$redirect);
+				air::flash('add','distribution/'.$redirect);
 			}
 			else
-				$this->utilities->flash('error','distribution/'.$redirect);
+				air::flash('error','distribution/'.$redirect);
 		}	
 	}
 	
@@ -203,7 +203,7 @@ class Distribution extends MY_Controller {
 		 */	
 		$temp = $this->whr->select_item($id,$this->limit,$offset);
 		if(!$temp)
-			$this->utilities->flash('void','distribution');
+			air::flash('void','distribution');
 				
 		//Get product name to be displayed in heading
 		$this->data['product'] = $this->prod->select_single($id);
@@ -462,7 +462,7 @@ class Distribution extends MY_Controller {
 		$pages = array('in','out','ret');
 		
 		if(!in_array($page, $pages))
-			$this->utilities->flash('void','distribution');
+			air::flash('void','distribution');
 			
 		if($page == 'in')
 			$redirect = 'inbounds';
@@ -477,12 +477,12 @@ class Distribution extends MY_Controller {
 		 */
 		$this->data['result'] = $this->whr->select_single($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','distribution');
+			air::flash('void','distribution');
 				
 		if($this->whr->delete($id))
-			$this->utilities->flash('delete','distribution/'.$redirect);
+			air::flash('delete','distribution/'.$redirect);
 		else
-			$this->utilities->flash('error','distribution/'.$redirect);	
+			air::flash('error','distribution/'.$redirect);	
 	}
 	
 

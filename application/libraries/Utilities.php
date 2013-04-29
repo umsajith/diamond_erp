@@ -2,12 +2,12 @@
 
 class Utilities {
 
-	protected $CI;
+	//protected $CI;
 	
-    function __construct()
-    {
-        $this->CI =& get_instance();
-    }
+    // function __construct()
+    // {
+    //     $this->CI =& get_instance();
+    // }
     
 	// //Generates standard dropdown menu
  //    function get_dropdown($key, $value, $from, $empty = '--')
@@ -221,46 +221,46 @@ class Utilities {
  //        return $data;
  //    }
     
-	function flash($type,$redirect_to = '',$redirect = true)
-	{
-        switch ($type) {
-            case 'add':
-                $message = 'Ставката е успешно внесена!';
-                $class = 'success';
-                break;
-            case 'update':
-                $message = 'Ставката е успешно ажурирана!';
-                $class = 'success';
-                break;
-            case 'delete':
-                $message = 'Ставката е успешно избришана!';
-                $class = 'success';
-                break;
-            case 'void':
-                // $message = 'Ставката не постои!';
-                // $class = 'alert';
-                show_404();
-                break;
-            case 'deny':
-                //$message = 'Забранет пристап!';
-                //$class = 'error';
-                $mesage = "<h1>403 Forbidden</h1><p>The action you tried to perform is forbidden.</p>";
-                show_error($mesage, 403);
-                break;
-            case 'error':
-            default:
-                $message = 'Неуспешно извршена операција!';
-                $class = 'error';
-                break;
-            }
+	// function flash($type,$redirect_to = '',$redirect = true)
+	// {
+ //        switch ($type) {
+ //            case 'add':
+ //                $message = 'Ставката е успешно внесена!';
+ //                $class = 'success';
+ //                break;
+ //            case 'update':
+ //                $message = 'Ставката е успешно ажурирана!';
+ //                $class = 'success';
+ //                break;
+ //            case 'delete':
+ //                $message = 'Ставката е успешно избришана!';
+ //                $class = 'success';
+ //                break;
+ //            case 'void':
+ //                // $message = 'Ставката не постои!';
+ //                // $class = 'alert';
+ //                show_404();
+ //                break;
+ //            case 'deny':
+ //                //$message = 'Забранет пристап!';
+ //                //$class = 'error';
+ //                $mesage = "<h1>403 Forbidden</h1><p>The action you tried to perform is forbidden.</p>";
+ //                show_error($mesage, 403);
+ //                break;
+ //            case 'error':
+ //            default:
+ //                $message = 'Неуспешно извршена операција!';
+ //                $class = 'error';
+ //                break;
+ //            }
 		
-		//Sets the Message
-		$this->CI->session->set_flashdata('message',$message);
-		$this->CI->session->set_flashdata('type',$class);
+	// 	//Sets the Message
+	// 	$this->CI->session->set_flashdata('message',$message);
+	// 	$this->CI->session->set_flashdata('type',$class);
 
-		//Redirects
-		if($redirect != '')
-			redirect($redirect_to);
-	}
+	// 	//Redirects
+	// 	if($redirect != '')
+	// 		redirect($redirect_to);
+	// }
 }
 

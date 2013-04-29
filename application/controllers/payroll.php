@@ -115,7 +115,7 @@ class Payroll extends MY_Controller {
 			
 			if($_POST['payroll_fk'])
 			{
-				$this->utilities->flash('add','',false);
+				air::flash('add');
 				echo site_url('payroll/view/'.$_POST['payroll_fk']);
 			}
 		}
@@ -131,7 +131,7 @@ class Payroll extends MY_Controller {
 		
 		//If there is nothing, redirects
 		if(!$this->data['master'])
-			$this->utilities->flash('void','payroll');
+			air::flash('void','payroll');
 
 		if($this->data['master']->is_distributer == 1)
 		{
@@ -168,8 +168,7 @@ class Payroll extends MY_Controller {
 		$this->data['master'] = $this->pr->select_single($id);
 		
 		//If there is nothing, redirects
-		if(!$this->data['master'])
-			$this->utilities->flash('void','payroll');
+		if(!$this->data['master']) air::flash('void','payroll');
 		
 		//Display
 		$html = $this->load->view('payroll/payroll_pdf',$this->data, true);
@@ -470,11 +469,11 @@ class Payroll extends MY_Controller {
 	public function delete($id)
 	{
 		if(!$this->pr->select_single($id))
-			$this->utilities->flash('void','payroll');
+			air::flash('void','payroll');
 			
 		if($this->pr->delete($id))
-			$this->utilities->flash('delete','payroll');
+			air::flash('delete','payroll');
 		else
-			$this->utilities->flash('error','payroll');
+			air::flash('error','payroll');
 	}
 }

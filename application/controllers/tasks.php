@@ -66,9 +66,9 @@ class Tasks extends MY_Controller {
 		{
 			//Successful validation
 			if($this->tsk->insert($_POST))
-				$this->utilities->flash('add','tasks');
+				air::flash('add','tasks');
 			else
-				$this->utilities->flash('error','tasks');
+				air::flash('error','tasks');
 		}	
 
 		// Generating dropdown menu's
@@ -83,7 +83,7 @@ class Tasks extends MY_Controller {
 	{
 		$this->data['task'] = $this->tsk->select_single($id);
 		if(!$this->data['task'])
-			$this->utilities->flash('void','tasks');
+			air::flash('void','tasks');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('taskname','task name','trim|required');
@@ -96,9 +96,9 @@ class Tasks extends MY_Controller {
 		{
 			//Successful validation
 			if($this->tsk->update($id,$_POST))
-				$this->utilities->flash('update','tasks');
+				air::flash('update','tasks');
 			else
-				$this->utilities->flash('error','tasks');
+				air::flash('error','tasks');
 		}
 		
 		// Generating dropdown menu's
@@ -113,7 +113,7 @@ class Tasks extends MY_Controller {
 	{
 		$this->data['master'] = $this->tsk->select_single($id);
 		if(!$this->data['master'])
-			$this->utilities->flash('void','tasks');
+			air::flash('void','tasks');
 
 		//Heading
 		$this->data['heading'] = 'Работна Задача';
@@ -122,12 +122,12 @@ class Tasks extends MY_Controller {
 	public function delete($id)
 	{
 		if(!$this->tsk->get($id))
-			$this->utilities->flash('void','tasks');
+			air::flash('void','tasks');
 
 		if($this->tsk->delete($id))
-			$this->utilities->flash('delete','tasks');
+			air::flash('delete','tasks');
 		else
-			$this->utilities->flash('error','tasks');
+			air::flash('error','tasks');
 	}
 
 	public function ajxUOM()

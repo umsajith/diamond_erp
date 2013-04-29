@@ -115,9 +115,9 @@ class Employees extends MY_Controller {
 		{
 			//Successful insertion
 			if($this->emp->insert($_POST))
-				$this->utilities->flash('add','employees');
+				air::flash('add','employees');
 			else
-				$this->utilities->flash('error','employees');
+				air::flash('error','employees');
 		}
 		
 		// Generating dropdown menu's
@@ -138,7 +138,7 @@ class Employees extends MY_Controller {
 		
 		//If there is nothing, redirects
 		if(!$this->data['employee']) 
-			$this->utilities->flash('void','employees');
+			air::flash('void','employees');
 		
 		//If Submit has been posted (EDIT form Submitted), runs the code below
 		if($_POST)
@@ -168,9 +168,9 @@ class Employees extends MY_Controller {
 			if ($this->form_validation->run())
 			{
 				if($this->emp->update($_POST['id'],$_POST))
-					$this->utilities->flash('update','employees');
+					air::flash('update','employees');
 				else
-					$this->utilities->flash('error','employees');	
+					air::flash('error','employees');	
 			}
 			
 		}
@@ -197,18 +197,18 @@ class Employees extends MY_Controller {
 		$this->data['tasks']          = $this->tsk->dropdown('id','taskname');
 		
 		if(!$this->data['master']) 
-			$this->utilities->flash('void','employees');	
+			air::flash('void','employees');	
 	}
 	
 	public function delete($id)
 	{
 		if(!$this->emp->get($id)) 
-			$this->utilities->flash('void','employees');
+			air::flash('void','employees');
 			
 		if($this->emp->delete($id))
-			$this->utilities->flash('delete','employees');
+			air::flash('delete','employees');
 		else
-			$this->utilities->flash('error','employees');			
+			air::flash('error','employees');			
 	}
 
 	public function assignTask()
@@ -221,18 +221,18 @@ class Employees extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->empt->insert($_POST))
-				$this->utilities->flash('add',$_SERVER['HTTP_REFERER']);
+				air::flash('add',$_SERVER['HTTP_REFERER']);
 			else
-				$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
+				air::flash('error',$_SERVER['HTTP_REFERER']);
 		}
 	}
 
 	public function unassignTask($id)
 	{
 		if($this->empt->delete($id))
-			$this->utilities->flash('delete',$_SERVER['HTTP_REFERER']);
+			air::flash('delete',$_SERVER['HTTP_REFERER']);
 		else
-			$this->utilities->flash('error',$_SERVER['HTTP_REFERER']);
+			air::flash('error',$_SERVER['HTTP_REFERER']);
 	}
 
 	public function ajxGetTasks()

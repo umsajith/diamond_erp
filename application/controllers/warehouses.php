@@ -62,7 +62,7 @@ class Warehouses extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			if($this->whr->insert($_POST))
-				$this->utilities->flash('add','warehouses');
+				air::flash('add','warehouses');
 		}
 	}
 	/**
@@ -77,15 +77,15 @@ class Warehouses extends MY_Controller {
 
 		$this->data['result'] = $this->whr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','warehouses');
+			air::flash('void','warehouses');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('wname','warehouse name','trim|required');
 				
 		if ($this->form_validation->run())
 		{
-			$this->whr->update($_POST['id'],array('wname'=>$_POST['wname']));
-				$this->utilities->flash('update','warehouses');
+			$this->whr->update($_POST['id'],['wname'=>$_POST['wname']]);
+				air::flash('update','warehouses');
 		}
 	}
 	/**
@@ -97,11 +97,11 @@ class Warehouses extends MY_Controller {
 	{
 		$this->data['result'] = $this->whr->get($id);
 		if(!$this->data['result'])
-			$this->utilities->flash('void','warehouses');
+			air::flash('void','warehouses');
 
 		if($this->whr->delete($this->data['result']->id))
-			$this->utilities->flash('delete','warehouses');
+			air::flash('delete','warehouses');
 		else
-			$this->utilities->flash('error','warehouses');
+			air::flash('error','warehouses');
 	}
 }
