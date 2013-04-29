@@ -16,6 +16,7 @@
 <script>
 	$(function() {
 		$("select[name=employee_fk]").select2();
+		$("select[name=payroll_extra_cat_fk]").select2();
 		cd.datepicker("input[name=for_date]");
 	});
 </script>

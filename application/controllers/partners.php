@@ -10,6 +10,7 @@ class Partners extends MY_Controller {
 		
 		//Load Models
 		$this->load->model('partners/partners_model','par');	
+		$this->load->model('regional/postalcode_model','pcode');	
 	}
     
 	public function index($query_id = 0,$sort_by = 'company', $sort_order = 'asc', $offset = 0)
@@ -17,23 +18,23 @@ class Partners extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Партнери';
 		
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
 		
 		//------------
 		//Columns which can be sorted by
 		$this->data['columns'] = array (
-			'id'=>'Код',	
-			'company'=>'Фирма',
-			'contperson'=>'Контакт Лице',
+			'id'            =>'Код',	
+			'company'       =>'Фирма',
+			'contperson'    =>'Контакт Лице',
 			'postalcode_fk' => 'Град'
 		);
 
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
-			'partner_type' => $this->input->get('partner_type'),
+			'partner_type'  => $this->input->get('partner_type'),
 			'postalcode_fk' => $this->input->get('postalcode_fk'),
-			'q' => $this->input->get('q')
+			'q'             => $this->input->get('q')
 		);
 		
 		//Validates Sort by and Sort Order
@@ -67,9 +68,9 @@ class Partners extends MY_Controller {
 		// (strlen($_POST['postalcode_fk'])) ? $_POST['q'] = '' : '';
 
 		$query_array = array(
-			'partner_type' => $this->input->post('partner_type'),
+			'partner_type'  => $this->input->post('partner_type'),
 			'postalcode_fk' => $this->input->post('postalcode_fk'),
-			'q' => $this->input->post('q')
+			'q'             => $this->input->post('q')
 		);	
 		$query_id = $this->input->save_query($query_array);
 		redirect("partners/index/{$query_id}");
@@ -108,8 +109,8 @@ class Partners extends MY_Controller {
 		}
 		
 		// Generating dropdown menu's
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
-		$this->data['customers'] = $this->par->dropdown('customers',true);
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();
+		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
 		$this->data['heading'] = 'Внес на Партнер';
@@ -149,8 +150,8 @@ class Partners extends MY_Controller {
 		}
 		
 		// Generating dropdown menu's	
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();
-		$this->data['customers'] = $this->par->dropdown('customers',true);
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();
+		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Партнер';
@@ -209,7 +210,9 @@ class Partners extends MY_Controller {
 		$json_array = [];
 
 		foreach ($rows as $row)
+		{
 			 array_push($json_array,['id'=>$row->id,'name'=>$row->company]); 
+		}
 
 		header('Content-Type: application/json');
 		echo json_encode($json_array);

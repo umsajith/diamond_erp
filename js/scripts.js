@@ -112,7 +112,9 @@ var cd = (function(){
 		  if(data) location.reload(true);
 		});
 	}
-
+	////////////////////////////////////////////
+	// DECPRICATED FUNCTION - use ddProducts //
+	////////////////////////////////////////////
 	obj.dropdownProducts = function(url, options){
 
 		var data;

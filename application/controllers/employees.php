@@ -11,6 +11,11 @@ class Employees extends MY_Controller {
 		//Load Models
 		$this->load->model('hr/employees_model','emp');	
 		$this->load->model('hr/emp_tasks_model','empt');		
+		$this->load->model('hr/positions_model','pos');		
+		$this->load->model('acl/roles_model','rol');
+		$this->load->model('regional/postalcode_model','pcode');	
+		$this->load->model('regional/location_model','loc');	
+		$this->load->model('hr/task_model','tsk');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'employee', $sort_order = 'asc', $offset = 0)
@@ -19,20 +24,20 @@ class Employees extends MY_Controller {
 		$this->data['heading'] = 'Вработени';
 		
 		// Generating dropdown menu's
-		$this->data['possitions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
-		$this->data['roles'] = $this->utilities->get_dropdown('id', 'name','exp_cd_roles','- Корисничка Група -',false);
+		$this->data['possitions'] = $this->pos->dropdown('id', 'position');	
+		$this->data['roles'] = $this->rol->dropdown('id', 'name');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'employee'=>'Работник',
-			'comp_mobile'=>'Мобилен',
-			'position'=>'Работно Место',
-			'department'=>'Сектор',
-			'fixed_wage_only'=>'С.Нето',
-			'is_manager'=>'Менаџер',
-			'is_distributer'=>'Дистрибутер',
-			'fixed_wage'=>'Нето',
-			'status'=>'Статус'
+			'employee'        =>'Работник',
+			'comp_mobile'     =>'Мобилен',
+			'position'        =>'Работно Место',
+			'department'      =>'Сектор',
+			'fixed_wage_only' =>'С.Нето',
+			'is_manager'      =>'Менаџер',
+			'is_distributer'  =>'Дистрибутер',
+			'fixed_wage'      =>'Нето',
+			'status'          =>'Статус'
 		];
 
 		$this->input->load_query($query_id);
@@ -61,9 +66,9 @@ class Employees extends MY_Controller {
 		paginate("employees/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 		
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()
@@ -116,14 +121,12 @@ class Employees extends MY_Controller {
 		}
 		
 		// Generating dropdown menu's
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
-		$this->data['managers'] = $this->utilities->get_managers();
-		$this->data['positions'] = $this->utilities
-			->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
-		$this->data['roles'] = $this->utilities
-			->get_dropdown('id', 'name','exp_cd_roles','- Корисничка Група -',false);	
-		$this->data['locations'] = $this->utilities
-			->get_dropdown('id', 'name','exp_cd_locations','- Локација -');		
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
+		$this->data['managers']    = $this->emp->generateDropdown(['is_manager'=>1]);
+		$this->data['positions']   = $this->pos->dropdown('id', 'position');	
+		$this->data['roles']       = $this->rol->dropdown('id', 'name');
+		$this->data['locations']   = $this->loc->dropdown('id', 'name');	
+
 		//Heading
 		$this->data['heading'] = 'Нов Работник';
 	}
@@ -171,12 +174,13 @@ class Employees extends MY_Controller {
 			}
 			
 		}
+
 		// Generating dropdown menu's
-		$this->data['postalcodes'] = $this->utilities->get_postalcodes();	
-		$this->data['managers'] = $this->utilities->get_managers();
-		$this->data['positions'] = $this->utilities->get_dropdown('id', 'position','exp_cd_positions','- Работно Место -');	
-		$this->data['roles'] = $this->utilities->get_dropdown('id', 'name','exp_cd_roles','- Корисничка Група -',false);
-		$this->data['locations'] = $this->utilities->get_dropdown('id', 'name','exp_cd_locations','- Локација -');	
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
+		$this->data['managers']    = $this->emp->generateDropdown(['is_manager'=>1]);
+		$this->data['positions']   = $this->pos->dropdown('id', 'position');	
+		$this->data['roles']       = $this->rol->dropdown('id', 'name');
+		$this->data['locations']   = $this->loc->dropdown('id', 'name');
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работник';
@@ -188,10 +192,9 @@ class Employees extends MY_Controller {
 		$this->data['heading'] = 'Работник';
 		
 		//Retreives data from MASTER Model
-		$this->data['master'] = $this->emp->select_single($id);
+		$this->data['master']         = $this->emp->select_single($id);
 		$this->data['assigned_tasks'] = $this->empt->select($id);
-		$this->data['tasks'] = $this->utilities->get_dropdown('id', 
-			'taskname','exp_cd_tasks','- Работна Задача -');
+		$this->data['tasks']          = $this->tsk->dropdown('id','taskname');
 		
 		if(!$this->data['master']) 
 			$this->utilities->flash('void','employees');	

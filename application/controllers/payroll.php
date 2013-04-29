@@ -9,10 +9,13 @@ class Payroll extends MY_Controller {
 		parent::__construct();
 		
 		//Load Models
-		$this->load->model('hr/Employees_model');
-		$this->load->model('hr/Payroll_model','pr');
-
-		$this->load->helper('date');
+		$this->load->model('hr/payroll_model','pr');
+		$this->load->model('hr/payroll_extra_model','pem');
+		$this->load->model('hr/employees_model','emp');
+		$this->load->model('hr/task_model','tsk');
+		$this->load->model('production/joborders_model','jo');
+		$this->load->model('orders/co_model','co');
+		$this->load->model('orders/cod_model','cod');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -21,27 +24,27 @@ class Payroll extends MY_Controller {
 		$this->data['heading'] = 'Преглед на Плати';
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
+		$this->data['employees'] = $this->emp->generateDropdown();
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'employee'=>'Работник',
-			'date_from'=>'Од',
-			'date_to'=>'До',
-			'acc_wage'=>'Учинок',
-			'bonuses'=>'Бонуси',
-			'gross_wage'=>'Бруто',
-			'fixed_wage'=>'Нето',
-			'expenses'=>'Трошоци',
-			'paid_wage'=>'Доплата',
-			'dateofentry'=>'Внес'
+			'employee'    =>'Работник',
+			'date_from'   =>'Од',
+			'date_to'     =>'До',
+			'acc_wage'    =>'Учинок',
+			'bonuses'     =>'Бонуси',
+			'gross_wage'  =>'Бруто',
+			'fixed_wage'  =>'Нето',
+			'expenses'    =>'Трошоци',
+			'paid_wage'   =>'Доплата',
+			'dateofentry' =>'Внес'
 		);
 
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
 			'employee_fk' => $this->input->get('employee_fk'),
-			'for_month' => $this->input->get('for_month')
+			'for_month'   => $this->input->get('for_month')
 		);
 		
 		//Validates Sort by and Sort Order
@@ -121,12 +124,7 @@ class Payroll extends MY_Controller {
 	
 	public function view($id)
 	{		
-		//Loading Models
-		$this->load->model('production/joborders_model','jo');
-		$this->load->model('hr/Payroll_extra_model');
-		$this->load->model('hr/Task_model');
-		$this->load->model('orders/co_model','co');
-		$this->load->model('orders/cod_model','cod');
+		
 
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->pr->select_single($id);
@@ -151,10 +149,10 @@ class Payroll extends MY_Controller {
 		$this->data['results'] = $this->jo->select_by_payroll($id);
 								
 		//Retrevies all Payroll extras where Is_expense = 0
-		$this->data['extras_plus'] = $this->Payroll_extra_model->select_by_payroll($id,0);
+		$this->data['extras_plus'] = $this->pem->select_by_payroll($id,0);
 						
 		//Retrevies all Payroll extras where Is_expense = 1
-		$this->data['extras_minus'] = $this->Payroll_extra_model->select_by_payroll($id,1);
+		$this->data['extras_minus'] = $this->pem->select_by_payroll($id,1);
 		
 		//Heading
 		$this->data['heading'] = 'Плата';
@@ -165,9 +163,6 @@ class Payroll extends MY_Controller {
 		if(!$id) show_404();
 
 		$this->load->helper('dompdf');
-		
-		//Loading Models
-		$this->load->model('hr/Payroll_extra_model');
 			
 		//Retreives data from MASTER Model - Payroll info
 		$this->data['master'] = $this->pr->select_single($id);
@@ -207,13 +202,7 @@ class Payroll extends MY_Controller {
 		 */
 		if($_POST)
 		{
-			//Loading Models
-			$this->load->model('production/Joborders_model');
-			$this->load->model('orders/Co_model');
-			$this->load->model('orders/Cod_model');
-			$this->load->model('hr/Payroll_extra_model','pem');
-			$this->load->model('hr/Task_model');
-			$this->load->model('hr/Employees_model','emp');
+
 			
 			/*
 			 *  Checks if there is any Payroll for this specific
@@ -221,7 +210,7 @@ class Payroll extends MY_Controller {
 			 */
 		
 			//Defining Validation Rules
-			$this->form_validation->set_rules('employee','first name','trim|required');
+			$this->form_validation->set_rules('employee','employee','trim|required');
 			$this->form_validation->set_rules('datefrom','date from','trim|required');
 			$this->form_validation->set_rules('dateto','date to','trim|required');
 			
@@ -233,7 +222,7 @@ class Payroll extends MY_Controller {
 				 * (employee,dates,month) back to view for use
 				 */			
 				$this->data['datefrom'] = $_POST['datefrom'];	
-				$this->data['dateto'] = $_POST['dateto'];
+				$this->data['dateto']   = $_POST['dateto'];
 				$this->data['submited'] = 1;
 				
 				$this->data['employee_master'] = $this->emp->get($_POST['employee']);
@@ -256,10 +245,10 @@ class Payroll extends MY_Controller {
 				 */
 				if(!$this->data['fixed_wage_only'] AND !$this->data['is_distributer'])
 				{
-					$this->data['job_orders'] = $this->Joborders_model->payroll(array(
+					$this->data['job_orders'] = $this->jo->payroll(array(
 								'assigned_to' => $this->data['employee'],
-								'datefrom' => $this->data['datefrom'],
-								'dateto' => $this->data['dateto']
+								'datefrom'    => $this->data['datefrom'],
+								'dateto'      => $this->data['dateto']
 								));
 					/*
 					 * Calculates total accumulated wage by
@@ -282,10 +271,10 @@ class Payroll extends MY_Controller {
 					 * this distributor has distributed them, and get
 					 * the total distribution for that period
 					 */
-					$ids = $this->Co_model->get_by_distributor(
+					$ids = $this->co->get_by_distributor(
 						$this->data['employee'],$this->data['datefrom'],$this->data['dateto']);
 
-					$this->data['distribution'] = $this->Cod_model->total_distributed($ids);
+					$this->data['distribution'] = $this->cod->total_distributed($ids);
 					/*
 					 * Calculates total accumulated wage by
 					 * going through customer orders Orderder assigned,
@@ -325,8 +314,8 @@ class Payroll extends MY_Controller {
 				 */
 				$this->data['extras_plus'] = $this->pem->calc_extras(array(
 								'employee_fk' => $this->data['employee'],
-								'datefrom' => $this->data['datefrom'],
-								'dateto' => $this->data['dateto']	
+								'datefrom'    => $this->data['datefrom'],
+								'dateto'      => $this->data['dateto']	
 								),0);
 					$this->data['bonuses'] = 0;
 					foreach ($this->data['extras_plus'] as $item)
@@ -366,8 +355,8 @@ class Payroll extends MY_Controller {
 				 */
 				$this->data['extras_minus'] = $this->pem->calc_extras([
 								'employee_fk' => $this->data['employee'],
-								'datefrom' => $this->data['datefrom'],
-								'dateto' => $this->data['dateto']	
+								'datefrom'    => $this->data['datefrom'],
+								'dateto'      => $this->data['dateto']	
 								],1);
 
 					$this->data['expenses'] = 0;
@@ -407,7 +396,7 @@ class Payroll extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Калкулација на Плата';
 		
-		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
+		$this->data['employees'] = $this->emp->generateDropdown();
 	}
 
 	public function report()
@@ -425,10 +414,10 @@ class Payroll extends MY_Controller {
 				//Log the report
 				$this->input->log_report($_POST);
 				
-				$this->data['results'] = $this->pr->report($_POST);
+				$this->data['results']   = $this->pr->report($_POST);
 				$this->data['date_from'] = $_POST['date_from'];
-				$this->data['date_to'] = $_POST['date_to'];
-				$this->data['submited'] = 1;
+				$this->data['date_to']   = $_POST['date_to'];
+				$this->data['submited']  = 1;
 
 				if(empty($this->data['results']))
 					$this->data['submited'] = 0;
@@ -436,7 +425,7 @@ class Payroll extends MY_Controller {
 		}
 		
 		//Dropdown Menus
-		$this->data['employees'] = $this->utilities->get_employees('all','- Работник -');
+		$this->data['employees'] = $this->emp->generateDropdown();
 		
 		//Heading
 		$this->data['heading'] = 'Рипорт на Плати';
@@ -449,12 +438,10 @@ class Payroll extends MY_Controller {
 		$this->load->helper('dompdf');
 		$this->load->helper('file');
 		
-		$report_data['results'] = $this->pr->report($_POST);
+		$report_data['results']   = $this->pr->report($_POST);
 		$report_data['date_from'] = $_POST['date_from'];
-		$report_data['date_to'] = $_POST['date_to'];
+		$report_data['date_to']   = $_POST['date_to'];
 		
-		$this->load->model('hr/task_model','tsk');
-		$this->load->model('hr/employees_model','emp');
 
 		if(strlen($_POST['employee_fk']))
 		{

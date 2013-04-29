@@ -25,18 +25,18 @@ class Orders_list extends MY_Controller {
 
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'date'=>'Датум',
-			'distributor_id'=>'Дистрибутер',
-			'ext_doc'=>'Документ',
-			'code'=>'Код',
-			'dateofentry'=>'Внес'
+			'date'           =>'Датум',
+			'distributor_id' =>'Дистрибутер',
+			'ext_doc'        =>'Документ',
+			'code'           =>'Код',
+			'dateofentry'    =>'Внес'
 		);
 
 		$this->input->load_query($query_id);
 		
 		$query_array = [
 			'distributor_id' => $this->input->get('distributor_id'),
-			'q' => $this->input->get('q')
+			'q'              => $this->input->get('q')
 		];
 
 		//Validates Sort by and Sort Order
@@ -57,9 +57,9 @@ class Orders_list extends MY_Controller {
 		paginate("orders_list/index/{$query_id}/{$sort_by}/{$sort_order}",
 			$this->data['num_rows'],$this->limit,6);
 		
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 
 	public function search()
@@ -69,7 +69,7 @@ class Orders_list extends MY_Controller {
 
 		$query_array = [
 			'distributor_id' => $this->input->post('distributor_id'),
-			'q' => $this->input->post('q')
+			'q'              => $this->input->post('q')
 		];	
 		$query_id = $this->input->save_query($query_array);
 		redirect("orders_list/index/{$query_id}");

@@ -11,6 +11,7 @@ class Distribution extends MY_Controller {
 		//Load Models
 		$this->load->model('distribution/warehouse_model','whr');
 		$this->load->model('products/products_model','prod');
+		$this->load->model('hr/employees_model','emp');
 	}
 	
 	public function index()
@@ -85,8 +86,8 @@ class Distribution extends MY_Controller {
 
 		//Heading
 		$this->data['heading'] = 'Излез од Магацин';
-		
-		$this->data['distributors'] = $this->utilities->get_distributors();
+
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 	}
 	
 	public function insert_return()
@@ -118,7 +119,7 @@ class Distribution extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Повраток во Магацин';
 		
-		$this->data['distributors'] = $this->utilities->get_distributors();
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 	}
 	
 	public function edit($page, $id)
@@ -211,16 +212,11 @@ class Distribution extends MY_Controller {
 		$this->data['results'] = $temp['results'];
 		//Total Number of Rows in this Table
 		$this->data['num_rows'] = $temp['num_rows'];
-		
+
 		//Pagination
-		$config['base_url'] = site_url("distribution/digg/$id");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 4;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("distribution/digg/{$id}",
+			$this->data['num_rows'],$this->limit,4);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 	}
@@ -275,16 +271,16 @@ class Distribution extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Влез во Магацин';
 		
-		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
+		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'dateoforigin'=>'Датум',
-			'prodname_fk'=>'Производ',
-			'qty_current'=>'Старо Салдо',
-			'quantity'=>'Влез',	
-			'qty_new'=>'Ново Салдо',
-			'dateofentry'=>'Внес'
+			'dateoforigin' =>'Датум',
+			'prodname_fk'  =>'Производ',
+			'qty_current'  =>'Старо Салдо',
+			'quantity'     =>'Влез',	
+			'qty_new'      =>'Ново Салдо',
+			'dateofentry'  =>'Внес'
 		];
 		
 		$this->input->load_query($query_id);
@@ -336,19 +332,19 @@ class Distribution extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Излез од Магацин';
 		
-		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
-		$this->data['distributors'] = $this->utilities->get_distributors();
+		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'dateoforigin'=>'Датум',
-			'prodname_fk'=>'Производ',
-			'qty_current'=>'Старо Салдо',
-			'quantity'=>'Излез',	
-			'qty_new'=>'Ново Салдо',
-			'distributor_fk'=>'Дистрибутер',
-			'ext_doc'=>'Документ',
-			'dateofentry'=>'Внес'
+			'dateoforigin'   =>'Датум',
+			'prodname_fk'    =>'Производ',
+			'qty_current'    =>'Старо Салдо',
+			'quantity'       =>'Излез',	
+			'qty_new'        =>'Ново Салдо',
+			'distributor_fk' =>'Дистрибутер',
+			'ext_doc'        =>'Документ',
+			'dateofentry'    =>'Внес'
 		);
 		
 		$this->input->load_query($query_id);
@@ -404,24 +400,24 @@ class Distribution extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Повраток во Магацин';
 		
-		$this->data['products'] = $this->utilities->get_products('salable',false,true,'- Артикл -');
-		$this->data['distributors'] = $this->utilities->get_distributors();
+		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'dateoforigin'=>'Датум',
-			'prodname_fk'=>'Производ',
-			'qty_current'=>'Старо Салдо',
-			'quantity'=>'Влез',
-			'qty_new'=>'Ново Салдо',
-			'distributor_fk'=>'Дистрибутер',
-			'dateofentry'=>'Внес'
+			'dateoforigin'   =>'Датум',
+			'prodname_fk'    =>'Производ',
+			'qty_current'    =>'Старо Салдо',
+			'quantity'       =>'Влез',
+			'qty_new'        =>'Ново Салдо',
+			'distributor_fk' =>'Дистрибутер',
+			'dateofentry'    =>'Внес'
 		);
 		
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
-			'prodname_fk' => $this->input->get('prodname_fk'),
+			'prodname_fk'    => $this->input->get('prodname_fk'),
 			'distributor_fk' => $this->input->get('distributor_fk')
 		);
 
@@ -516,12 +512,12 @@ class Distribution extends MY_Controller {
 		foreach ($bom_components as $component)
 		{
 			$options = array(
-				'prodname_fk'=> $component->prodname_fk,
-				'warehouse_fk'=> $warehouse_id,
-				'quantity' => (($component->quantity * $quantity) * -1),
-				'received_by' => $this->session->userdata('userid'),
-				'type' => '0',
-				'is_use' => 1
+				'prodname_fk'  => $component->prodname_fk,
+				'warehouse_fk' => $warehouse_id,
+				'quantity'     => (($component->quantity * $quantity) * -1),
+				'received_by'  => $this->session->userdata('userid'),
+				'type'         => '0',
+				'is_use'       => 1
 			);
 
 			unset($_POST);

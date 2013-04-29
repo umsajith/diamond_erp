@@ -10,6 +10,8 @@ class Tasks extends MY_Controller {
 		
 		//Load Models
 		$this->load->model('hr/task_model','tsk');
+		$this->load->model('production/boms_model','bom');
+		$this->load->model('uom/uom_model','uom');
 	}
     
 	public function index($sort_by = 'taskname', $sort_order = 'asc', $offset = 0)
@@ -19,11 +21,11 @@ class Tasks extends MY_Controller {
 
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'taskname'=>'Назив',
-			'is_production'=>'Производство',
-			'base_unit'=>'Основна Единица',
-			'rate_per_unit'=>'Цена/ЕМ',
-			'rate_per_unit_bonus'=>'Цена/ЕМ Бонус'
+			'taskname'            =>'Назив',
+			'is_production'       =>'Производство',
+			'base_unit'           =>'Основна Единица',
+			'rate_per_unit'       =>'Цена/ЕМ',
+			'rate_per_unit_bonus' =>'Цена/ЕМ Бонус'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -70,8 +72,8 @@ class Tasks extends MY_Controller {
 		}	
 
 		// Generating dropdown menu's
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
-		$this->data['boms'] = $this->utilities->get_boms();
+		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
+		$this->data['boms'] = $this->bom->dropdown('id','name');
 
 		//Heading
 		$this->data['heading'] = 'Нова Работна Задача';
@@ -98,10 +100,10 @@ class Tasks extends MY_Controller {
 			else
 				$this->utilities->flash('error','tasks');
 		}
-
+		
 		// Generating dropdown menu's
-		$this->data['uoms'] = $this->utilities->get_dropdown('id', 'uname','exp_cd_uom','- EM -');
-		$this->data['boms'] = $this->utilities->get_boms();
+		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
+		$this->data['boms'] = $this->bom->dropdown('id','name');
 
 		//Heading
 		$this->data['heading'] = 'Корекција на Работна Задача';

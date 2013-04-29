@@ -29,16 +29,16 @@ class Products extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'prodname'=>'Назив',
-			'ptname_fk'=>'Тип',
-			'pcname_fk'=>'Категорија',
-			'wname_fk'=>'Магацин',
-			'base_unit'=>'Осн.ЕМ',
-			'alert_quantity'=>'Мин.Кол.',
-			'retail_price'=>'МПЦ',
-			'whole_price1'=>'ГПЦ1',
-			'commision'=>'Рабат',
-			'tax_rate_fk'=>'ДДВ'
+			'prodname'       =>'Назив',
+			'ptname_fk'      =>'Тип',
+			'pcname_fk'      =>'Категорија',
+			'wname_fk'       =>'Магацин',
+			'base_unit'      =>'Осн.ЕМ',
+			'alert_quantity' =>'Мин.Кол.',
+			'retail_price'   =>'МПЦ',
+			'whole_price1'   =>'ГПЦ1',
+			'commision'      =>'Рабат',
+			'tax_rate_fk'    =>'ДДВ'
 		);
 		
 		$this->input->load_query($query_id);
@@ -198,7 +198,9 @@ class Products extends MY_Controller {
 		echo json_encode($this->data);
 		exit;
 	}
-
+	/////////////////
+	// DEPRICATED //
+	/////////////////
 	public function dropdown($type)
 	{
 		$this->data = $this->prod->get_products($type);

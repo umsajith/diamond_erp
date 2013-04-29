@@ -15,6 +15,7 @@ class Orders extends MY_Controller {
 		$this->load->model('products/products_model','prod');
 		$this->load->model('financial/paymentmode_model','pmm');
 		$this->load->model('hr/employees_model','emp');
+		$this->load->model('regional/postalcode_model','pcode');	
 	}
 	
 	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
@@ -23,7 +24,7 @@ class Orders extends MY_Controller {
 		$this->data['heading'] = "Налози за Продажба";
 		
 		//Generate dropdown menu data
-		$this->data['postalcodes']   = $this->utilities->get_postalcodes();	
+		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
 		$this->data['customers']     = $this->par->dropdown('id','company');
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');

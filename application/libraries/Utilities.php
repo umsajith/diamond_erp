@@ -30,89 +30,89 @@ class Utilities {
         return $data;
     }
     
-	function get_single($id, $from)
-	{
-       $this->CI->db->select();
-       $this->CI->db->from($from);
-       $this->CI->db->where('id',$id);
+	// function get_single($id, $from)
+	// {
+ //       $this->CI->db->select();
+ //       $this->CI->db->from($from);
+ //       $this->CI->db->where('id',$id);
        
-       return $this->CI->db->get()->row();
-    }
+ //       return $this->CI->db->get()->row();
+ //    }
     
-    function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
-    {  
-        if(!in_array($type,array('salable','purchasable')))
-			die();
+  //   function get_products($type = '',$stockable = false,$dropdown = false,$empty = '--')
+  //   {  
+  //       if(!in_array($type,array('salable','purchasable')))
+		// 	die();
 			
-		//Query
-		$this->CI->db->select('p.id,p.prodname,u.uname,pc.pcname');
-		$this->CI->db->from('exp_cd_products AS p');
-		$this->CI->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
-		$this->CI->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+		// //Query
+		// $this->CI->db->select('p.id,p.prodname,u.uname,pc.pcname');
+		// $this->CI->db->from('exp_cd_products AS p');
+		// $this->CI->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+		// $this->CI->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 
-		if($type == 'salable')
-		{
-			$this->CI->db->where('p.salable',1);
-			$empty = '- Производ -';
-		}
+		// if($type == 'salable')
+		// {
+		// 	$this->CI->db->where('p.salable',1);
+		// 	$empty = '- Производ -';
+		// }
 			
-		if($type == 'purchasable')
-		{
-			$this->CI->db->where('p.purchasable',1);
-			$empty = '- Артикл -';
-		}
+		// if($type == 'purchasable')
+		// {
+		// 	$this->CI->db->where('p.purchasable',1);
+		// 	$empty = '- Артикл -';
+		// }
 			
-		if($stockable == true)
-			$this->CI->db->where('p.stockable',1);
+		// if($stockable == true)
+		// 	$this->CI->db->where('p.stockable',1);
 				
-		$this->CI->db->where('p.status','active');
+		// $this->CI->db->where('p.status','active');
 
-		$this->CI->db->order_by('p.prodname','asc');
+		// $this->CI->db->order_by('p.prodname','asc');
 		
-		$results = $this->CI->db->get()->result();
+		// $results = $this->CI->db->get()->result();
 		
-		/*
-		 * If the option DROPDOWN (third paramenter) has
-		 * been set to TRUE, automatically generates data
-		 * for dropdown menue generation (KEY=>VALUE) pairs
-		 */
-		if($dropdown)
-		{     
-	        $data[''] =  $empty;
+		// /*
+		//  * If the option DROPDOWN (third paramenter) has
+		//  * been set to TRUE, automatically generates data
+		//  * for dropdown menue generation (KEY=>VALUE) pairs
+		//  */
+		// if($dropdown)
+		// {     
+	 //        $data[''] =  $empty;
 	       
-	        //Creating Assosiative Array
-	        foreach ($results as $row)
-	            $data[$row->id]= $row->prodname;
+	 //        //Creating Assosiative Array
+	 //        foreach ($results as $row)
+	 //            $data[$row->id]= $row->prodname;
 	        
-	        return $data;
-		}
-		return $results;
-    }
+	 //        return $data;
+		// }
+		// return $results;
+  //   }
     
     //Creates a dropdown of Cities using postal code keys
-    function get_postalcodes()
-    {
-    	$key = 'id';
-    	$value = 'name';
+    // function get_postalcodes()
+    // {
+    // 	$key = 'id';
+    // 	$value = 'name';
     	
-    	//Generating Querry
-    	$this->CI->db->select('p.id,c.name');
-    	$this->CI->db->from('exp_cd_postalcode AS p');
-    	$this->CI->db->join('exp_cd_cities AS c', 'c.id = p.city_fk');
-    	$this->CI->db->order_by('c.name','asc');
+    // 	//Generating Querry
+    // 	$this->CI->db->select('p.id,c.name');
+    // 	$this->CI->db->from('exp_cd_postalcode AS p');
+    // 	$this->CI->db->join('exp_cd_cities AS c', 'c.id = p.city_fk');
+    // 	$this->CI->db->order_by('c.name','asc');
     	
-    	$array_keys_values = $this->CI->db->get();
+    // 	$array_keys_values = $this->CI->db->get();
     	
-    	$data =  [];
+    // 	$data =  [];
     	
-    	//Creating Assosiative Array
-       foreach ($array_keys_values->result() as $row)
-        {
-            $data[$row->$key]= $row->$value;
-        }
+    // 	//Creating Assosiative Array
+    //    foreach ($array_keys_values->result() as $row)
+    //     {
+    //         $data[$row->$key]= $row->$value;
+    //     }
         
-        return $data;
-    }
+    //     return $data;
+    // }
     
 	// function get_employees($type = 'all', $empty = '')
  //    {	
@@ -148,78 +148,78 @@ class Utilities {
  //        return $data;
  //    }
 	
-	function get_boms()
-    {	
-    	$key = 'id';
-    	$value = 'name';
+	// function get_boms()
+ //    {	
+ //    	$key = 'id';
+ //    	$value = 'name';
     	
-    	//Generating Querry
-    	$this->CI->db->select('id,name');
-    	$this->CI->db->from('exp_cd_bom');
+ //    	//Generating Querry
+ //    	$this->CI->db->select('id,name');
+ //    	$this->CI->db->from('exp_cd_bom');
     	
-    	$array_keys_values = $this->CI->db->get();
+ //    	$array_keys_values = $this->CI->db->get();
     	
-    	$data[''] =  '- Норматив -';
+ //    	$data[''] =  '- Норматив -';
     	
-    	//Creating Assosiative Array
-       foreach ($array_keys_values->result() as $row)
-        {
-            $data[$row->$key]= $row->$value;
-        }
+ //    	//Creating Assosiative Array
+ //       foreach ($array_keys_values->result() as $row)
+ //        {
+ //            $data[$row->$key]= $row->$value;
+ //        }
         
-        return $data;
-    }
+ //        return $data;
+ //    }
     
-	function get_managers()
-    {
-    	$key = 'id';
-    	$value1 = 'lname';
-    	$value2 = 'fname';
-    	$data = array();
+	// function get_managers()
+ //    {
+ //    	$key = 'id';
+ //    	$value1 = 'lname';
+ //    	$value2 = 'fname';
+ //    	$data = array();
     	
-    	//Generating Querry
-    	$this->CI->db->select('id,fname,lname');
-    	$this->CI->db->from('exp_cd_employees');
-    	$this->CI->db->order_by('lname','asc');
-    	$this->CI->db->where('status','active');
-    	$this->CI->db->where('is_manager',1);
+ //    	//Generating Querry
+ //    	$this->CI->db->select('id,fname,lname');
+ //    	$this->CI->db->from('exp_cd_employees');
+ //    	$this->CI->db->order_by('lname','asc');
+ //    	$this->CI->db->where('status','active');
+ //    	$this->CI->db->where('is_manager',1);
     	
-    	$results = $this->CI->db->get()->result();
+ //    	$results = $this->CI->db->get()->result();
     	
-    	$data[''] =  '- Менаџер -';
+ //    	$data[''] =  '- Менаџер -';
     	
-    	//Creating Assosiative Array
-       foreach ($results as $row)
-            $data[$row->$key]= $row->$value1 . ' ' . $row->$value2;
+ //    	//Creating Assosiative Array
+ //       foreach ($results as $row)
+ //            $data[$row->$key]= $row->$value1 . ' ' . $row->$value2;
    
-        return $data;
-    }
+ //        return $data;
+ //    }
     
-	function get_distributors()
-    {
-    	$key = 'id';
-    	$value1 = 'lname';
-    	$value2 = 'fname';
-    	$data = array();
+	// function get_distributors()
+ //    {
+ //    	$key = 'id';
+ //    	$value1 = 'lname';
+ //    	$value2 = 'fname';
+ //    	$data = array();
     	
-    	//Generating Querry
-    	$this->CI->db->select('id,fname,lname');
-    	$this->CI->db->from('exp_cd_employees');
-    	//$this->CI->db->join('exp_cd_cities AS c', 'c.id = p.city_fk');
-    	$this->CI->db->order_by('lname','asc');
-    	$this->CI->db->where('status','active');
-    	$this->CI->db->where('is_distributer',1);
+ //    	//Generating Querry
+ //    	$this->CI->db->select('id,fname,lname');
+ //    	$this->CI->db->from('exp_cd_employees');
+ //    	//$this->CI->db->join('exp_cd_cities AS c', 'c.id = p.city_fk');
+ //    	$this->CI->db->order_by('lname','asc');
+ //    	$this->CI->db->where('status','active');
+ //    	$this->CI->db->where('is_distributer',1);
     	
-    	$results = $this->CI->db->get()->result();
+ //    	$results = $this->CI->db->get()->result();
     	
-    	$data[''] =  '- Дистрибутер -';
+ //    	$data[''] =  '- Дистрибутер -';
     	
-    	//Creating Assosiative Array
-       foreach ($results as $row)
-            $data[$row->$key]= $row->$value1 . ' ' . $row->$value2;
+ //    	//Creating Assosiative Array
+ //       foreach ($results as $row)
+ //            $data[$row->$key]= $row->$value1 . ' ' . $row->$value2;
         
-        return $data;
-    }
+ //        return $data;
+ //    }
     
 	function flash($type,$redirect_to = '',$redirect = true)
 	{

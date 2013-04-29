@@ -12,6 +12,8 @@ class Inventory extends MY_Controller {
 		$this->load->model('procurement/inventory_model','inv');
 		$this->load->model('partners/partners_model','par');
 		$this->load->model('products/products_model','prod');
+		$this->load->model('products/category_model','cat');
+		$this->load->model('hr/employees_model','emp');
     }
 	
 	public function index()
@@ -29,8 +31,8 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Нарачки';
 		
 		//Generate dropdown menu data
-		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
-		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
+		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -66,16 +68,11 @@ class Inventory extends MY_Controller {
 		$this->data['results'] = $temp['results'];
 		//Total Number of Rows in this Table
 		$this->data['num_rows'] = $temp['num_rows'];
-		
+
 		//Pagination
-		$config['base_url'] = site_url("inventory/purchase_orders/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("inventory/purchase_orders/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -91,7 +88,7 @@ class Inventory extends MY_Controller {
 			'pcname_fk' => $this->input->post('pcname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("inventory/purchase_orders/$query_id");
+		redirect("inventory/purchase_orders/{$query_id}");
 	}
 	
 	public function goods_receipts($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -100,29 +97,29 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Приемници';
 				
 		//Generate dropdown menu data
-		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
-		$this->data['vendors'] = $this->par->dropdown('vendors');
-		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
+		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
+		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'datereceived'=>'Примено',
-			'prodname_fk'=>'Артикл',
-			'partner_fk'=>'Добавувач',
-			'quantity'=>'Количина',
-			'purchase_method'=>'Начин',
-			'price'=>'Цена(без ДДВ)',	
-			'dateoforder'=>'Нарачано',
-			'dateofentry'=>'Внес'
+			'datereceived'    =>'Примено',
+			'prodname_fk'     =>'Артикл',
+			'partner_fk'      =>'Добавувач',
+			'quantity'        =>'Количина',
+			'purchase_method' =>'Начин',
+			'price'           =>'Цена(без ДДВ)',	
+			'dateoforder'     =>'Нарачано',
+			'dateofentry'     =>'Внес'
 		);
 		
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
-			'partner_fk' => $this->input->get('partner_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk'),
-			'type' => 'gr'
+			'partner_fk'  => $this->input->get('partner_fk'),
+			'pcname_fk'   => $this->input->get('pcname_fk'),
+			'type'        => 'gr'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -140,14 +137,9 @@ class Inventory extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("inventory/goods_receipts/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("inventory/goods_receipts/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -160,11 +152,11 @@ class Inventory extends MY_Controller {
 	{
 		$query_array = array(
 			'prodname_fk' => $this->input->post('prodname_fk'),
-			'partner_fk' => $this->input->post('partner_fk'),
-			'pcname_fk' => $this->input->post('pcname_fk')
+			'partner_fk'  => $this->input->post('partner_fk'),
+			'pcname_fk'   => $this->input->post('pcname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("inventory/goods_receipts/$query_id");
+		redirect("inventory/goods_receipts/{$query_id}");
 	}
 	
 	public function adjustments($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -173,24 +165,24 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = 'Порамнување';
 		
 		//Generate dropdown menu data
-		$this->data['products'] = $this->utilities->get_products('purchasable',true,true,'- Артикл -');
-		$this->data['categories'] = $this->utilities->get_dropdown('id', 'pcname','exp_cd_product_category','- Категорија -');
+		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
+		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (
-			'dateofentry'=>'Внес',	
-			'prodname_fk'=>'Артикл',
-			'pcname_fk'=>'Категорија',
-			'quantity'=>'Количина'
+			'dateofentry' =>'Внес',	
+			'prodname_fk' =>'Артикл',
+			'pcname_fk'   =>'Категорија',
+			'quantity'    =>'Количина'
 		);
 		
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
 			'prodname_fk' => $this->input->get('prodname_fk'),
-			'pcname_fk' => $this->input->get('pcname_fk'),
-			'partner_fk' => '',
-			'type' => 'adj'
+			'pcname_fk'   => $this->input->get('pcname_fk'),
+			'partner_fk'  => '',
+			'type'        => 'adj'
 		);
 		
 		//Validates Sort by and Sort Order
@@ -207,14 +199,9 @@ class Inventory extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("inventory/adjustments/$query_id/$sort_by/$sort_order");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 6;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("inventory/adjustments/{$query_id}/{$sort_by}/{$sort_order}",
+			$this->data['num_rows'],$this->limit,6);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
@@ -227,10 +214,10 @@ class Inventory extends MY_Controller {
 	{
 		$query_array = array(
 			'prodname_fk' => $this->input->post('prodname_fk'),
-			'pcname_fk' => $this->input->post('pcname_fk')
+			'pcname_fk'   => $this->input->post('pcname_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
-		redirect("inventory/adjustments/$query_id");
+		redirect("inventory/adjustments/{$query_id}");
 	}
 	
 	public function digg($id, $offset = null)
@@ -254,14 +241,9 @@ class Inventory extends MY_Controller {
 		$this->data['num_rows'] = $temp['num_rows'];
 		
 		//Pagination
-		$config['base_url'] = site_url("inventory/digg/$id");
-		$config['total_rows'] = $this->data['num_rows'];
-		$config['per_page'] = $this->limit;
-		$config['uri_segment'] = 4;
-		$config['num_links'] = 3;
-		$config['first_link'] = 'Прва';
-		$config['last_link'] = 'Последна';
-			$this->pagination->initialize($config);
+		$this->data['pagination'] = 
+		paginate("inventory/digg/{$id}",
+			$this->data['num_rows'],$this->limit,4);
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 	}
@@ -292,7 +274,7 @@ class Inventory extends MY_Controller {
 				$this->utilities->flash('error','goods_receipts');
 		}
 		//Load Partner model for Dropdown creation
-		$this->data['vendors'] = $this->par->dropdown('vendors');
+		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
 
 		//Heading
 		$this->data['heading'] = 'Внес на Приемница';
@@ -319,7 +301,7 @@ class Inventory extends MY_Controller {
 				$this->utilities->flash('error','purchase_orders');
 		}
 
-		$this->data['products'] = $this->utilities->get_products('purchasable',false,true,'- Артикл -');
+		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
 
 		//Heading
 		$this->data['heading'] = 'Внес на Нарачка';
@@ -364,7 +346,7 @@ class Inventory extends MY_Controller {
 			$redirect = 'purchase_orders';
 			$this->view = 'inventory/edit_po';
 			
-			$this->data['employees'] = $this->utilities->get_employees('all',' ');
+			$this->data['employees'] = $this->emp->generateDropdown();
 		}	
 		if($page == 'gr')
 		{
@@ -401,7 +383,7 @@ class Inventory extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Корекција на ' . $heading;
 		
-		$this->data['vendors'] = $this->par->dropdown('vendors');
+		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
 	}
 	
 	//AJAX - Marks the Purchase Order into Good Receipts and adds to inventory

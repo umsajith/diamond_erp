@@ -2,6 +2,10 @@
 class Partners_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_partners';
+
+	public $before_create = ['setNull'];
+
+	public $before_update = ['setNull'];
 	
 	public function select($query_array,$sort_by,$sort_order,$limit = null, $offset = null)
 	{
@@ -182,20 +186,20 @@ class Partners_model extends MY_Model {
 	 * @param  Array  $options restriction options
 	 * @return Array of Objects          
 	 */
-	public function partners_search($term, $options = [])
-	{
-		$this->db->select('id, company')
-	    	->like('company', $term, 'after');
+	// public function partners_search($term, $options = [])
+	// {
+	// 	$this->db->select('id, company')
+	//     	->like('company', $term, 'after');
 
-	    if(isset($options['is_vendor']))
-	    	$this->db->where('is_vendor',$options['is_vendor']);
-	   	if(isset($options['is_mother']))
-	    	$this->db->where('is_mother',$options['is_mother']);
-	    if(isset($options['is_customer']))
-	    	$this->db->where('is_customer',$options['is_customer']);
+	//     if(isset($options['is_vendor']))
+	//     	$this->db->where('is_vendor',$options['is_vendor']);
+	//    	if(isset($options['is_mother']))
+	//     	$this->db->where('is_mother',$options['is_mother']);
+	//     if(isset($options['is_customer']))
+	//     	$this->db->where('is_customer',$options['is_customer']);
 
-   		return $this->db->get($this->_table)->result();
-	}			
+ //   		return $this->db->get($this->_table)->result();
+	//}			
 	
 	public function select_single($id)
 	{
@@ -222,49 +226,20 @@ class Partners_model extends MY_Model {
 		
 		return $this->db->get($this->_table.' AS p')->result();
 	}
-	
-	public function insert ($data = array())
-	{	
-		if(!isset($data['postalcode_fk']))
-			$data['postalcode_fk'] = 1;
-			
-		if(isset($data['mother_fk']) AND $data['mother_fk'] == '')
-			$data['mother_fk'] = null;
-			
-		// Inserts the whole data array into the database table
-		$this->db->insert($this->_table,$data);
-		
-		return $this->db->insert_id();
-	}
-	
-	public function update($id,$data = array())
-	{	
-		/*
-		 * If after update, is_customer, is_vendor, is_mother
-		 * flags has been unset, sets them back to 0.
-		 */
-		if(!isset($data['is_customer']))
-				$data['is_customer'] = 0;	
-				
-		if(!isset($data['is_vendor']))
-				$data['is_vendor'] = 0;
-				
-		if(!isset($data['is_mother']))
-				$data['is_mother'] = 0;
 
-		/*
-		 *  If Mother_fk has been set, and its empty,
-		 *  sets the corresponding attribute to null (default)
-		 */
-		if(isset($data['mother_fk']) AND $data['mother_fk'] == '')
-				$data['mother_fk'] = null;
-		
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table,$data);
-		
-		return $this->db->affected_rows();
+	////////////////
+	// OBSERVERS //
+	////////////////
+	protected function setNull($row)
+	{
+		if(!strlen($row['mother_fk'])) $row['mother_fk'] = null;
+
+		if(!isset($row['is_customer'])) $row['is_customer'] = 0;	
+				
+		if(!isset($row['is_vendor'])) $row['is_vendor'] = 0;
+				
+		if(!isset($row['is_mother'])) $row['is_mother'] = 0;
+
+		return $row;
 	}
 }

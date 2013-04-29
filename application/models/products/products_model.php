@@ -107,32 +107,42 @@ class Products_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 
-	public function generateDropdown($options = [])
+	public function generateDropdown($options = [], $aarray = false)
 	{
 		$this->db->select('p.id,p.prodname,u.uname,pc.pcname')
 			->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT')
 			->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
 
-		if(!empty($options))
+		if(is_array($options) AND !empty($options))
 		{
 			foreach ($options as $key => $value) 
 			{
-				$this->db->where($key,$value);
+				if($key != 'prodname_fk')
+				{
+					$this->db->where('p.'.$key,$value);
+				}
 			}
 		}
 
-		if(isset($options['salable']))
-			$this->db->where('p.salable',$options['salable']);
-		if(isset($options['purchasable']))
-			$this->db->where('p.purchasable',$options['purchasable']);
-		if(isset($options['stockable']))
-			$this->db->where('p.stockable',$options['stockable']);
-				
 		$this->db->where('p.status','active');
 
 		$this->db->order_by('p.prodname','asc');
 		
-		return $this->db->get($this->_table.' AS p')->result();
+		$results = $this->db->get($this->_table.' AS p')->result();
+
+		if($aarray === true)
+		{
+			$data = [];
+
+			foreach ($results as $row) 
+			{
+				$data[$row->id] = $row->prodname;
+			}
+
+			return $data;
+		} 
+
+		return $results;	
 	}
 	
 	//////////////////
