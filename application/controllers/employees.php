@@ -9,13 +9,14 @@ class Employees extends MY_Controller {
 		parent::__construct();
 		
 		//Load Models
+		$this->load->model('acl/roles_model','rol');
 		$this->load->model('hr/employees_model','emp');	
 		$this->load->model('hr/emp_tasks_model','empt');		
-		$this->load->model('hr/positions_model','pos');		
-		$this->load->model('acl/roles_model','rol');
+		$this->load->model('hr/positions_model','pos');
+		$this->load->model('hr/payroll_model','pr');		
+		$this->load->model('hr/task_model','tsk');
 		$this->load->model('regional/postalcode_model','pcode');	
 		$this->load->model('regional/location_model','loc');	
-		$this->load->model('hr/task_model','tsk');
 	}
 	
 	public function index($query_id = 0,$sort_by = 'employee', $sort_order = 'asc', $offset = 0)
@@ -188,16 +189,17 @@ class Employees extends MY_Controller {
 	
 	public function view($id)
 	{
+		$this->data['master'] = $this->emp->select_single($id);
+		if(!$this->data['master']) air::flash('void','employees');	
+
 		//Heading
 		$this->data['heading'] = 'Работник';
 		
 		//Retreives data from MASTER Model
-		$this->data['master']         = $this->emp->select_single($id);
 		$this->data['assigned_tasks'] = $this->empt->select($id);
 		$this->data['tasks']          = $this->tsk->dropdown('id','taskname');
-		
-		if(!$this->data['master']) 
-			air::flash('void','employees');	
+		$this->data['payrolls'] = $this->pr->limit(6)->order_by('date_from','desc')
+			->get_many_by(['employee_fk'=>$id,'status'=>'active']);
 	}
 	
 	public function delete($id)

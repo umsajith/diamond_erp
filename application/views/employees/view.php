@@ -6,7 +6,7 @@
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
             <dt>Име и Презиме:</dt>
-            <dd><?=$master->lname. ' '. $master->fname?></dd>
+            <dd><?=$master->fname. ' '. $master->lname?></dd>
             <dt>ДНР:</dt>
             <dd><?=uif::date($master->dateofbirth)?></dd>
             <dt>ЕМБ:</dt>
@@ -63,6 +63,32 @@
         </dl>
     </div>
     <div class="span7">
+        <?php if(isset($payrolls) AND count($payrolls)):?>
+        <div class="legend">Последни 6 Плати</div>
+        <table class="table table-condensed assigned-tasks">
+            <thead>
+                <tr>
+                    <th>Линк</th>
+                    <th>Месец</th>
+                    <th>Учинок</th>
+                    <th>Бруто</th>
+                    <th>Доплата</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($payrolls as $row):?>
+                <tr data-tid=<?=$row->id?>>
+                    <td><?=anchor("payroll/view/{$row->id}",'#'.$row->id)?></td>
+                    <td><?=uif::date($row->date_from,'%m/%Y')?></td>
+                    <td><?=$row->acc_wage?></td>
+                    <td><?=$row->gross_wage?></td>
+                    <td><?=$row->paid_wage?></td>
+                </tr>
+                <?php endforeach;?>
+            </tbody>
+        </table>
+        <?php endif;?>
+         <hr>
         <div class="legend">Доделување работни задачи</div>
         <?=form_open("employees/assignTask")?>
             <div class="well well-small form-horizontal">
