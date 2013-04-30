@@ -178,7 +178,7 @@ class Distribution extends MY_Controller {
 			{
 				/*
 				 * If an inbound entry has been modified,
-				 * and the qty has changed, recalculate all
+				 * and the qty has changed, recalculates all
 				 * inventory deductions again for the new quantity
 				 * according to the Bill of Materials
 				 */
