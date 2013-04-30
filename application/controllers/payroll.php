@@ -241,11 +241,12 @@ class Payroll extends MY_Controller {
 				 */
 				if(!$this->data['fixed_wage_only'] AND !$this->data['is_distributer'])
 				{
-					$this->data['job_orders'] = $this->jo->payroll(array(
+					$this->data['job_orders'] = $this->jo->payroll([
 								'assigned_to' => $this->data['employee'],
 								'datefrom'    => $this->data['datefrom'],
 								'dateto'      => $this->data['dateto']
-								));
+							]);
+
 					/*
 					 * Calculates total accumulated wage by
 					 * going through Job Orders assigned,
@@ -385,6 +386,14 @@ class Payroll extends MY_Controller {
 				 */
 				$this->data['paid_wage'] = 0;
 				$this->data['paid_wage'] += $this->data['gross_wage'];
+				/**
+				 * If employee has fixed wage only, reduce it from
+				 * the wage that has to be paid additionally (paid_wage)
+				 */
+				if($this->data['fixed_wage_only'])
+				{
+					$this->data['paid_wage'] -= $this->data['fixed_wage'];
+				}
 				$this->data['paid_wage'] += $this->data['gross_exp'];		
 			}		
 		}

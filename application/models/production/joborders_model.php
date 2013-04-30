@@ -258,9 +258,11 @@ class Joborders_model extends MY_Model {
 		 * since as requested, job orders are not inserted
 		 * prior to completion.
 		 */
-		$row['final_quantity'] = $row['assigned_quantity'];
-
-		if(!isset($row['is_completed'])) $row['is_completed'] = 0;
+		if(!isset($row['is_completed']))
+		{
+			$row['final_quantity'] = $row['assigned_quantity'];
+			$row['is_completed'] = 0;
+		} 
 
 		return $row;
 	}
