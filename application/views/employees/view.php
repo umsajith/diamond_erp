@@ -92,9 +92,9 @@
         <div class="legend">Доделување работни задачи</div>
         <?=form_open("employees/assignTask")?>
             <div class="well well-small form-horizontal">
-                <?=uif::formElement('dropdown','','task_fk',[$tasks],' class="input-xlarge"')?>
+                <?=uif::formElement('dropdown','','task_fk',[$tasks],"id='task' class='input-xlarge'")?>
                 <?=form_hidden('employee_fk',$master->id)?>
-                <?=uif::button('icon-plus-sign','success')?>
+                <?=uif::button('icon-plus-sign','success',"id='assign-task'")?>
             </div>  
         <?=form_close()?>
         <?php if(isset($assigned_tasks) AND count($assigned_tasks)):?>
@@ -121,5 +121,14 @@
 <script>
     $(function(){
         cd.dd("select[name=task_fk]",'Работна Задача');
+
+        $("#assign-task").on("click",function(){
+            var task = $("#task option:selected");
+            if(task.val() == ''){
+                alert("Изберете работна задача.");
+                $("#task").focus();
+                return false;
+            }
+        });
     });
 </script>

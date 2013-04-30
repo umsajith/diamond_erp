@@ -224,9 +224,9 @@ class Employees extends MY_Controller {
 		{
 			if($this->empt->insert($_POST))
 				air::flash('add',$_SERVER['HTTP_REFERER']);
-			else
-				air::flash('error',$_SERVER['HTTP_REFERER']);
+
 		}
+		air::flash('error',$_SERVER['HTTP_REFERER']);
 	}
 
 	public function unassignTask($id)
