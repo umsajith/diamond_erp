@@ -3,7 +3,9 @@ class Bomdetails_model extends MY_Model {
 	
 	//Database table of the Model
 	protected $_table = 'exp_cd_bom_details';
-
+	////////////////////////////////////////////
+	// CHECK USAGE AND DEPRICATE IF NOT USED //
+	////////////////////////////////////////////
 	public function select_by_bom_id($bom_id)
 	{
 		//Selects and returns all records from table

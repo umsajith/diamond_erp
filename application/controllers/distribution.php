@@ -231,6 +231,7 @@ class Distribution extends MY_Controller {
 		 * Inbound or Outbound
 		 */
 		$this->data['master'] = $this->whr->select_single($id);
+
 		if(!$this->data['master']) show_404();
 			
 		$pages = ['in','out','ret'];
@@ -492,33 +493,23 @@ class Distribution extends MY_Controller {
 		$this->load->model('production/boms_model','bom');
 		$this->load->model('production/bomdetails_model','bomd');
 		$this->load->model('procurement/inventory_model','inv');
-		
-		if(!$bom_id = $this->bom->select_by_product($product_id))
-			return false;
 
-		$results = $this->inv->has_deducation($warehouse_id);
-		
-		if($results)
-		{
-			foreach ($results as $row )
-				$this->inv->delete($row['id']);
-		}
+		$bomId = $this->bom->get_by(['prodname_fk'=>$product_id]);
 
 		/*
 		 * Retreive all components for specific Bill of Materials (bom_id) 
 		 */
-		$bom_components = $this->bomd->select_by_bom_id($bom_id);
+		$bom_components = $this->bomd->select_by_bom_id($bomId->id);
 							
 		foreach ($bom_components as $component)
 		{
-			$options = array(
+			$options = [
 				'prodname_fk'  => $component->prodname_fk,
 				'warehouse_fk' => $warehouse_id,
 				'quantity'     => (($component->quantity * $quantity) * -1),
-				'received_by'  => $this->session->userdata('userid'),
 				'type'         => '0',
 				'is_use'       => 1
-			);
+			];
 
 			unset($_POST);
 				

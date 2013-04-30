@@ -134,16 +134,16 @@ class Job_orders extends MY_Controller {
 		{
 			if($this->jo->update($_POST['id'],$_POST))
 			{
-				$found = $this->inv->get_many_by(['job_order_fk'=>$_POST['id']]);
-				if(!empty($found))
-				{
-					$ids = [];
-					foreach ($found as $row) 
-					{
-						array_push($ids,$row->id);
-					}
-					$this->inv->delete_many($ids);
-				}
+				// $found = $this->inv->get_many_by(['job_order_fk'=>$_POST['id']]);
+				// if(!empty($found))
+				// {
+				// 	$ids = [];
+				// 	foreach ($found as $row) 
+				// 	{
+				// 		array_push($ids,$row->id);
+				// 	}
+				// 	$this->inv->delete_many($ids);
+				// }
 				
 				/*
 				 * Check if this task is production and has
@@ -287,21 +287,14 @@ class Job_orders extends MY_Controller {
 		$this->load->model('production/bomdetails_model','bomd');
 		$this->load->model('production/boms_model','bom');
 		
-		if(!$bom_id = $this->tsk->find_bom($task_id))
-			return false;
+		$taskId = $this->tsk->get($task_id);
 
-		$results = $this->inv->has_deducation($job_order_id);
-		
-		if($results)
-		{
-			foreach ($results as $row )
-				$this->inv->delete($row['id']);
-		}
+		$bomId = $this->bom->get($taskId->bom_fk);
 
 		/*
 		 * Retreive all components for specific Bill of Materials (bom_id) 
 		 */
-		$bom_components = $this->bomd->select_by_bom_id($bom_id);
+		$bom_components = $this->bomd->get_many_by(['bom_fk'=>$bomId->id]);
 		/**
 		 * MOVE THE FOLLOWING PART TO BOM-DETAILS MODEL
 		 */
@@ -311,7 +304,6 @@ class Job_orders extends MY_Controller {
 				'prodname_fk'  => $component->prodname_fk,
 				'job_order_fk' => $job_order_id,
 				'quantity'     => (($component->quantity * $quantity) * -1),
-				'received_by'  => $this->session->userdata('userid'),
 				'type'         => '0',
 				'is_use'       => 1
 			];

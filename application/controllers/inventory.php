@@ -389,11 +389,8 @@ class Inventory extends MY_Controller {
 	//AJAX - Marks the Purchase Order into Good Receipts and adds to inventory
 	public function receive_po() 
 	{
-		$data['ids'] = json_decode($_POST['ids']);
-		
-		if($this->inv->receive_po($data))
-			echo 1;
-			
+		if($this->inv->update_many(json_decode($_POST['ids']),['type'=>'gr'],true))
+			echo 1;	
 		exit;
 	}
 	

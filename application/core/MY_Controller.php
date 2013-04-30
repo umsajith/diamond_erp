@@ -218,7 +218,7 @@ class MY_Controller extends CI_Controller
 
             if(!$this->data['sub_modules'])
             {
-                $this->utilities->flash('deny',$this->session->userdata('default_module'));
+                air::flash('deny',$this->session->userdata('default_module'));
             }
         }
         else
@@ -227,7 +227,7 @@ class MY_Controller extends CI_Controller
 
             if(!$this->data['sub_modules'])
             {
-                $this->utilities->flash('deny',$this->session->userdata('default_module'));    
+                air::flash('deny',$this->session->userdata('default_module'));    
             }
         }       
     }

@@ -45,16 +45,16 @@ class Boms_model extends MY_Model {
 		return $this->db->get($this->_table.' AS b')->row();
 	}
 	
-	public function select_by_product($product_id)
-	{
-		$this->db->select('id')
-				->where('prodname_fk',$product_id)
-				->limit(1);
+	// public function select_by_product($product_id)
+	// {
+	// 	$this->db->select('id')
+	// 			->where('prodname_fk',$product_id)
+	// 			->limit(1);
 		
-		$row =  $this->db->get($this->_table)->row();
+	// 	$row =  $this->db->get($this->_table)->row();
 		
-		return $row->id;
-	}
+	// 	return $row->id;
+	// }
 	
 	public function insert ($data = array())
 	{			

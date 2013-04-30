@@ -266,4 +266,10 @@ class Joborders_model extends MY_Model {
 
 		return $row;
 	}
+
+	// protected function deleteInventoryEntries($row)
+	// {
+	// 	$this->db->delete('exp_cd_inventory',['job_order_fk'=>$row['id']]);
+	// 	return $row;
+	// }
 }

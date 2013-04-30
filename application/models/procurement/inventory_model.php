@@ -5,9 +5,9 @@ class Inventory_model extends MY_Model {
 
 	protected $_location;
 
-	public $before_create = ['setNull','setDefaults'];
+	public $before_create = ['setNull','setDefaults','cleanDuplicates'];
 
-	public $before_update = ['setNull'];
+	public $before_update = ['setNull','processUpdate'];
 
 	public function __construct()
 	{
@@ -198,94 +198,57 @@ class Inventory_model extends MY_Model {
 		return $this->db->get($this->_table.' AS i')->result();
 	}
 	
-	// public function insert ($data = array())
+	// private function current_qty($product_id)
 	// {
+	// 	$this->db->select_sum('quantity');
+
 	// 	/**
-	// 	 * Inserts default working location ID
+	// 	 * If user has specific location set,
+	// 	 * display inventory for that location only!
 	// 	 */
-	// 	//if($this->_location)
-	// 	//	$data['location_id'] = $this->_location;
-				
+	// 	if($this->_location)
+	// 		$this->db->where('location_id',$this->_location);
 		
-	// 	 // * Calculates the Quantity at Hand of product
-	// 	 // * before change,and saves it 
-	// 	 // * in attribute - qty_current
-		 
-	// 	//$data['qty_current'] = $this->current_qty($data['prodname_fk']);
-			
+	// 	$this->db->where('prodname_fk',$product_id);
 		
+	// 	$result = $this->db->get($this->_table)->row();
 		
-	// 	$this->db->insert($this->_table,$data);
-		
-	// 	return $this->db->insert_id();
+	// 	if(!is_null($result->quantity))
+	// 		return $result->quantity;
+	// 	else
+	// 		return false;
 	// }
 	
-	private function current_qty($product_id)
-	{
-		$this->db->select_sum('quantity');
+	// public function receive_po($options = array())
+	// {
+	// 	/*
+	// 	 * Transfers the Purchase Order into
+	// 	 * Goods Receipt Note, and Inserts
+	// 	 * DateReceived to be NOW
+	// 	 */
+	// 	$this->db->set('type','gr');
+	// 	$this->db->set('datereceived', mdate("%Y-%m-%d",now()));
 
-		/**
-		 * If user has specific location set,
-		 * display inventory for that location only!
-		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
+	// 	$this->db->where_in('id',$options['ids']);
 		
-		$this->db->where('prodname_fk',$product_id);
-		
-		$result = $this->db->get($this->_table)->row();
-		
-		if(!is_null($result->quantity))
-			return $result->quantity;
-		else
-			return false;
-	}
-	
-	// public function update($id,$data = array())
-	// {	
-		
-				
-	// 	$this->db->where('id',$id);		
-
-	// 	$this->db->update($this->_table,$data);
+	// 	$this->db->update($this->_table);
 		
 	// 	return $this->db->affected_rows();
 	// }
 	
-	public function receive_po($options = array())
-	{
-		/*
-		 * Transfers the Purchase Order into
-		 * Goods Receipt Note, and Inserts
-		 * DateReceived to be NOW
-		 */
-		$this->db->set('type','gr');
-		$this->db->set('datereceived', mdate("%Y-%m-%d",now()));
-		$this->db->set('received_by',$this->session->userdata('userid'));
-
-		$this->db->where_in('id',$options['ids']);
-		
-		$this->db->update($this->_table);
-		
-		return $this->db->affected_rows();
-	}
-	
 	public function select_use($key, $value)
 	{
-		
 		//Selects and returns all records from table
 		$this->db->select('i.id,i.quantity,i.prodname_fk,i.dateofentry,
-							p.prodname,pc.pcname,u.uname');
-		
-		$this->db->from($this->_table.' AS i');
-		
-		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
-		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
-		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+							p.prodname,pc.pcname,u.uname')
+				->from($this->_table.' AS i')
+				->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT')
+				->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT')
+				->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 		
 		//Selects this specific Job Order Inventory Entries
 		$this->db->where('i.'.$key,$value);
-		
+
 		//Retreives only the INVENTORY DEDUCTION records
 		$this->db->where('i.is_use',1);
 		
@@ -351,15 +314,15 @@ class Inventory_model extends MY_Model {
 		return $data;
 	}
 
-	public function has_deducation($jo_id)
-	{
-		//Checks if there are already Inventory Deductions for this Job Order
-		$this->db->select('id');
-		$this->db->from($this->_table);
-		$this->db->where('job_order_fk',$jo_id);
+	// public function has_deducation($jo_id)
+	// {
+	// 	//Checks if there are already Inventory Deductions for this Job Order
+	// 	$this->db->select('id');
+	// 	$this->db->from($this->_table);
+	// 	$this->db->where('job_order_fk',$jo_id);
 		
-		return $this->db->get()->result_array();
-	}
+	// 	return $this->db->get()->result_array();
+	// }
 
 	////////////////
 	// OBSERVERS //-------------------------------------------------------------
@@ -433,6 +396,39 @@ class Inventory_model extends MY_Model {
 		if($this->_location) $row['location_id'] = $this->_location;
 
 		return $row;
+    }
+
+    protected function processUpdate($row)
+    {
+    	if($row['type'] == 'gr')
+		{
+			$row['datereceived'] = mdate("%Y-%m-%d",now());
+		}
+
+		/**
+		 * Sets operator inserting into Inventory
+		 */
+		$row['received_by'] = $this->session->userdata('userid');
+
+		return $row;
+    }
+    /**
+     * Deletes duplicates JobOrderId-ProductId entires,
+     * since a JobOrder can have one deduction per Product
+     * @param  Object $row
+     * @return Object
+     */
+    protected function cleanDuplicates($row)
+    {
+		if(isset($row['job_order_fk']) AND strlen($row['job_order_fk']))
+		{
+			$this->db->delete($this->_table,[
+				'job_order_fk' => $row['job_order_fk'],
+				'prodname_fk'  => $row['prodname_fk']
+			]);
+		}
+
+    	return $row;
     }
 
 }
