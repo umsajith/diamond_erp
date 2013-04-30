@@ -26,7 +26,7 @@
 		<div class="input-append">
 			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено"')?>
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
-			<?=uif::button('icon-save','primary','onClick="submit_form()"')?>
+			<?=uif::button('icon-save','primary','id="new-order" onClick="newOrder()"')?>
 		</div>
 		<table class="table table-condensed temp-table">
 			<thead>
@@ -91,7 +91,6 @@
 		$(".temp-table").hide();
 
 		$("select[name=payment_mode_fk]").select2({placeholder:"Плаќање"});
-		$("select[name=prodname_fk]").select2();
 
 		var partnersNames = [];
 		var partnersIds = {};
@@ -134,12 +133,10 @@
 		cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options);
 	});
 
-    var products = [];
+    	var products = [];
 
 	function addProduct(){
-		//
-		//TODO When product is added, lock Parnter and Payment Method!
-		//
+
 		var partner_fk = $("input[name=partner_fk]").val();
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 
@@ -149,70 +146,74 @@
 		var returned_quantity = $("input[name=returned_quantity]").val(); 
 		var uom = $("span.uom").html(); //only for display reasons
 
-	  	//Set returned_quantity to defualt 0 if not set
-	  	if(returned_quantity == ''){	
-	  		returned_quantity = 0;
-	  	}
+		if (partner_fk == ''){
+			cd.notify('Полето Купувач е задожително.','error');
+			$("input[name=customer]").focus();
+			return false;
+		}
 
-		//VALIDATION: Checks if the product or quantity has not been selected
+		if (payment_mode_fk == ''){
+			cd.notify('Полето Плаќање е задожително.','error');
+			$("select[name=payment_mode_fk]").focus();
+			return false;
+		}
+
+	  	//Set returned_quantity to defualt 0 if not set
+	  	if(returned_quantity == '') returned_quantity = 0;
+
 		if (prodname_fk == ''){
-			alert("Изберете производ!");
+			cd.notify('Изберете производ.','error');
 			$("select[name=prodname_fk]").focus();
 			return false;
 		}
 
 		if (!cd.isNumber(quantity)){
-			alert("Внесете валидна количина!");
+			cd.notify('Внесете валидна количина.','error');
 			$("input[name=quantity]").focus();
 			return false;
 		}
 
 		if (!cd.isNumber(returned_quantity)){
-			alert("Внесете валидна количина!");
+			cd.notify('Внесете валидна количина.','error');
 			$("input[name=returned_quantity]").focus();
 			return false;
 		}
 			//-------------------------------------------------------------------
 		  
-		  // Check if product already exists and increase it's quantity instead of adding new record
-		  var exists = false;
-		  for (var i = 0; i < products.length; i++) {
-		    // I assume ID is the key that should be matched inside the list of products
-		    if (products[i].id == prodname_fk) {
-		      exists = true;
-		      // quantity is converted to number to make sure the number is increased instead of concatenating the numbers as strings
-		      products[i].quantity += Number(quantity);
-		      products[i].returned_quantity += Number(returned_quantity);
+		// Check if product already exists and increase it's quantity instead of adding new record
+		var exists = false;
+		for (var i = 0; i < products.length; i++) {
+			if (products[i].id == prodname_fk) {
+				exists = true;
+				products[i].quantity += Number(quantity);
+				products[i].returned_quantity += Number(returned_quantity);
+				break;
+			}
+		}
+		if (!exists){
+			products.push({ id: prodname_fk, prodname: prodname, uname:uom, 
+			quantity: Number(quantity), returned_quantity:Number(returned_quantity) });
+		}
 
-		      break;
-		    }
-		  }
-		  //Pushes the Objects(products [id,quantity,prodname,uom]) into the Array  
-		  if (!exists)
-		    products.push({ id: prodname_fk, prodname: prodname, uname:uom, 
-		    	quantity: Number(quantity), returned_quantity:Number(returned_quantity) });
-		    
-		  // Update the information of the product table
-		  updateTable();
+		// Update the information of the product table
+		updateTable();
 
-		  //Emptys the product and quantity of the COMPONENTS after successfull ADD
-		  $("span.uom").html(' ');
-		  $("input[name=quantity]").val("");
-		  $("input[name=returned_quantity]").val("");
-		  $("select[name=prodname_fk]").select2("data",'').focus();
+		$("input[name=customer]").prop('disabled',true);
+		$("select[name=payment_mode_fk]").prop('disabled',true);
+
+		//Emptys the product and quantity of the COMPONENTS after successfull ADD
+		$("span.uom").html('');
+		$("input[name=quantity]").val("");
+		$("input[name=returned_quantity]").val("");
+		$("select[name=prodname_fk]").select2("data",'').focus();
 	}
 
 	// Function that updates product table (which contains "No records!" in your image attached)
 	function updateTable() 
 	{	
-		//$("select[name=payment_mode_fk]").select2('disable');
-		//$("input[name=customer]").attr('disabled', 'disabled');
-		// This variable should contain table where the records should be shown, adjust the selector accordingly
 		var table = $("table.temp-table")[0];
 		$("table.temp-table").show();
-		//alert(table);
 
-		// Remove all the rows (except the first one - header row)
 		while (table.rows.length > 1) {
 			table.deleteRow(1);
 		}
@@ -228,57 +229,33 @@
 		// Update information
 		for (var i = 0; i < products.length; i++) {
 			table.rows[i + 1].cells[0].innerHTML = i+1;
-			//table.rows[i + 1].cells[1].innerHTML = products[i].id;
 			table.rows[i + 1].cells[1].innerHTML = products[i].prodname;
 			table.rows[i + 1].cells[2].innerHTML = products[i].quantity + " " + products[i].uname;
 			table.rows[i + 1].cells[3].innerHTML = products[i].returned_quantity + " " + products[i].uname;
-			//table.rows[i + 1].cells[3].innerHTML = products[i].uname;
 			table.rows[i + 1].cells[4].innerHTML = '<i class="icon-trash" onclick="removeRecord('+i+')"></i>';
 		}
 	}
 
-	// 'index' refers to an index of the object inside the 'products' array
 	function removeRecord(index) {
-	  products.splice(index, 1);
-	  updateTable();
+		products.splice(index, 1);
+		updateTable();
 	}
 
-	function submit_form(){
+	function newOrder(){
 
+		if(!products.length > 0) return false;
 
+		var Me = $("#new-order");
+
+		//Disable the submit button, preventing insertion
+		//of same entries multiple times
+		Me.prop('disabled', true);
+		
 		var order_list_id = $("input[name=order_list_id]").val();
 		var partner_fk = $("input[name=partner_fk]").val(); 
 		var dateshipped = $("input[name=date]").val();
 		var distributor_fk = $("input[name=distributor_id]").val();
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
-
-		console.log('========');
-		console.log(order_list_id);
-		console.log(partner_fk);
-		console.log(dateshipped);
-		console.log(distributor_fk);
-		console.log(payment_mode_fk);
-		//alert(1); return;
-
-		if (partner_fk == ''){
-			alert('Полето Купувач е задожително');
-			$("input[name=customer]").focus();
-			return false;
-		}
-
-		if (payment_mode_fk == ''){
-			alert('Полето Плаќање е задожително');
-			$("select[name=payment_mode_fk]").focus();
-			return false;
-		}
-
-		if(products.length === 0){
-			alert("Налогот е празен. Внесете производи!");
-			$("select#products").focus();
-			return false;
-		}
-
-		$("input.save").attr("disabled", true);
 
 		var out = {
 			components:JSON.stringify(products),
@@ -289,14 +266,8 @@
 			payment_mode_fk:payment_mode_fk
 		};
 
-		$.post("<?=site_url('orders/insert')?>",out,function(data){
-			 if(data) {
+		$.post("<?=site_url('orders/insert')?>",out,function(){
 			 	location.reload(true);
-			 } else {
-			 	alert("Проблем при внесување! Проверети ги податоците!");
-			 	$("input[name=customer]").focus();
-			 }
 		});
-		return false;
 	}
 </script>

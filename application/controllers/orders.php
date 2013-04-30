@@ -86,54 +86,53 @@ class Orders extends MY_Controller {
 	
 	public function insert()
 	{	
-		//Defining Validation Rules
-		$this->form_validation->set_rules('partner_fk','partner','trim|required');
-		$this->form_validation->set_rules('dateshipped','date shipped','trim|required');
-		$this->form_validation->set_rules('distributor_fk','distributer','trim|required');
-		$this->form_validation->set_rules('payment_mode_fk','payment mode','trim');
-		
-		//Check if form has been submited
-		if ($this->form_validation->run())
-		{
-			//Inserts Master details
-			$master = [
-				'order_list_id' => $_POST['order_list_id'],
-				'dateshipped'   => $_POST['dateshipped'],
-			 	'partner_fk'    => $_POST['partner_fk'],
-				'distributor_fk'  => $_POST['distributor_fk'],
-				'payment_mode_fk' => $_POST['payment_mode_fk'],
-				'inserted_by' => $this->session->userdata('userid')
-			];
-			
-			$order_fk = $this->co->insert($master);
-			
-			if($order_fk)
-			{
-				//Decode the JSON object int Ass.array and loop through detail records
-				foreach (json_decode($_POST['components'],true) as $detail)
-				{
-					//Inserts all Detail records into the database
-					$this->cod->insert([
-							'order_fk'          => $order_fk,
-							'prodname_fk'       => $detail['id'],
-							'quantity'          => $detail['quantity'],
-							'returned_quantity' => $detail['returned_quantity']
-						]);
-				}
+		if(!$_POST) show_404();
 
-				$lastRecord = $this->co->select_single($order_fk);
-				$out = [
-					'id'          => $lastRecord->id,
-					'company'     => $lastRecord->company,
-					'payment'     => $lastRecord->name,
-					'dateshipped' => $lastRecord->dateshipped,
-					'dateofentry' => $lastRecord->dateofentry
-				];
-				header('Content-Type: application/json');
-				echo (json_encode($out));
-				exit;
-			}
+		$master = [
+			'order_list_id' => $_POST['order_list_id'],
+			'dateshipped'   => $_POST['dateshipped'],
+		 	'partner_fk'    => $_POST['partner_fk'],
+			'distributor_fk'  => $_POST['distributor_fk'],
+			'payment_mode_fk' => $_POST['payment_mode_fk'],
+			'inserted_by' => $this->session->userdata('userid')
+		];
+
+		$this->db->trans_start();
+		
+		$order_fk = $this->co->insert($master);
+
+		//Decode the JSON object int Ass.array and loop through detail records
+		foreach (json_decode($_POST['components'],true) as $detail)
+		{
+			//Inserts all Detail records into the database
+			$this->cod->insert([
+				'order_fk'          => $order_fk,
+				'prodname_fk'       => $detail['id'],
+				'quantity'          => $detail['quantity'],
+				'returned_quantity' => $detail['returned_quantity']
+			]);
 		}
+
+		// $lastRecord = $this->co->select_single($order_fk);
+		// $out = [
+		// 	'id'          => $lastRecord->id,
+		// 	'company'     => $lastRecord->company,
+		// 	'payment'     => $lastRecord->name,
+		// 	'dateshipped' => $lastRecord->dateshipped,
+		// 	'dateofentry' => $lastRecord->dateofentry
+		// ];
+		//header('Content-Type: application/json');
+		//
+		$this->db->trans_complete();
+
+		if($this->db->trans_status() === false)
+			$this->output->set_status_header(500);
+		else
+		{
+			$this->output->set_status_header(201);
+			air::flash('add');
+		}
+
 		exit;
 	}
 	

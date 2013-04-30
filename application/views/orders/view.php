@@ -126,24 +126,27 @@
 		var rqty = $("input[name=returned_quantity]");
 		var exists = false;
 
-		if(rqty.val() == ''){
-			rqty.val(0);
+		var quantity = qty.val();
+		var returned_quantity = rqty.val();
+
+		if(returned_quantity == ''){
+			returned_quantity = 0;
 		}
 
 		if (product.val() == ''){
-			alert("Изберете производ!");
+			cd.notify('Изберете производ.','error');
 			product.focus();
 			return false;
 		}
 
-		if (!cd.isNumber(qty.val())){
-			alert("Внесете валидна количина!");
+		if (!cd.isNumber(quantity)){
+			cd.notify('Внесете валидна количина.','error');
 			qty.focus();
 			return false;
 		}
 
-		if (!cd.isNumber(rqty.val())){
-			alert("Внесете валидна количина!");
+		if (!cd.isNumber(returned_quantity)){
+			cd.notify('Внесете валидна количина.','error');
 			rqty.focus();
 			return false;
 		}
@@ -160,7 +163,7 @@
 
 		if(exists) {
 			cd.notify("Артиклот веќе постои. Aжурирајте ја количината.");
-			product.val('').focus();
+			product.select2('data','').focus();
 			qty.val('');
 			rqty.val('');
 			$("span.uom").html('');
@@ -170,11 +173,11 @@
 		var out = {
 			order_fk : order_fk,
 			prodname_fk : product.val(),
-			quantity : qty.val(),
-			returned_quantity : rqty.val()
+			quantity : quantity,
+			returned_quantity : returned_quantity
 		};
 		$.post("<?=site_url('orders_details/ajxAddProduct')?>",out,function(){
-		   location.reload(true);
+			location.reload(true);
 		});	
 	}
 

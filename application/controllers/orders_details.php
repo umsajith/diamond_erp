@@ -16,7 +16,12 @@ class Orders_details extends MY_Controller {
 	{
 		if(!$this->cod->insert($_POST))
 			$this->output->set_status_header(500);
-
+		else
+		{
+			$this->output->set_status_header(201);
+			air::flash('add');
+		}
+			
 		exit;		
 	}
 
@@ -42,6 +47,11 @@ class Orders_details extends MY_Controller {
 	{
 		if(!$this->cod->delete($_POST['id']))
 			$this->output->set_status_header(500);
+		else
+		{
+			$this->output->set_status_header(200);
+			air::flash('add');
+		}
 		
 		exit;
 	}
