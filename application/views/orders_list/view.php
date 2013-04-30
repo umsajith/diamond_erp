@@ -140,58 +140,38 @@
 		//
 		//TODO When product is added, lock Parnter and Payment Method!
 		//
-		  var partner_fk = $("input[name=partner_fk]").val();
-		  var payment_mode_fk = $("select[name=payment_mode_fk]").val();
+		var partner_fk = $("input[name=partner_fk]").val();
+		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 
-		  var prodname = $("select[name=prodname_fk] option:selected").text(); //only for display reasons
-		  var prodname_fk = $("select[name=prodname_fk]").val();
-		  var quantity = $("input[name=quantity]").val(); 
-		  var returned_quantity = $("input[name=returned_quantity]").val(); 
-		  var uom = $("span.uom").html(); //only for display reasons
+		var prodname = $("select[name=prodname_fk] option:selected").text(); //only for display reasons
+		var prodname_fk = $("select[name=prodname_fk]").val();
+		var quantity = $("input[name=quantity]").val(); 
+		var returned_quantity = $("input[name=returned_quantity]").val(); 
+		var uom = $("span.uom").html(); //only for display reasons
 
-		  console.log(partner_fk);
-		  console.log(prodname_fk);
-		  console.log(prodname);
-		  console.log(quantity);
-		  console.log(returned_quantity);
-		  console.log(payment_mode_fk);
-		  //return;
+	  	//Set returned_quantity to defualt 0 if not set
+	  	if(returned_quantity == ''){	
+	  		returned_quantity = 0;
+	  	}
 
-		  // if(partner_fk == ''){
-		  // 	$("input[name=customer]").focus();
-		  // 	return;
-		  // }
-		  // if(partner_fk == ''){
-		  // 	$("input[name=customer]").focus();
-		  // 	return;
-		  // }
+		//VALIDATION: Checks if the product or quantity has not been selected
+		if (prodname_fk == ''){
+			alert("Изберете производ!");
+			$("select[name=prodname_fk]").focus();
+			return false;
+		}
 
-		  	//Set returned_quantity to defualt 0 if not set
-		  	if(returned_quantity == ''){	
-		  		returned_quantity = 0;
-		  	}
+		if (!cd.isNumber(quantity)){
+			alert("Внесете валидна количина!");
+			$("input[name=quantity]").focus();
+			return false;
+		}
 
-			//VALIDATION: Checks if the product or quantity has not been selected
-			if (prodname_fk == '')
-			{
-				alert("Изберете производ!");
-				$("select[name=prodname_fk]").focus();
-				return false;
-			}
-
-			if (!cd.isNumber(quantity))
-			{
-				alert("Внесете валидна количина!");
-				$("input[name=quantity]").focus();
-				return false;
-			}
-
-			if (!cd.isNumber(returned_quantity))
-			{
-				alert("Внесете валидна количина!");
-				$("input[name=returned_quantity]").focus();
-				return false;
-			}
+		if (!cd.isNumber(returned_quantity)){
+			alert("Внесете валидна количина!");
+			$("input[name=returned_quantity]").focus();
+			return false;
+		}
 			//-------------------------------------------------------------------
 		  
 		  // Check if product already exists and increase it's quantity instead of adding new record

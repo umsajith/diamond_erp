@@ -126,22 +126,23 @@
 		var rqty = $("input[name=returned_quantity]");
 		var exists = false;
 
-		if (product.val() == '')
-		{
+		if(rqty.val() == ''){
+			rqty.val(0);
+		}
+
+		if (product.val() == ''){
 			alert("Изберете производ!");
 			product.focus();
 			return false;
 		}
 
-		if (!cd.isNumber(qty.val()))
-		{
+		if (!cd.isNumber(qty.val())){
 			alert("Внесете валидна количина!");
 			qty.focus();
 			return false;
 		}
 
-		if (!cd.isNumber(rqty.val()))
-		{
+		if (!cd.isNumber(rqty.val())){
 			alert("Внесете валидна количина!");
 			rqty.focus();
 			return false;
