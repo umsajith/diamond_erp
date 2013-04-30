@@ -127,6 +127,8 @@
 	<?php endif;?>
 
 <!-- ======================================GENEARAL CALCULATIONS====================================== -->
+<?php if($master->social_cont>0 OR $master->comp_mobile_sub>0 OR 
+(isset($extras_plus) AND is_array($extras_plus) AND count($extras_plus))  ):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
@@ -160,7 +162,7 @@
 		</tbody>
 	<?php endif;?>
 	</table>
-
+<?php endif;?>
 <!-- BRUTO WAGE CALCUALTION -->
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">

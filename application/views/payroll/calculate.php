@@ -100,7 +100,8 @@
 	<?php endif;?>
 
 	<!-- ======================================GENEARAL CALCULATIONS====================================== -->
-	<?php if(isset($social_cont) OR isset($comp_mobile_sub)):?>
+	<?php if(isset($extras_plus) AND count($extras_plus) 
+	OR (isset($social_cont) AND $social_cont>0 ) OR (isset($comp_mobile_sub) AND $comp_mobile_sub>0)):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
@@ -150,8 +151,8 @@
 	</div>
 	<?php endif; ?>
 	<!-- BRUTO WAGE CALCULATION END -->
-
-	<?php if(isset($fixed_wage) OR isset($extras_minus)):?>
+	<?php if(isset($extras_minus) AND count($extras_minus) OR (isset($social_cont) AND $social_cont > 0) OR 
+	(isset($fixed_wage) AND $fixed_wage > 0 AND !$fixed_wage_only)):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
@@ -162,7 +163,7 @@
 	<?php endif; ?>
 	<!-- FIXED WAGE -->
 		<tbody>
-		<?php if(isset($fixed_wage) AND $fixed_wage>0 AND !$fixed_wage_only):?>
+		<?php if(isset($fixed_wage) AND $fixed_wage > 0 AND !$fixed_wage_only):?>
 		<tr>
 			<td>Фиксна Плата на Сметка</td>
 			<td><?='-'.$fixed_wage;?></td>		
@@ -170,7 +171,7 @@
 		<?php endif;?>
 
 	<!-- SOCIAL CONTRIBUTION -->
-		<?php if(isset($social_cont) AND $social_cont>0):?>
+		<?php if(isset($social_cont) AND $social_cont > 0):?>
 		<tr>
 			<td>Придонеси + Здравствено Осигурување</td>
 			<td><?='-' . $social_cont;?></td>
