@@ -109,12 +109,12 @@
 	     });
 
 		$("#add-product").on('click',function(){
-			add_product();
+			addProduct();
 		});
 		
 		$("input[name=quantity], input[name=returned_quantity]").keypress(function(e){
 			if(e.which == 13){
-				add_product();
+				addProduct();
 				return false;
 			}   
 		});
@@ -136,7 +136,7 @@
 
     var products = [];
 
-	function add_product(){
+	function addProduct(){
 		//
 		//TODO When product is added, lock Parnter and Payment Method!
 		//
@@ -179,14 +179,14 @@
 				return false;
 			}
 
-			if (!isNumber(quantity))
+			if (!cd.isNumber(quantity))
 			{
 				alert("Внесете валидна количина!");
 				$("input[name=quantity]").focus();
 				return false;
 			}
 
-			if (!isNumber(returned_quantity))
+			if (!cd.isNumber(returned_quantity))
 			{
 				alert("Внесете валидна количина!");
 				$("input[name=returned_quantity]").focus();
@@ -220,11 +220,6 @@
 		  $("input[name=quantity]").val("");
 		  $("input[name=returned_quantity]").val("");
 		  $("select[name=prodname_fk]").select2("data",'').focus();
-	}
-
-	//Allows all positive numbers + 0 (integer and decimal)
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n) && n>=0;
 	}
 
 	// Function that updates product table (which contains "No records!" in your image attached)

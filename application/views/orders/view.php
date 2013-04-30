@@ -108,6 +108,13 @@
 		};
 		cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options);
 
+		$("input[name=quantity], input[name=returned_quantity]").keypress(function(e){
+			if(e.which == 13){
+				addProduct();
+				return false;
+			}   
+		});
+
 	});
 
 	//Add Product Function
@@ -119,9 +126,26 @@
 		var rqty = $("input[name=returned_quantity]");
 		var exists = false;
 
-		/**
-		 * @todo Validate for Prodcut and Qty
-		 */
+		if (product.val() == '')
+		{
+			alert("Изберете производ!");
+			product.focus();
+			return false;
+		}
+
+		if (!cd.isNumber(qty.val()))
+		{
+			alert("Внесете валидна количина!");
+			qty.focus();
+			return false;
+		}
+
+		if (!cd.isNumber(rqty.val()))
+		{
+			alert("Внесете валидна количина!");
+			rqty.focus();
+			return false;
+		}
 
 		$("table.ordered-products tr.product-row").each(function() {
 			if($(this).data("pid") == product.val()){

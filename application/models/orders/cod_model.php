@@ -10,8 +10,8 @@ class Cod_model extends MY_Model {
 	public $validate = [
         [ 'field' => 'order_fk', 	'label' => '','rules' => 'required'],
 		[ 'field' => 'prodname_fk', 'label' => '','rules' => 'required'],
-		[ 'field' => 'quantity', 	'label' => '','rules' => 'trim|required|greater_than[0]'],
-		[ 'field' => 'returned_quantity', 'label' => '','rules' => 'trim|greater_than[0]']
+		[ 'field' => 'quantity', 	'label' => '','rules' => 'trim|required'],
+		[ 'field' => 'returned_quantity', 'label' => '','rules' => 'trim|required']
     ];
 	
 	public function select($options = array())

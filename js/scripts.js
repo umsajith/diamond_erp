@@ -380,6 +380,15 @@ var cd = (function(){
 	obj.generatePdf = function(url, form){
 		$.download(url,$(form).serialize());
 	}
+	/**
+	 * Checks if supplied number is integer or decimal, 
+	 * greater than or equal to 0
+	 * @param  {integer / decimal}  n
+	 * @return {Boolean}
+	 */
+	obj.isNumber = function(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n) && n>=0;
+	}
 
 	return obj;
 })();
