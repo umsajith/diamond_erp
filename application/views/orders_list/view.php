@@ -10,10 +10,7 @@
 <div class="row-fluid">
 <?php if(!$master->locked):?>
     <div class="span5 well well-small">
-		<div class="legend">Нов налог за продажба</div>
-			<?=form_hidden('order_list_id',$master->id)?>
-			<?=form_hidden('distributor_id',$master->distributor_id)?>
-			<?=form_hidden('date',$master->date)?>	
+		<div class="legend">Нов налог за продажба</div>	
 			<?=uif::controlGroup('text','','customer','','placeholder="Купувач"')?>
 			<?=form_hidden('partner_fk')?>
 			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$pmodes],'data-placeholder="Плаќање"')?>
@@ -140,11 +137,11 @@
 		var partner_fk = $("input[name=partner_fk]").val();
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 
-		var prodname = $("select[name=prodname_fk] option:selected").text(); //only for display reasons
+		var prodname = $("select[name=prodname_fk] option:selected").text();
 		var prodname_fk = $("select[name=prodname_fk]").val();
 		var quantity = $("input[name=quantity]").val(); 
 		var returned_quantity = $("input[name=returned_quantity]").val(); 
-		var uom = $("span.uom").html(); //only for display reasons
+		var uom = $("span.uom").html();
 
 		if (partner_fk == ''){
 			cd.notify('Полето Купувач е задожително.','error');
@@ -197,7 +194,8 @@
 
 		// Update the information of the product table
 		updateTable();
-
+		
+		//Lock form to currently selected Customer and PaymentMode
 		$("input[name=customer]").prop('disabled',true);
 		$("select[name=payment_mode_fk]").prop('disabled',true);
 
@@ -245,29 +243,22 @@
 
 		if(!products.length > 0) return false;
 
-		var Me = $("#new-order");
-
 		//Disable the submit button, preventing insertion
 		//of same entries multiple times
-		Me.prop('disabled', true);
-		
-		var order_list_id = $("input[name=order_list_id]").val();
+		$("#new-order").prop('disabled', true);
+
 		var partner_fk = $("input[name=partner_fk]").val(); 
-		var dateshipped = $("input[name=date]").val();
-		var distributor_fk = $("input[name=distributor_id]").val();
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 
 		var out = {
 			components:JSON.stringify(products),
-			order_list_id:order_list_id,
-			distributor_fk:distributor_fk,
+			order_list_id:<?=$master->id?>,
+			distributor_fk:<?=$master->distributor_id?>,
 			partner_fk:partner_fk,
-			dateshipped:dateshipped,
+			dateshipped:"<?=$master->date?>",
 			payment_mode_fk:payment_mode_fk
 		};
 
-		$.post("<?=site_url('orders/insert')?>",out,function(){
-			 	location.reload(true);
-		});
+		$.post("<?=site_url('orders/insert')?>",out,function(){location.reload(true);});
 	}
 </script>
