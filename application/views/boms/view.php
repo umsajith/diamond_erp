@@ -52,7 +52,7 @@
                         data-pk="<?=$row->id?>"><?=$row->quantity?></a>
                     </td>
                     <td><?=$row->uname?></td>
-                    <td><?=uif::linkIcon("boms/removeProduct/{$row->id}",'icon-trash')?></td>
+                    <td><?=uif::linkButton("boms/removeProduct/{$row->id}",'icon-trash','danger btn-mini')?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>
