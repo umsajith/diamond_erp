@@ -32,7 +32,8 @@
 						<hr>
 							<input type="text" name="username" id="username" class="input-block-level" placeholder="Username">
 							<input type="password" name="password" id="password" class="input-block-level" placeholder="Password">
-						<div class="alert alert-error login-alert"></div>      
+						<div class="alert alert-error login-alert"></div>
+						<?=uif::load('_validation')?>
 					</div>
 					<div class="form-actions login-actions">
 						<button type="submit" class="btn btn-primary input-medium pull-right"><strong>Login</strong></button>
@@ -41,7 +42,7 @@
 					</div>
 				</div>
 		</div>
-        <?=validation_errors()?>
+        
     </div>
 	<script src="<?=base_url('js/jquery.js')?>"></script>
     <script src="<?=base_url('js/bootstrap.min.js')?>"></script>
