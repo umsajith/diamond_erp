@@ -5,7 +5,7 @@ class Inventory_model extends MY_Model {
 
 	protected $_location;
 
-	public $before_create = ['setNull','setDefaults','cleanDuplicates'];
+	public $before_create = ['setNull','setDefaults','cleanDuplicates','currentStock'];
 
 	public $before_update = ['setNull','processUpdate'];
 
@@ -344,8 +344,6 @@ class Inventory_model extends MY_Model {
 
 		if(!strlen($row['partner_fk'])) $row['partner_fk'] = null;
 
-		if(!strlen($row['assigned_to'])) $row['assigned_to'] = null;
-
         return $row;
     }
 
@@ -427,6 +425,29 @@ class Inventory_model extends MY_Model {
 				'prodname_fk'  => $row['prodname_fk']
 			]);
 		}
+
+    	return $row;
+    }
+    /**
+     * Calculates current Stock before inserting Inventory entry.
+     * New Current stock is currentStock + new Quantity.
+     * @param  Object $row
+     * @return Object
+     */
+    protected function currentStock($row)
+    {
+    	$this->db->select_sum('quantity');
+
+		if($this->_location)
+		{
+			$this->db->where('location_id',$this->_location);
+		}
+
+    	$this->db->where('prodname_fk',$row['prodname_fk']);
+
+    	$result	= $this->db->get($this->_table)->row();
+
+    	$row ['qty_current'] = ($result->quantity) ? $result->quantity : 0;
 
     	return $row;
     }

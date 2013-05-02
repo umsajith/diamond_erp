@@ -8,7 +8,6 @@
 			<th>Старо Салдо</th>
 			<th>Влез</th>
 			<th>Излез</th>
-			<th>Ново Салдо</th>
 			<th>Внес</th>
 			<?php if($this->session->userdata('admin')):?>
 				<th>Oператор</th>
@@ -36,7 +35,6 @@
 			<td><?=$row->qty_current.' '.$row->uname?></td>
 			<td><?=($row->quantity > 0) ? $row->quantity.' '.$row->uname:'-'?></td>
 			<td><?=($row->quantity < 0) ? $row->quantity.' '.$row->uname:'-'?></td>
-			<td><?=$row->quantity+$row->qty_current.' '.$row->uname;?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 			<?php if($this->session->userdata('admin')):?>
 				<td><?=$row->fname. ' ' . $row->lname?></td>
