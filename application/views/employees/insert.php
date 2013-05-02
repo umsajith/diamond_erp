@@ -39,8 +39,8 @@
 			<?=uif::controlGroup('dropdown','Менаџер','manager_fk',[$managers])?>
 			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1])?>		
 			<?=uif::controlGroup('checkbox','Менаџер','is_manager',[1])?>
-			<?=uif::controlGroup('datepicker','Почеток','start_date')?>	
 			<?=uif::controlGroup('dropdown','Локација','location_id',[$locations])?>
+			<?=uif::controlGroup('datepicker','Почеток','start_date')?>
 	</div>
 </div>
 <div class="row-fluid">

@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('auth/auth_model','auth');
+		$this->load->model('hr/employees_model','emp');
 	}
 
 	public function index()
@@ -15,26 +16,22 @@ class Auth extends CI_Controller {
 		{
 			redirect($this->session->userdata('default_module'));
 		}
+
 		$this->load->view('login_view');
 	}
 	
 	public function login()
 	{	
-		if($this->session->userdata('logged_in'))
-		{
-			redirect($this->session->userdata('default_module'));
-		}	
-		//Load Models
-		$this->load->model('hr/employees_model','emp');
-		
+		if(!$_POST) redirect('/');
+
 		//Chekcs if the Login is NOT done through AJAX
 		$isAjax = true;
 
 		if(!$this->input->is_ajax_request()) $isAjax = false;			
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('username','username','trim|required');
-		$this->form_validation->set_rules('password','password','required');
+		$this->form_validation->set_rules('username','username','trim|required|xss_clean');
+		$this->form_validation->set_rules('password','password','trim|required|xss_clean');
 		
 		if($this->form_validation->run())
 		{
@@ -49,9 +46,9 @@ class Auth extends CI_Controller {
 			}
 			
 			$this->authenticate($user);
-
+			
 			//Updates the last login for this user
-			$this->emp->last_login($user->id);
+			$this->emp->lastLogin($user->id);
 
 			//AJAX Login
 			if($isAjax)
@@ -69,8 +66,6 @@ class Auth extends CI_Controller {
 			
 			}		
 		}
-
-		$this->load->view('login_view');
 	}
 
 	private function authenticate($user)
@@ -88,6 +83,6 @@ class Auth extends CI_Controller {
 	public function logout()
 	{
 		$this->auth->logout();
-		redirect('login');	
+		redirect('/');	
 	}
 }

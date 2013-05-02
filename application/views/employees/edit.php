@@ -39,9 +39,11 @@
 			<?=uif::controlGroup('dropdown','Менаџер','manager_fk',[$managers,$employee])?>
 			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1,$employee])?>		
 			<?=uif::controlGroup('checkbox','Менаџер','is_manager',[1,$employee])?>
+			<?=uif::controlGroup('dropdown','Локација','location_id',[$locations,$employee])?>
 			<?=uif::controlGroup('datepicker','Почеток','start_date',$employee)?>	
 			<?=uif::controlGroup('datepicker','Крај','stop_date',$employee)?>	
-			<?=uif::controlGroup('dropdown','Локација','location_id',[$locations,$employee])?>
+			<?=uif::controlGroup('dropdown','Статус','status',
+				[['active'=>'Активен','inactive'=>'Неактивен'],$employee])?>
 	</div>
 </div>
 <div class="row-fluid">

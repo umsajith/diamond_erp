@@ -6,6 +6,10 @@ class Employees_model extends MY_Model {
 	private static $algo = '$2a';
 
 	private static $cost = '$10';
+
+	public $before_create = ['setNull','processPassword'];
+
+	public $before_update = ['setNull','processPassword'];
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -24,8 +28,7 @@ class Employees_model extends MY_Model {
 			$this->db->where_in('e.role_id',$query_array['role_id']);
 
 		//Sort
-		if($sort_by == 'employee')
-			$sort_by = "e.fname";
+		if($sort_by == 'employee') $sort_by = "e.fname";
 			
 		$this->db->order_by($sort_by,$sort_order);
 			
@@ -78,100 +81,7 @@ class Employees_model extends MY_Model {
 
 		return  $this->db->get($this->_table.' AS e')->row();
 	}
-	
-	public function insert($data = array())
-	{
-		//Hash the password
-		if(isset($data['password']) AND trim($data['password']!=''))
-			$data['password'] = self::hash($data['password']);
-		else
-			$data['password'] = null;
 
-		if(isset($data['role_id']) AND $data['role_id']=='')
-			$data['role_id'] = null;	
-
-		if(isset($data['location_id']) AND $data['location_id']=='')
-			$data['location_id'] = null;	
-		/*
-		 * @TODO: If username set, and password set then:
-		 *  - flag 'can_login' to 1
-		 *  - set 'role_id' to 4 (default)
-		 */
-			
-		// Inserts the whole data array into the database table
-		$this->db->insert($this->_table,$data);
-
-		return $this->db->insert_id();
-	}
-
-	public function update($id,$data = array())
-	{	
-		
-		/*
-		 * If the entry has been edited, and password not changed,
-		 * hence, stays '', the password is unset
-		 * 
-		 * If new password has been provided, hashes it
-		 * and stores it to the same variable
-		 */
-		if(strlen($data['password']))
-			$data['password'] = self::hash($data['password']);
-		else 
-			unset($data['password']);
-		
-		//If values are set and empty, sets them to null
-		if(isset($data['fixed_wage']) AND $data['fixed_wage']=='')
-			$data['fixed_wage'] = null;
-		if(isset($data['social_cont']) AND $data['social_cont']=='')
-			$data['social_cont'] = null;
-		if(isset($data['comp_mobile_sub']) AND $data['comp_mobile_sub']=='')
-			$data['comp_mobile_sub'] = null;		
-		if(isset($data['start_date']) AND $data['start_date']=='')
-			$data['start_date'] = null;
-		if(isset($data['stop_date']) AND $data['stop_date']=='')
-			$data['stop_date'] = null;	
-		if(isset($data['manager_fk']) AND $data['manager_fk']=='')
-			$data['manager_fk'] = null;
-
-		if(isset($data['role_id']) AND $data['role_id']=='')
-			$data['role_id'] = null;	
-		
-		//If the checkboxes are not checks, sets them to 0
-		if(!isset($data['is_manager']))
-			$data['is_manager'] = 0;	
-		if(!isset($data['is_distributer']))
-			$data['is_distributer'] = 0;	
-		if(!isset($data['fixed_wage_only']))
-			$data['fixed_wage_only'] = 0;
-		if(!isset($data['can_login']))
-			$data['can_login'] = 0;
-
-		if($data['location_id']=='')
-			$data['location_id'] = null;
-			
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table,$data);
-		
-		return $this->db->affected_rows();
-	}
-	
-	public function last_login($id)
-	{
-		//Sets the Last_login time to now
-		$this->db->set('last_login',date('Y-m-d H:m:s',now()));
-		
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table);
-		
-		return $this->db->affected_rows();
-	}
-	
 	public function get_attr($id,$field)
 	{
 		$this->db->select($field);
@@ -218,6 +128,19 @@ class Employees_model extends MY_Model {
 
         return $data;
 	}
+
+	/**
+	 * Triggered when user logs in.
+	 * Updates the last_login DATETIME
+	 * @param  integer $id employee PK
+	 */
+	public function lastLogin($id)
+	{
+		$this->db->set('last_login',date('Y-m-d H:i:s'));
+		$this->db->where('id',$id);
+		$this->db->update($this->_table);
+	}
+
 	////////////////////////////
 	// Password Manipulation //
 	////////////////////////////
@@ -229,5 +152,39 @@ class Employees_model extends MY_Model {
 	public static function unique_salt() 
 	{
 		return substr(sha1(mt_rand()),0,22);
+	}
+
+	////////////////
+	// OBSERVERS //
+	////////////////
+	protected function setNull($row)
+	{
+		if(!strlen($row['start_date'])) $row['start_date'] = null;
+		if(!strlen($row['stop_date'])) $row['stop_date'] = null;	
+		
+		if(!strlen($row['can_login'])) $row['can_login'] = 0;
+		if(!strlen($row['is_manager'])) $row['is_manager'] = 0;	
+		if(!strlen($row['is_distributer'])) $row['is_distributer'] = 0;	
+		if(!strlen($row['fixed_wage_only'])) $row['fixed_wage_only'] = 0;
+
+		if(!strlen($row['manager_fk'])) $row['manager_fk'] = null;
+		if(!strlen($row['role_id'])) $row['role_id'] = null;	
+		if(!strlen($row['location_id'])) $row['location_id'] = null;
+
+		return $row;
+	}
+
+	protected function processPassword($row)
+	{
+		if(isset($row['password']) AND strlen($row['password']))
+		{
+			$row['password'] = self::hash($row['password']);
+		}
+		else
+		{
+			unset($row['password']);
+		}
+
+		return $row; 
 	}
 }
