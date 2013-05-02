@@ -232,22 +232,32 @@ class Co_model extends MY_Model {
 	{
 		$this->db->select('id');
 		
-		$this->db->where('dateshipped >=',$options['datefrom']);
-		$this->db->where('dateshipped <=',$options['dateto']);
+		if(isset($options['datefrom']))
+			$this->db->where('dateshipped >=',$options['datefrom']);
+		if(isset($options['dateto']))
+			$this->db->where('dateshipped <=',$options['dateto']);
 		
-		if(strlen($options['distributor_fk']))
+		if(isset($options['distributor_fk']) AND strlen($options['distributor_fk']))
 			$this->db->where('distributor_fk',$options['distributor_fk']);
-		if(strlen($options['payment_mode_fk']))
+		if(isset($options['payment_mode_fk']) AND strlen($options['payment_mode_fk']))
 			$this->db->where('payment_mode_fk',$options['payment_mode_fk']);
-		if(strlen($options['partner_fk']))
+		if(isset($options['partner_fk']) AND strlen($options['partner_fk']))
 			$this->db->where('partner_fk',$options['partner_fk']);
+
+		if(isset($options['order_list_id']))
+			$this->db->where('order_list_id',$options['order_list_id']);
 
 		$this->db->where('ostatus','completed');
 		
 		$data = $this->db->get($this->_table)->result_array();
-		$orders = array();
+
+		$orders = [];
+
 		foreach ($data AS $id)
+		{
 			array_push($orders, $id['id']);
+		}
+
 		if(!empty($orders))
 		{
 			$this->db->select('cod.*,p.prodname,u.uname');

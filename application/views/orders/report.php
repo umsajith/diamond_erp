@@ -46,6 +46,8 @@
 </div>
 <script>
 	$(function() {
+
+		$("#generate-pdf").hide();
 		
 		cd.dd("select[name=distributor_fk]",'Дистрибутер');
 		cd.dd("select[name=partner_fk]",'Партнер');
@@ -53,9 +55,8 @@
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 
-		var submited = '<?=$submited?>';
-		if(submited == 0){
-			$("#generate-pdf").hide();
+		if("<?=(isset($results) AND is_array($results) AND count($results))?>"){
+			$("#generate-pdf").show();
 		}
 	});
 </script>

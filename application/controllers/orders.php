@@ -192,11 +192,26 @@ class Orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = "Налог за Продажба";
 	}
+
+	public function reportByOrderList($id = '')
+	{
+		if(!$id) air::flash('void');
+		
+		$this->data['results'] = $this->co->report(['order_list_id'=>$id]);
+
+		//Dropdown Menus
+		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
+		$this->data['customers']     = $this->par->dropdown('id','company');
+		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
+		
+		//Heading
+		$this->data['heading'] = 'Рипорт на Продажба';
+
+		$this->view = 'orders/report';
+	}
 	
 	public function report()
 	{
-		$this->data['submited'] = 0;
-		
 		if($_POST)
 		{
 			//Defining Validation Rules
@@ -211,10 +226,6 @@ class Orders extends MY_Controller {
 				$this->data['results'] = $this->co->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto'] = $_POST['dateto'];
-				$this->data['submited'] = 1;	
-
-				if(empty($this->data['results']))
-					$this->data['submited'] = 0;
 			}			
 		}
 		

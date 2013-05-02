@@ -6,6 +6,7 @@
     <?php else:?>
 		<?=uif::button('icon-unlock','info','onClick=cd.unlockOrderList("'.site_url('orders_list/ajxUnlock').'",'.$master->id.')')?>
     <?php endif;?>
+		<?=uif::button('icon-cog','success','onClick=window.open("'.site_url('orders/reportByOrderList/'.$master->id).'")')?>
 	<hr>
 <div class="row-fluid">
 <?php if(!$master->locked):?>
