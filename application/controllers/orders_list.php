@@ -124,8 +124,8 @@ class Orders_list extends MY_Controller {
 		$this->data['heading'] = "Преглед на Извештај";
 
 		$this->data['master'] = $this->col->select_one($id);
-		if(!$this->data['master'])
-			air::flash('void','orders_list');
+
+		if(!$this->data['master']) air::flash('void');
 
 		$this->data['results'] = $this->co->select_by_order_list($id);
 		
@@ -137,8 +137,8 @@ class Orders_list extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['master'] = $this->col->get($id);
-		if(!$this->data['master'])
-			air::flash('void','orders_list');
+		
+		if(!$this->data['master']) air::flash('void');
 
 		if($this->col->delete($id))
 			air::flash('delete','orders_list');

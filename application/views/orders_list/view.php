@@ -252,7 +252,7 @@
 		var payment_mode_fk = $("select[name=payment_mode_fk]").val();
 
 		var out = {
-			components:JSON.stringify(products),
+			products:JSON.stringify(products),
 			order_list_id:<?=$master->id?>,
 			distributor_fk:<?=$master->distributor_id?>,
 			partner_fk:partner_fk,

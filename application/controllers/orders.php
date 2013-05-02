@@ -88,6 +88,7 @@ class Orders extends MY_Controller {
 	{	
 		if(!$_POST) show_404();
 
+		//Prepare Master Data (Order)
 		$master = [
 			'order_list_id' => $_POST['order_list_id'],
 			'dateshipped'   => $_POST['dateshipped'],
@@ -96,21 +97,23 @@ class Orders extends MY_Controller {
 			'payment_mode_fk' => $_POST['payment_mode_fk'],
 			'inserted_by' => $this->session->userdata('userid')
 		];
+		
+		//Decode Products from JSON to Assosiative Array (Order Details)
+		$products = json_decode($_POST['products'],true);
 
 		$this->db->trans_start();
 		
 		$order_fk = $this->co->insert($master);
 
-		//Decode the JSON object int Ass.array and loop through detail records
-		foreach (json_decode($_POST['components'],true) as $detail)
+		foreach ($products as $product)
 		{
-			//Inserts all Detail records into the database
+			//Inserts all products records into the database
 			$this->cod->insert([
 				'order_fk'          => $order_fk,
-				'prodname_fk'       => $detail['id'],
-				'quantity'          => $detail['quantity'],
-				'returned_quantity' => $detail['returned_quantity']
-			]);
+				'prodname_fk'       => $product['id'],
+				'quantity'          => $product['quantity'],
+				'returned_quantity' => $product['returned_quantity']
+			],true); //Skip Validation flag is TRUE
 		}
 
 		// $lastRecord = $this->co->select_single($order_fk);
@@ -122,11 +125,13 @@ class Orders extends MY_Controller {
 		// 	'dateofentry' => $lastRecord->dateofentry
 		// ];
 		//header('Content-Type: application/json');
-		//
+
 		$this->db->trans_complete();
 
 		if($this->db->trans_status() === false)
+		{
 			$this->output->set_status_header(500);
+		}
 		else
 		{
 			$this->output->set_status_header(201);
@@ -143,8 +148,8 @@ class Orders extends MY_Controller {
 		 * does not exists, reports void error and redirects
 		 */
 		$this->data['master'] = $this->co->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void','orders');
+
+		if(!$this->data['master']) air::flash('void');
 			
 		/*
 		 * Prevents from editing locked record
