@@ -25,19 +25,19 @@ class Auth_model extends MY_Model {
 
 	public function set_session($user,$modules,$allow_resources,$deny_resources)
 	{
-		 $data = array(
-					'logged_in' => true,
-					'username'  => $user->username,
-                	'name'     => $user->name,
-					'userid' => $user->id,
-					'role_id' => $user->role_id,
-					'location' => $user->location_id,
-					'admin' => $user->is_admin,
-                    'modules' => $modules,
-                    'allow_res' => $allow_resources,
-                    'deny_res' => $deny_resources,
-               		'default_module' => $modules[0]->controller
-				);
+		 $data = [
+					'logged_in'      => true,
+					'username'       => $user->username,
+					'name'           => $user->name,
+					'userid'         => $user->id,
+					'role_id'        => $user->role_id,
+					'location'       => $user->location_id,
+					'admin'          => $user->is_admin,
+					'modules'        => $modules,
+					'allow_res'      => $allow_resources,
+					'deny_res'       => $deny_resources,
+					'default_module' => $modules[0]->controller
+				];
 				
 		$this->session->set_userdata($data);
 	}

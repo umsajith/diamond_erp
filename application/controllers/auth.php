@@ -5,31 +5,32 @@ class Auth extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('auth/auth_model','auth');
 	}
 
 	public function index()
 	{
 		if($this->session->userdata('logged_in'))
+		{
 			redirect($this->session->userdata('default_module'));
-		
+		}
 		$this->load->view('login_view');
 	}
 	
 	public function login()
-	{
-		//If already logged in, redirects to Dashboard
+	{	
 		if($this->session->userdata('logged_in'))
+		{
 			redirect($this->session->userdata('default_module'));
-					
+		}	
 		//Load Models
 		$this->load->model('hr/employees_model','emp');
 		
 		//Chekcs if the Login is NOT done through AJAX
-		$is_ajax = true;
-		if(!$this->input->is_ajax_request())
-			$is_ajax = false;
+		$isAjax = true;
+
+		if(!$this->input->is_ajax_request()) $isAjax = false;			
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('username','username','trim|required');
@@ -42,10 +43,8 @@ class Auth extends CI_Controller {
 			
 			if(!$user)
 			{
-				if($is_ajax)
-					exit();
-				else
-					redirect('login');
+				$this->output->set_status_header(401);
+				($isAjax) ? exit : redirect('login');
 			}
 			
 			$this->authenticate($user);
@@ -54,26 +53,23 @@ class Auth extends CI_Controller {
 			$this->emp->last_login($user->id);
 
 			//AJAX Login
-			if($is_ajax)
+			if($isAjax)
 			{
-				if($this->session->userdata('next'))
-					echo site_url($this->session->userdata('next'));
-				else
-					echo site_url($this->session->userdata('default_module')); //Redirects to first open module
-				
-				exit();
+				$this->output->set_status_header(200);
+				$this->output->set_content_type('application/json');
+				echo json_encode(['redirect'=>base_url( $this->session->userdata('next') ?
+					$this->session->userdata('next') : $this->session->userdata('default_module') )]);
+				exit;
 			}
 			else
 			{
-				if($this->session->userdata('next'))
-					redirect($this->session->userdata('next'));
-				else
-					redirect($this->session->userdata('default_module')); //Redirects to first open module
+				redirect($this->session->userdata('next') ? 
+					$this->session->userdata('next') : $this->session->userdata('default_module') );	
+			
 			}		
 		}
-		else
-			//Validation did not pass
-			$this->index();	
+
+		$this->load->view('login_view');
 	}
 
 	private function authenticate($user)
@@ -91,6 +87,6 @@ class Auth extends CI_Controller {
 	public function logout()
 	{
 		$this->auth->logout();
-		redirect ('login');	
+		redirect('login');	
 	}
 }

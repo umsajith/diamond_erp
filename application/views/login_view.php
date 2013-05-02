@@ -69,19 +69,22 @@
 				    return false;
 				}
 
-				$.post("<?php echo site_url('login'); ?>",{username:username.val(),password:password.val(),ajax:"1"},
-				   function(data){
-					   if(data){
-						  location.replace(data);
-					   }
-					   else {
-						   alertBox.html("Authentication Failed!").fadeIn();
-						   username.val("");
-						   password.val("");
-						   username.focus();
-					   }	
-				   });
-					return false;
+				$.ajax({
+					url: "<?=site_url('login')?>",
+					type: 'post',
+					dataType: 'json',
+					data: {username:username.val(),password:password.val()},
+					success : function(data) {
+						document.location.href = data.redirect;
+					},
+					error : function() {
+						alertBox.html("Authentication Failed!").fadeIn();
+						username.val("").focus();
+						password.val("");
+					}
+				});
+
+				return false;
 			});
 		});
 	</script>
