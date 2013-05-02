@@ -4,10 +4,7 @@
 
 Fully featured Enterprise Resource Planning for SMB.
 
-Version 2.0.0 - Development
-
-### Demo (not English):[http://cd-pms.eu1.frbit.net/](http://cd-pms.eu1.frbit.net/)
-#####Username: demouser Password: demopassword
+Version 2.0.1 - Development
 
 ### TODO:
 - Implementation of Bootstrap (DONE)

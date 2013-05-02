@@ -64,10 +64,9 @@
     $(function(){
         $('.editable').editable({
             type: 'text',
-            url: "<?=site_url('boms/ajxEditQty')?>",
-            title: 'Qty'
+            url: "<?=site_url('boms/ajxEditQty')?>"
         });
-        var options = {select : "#products",aux1 : "span.uom"};
+        var options = {select : "#products",aux1 : "span.uom", placeholder:'Артикл'};
         cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options); 
     });
 </script>
