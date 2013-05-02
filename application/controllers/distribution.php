@@ -127,9 +127,9 @@ class Distribution extends MY_Controller {
 		/*
 		 * Checks if valid page has been passed
 		 */
-		$pages = array('in','out','ret');
+		$pages = ['in','out','ret'];
 		
-		if(!in_array($page, $pages)) show_404();
+		if(!in_array($page, $pages)) air::flash('void');
 
 		$this->data['page'] = $page;
 		/*
@@ -138,7 +138,7 @@ class Distribution extends MY_Controller {
 		 * if set, or defaults
 		 */
 		$this->data['result'] = $this->whr->select_single($id);
-		if(!$this->data['result']) show_404();
+		if(!$this->data['result']) air::flash('void');
 		
 		if($page == 'out')
 		{
@@ -183,7 +183,9 @@ class Distribution extends MY_Controller {
 				 * according to the Bill of Materials
 				 */
 				if($page === 'in')
+				{
 					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
+				}
 				
 				air::flash('add','distribution/'.$redirect);
 			}
@@ -202,8 +204,7 @@ class Distribution extends MY_Controller {
 		 * redirect to this controllers index
 		 */	
 		$temp = $this->whr->select_item($id,$this->limit,$offset);
-		if(!$temp)
-			air::flash('void','distribution');
+		if(!$temp) air::flash('void');
 				
 		//Get product name to be displayed in heading
 		$this->data['product'] = $this->prod->select_single($id);
@@ -232,11 +233,11 @@ class Distribution extends MY_Controller {
 		 */
 		$this->data['master'] = $this->whr->select_single($id);
 
-		if(!$this->data['master']) show_404();
+		if(!$this->data['master']) air::flash('void');
 			
 		$pages = ['in','out','ret'];
 
-		if(!in_array($page, $pages)) show_404();
+		if(!in_array($page, $pages)) air::flash('void');
 		
 		/*
 		 * Pass the page in the view
@@ -279,8 +280,7 @@ class Distribution extends MY_Controller {
 			'dateoforigin' =>'Датум',
 			'prodname_fk'  =>'Производ',
 			'qty_current'  =>'Старо Салдо',
-			'quantity'     =>'Влез',	
-			'qty_new'      =>'Ново Салдо',
+			'quantity'     =>'Влез',
 			'dateofentry'  =>'Внес'
 		];
 		
@@ -341,8 +341,7 @@ class Distribution extends MY_Controller {
 			'dateoforigin'   =>'Датум',
 			'prodname_fk'    =>'Производ',
 			'qty_current'    =>'Старо Салдо',
-			'quantity'       =>'Излез',	
-			'qty_new'        =>'Ново Салдо',
+			'quantity'       =>'Излез',
 			'distributor_fk' =>'Дистрибутер',
 			'ext_doc'        =>'Документ',
 			'dateofentry'    =>'Внес'
@@ -351,7 +350,7 @@ class Distribution extends MY_Controller {
 		$this->input->load_query($query_id);
 		
 		$query_array = array(
-			'prodname_fk' => $this->input->get('prodname_fk'),
+			'prodname_fk'    => $this->input->get('prodname_fk'),
 			'distributor_fk' => $this->input->get('distributor_fk')
 		);
 
@@ -410,7 +409,6 @@ class Distribution extends MY_Controller {
 			'prodname_fk'    =>'Производ',
 			'qty_current'    =>'Старо Салдо',
 			'quantity'       =>'Влез',
-			'qty_new'        =>'Ново Салдо',
 			'distributor_fk' =>'Дистрибутер',
 			'dateofentry'    =>'Внес'
 		);
@@ -451,7 +449,7 @@ class Distribution extends MY_Controller {
 	public function return_search()
 	{
 		$query_array = array(
-			'prodname_fk' => $this->input->post('prodname_fk'),
+			'prodname_fk'    => $this->input->post('prodname_fk'),
 			'distributor_fk' => $this->input->post('distributor_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);
@@ -460,10 +458,9 @@ class Distribution extends MY_Controller {
 	
 	public function delete($page, $id)
 	{
-		$pages = array('in','out','ret');
+		$pages = ['in','out','ret'];
 		
-		if(!in_array($page, $pages))
-			air::flash('void','distribution');
+		if(!in_array($page, $pages)) air::flash('void');
 			
 		if($page == 'in')
 			$redirect = 'inbounds';
@@ -477,8 +474,7 @@ class Distribution extends MY_Controller {
 		 * and redirects
 		 */
 		$this->data['result'] = $this->whr->select_single($id);
-		if(!$this->data['result'])
-			air::flash('void','distribution');
+		if(!$this->data['result']) air::flash('void');
 				
 		if($this->whr->delete($id))
 			air::flash('delete','distribution/'.$redirect);

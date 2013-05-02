@@ -33,7 +33,6 @@
 			<td><?=$row->prodname?></td>		
 			<td><?=$row->qty_current.' '.$row->uname?></td>
 			<td><?=$row->quantity.' '.$row->uname?></td>
-			<td><?=$row->quantity + $row->qty_current.' '.$row->uname?></td>
 			<td><?=uif::isNull($row->distributor)?></td>
 			<td><?=uif::isNull($row->ext_doc)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>

@@ -32,8 +32,7 @@
 			<td><?=uif::date($row->dateoforigin)?></td>	
 			<td><?=$row->prodname;?></td>
 			<td><?=$row->qty_current.' '.$row->uname;?></td>
-			<td><?=$row->quantity.' '.$row->uname;?></td>	
-			<td><?=$row->quantity + $row->qty_current.' '.$row->uname;?></td>
+			<td><?=$row->quantity.' '.$row->uname;?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 			<td><?=uif::actionGroup('distribution',$row->id,'edit/in','delete/in')?></td>
 		</tr>

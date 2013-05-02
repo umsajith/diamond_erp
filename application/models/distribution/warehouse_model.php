@@ -3,7 +3,7 @@ class Warehouse_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_warehouse';
 
-	public $before_create = ['setDefaults'];
+	public $before_create = ['setDefaults','currentStock'];
 
 	protected $_location;
 
@@ -59,14 +59,6 @@ class Warehouse_model extends MY_Model {
 		 */
 		if($sort_by == 'prodname_fk')
 			$sort_by = 'p.prodname';
-		/*
-		 * If sorting by is by new quantity (novo saldo),
-		 * since qty_new does not exist, and its calculated
-		 * by adding quantity to the qty_current, sorting
-		 * is done in same fashion
-		 */
-		if($sort_by == 'qty_new')
-			$sort_by = 'qty_current + quantity';
 		
 		//Sort by and Sort Order
 		$this->db->order_by($sort_by ,$sort_order);
@@ -134,14 +126,6 @@ class Warehouse_model extends MY_Model {
 		 */
 		if($sort_by == 'prodname_fk')
 			$sort_by = 'p.prodname';
-		/*
-		 * If sorting by is by new quantity (novo saldo),
-		 * since qty_new does not exist, and its calculated
-		 * by adding quantity to the qty_current, sorting
-		 * is done in same fashion
-		 */
-		if($sort_by == 'qty_new')
-			$sort_by = 'qty_current + quantity';
 		
 		//Sort by and Sort Order
 		$this->db->order_by($sort_by ,$sort_order);
@@ -209,14 +193,6 @@ class Warehouse_model extends MY_Model {
 		 */
 		if($sort_by == 'prodname_fk')
 			$sort_by = 'p.prodname';
-		/*
-		 * If sorting by is by new quantity (novo saldo),
-		 * since qty_new does not exist, and its calculated
-		 * by adding quantity to the qty_current, sorting
-		 * is done in same fashion
-		 */
-		if($sort_by == 'qty_new')
-			$sort_by = 'qty_current + quantity';
 		
 		//Sort by and Sort Order
 		$this->db->order_by($sort_by ,$sort_order);
@@ -349,119 +325,11 @@ class Warehouse_model extends MY_Model {
 		
 		return $this->db->get($this->_table.' AS w')->result();
 	}
-	
-	// public function insert ($data = array())
-	// {	
-		
-			
-		
-			
-		
-	// 	 * Calculates the Quantity at Hand of product
-	// 	 * before change,and saves it 
-	// 	 * in attribute - qty_current
-		 
-	// 	//$data['qty_current'] = $this->current_qty($data['prodname_fk']);
-			
-	// 	$this->db->insert($this->_table,$data);
-		
-	// 	return $this->db->insert_id();
-	// }
-
-	public function update($id,$data = array(),$page)
-	{	
-		/*
-		 * If an outbound entry has been modified,
-		 * this makes sure negative quantity (deducation)
-		 * is inserted
-		 */
-		if($page == 'out')
-		{
-			if($data['quantity'] > 0)
-			{
-				$data['quantity'] = $data['quantity'] * -1;
-			}
-			
-			$data['qty_current'] = $this->current_qty($data['prodname_fk']);
-			
-			$data['is_out'] = 1;
-			$data['is_return'] = null;			
-		}
-		/*
-		 * Deletes all raw materials deductions for this inbound entry,
-		 * so the new ones will be inserted according to new quantity
-		 */
-		if($page == 'in')
-		{
-			$this->_delete_inventory_ids($id);
-				
-			$data['qty_current'] = $this->current_qty($data['prodname_fk']);
-				
-			$data['is_out'] = null;
-			$data['is_return'] = null;
-		}
-		
-		/*
-		 * If dateoforigin has been unset (deleted)
-		 * sets it to null
-		 */
-		if(!strlen($data['dateoforigin']))
-			$data['dateoforigin'] = null;
-
-		/*
-		 * If distributor is not set, 
-		 * default to null
-		 */
-		if(!strlen($data['distributor_fk']))
-			$data['distributor_fk'] = null;
-			
-		/*
-		 * Update the following ID
-		 */
-		$this->db->where('id',$id);
-		
-		/*
-		 * Data array passed contained
-		 * new updated data
-		 */
-		$this->db->update($this->_table,$data);
-		
-		return $this->db->affected_rows();
-	}
-
-	private function current_qty($product_id)
-	{
-		$this->db->select_sum('quantity');
-
-		/**
-		 * If user has specific location set,
-		 * display warehouse entries for that location only!
-		 */
-		if($this->_location)
-			$this->db->where('location_id',$this->_location);
-		
-		$this->db->where('prodname_fk',$product_id);
-		
-		$result = $this->db->get($this->_table)->row();
-		
-		if(!is_null($result->quantity))
-			return $result->quantity;
-		else
-			return false;
-	}
-	
-	private function _delete_inventory_ids($id)
-	{
-		$this->db->where('warehouse_fk',$id);
-		$results = $this->db->delete('exp_cd_inventory');
-		return $this->db->affected_rows();
-	}
 
 	////////////////
 	// OBSERVERS //
 	////////////////
-	
-	 protected function setDefaults($row)
+	protected function setDefaults($row)
     {
     	if(!isset($row['dateoforigin'])) $row['dateoforigin'] = mdate('%Y-%m-%d');
 
@@ -487,5 +355,29 @@ class Warehouse_model extends MY_Model {
 		if($this->_location) $row['location_id'] = $this->_location;
 
 		return $row;
+    }
+
+    /**
+     * Calculates current Stock before inserting Warehouse entry.
+     * New Current stock is currentStock + new Quantity.
+     * @param  Object $row
+     * @return Object
+     */
+    protected function currentStock($row)
+    {
+    	$this->db->select_sum('quantity');
+
+		if($this->_location)
+		{
+			$this->db->where('location_id',$this->_location);
+		}
+
+    	$this->db->where('prodname_fk',$row['prodname_fk']);
+
+    	$result	= $this->db->get($this->_table)->row();
+
+    	$row ['qty_current'] = ($result->quantity) ? $result->quantity : 0;
+
+    	return $row;
     }
 }

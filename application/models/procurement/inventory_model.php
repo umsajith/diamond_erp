@@ -426,6 +426,14 @@ class Inventory_model extends MY_Model {
 			]);
 		}
 
+		if(isset($row['warehouse_fk']) AND strlen($row['warehouse_fk']))
+		{
+			$this->db->delete($this->_table,[
+				'warehouse_fk' => $row['warehouse_fk'],
+				'prodname_fk'  => $row['prodname_fk']
+			]);
+		}
+
     	return $row;
     }
     /**
