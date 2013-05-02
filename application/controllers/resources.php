@@ -70,8 +70,7 @@ class Resources extends MY_Controller {
     
 	public function delete($id)
 	{
-		if(!$this->Resources_model->get($id))
-			air::flash('void','resources');
+		if(!$this->Resources_model->get($id)) air::flash('void');
 			
 		if($this->Resources_model->delete($id))
 			air::flash('delete','resources');

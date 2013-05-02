@@ -215,21 +215,16 @@ class MY_Controller extends CI_Controller
         if($reference AND $id)
         {
             $this->data['sub_modules'] = $this->Resources_model->get_sub_modules_by_parent($id);
-
-            if(!$this->data['sub_modules'])
-            {
-                air::flash('deny',$this->session->userdata('default_module'));
-            }
         }
         else
         {
             $this->data['sub_modules'] = $this->Resources_model->get_sub_modules_by_class($this->router->class,$this->router->method);
+        }
 
-            if(!$this->data['sub_modules'])
-            {
-                air::flash('deny',$this->session->userdata('default_module'));    
-            }
-        }       
+        if(!$this->data['sub_modules'])
+        {
+            air::flash('deny',$this->session->userdata('default_module'));    
+        }      
     }
 
     /* --------------------------------------------------------------

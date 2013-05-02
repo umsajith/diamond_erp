@@ -11,7 +11,7 @@ class Permissions extends MY_Controller {
 	{
 		$obj = $this->Permissions_model->get($id);
 
-		if(!$obj) air::flash('void',$_SERVER['HTTP_REFERER']);
+		if(!$obj) air::flash('void');
 		
 		if($this->Permissions_model->delete($obj->id))
 			air::flash('delete',$_SERVER['HTTP_REFERER']);

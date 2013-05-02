@@ -39,7 +39,8 @@ class Auth extends CI_Controller {
 		if($this->form_validation->run())
 		{
 			//Login
-			$user = $this->auth->check_login($_POST['username'],$_POST['password']);
+			$user = $this->auth->check_login($this->input->post('username'),
+				$this->input->post('password'));
 			
 			if(!$user)
 			{
