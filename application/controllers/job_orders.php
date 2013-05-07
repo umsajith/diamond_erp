@@ -291,11 +291,11 @@ class Job_orders extends MY_Controller {
 	{
 		$this->data['job_order'] = $this->jo->get($id);
 
-		if(!$this->data['job_order']) air::flash('void','job_orders');
+		if(!$this->data['job_order']) air::flash('void');
 		/*
 		 * Prevents from deleting locked Job Orders
 		 */
-		if($this->data['job_order']->locked) air::flash('deny','job_orders');
+		if($this->data['job_order']->locked) air::flash('deny');
 			
 		if($this->jo->delete($id))
 			air::flash('delete','job_orders');

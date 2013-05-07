@@ -25,7 +25,8 @@
 
 		bootbox.animate(false);	
 	    bootbox.confirm(text, cnlBtn, okBtn, function(result) {
-	        if(result){window.location.href = e.target.href;}
+	    	targetLink = $(e.target).data('link');
+	        if(result){window.location.href = targetLink;}
 	    });
 	    return false;
 	});

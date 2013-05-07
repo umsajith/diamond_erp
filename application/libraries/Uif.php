@@ -53,7 +53,7 @@ class UIF {
 			$site_url = site_url($uri);
 		}
 
-		return '<a href="'.$site_url.'" class="btn btn-'.$type.'" '.$attributes.'><i class="'.$icon.'"></i></a>';
+		return '<a href="'.$site_url.'" data-link="'.$site_url.'" class="btn btn-'.$type.'" '.$attributes.'><i class="'.$icon.'" data-link="'.$site_url.'"></i></a>';
 	}
 
 	public static function linkDeleteButton($uri = '')
