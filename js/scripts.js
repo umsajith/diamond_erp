@@ -25,7 +25,10 @@
 
 		bootbox.animate(false);	
 	    bootbox.confirm(text, cnlBtn, okBtn, function(result) {
-	    	targetLink = $(e.target).data('link');
+	    	targetLink = e.target.href;
+	    	if(targetLink === undefined){
+	    		targetLink = $(e.target).data('link');
+	    	}
 	        if(result){window.location.href = targetLink;}
 	    });
 	    return false;

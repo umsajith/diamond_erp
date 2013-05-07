@@ -190,7 +190,7 @@ class Inventory_model extends MY_Model {
 			$this->db->where('i.location_id',$this->_location);
 		
 		//All entries but the Purchase Orders
-		$this->db->where_in('i.type',array('gr','adj',0));
+		$this->db->where('i.type !=','po');
 		
 		$this->db->group_by('i.prodname_fk');
 		$this->db->order_by('i.dateofentry','desc');
@@ -334,15 +334,15 @@ class Inventory_model extends MY_Model {
 		 * ,Price, Partner and Assigned To to NULL
 		 * if the value has not been set
 		 */		
-		if(!strlen($row['dateoforder'])) $row['dateoforder'] = null;
+		if(isset($row['dateoforder']) AND !strlen($row['dateoforder'])) $row['dateoforder'] = null;
 
-		if(!strlen($row['dateofexpiration'])) $row['dateofexpiration'] = null;
+		if(isset($row['dateofexpiration']) AND !strlen($row['dateofexpiration'])) $row['dateofexpiration'] = null;
 
-		if(!strlen($row['datereceived'])) $row['datereceived'] = null;
+		if(isset($row['datereceived']) AND !strlen($row['datereceived'])) $row['datereceived'] = null;
 
-		if(!strlen($row['price'])) $row['price'] = null;		
+		if(isset($row['price']) AND !strlen($row['price'])) $row['price'] = null;		
 
-		if(!strlen($row['partner_fk'])) $row['partner_fk'] = null;
+		if(isset($row['partner_fk']) AND !strlen($row['partner_fk'])) $row['partner_fk'] = null;
 
         return $row;
     }
@@ -352,14 +352,14 @@ class Inventory_model extends MY_Model {
     	/*
 		 * If Goods Receipt has been inserted
 		 */
-		if($row['type'] == 'gr')
+		if(isset($row['type']) AND $row['type'] == 'gr')
 		{
 			$row['datereceived'] = mdate("%Y-%m-%d",now());
 		}
 		/*
 		 * If Purchase Order has been inserted
 		 */
-		if($row['type'] == 'po')
+		if(isset($row['type']) AND $row['type'] == 'po')
 		{
 			if(!isset($row['dateoforder']))
 			{
@@ -372,7 +372,7 @@ class Inventory_model extends MY_Model {
 		/*
 		 * If Adjustment has been inserted
 		 */
-		if($row['type'] == 'adj')
+		if(isset($row['type']) AND $row['type'] == 'adj')
 		{
 			$row['partner_fk'] = null;
 			if(isset($row['is_use']) AND ($row['is_use'])==1)
@@ -398,10 +398,12 @@ class Inventory_model extends MY_Model {
 
     protected function processUpdate($row)
     {
-    	if($row['type'] == 'gr')
+    	if(isset($row['type']) AND $row['type'] == 'gr')
 		{
 			$row['datereceived'] = mdate("%Y-%m-%d",now());
 		}
+
+		if(!strlen($row['assigned_to'])) $row['assigned_to'] = null;
 
 		/**
 		 * Sets operator inserting into Inventory
@@ -452,6 +454,8 @@ class Inventory_model extends MY_Model {
 		}
 
     	$this->db->where('prodname_fk',$row['prodname_fk']);
+
+    	$this->db->where('type !=','po');
 
     	$result	= $this->db->get($this->_table)->row();
 

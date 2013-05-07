@@ -117,7 +117,7 @@ class UIF {
 			$attributes = _parse_attributes($attributes);
 		}
 
-		return '<a href="'.$site_url.'"'.'class="'.$icon.'"'.$attributes.'>'.'&nbsp;'.'</a>';
+		return '<a href="'.$site_url.'" data-link="'.$site_url.'" class="'.$icon.'"'.$attributes.'>'.'&nbsp;'.'</a>';
 	}
 
 	public static function staticIcon($icon = '', $attributes = '')
