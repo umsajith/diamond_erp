@@ -9,12 +9,6 @@
             <dd><?=$master->company;?></dd>
             <dt>Контакт Лице:</dt>
             <dd><?=uif::isNull($master->contperson)?></dd>
-            <dt>Купувач:</dt>
-            <dd><?=($master->is_customer) ? 
-                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Добавувач:</dt>
-            <dd><?=($master->is_vendor) ? 
-                uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt>HQ:</dt>
             <dd><?=($master->is_mother) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>

@@ -11,8 +11,6 @@
 			<?=uif::controlGroup('dropdown','Припаѓа на','mother_fk',[$customers])?>
 			<?=uif::controlGroup('text','Код','code')?>
 			<?=uif::controlGroup('checkbox','HQ','is_mother',[1])?>		
-			<?=uif::controlGroup('checkbox','Купувач','is_customer',[1])?>		
-			<?=uif::controlGroup('checkbox','Добавувач','is_vendor',[1])?>		
 		<div class="legend">Финансиски Информации</div>	
 			<?=uif::controlGroup('text','Банка','bank')?>
 			<?=uif::controlGroup('text','Број на Сметка','account_no')?>

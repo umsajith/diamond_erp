@@ -121,10 +121,10 @@ class Inventory extends MY_Controller {
 		//Generate dropdown menu data
 		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
 		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
-		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
+		$this->data['vendors'] = $this->par->generateDropdown();
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [
 			'datereceived'    =>'Примено',
 			'prodname_fk'     =>'Артикл',
 			'partner_fk'      =>'Добавувач',
@@ -133,7 +133,7 @@ class Inventory extends MY_Controller {
 			'price'           =>'Цена(без ДДВ)',	
 			'dateoforder'     =>'Нарачано',
 			'dateofentry'     =>'Внес'
-		);
+		];
 		
 		$this->input->load_query($query_id);
 		
@@ -296,7 +296,7 @@ class Inventory extends MY_Controller {
 				air::flash('error','goods_receipts');
 		}
 		//Load Partner model for Dropdown creation
-		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
+		$this->data['vendors'] = $this->par->generateDropdown();
 
 		//Heading
 		$this->data['heading'] = 'Внес на Приемница';
@@ -405,7 +405,7 @@ class Inventory extends MY_Controller {
 		//Heading
 		$this->data['heading'] = 'Корекција на ' . $heading;
 		
-		$this->data['vendors'] = $this->par->generateDropdown(['is_vendor'=>1]);
+		$this->data['vendors'] = $this->par->generateDropdown();
 	}
 	
 	//AJAX - Marks the Purchase Order into Good Receipts and adds to inventory

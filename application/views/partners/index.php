@@ -6,7 +6,6 @@
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('partners/search','class="form-inline"')?>
 			<?=uif::formElement('text','','q','','placeholder="Пребарувај по Код/Фирма"')?>
-			<?=uif::formElement('dropdown','','partner_type',[[''=>'- Тип -','cus'=>'Купувачи','ven'=>'Добавувачи','cus_ven'=>'Купувачи/Добавувачи']])?>
 			<?=uif::formElement('dropdown','','postalcode_fk',[$postalcodes])?>
 			<?=uif::filterButton()?>
     	<?=form_close()?>
@@ -26,7 +25,6 @@
 	    <?php endforeach;?>
 	    <th>Телефон</th>
 	    <th>Седиште</th>
-		<th>Тип</th>
 		<th>&nbsp;</th>
 	</tr>
 	</thead>
@@ -40,13 +38,7 @@
 			<td><?=uif::isNull($row->contperson)?></td>			
 			<td><?=$row->name?></td>
 			<td><?=uif::isNull($row->phone1)?></td>	
-			<td><?=($row->mother_name)?uif::linkIcon("partners/view/{$row->mother_id}",'icon-link'):'-';?></td>		
-			<td>
-				<?php 	if($row->is_customer AND !$row->is_vendor) echo 'Купувач';
-						if($row->is_vendor AND !$row->is_customer) echo 'Добавувач';
-						if($row->is_vendor AND $row->is_customer) echo 'Купувач/Добавувач';
-				?>
-			</td>	
+			<td><?=($row->mother_name)?uif::linkIcon("partners/view/{$row->mother_id}",'icon-link'):'-';?></td>
 			<td><?=uif::actionGroup('partners',$row->id)?></td>
 		</tr>
 	<?php endforeach;?>
@@ -57,7 +49,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=partner_type]",'Тип');
 		cd.dd("select[name=postalcode_fk]",'Град');
 	});	
 </script>

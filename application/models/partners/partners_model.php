@@ -18,25 +18,7 @@ class Partners_model extends MY_Model {
 		//Filters
 		if(strlen($query_array['postalcode_fk']))
 			$this->db->where_in('p.postalcode_fk',$query_array['postalcode_fk']);
-		if(isset($query_array['partner_type']))
-		{
-			if($query_array['partner_type'] == 'cus')
-			{
-				$this->db->where('p.is_customer',1);
-				$this->db->where('p.is_vendor',0);
-			}
-				
-			elseif ($query_array['partner_type'] == 'ven')
-			{
-				$this->db->where('p.is_customer',0);
-				$this->db->where('p.is_vendor',1);	
-			}
-			elseif ($query_array['partner_type'] == 'cus_ven')
-			{
-				$this->db->where('p.is_customer',1);
-				$this->db->where('p.is_vendor',1);
-			}	
-		}
+
 		//Search Query
 		if(strlen($query_array['q']))
 		{
@@ -56,25 +38,7 @@ class Partners_model extends MY_Model {
 
 		if(strlen($query_array['postalcode_fk']))
 			$this->db->where_in('postalcode_fk',$query_array['postalcode_fk']);
-		if(isset($query_array['partner_type']))
-		{
-			if($query_array['partner_type'] == 'cus')
-			{
-				$this->db->where('is_customer',1);
-				$this->db->where('is_vendor',0);
-			}
-				
-			elseif ($query_array['partner_type'] == 'ven')
-			{
-				$this->db->where('is_customer',0);
-				$this->db->where('is_vendor',1);	
-			}
-			elseif ($query_array['partner_type'] == 'cus_ven')
-			{
-				$this->db->where('is_customer',1);
-				$this->db->where('is_vendor',1);
-			}		
-		}
+
 		//Search Query
 		if(strlen($query_array['q']))
 		{
@@ -234,9 +198,9 @@ class Partners_model extends MY_Model {
 	{
 		if(!strlen($row['mother_fk'])) $row['mother_fk'] = null;
 
-		if(!isset($row['is_customer'])) $row['is_customer'] = 0;	
+		// if(!isset($row['is_customer'])) $row['is_customer'] = 0;	
 				
-		if(!isset($row['is_vendor'])) $row['is_vendor'] = 0;
+		// if(!isset($row['is_vendor'])) $row['is_vendor'] = 0;
 				
 		if(!isset($row['is_mother'])) $row['is_mother'] = 0;
 

@@ -54,7 +54,6 @@ class Partners extends MY_Controller {
 		$this->input->load_query($query_id);
 		
 		$query_array = [
-			'partner_type'  => $this->input->get('partner_type'),
 			'postalcode_fk' => $this->input->get('postalcode_fk'),
 			'q'             => $this->input->get('q')
 		];
@@ -84,16 +83,11 @@ class Partners extends MY_Controller {
 	
 	public function search()
 	{
-		// (strlen($_POST['q'])) ? $_POST['partner_type'] = '' : '';
-		// (strlen($_POST['q'])) ? $_POST['postalcode_fk'] = '' : '';
-		// (strlen($_POST['partner_type'])) ? $_POST['q'] = '' : '';
-		// (strlen($_POST['postalcode_fk'])) ? $_POST['q'] = '' : '';
 
-		$query_array = array(
-			'partner_type'  => $this->input->post('partner_type'),
+		$query_array = [
 			'postalcode_fk' => $this->input->post('postalcode_fk'),
 			'q'             => $this->input->post('q')
-		);	
+		];	
 		$query_id = $this->input->save_query($query_array);
 		redirect("partners/index/{$query_id}");
 	}
@@ -117,8 +111,6 @@ class Partners extends MY_Controller {
 			$this->form_validation->set_rules('account_no','account number','trim|numeric');
 			$this->form_validation->set_rules('address','address','trim');
 			$this->form_validation->set_rules('is_mother','','trim');
-			$this->form_validation->set_rules('is_vendor','','trim');
-			$this->form_validation->set_rules('is_customer','','trim');
 			
 			//Check if form has passed validation
 			if ($this->form_validation->run())
@@ -132,6 +124,8 @@ class Partners extends MY_Controller {
 		
 		// Generating dropdown menu's
 		$this->data['postalcodes'] = $this->pcode->generateDropdown();
+
+		//Mothers
 		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
@@ -159,6 +153,7 @@ class Partners extends MY_Controller {
 			$this->form_validation->set_rules('bank','bank','trim');
 			$this->form_validation->set_rules('account_no','account number','trim|numeric');
 			$this->form_validation->set_rules('address','address','trim');
+			$this->form_validation->set_rules('is_mother','','trim');
 			
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
@@ -173,6 +168,8 @@ class Partners extends MY_Controller {
 		
 		// Generating dropdown menu's	
 		$this->data['postalcodes'] = $this->pcode->generateDropdown();
+
+		//Mothers
 		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
@@ -189,19 +186,17 @@ class Partners extends MY_Controller {
 		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->par->select_single($id);
+
 		if(!$this->data['master']) air::flash('void','partners');
 		/**
 		 * If partner is Mother(has subsidiaries),
 		 * get all the subsidiaries
 		 */
-		if($this->data['master']->is_mother == 1)
-			$this->data['subs'] = $this->par->select_sub($id);
+		$this->data['subs'] = $this->par->select_sub($id);
 		/**
-		 * If partner is also marked as customer (is_customer==1),
-		 * get last 10 sales orders
+		 * Get last 10 sales orders
 		 */
-		if($this->data['master']->is_customer == 1)
-			$this->data['orders'] = $this->co->last_partner_orders($id);	
+		$this->data['orders'] = $this->co->last_partner_orders($id);	
 	}
 
 	/**
@@ -212,8 +207,8 @@ class Partners extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data= $this->par->get($id);
-		if(!$this->data)
-			air::flash('void','partners');
+
+		if(!$this->data) air::flash('void','partners');
 			
 		if($this->par->delete($id))
 			air::flash('delete','partners');
@@ -224,10 +219,7 @@ class Partners extends MY_Controller {
 	public function ajxAllPartners()
 	{
 		$this->par->order_by('company');
-		$rows = $this->par->get_many_by([
-			'is_customer' => 1,
-			'is_mother'   => 0
-		]);
+		$rows = $this->par->get_all();
 
 		$json_array = [];
 
