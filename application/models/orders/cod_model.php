@@ -5,8 +5,6 @@ class Cod_model extends MY_Model {
 	//Database table of the Model
 	protected $_table = 'exp_cd_order_details';
 
-	public $before_update = ['setNull'];
-
 	public $validate = [
         [ 'field' => 'order_fk', 	'label' => '','rules' => 'required'],
 		[ 'field' => 'prodname_fk', 'label' => '','rules' => 'required'],
@@ -47,16 +45,5 @@ class Cod_model extends MY_Model {
 		$this->db->group_by('o.prodname_fk');
 
 		return $this->db->get($this->_table.' AS o')->result();
-	}
-
-	////////////////
-	// OBSERVERS //
-	////////////////
-	protected function setNull($row)
-	{
-		// Default returned value is 0
-		if(empty($row['returned_quantity'])) $row['returned_quantity'] = 0;
-
-		return $row;
 	}
 } 

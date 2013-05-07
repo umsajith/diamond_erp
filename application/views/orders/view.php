@@ -129,9 +129,7 @@
 		var quantity = qty.val();
 		var returned_quantity = rqty.val();
 
-		if(returned_quantity == ''){
-			returned_quantity = 0;
-		}
+		if(returned_quantity == '') returned_quantity = 0;
 
 		if (product.val() == ''){
 			cd.notify('Изберете производ.','error');
@@ -139,7 +137,7 @@
 			return false;
 		}
 
-		if (!cd.isNumber(quantity)){
+		if (!cd.isNumber(quantity) || quantity == 0){
 			cd.notify('Внесете валидна количина.','error');
 			qty.focus();
 			return false;

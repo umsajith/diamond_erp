@@ -90,6 +90,8 @@
 
 		$("select[name=payment_mode_fk]").select2({placeholder:"Плаќање"});
 
+		//Typeahead Configuration
+
 		var partnersNames = [];
 		var partnersIds = {};
 
@@ -104,6 +106,8 @@
             });
 	        $("input[name=customer]").typeahead({local:partnersNames}).focus();
 	     });
+
+		// End of Typeahead configuration
 
 		$("#add-product").on('click',function(){
 			addProduct();
@@ -176,7 +180,7 @@
 			$("input[name=returned_quantity]").focus();
 			return false;
 		}
-			//-------------------------------------------------------------------
+		//-------------------------------------------------------------------
 		  
 		// Check if product already exists and increase it's quantity instead of adding new record
 		var exists = false;
@@ -234,12 +238,14 @@
 			table.rows[i + 1].cells[4].innerHTML = '<?=uif::button("icon-trash","danger btn-mini","onClick=removeRecord('+i+')")?>';
 		}
 	}
-
+	
+	//Remove Product from temporary table
 	function removeRecord(index) {
 		products.splice(index, 1);
 		updateTable();
 	}
 
+	//Insert New Order
 	function newOrder(){
 
 		if(!products.length > 0) return false;
