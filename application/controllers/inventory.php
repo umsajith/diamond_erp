@@ -355,10 +355,8 @@ class Inventory extends MY_Controller {
 	}
 	
 	public function edit($page,$id)
-	{
-		
-		//if(!in_array($page,['po','gr','adj']))
-		//	$page = 'po';
+	{	
+		if(!in_array($page,['po','gr','adj'])) air::flash('void');
 			
 		$this->data['page'] = $page;		
 		
@@ -418,32 +416,28 @@ class Inventory extends MY_Controller {
 	
 	public function view($page, $id)
 	{		
-		if(!in_array($page, array('po','gr','adj')))
-			$page = 'po';
+		if(!in_array($page, array('po','gr','adj'))) air::flash('void');
 			
 		if($page == 'po')
 		{
 			$heading = 'Нарачка';
-			$redirect = 'purchase_orders';
 			$this->view = 'inventory/purchase_order';
 		}
 		if($page == 'gr')
 		{
 			$heading = 'Приемница';
-			$redirect = 'goods_receipts';
 			$this->view = 'inventory/goods_receipt';
 		}
 		if($page == 'adj')
 		{
 			$heading = 'Порамнување';
-			$redirect = 'adjustments';
 			$this->view = 'inventory/adjustment';
 		}
 		
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->inv->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void',$redirect);
+
+		if(!$this->data['master']) air::flash('void');
 
 		//Heading
 		$this->data['heading'] = $heading;
@@ -451,8 +445,7 @@ class Inventory extends MY_Controller {
 	
 	public function delete($page = 'po',$id)
 	{
-		if(!in_array($page, array('po','gr','adj')))
-			$page = 'po';	
+		if(!in_array($page, array('po','gr','adj'))) air::flash('void');
 
 		if($page == 'po')
 			$redirect = 'purchase_orders';
@@ -463,8 +456,8 @@ class Inventory extends MY_Controller {
 			
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->inv->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void',$redirect);
+		
+		if(!$this->data['master']) air::flash('void',$redirect);
 			
 		if($this->inv->delete($id))
 			air::flash('delete',$redirect);

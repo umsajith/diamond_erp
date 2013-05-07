@@ -146,7 +146,7 @@ class Job_orders extends MY_Controller {
 		 */
 		$this->data['job_order'] = $this->jo->select_single($id);
 
-		if(!$this->data['job_order']) show_404();
+		if(!$this->data['job_order']) air::flash('void');
 		/*
 		 * Prevents from editing locked record
 		 */
@@ -210,7 +210,7 @@ class Job_orders extends MY_Controller {
 		//Retreives data from MASTER Model //Gets the ID of the selected entry from the URL
 		$this->data['master'] = $this->jo->select_single($id);
 
-		if(!$this->data['master']) air::flash('void','job_orders');
+		if(!$this->data['master']) air::flash('void');
 
 		$this->data['details'] = $this->inv->select_use('job_order_fk',$this->data['master']->id);		
 	}
