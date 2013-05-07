@@ -159,9 +159,8 @@ class Employees extends MY_Controller {
 		//Retreives ONE product from the database
 		$this->data['employee'] = $this->emp->select_single($id);
 		
-		//If there is nothing, redirects
-		if(!$this->data['employee']) 
-			air::flash('void','employees');
+		//If there is nothing, show  404 (void)
+		if(!$this->data['employee'])  air::flash('void');
 		
 		//If Submit has been posted (EDIT form Submitted), runs the code below
 		if($_POST)
@@ -212,7 +211,8 @@ class Employees extends MY_Controller {
 	public function view($id)
 	{
 		$this->data['master'] = $this->emp->select_single($id);
-		if(!$this->data['master']) air::flash('void','employees');	
+
+		if(!$this->data['master']) air::flash('void');	
 
 		//Heading
 		$this->data['heading'] = 'Работник';
@@ -226,8 +226,12 @@ class Employees extends MY_Controller {
 	
 	public function delete($id)
 	{
-		if(!$this->emp->get($id)) 
-			air::flash('void','employees');
+		$employee = $this->emp->get($id);
+
+		if(!$employee) air::flash('void');
+
+		//Administrators cannot be deleted
+		if($employee->is_admin) air::flash('deny');
 			
 		if($this->emp->delete($id))
 			air::flash('delete','employees');
