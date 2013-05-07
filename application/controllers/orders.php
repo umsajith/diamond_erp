@@ -226,6 +226,8 @@ class Orders extends MY_Controller {
 		
 		$this->data['results'] = $this->co->report(['order_list_id'=>$id]);
 
+		$this->data['order_list_id'] = $id;
+
 		//Dropdown Menus
 		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
 		$this->data['customers']     = $this->par->dropdown('id','company');

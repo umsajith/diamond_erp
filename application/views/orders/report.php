@@ -41,6 +41,12 @@
 				<?php endforeach; ?>
 			</tbody>
 			</table>
+			<?php if(isset($order_list_id)):?>
+			<div class="alert alert-info">
+				<i class="icon-info-sign"></i> Прегледувате рипорт за извештај # 
+				<strong><?=anchor("orders_list/view/{$order_list_id}",$order_list_id)?></strong> 
+			</div>
+			<?php endif;?>
 		<?php endif;?>
 	</div>
 </div>
@@ -56,7 +62,7 @@
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 
 		if("<?=(isset($results) AND is_array($results) AND count($results))?>"){
-			$("#generate-pdf").show();
+			if("<?=!isset($order_list_id)?>") $("#generate-pdf").show();
 		}
 	});
 </script>
