@@ -2,6 +2,27 @@
 class Products_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_products';
+
+	public $before_create = ['setNull'];
+
+	public $before_update = ['setNull'];
+
+	public $validate = [
+		[ 'field' => 'prodname', 'label' => 'product name','rules' => 'trim|required'],
+		[ 'field' => 'ptname_fk', 'label' => 'type','rules' => 'trim|required'],
+		[ 'field' => 'pcname_fk', 'label' => 'category','rules' => 'trim|required'],
+		[ 'field' => 'wname_fk', 'label' => 'warehouse','rules' => 'trim|required'],
+		[ 'field' => 'uname_fk', 'label' => 'uom','rules' => 'trim|required'],
+		[ 'field' => 'tax_rate_fk', 	'label' => 'tax','rules' => 'trim|required'],
+		[ 'field' => 'code', 		'label' => '','rules' => 'trim'],
+		[ 'field' => 'base_unit', 'label' => 'base unit','rules' => 'trim|numeric'],
+		[ 'field' => 'retail_price', 'label' => 'retail price','rules' => 'trim|numeric'],
+		[ 'field' => 'alert_quantity', 'label' => 'alert quantity','rules' => 'trim|numeric'],
+		[ 'field' => 'commision', 'label' => 'commision','rules' => 'trim|numeric'],
+		[ 'field' => 'salable', 'label' => 'salable','rules' => 'trim|numeric'],
+		[ 'field' => 'purchasable', 'label' => 'purchasable','rules' => 'trim|numeric'],
+		[ 'field' => 'stockable', 'label' => 'stockable','rules' => 'trim|numeric']
+    ];
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -73,30 +94,6 @@ class Products_model extends MY_Model {
 		return $this->db->get($this->_table.' AS p')->row();
 	}
 	
-	public function insert ($data = array())
-	{		
-		$this->db->insert($this->_table,$data);
-		return $this->db->insert_id();
-	}
-	
-	public function update ($id,$data = array())
-	{
-		if(!$data['salable'])
-				$data['salable'] = 0;			
-		if(!$data['purchasable'])
-				$data['purchasable'] = 0;
-		if(!$data['stockable'])
-				$data['stockable'] = 0;
-				
-		//This ID
-		$this->db->where('id',$id);
-		
-		//Updating
-		$this->db->update($this->_table,$data);
-		
-		return $this->db->affected_rows();	
-	}
-	
 	public function delete($id)
 	{
 		//Updates the status to 'deleted'
@@ -107,7 +104,7 @@ class Products_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 
-	public function generateDropdown($options = [], $aarray = false)
+	public function generateDropdown($options = [], $aArray = false)
 	{
 		$this->db->select('p.id,p.prodname,u.uname,pc.pcname')
 			->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT')
@@ -130,7 +127,7 @@ class Products_model extends MY_Model {
 		
 		$results = $this->db->get($this->_table.' AS p')->result();
 
-		if($aarray === true)
+		if($aArray === true)
 		{
 			$data = [];
 
@@ -144,7 +141,20 @@ class Products_model extends MY_Model {
 
 		return $results;	
 	}
-	
+
+	////////////////
+	// OBSERVERS //
+	////////////////
+
+	protected function setNull($row)
+	{
+		if(!isset($row['salable'])) $row['salable'] = 0;			
+		if(!isset($row['purchasable'])) $row['purchasable'] = 0;
+		if(!isset($row['stockable'])) $row['stockable'] = 0;
+
+		return $row;
+	}
+
 	//////////////////
 	// DEPRICATED  //
 	//////////////////

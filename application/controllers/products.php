@@ -87,32 +87,8 @@ class Products extends MY_Controller {
 	
 	public function insert()
 	{
-		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname','name','trim|required');
-		$this->form_validation->set_rules('ptname_fk','product type','trim|required');
-		$this->form_validation->set_rules('pcname_fk','product category','trim|required');
-		$this->form_validation->set_rules('wname_fk','warehouse','trim|required');
-		$this->form_validation->set_rules('uname_fk','unit of measure','trim|required');
-		$this->form_validation->set_rules('tax_rate_fk','tax rate','trim|required');
-		$this->form_validation->set_rules('code','code','trim');
-		$this->form_validation->set_rules('base_unit','base unit','trim|numeric');
-		$this->form_validation->set_rules('retail_price','retail price','trim|numeric');
-		$this->form_validation->set_rules('description','description','trim');
-		$this->form_validation->set_rules('alert_quantity','alert quantity','trim|numeric');
-		$this->form_validation->set_rules('commision','commision','trim|numeric');
-		$this->form_validation->set_rules('salable','salable','trim|numeric');
-		$this->form_validation->set_rules('purchasable','purchasable','trim|numeric');
-		$this->form_validation->set_rules('stockable','stockable','trim|numeric');
-		
-		//Check if form has passed validation
-		if ($this->form_validation->run())
-		{
-			//Successful validation insets into the DB
-			if($this->prod->insert($_POST))
-				air::flash('add','products');
-			else
-				air::flash('error','products');
-		}
+		//Successful validation insets into the DB
+		if($this->prod->insert($_POST)) air::flash('add','products');
 		
 		// Generating dropdown menu's
 		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
@@ -128,7 +104,7 @@ class Products extends MY_Controller {
 	public function edit($id)
 	{
 		//Retreives ONE product from the database
-		$this->data['product'] = $this->prod->select_single($id);
+		$this->data['product'] = $this->prod->get($id);
 		
 		//If there is nothing, redirects
 		if(!$this->data['product']) air::flash('void','products');
@@ -136,29 +112,7 @@ class Products extends MY_Controller {
 		//Proccesses the form with the new updated data
 		if($_POST)
 		{
-			//Defining Validation Rules
-			$this->form_validation->set_rules('prodname','name','trim|required');
-			$this->form_validation->set_rules('ptname_fk','product type','trim|required');
-			$this->form_validation->set_rules('pcname_fk','product category','trim|required');
-			$this->form_validation->set_rules('wname_fk','warehouse','trim|required');
-			$this->form_validation->set_rules('uname_fk','unit of measure','trim|required');
-			$this->form_validation->set_rules('tax_rate_fk','tax rate','trim|required');
-			$this->form_validation->set_rules('code','code','trim');
-			$this->form_validation->set_rules('base_unit','base unit','trim|numeric');
-			$this->form_validation->set_rules('retail_price','retail price','trim|numeric');
-			$this->form_validation->set_rules('description','description','trim');
-			$this->form_validation->set_rules('alert_quantity','alert quantity','trim|numeric');
-			$this->form_validation->set_rules('commision','commision','trim|numeric');
-				
-			//Check if updated form has passed validation
-			if ($this->form_validation->run())
-			{
-				//Successful validation insets into the DB
-				if($this->prod->update($id,$_POST))
-					air::flash('update','products');
-				else
-					air::flash('error','products');	
-			}	
+			if($this->prod->update($id,$_POST)) air::flash('update','products');
 		}
 		
 		// Generating dropdown menu's
@@ -179,8 +133,8 @@ class Products extends MY_Controller {
 
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->prod->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void','products');
+		
+		if(!$this->data['master']) air::flash('void','products');
 	}
 	
 	public function delete($id)
