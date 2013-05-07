@@ -1,3 +1,3 @@
 <div class="alert alert-danger text-center">
-	<strong>Shiiiiiittttt! </strong> No records found!
+	<strong> Упссс! </strong> Нема пронајдено записи!
 </div>

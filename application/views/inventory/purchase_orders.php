@@ -30,11 +30,21 @@
 	</thead>
 	<tbody>
 	<?php foreach($results as $row):?>
-	<?php switch ($row->po_status) 
+	<?php 
+		switch ($row->po_status) 
 		{
-		    case 'approved': $status = 'оддобрено'; $rowClass = 'success';break;
-		    case 'redjected': $status = 'одбиено'; $rowClass = 'error';break;
-		   	case 'pending': $status = 'отворено'; $rowClass = ''; break;
+		    case 'approved': 
+			    $status = uif::staticIcon('icon-ok'); 
+			    $rowClass = 'success';
+			    break;
+		    case 'redjected': 
+			    $status = uif::staticIcon('icon-remove'); 
+			    $rowClass = 'error';
+			    break;
+		    default: 
+		   		$status = uif::staticIcon('icon-time'); 
+		   		$rowClass = ''; 
+		   		break;
 		}
 	?>
 	<tr data-id=<?=$row->id?> class=<?=$rowClass?>>
@@ -46,12 +56,20 @@
 		<td><?=($row->quantity == 0) ? '-' : $row->quantity.' '.$row->uname?></td>
 		<td><?=uif::isNull($row->company)?></td>
 		<td>
-			<?php switch ($row->purchase_method) 
-			{
-			    case '0':echo '-';break;
-			    case 'cash':echo 'Готовина';break;
-			   	case 'invoice':echo 'Фактура';break;
-			}?>
+			<?php 
+				switch ($row->purchase_method) 
+				{
+				    case 'cash':
+				    	echo 'Г';
+				    	break;
+				   	case 'invoice':
+				   		echo 'Ф';
+				   		break;
+				   	default:
+				   		echo '-';
+				   		break;
+				}
+			?>
 		</td>
 		<td><?=$status;?></td>
 		<td><?=uif::date($row->dateofentry)?></td>

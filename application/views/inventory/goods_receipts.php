@@ -34,15 +34,23 @@
 			<td><?=uif::viewIcon('inventory',$row->id,'view/gr')?></td>
 			<td><?=uif::date($row->datereceived)?></td>		
 			<td><?=$row->prodname?></td>
-			<td><?=$row->company?></td>
+			<td><?=uif::isNull($row->company)?></td>
 			<td><?=$row->quantity.' '.$row->uname?></td>	
 			<td>
-				<?php switch ($row->purchase_method) 
-				{
-				    case '0':echo '-';break;
-				    case 'cash':echo 'Готовина';break;
-				   	case 'invoice':echo 'Фактура';break;
-				}?>
+				<?php 
+					switch ($row->purchase_method) 
+					{
+					    case 'cash':
+					    	echo 'Г';
+					    	break;
+					   	case 'invoice':
+					   		echo 'Ф';
+					   		break;
+					   	default:
+					   		echo '-';
+					   		break;
+					}
+				?>
 			</td>
 			<td><?=uif::isNull($row->price,$G_currency)?></td>
 			<td><?=uif::date($row->dateoforder)?></td>
