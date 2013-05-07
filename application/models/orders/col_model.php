@@ -78,7 +78,9 @@ class Col_model extends MY_Model {
 
 		return $this->db->get($this->_table.' AS ol')->row();
 	}
-
+	////////////////
+	// OBSERVERS //
+	////////////////
 	protected function setDefaults($row)
 	{
 		$row['inserted_by'] = $this->session->userdata('userid');

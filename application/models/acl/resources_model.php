@@ -3,8 +3,9 @@ class Resources_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_resources';
 
- 	public $before_create = ['set_nulls'];
-	public $before_update = ['set_nulls'];
+ 	public $before_create = ['setNull'];
+
+	public $before_update = ['setNull'];
 
 	public function get_all_resources()
 	{
@@ -17,7 +18,7 @@ class Resources_model extends MY_Model {
 		return $this->db->get()->result();
 	}
 
-	public function get_all_resources_by_ids($ids = array())
+	public function get_all_resources_by_ids($ids = [])
 	{
 		$this->db->select('c.id, p.title AS ptitle,c.title AS ctitle,
 			c.permalink,c.controller,c.method,c.order,c.master')
@@ -38,7 +39,7 @@ class Resources_model extends MY_Model {
        
        $results = $this->db->get('exp_cd_resources')->result();
        
-       $data = array();
+       $data = [];
        $data[''] =  '- Masters -';
   
        foreach ($results as $row)
@@ -58,7 +59,7 @@ class Resources_model extends MY_Model {
 
        $results = $this->db->get()->result();
        
-       $data = array();
+       $data = [];
        $data[''] =  ' ';
   
        foreach ($results as $row)
@@ -72,13 +73,15 @@ class Resources_model extends MY_Model {
         return $data;
     }
 
-    protected function set_nulls($resource)
+    ///////////////
+    // OBSERVERS //
+    ///////////////
+    protected function setNull($resource)
     {
-        if(trim($resource['parent_id'] == ''))
-        	$resource['parent_id'] = null;
+        if(trim($resource['parent_id'] == '')) $resource['parent_id'] = null;
 
-        if(!isset($resource['visible']))
-        	$resource['visible'] = 0;
+        if(!isset($resource['visible'])) $resource['visible'] = 0;
+
         return $resource;
     }
 

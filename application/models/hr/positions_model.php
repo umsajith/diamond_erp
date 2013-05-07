@@ -3,8 +3,9 @@ class Positions_model extends MY_Model {
 	
 	protected $_table = 'exp_cd_positions';
 
-	public $before_create = array('calc_bonus_commision');
-	public $before_update = array('calc_bonus_commision');
+	public $before_create = ['calculateBonusCommisions'];
+	
+	public $before_update = ['calculateBonusCommisions'];
 	
 	public function select($sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -43,8 +44,10 @@ class Positions_model extends MY_Model {
 		
 		return $this->db->get($this->_table.' AS p')->row();
 	}
-
-	protected function calc_bonus_commision($position)
+	////////////////
+	// OBSERVERS //
+	////////////////
+	protected function calculateBonusCommisions($position)
     {
         if(isset($position['bonus']))
 			$position['bonus'] = $position['bonus']/100;
