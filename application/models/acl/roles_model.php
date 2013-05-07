@@ -2,8 +2,9 @@
 class Roles_model extends MY_Model {
 	protected $_table = 'exp_cd_roles';
 
-	public $before_create = array('set_nulls');
-	public $before_update = array('set_nulls');
+	public $before_create = ['setNull'];
+
+	public $before_update = ['setNull'];
 
 	public function dropdown_master()
 	{
@@ -12,19 +13,21 @@ class Roles_model extends MY_Model {
 	       	
        $results = $this->db->get('exp_cd_roles')->result();
        
-       $data = array();
+       $data = [];
        $data[''] =  '- Корисничка Група -';
   
        foreach ($results as $row)
+       {
             $data[$row->id]= $row->name;
+       }
         
         return $data;
     }
 
-	protected function set_nulls($role)
+	protected function setNull($row)
     {
-        if(isset($role['parent_id']) AND trim($role['parent_id'] == ''))
-        	$role['parent_id'] = null;
-        return $role;
+        if(isset($row['parent_id']) AND trim($row['parent_id'] == '')) $row['parent_id'] = null;
+
+        return $row;
     }
 }
