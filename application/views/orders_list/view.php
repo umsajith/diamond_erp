@@ -165,7 +165,7 @@
 			return false;
 		}
 
-		if (!cd.isNumber(quantity)){
+		if (!cd.isNumber(quantity) || quantity == 0){
 			cd.notify('Внесете валидна количина.','error');
 			$("input[name=quantity]").focus();
 			return false;
