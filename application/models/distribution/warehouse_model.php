@@ -5,6 +5,8 @@ class Warehouse_model extends MY_Model {
 
 	public $before_create = ['setDefaults','currentStock'];
 
+	public $before_update = ['setDefaults'];
+
 	protected $_location;
 
 	public function __construct()
@@ -376,7 +378,7 @@ class Warehouse_model extends MY_Model {
 
     	$result	= $this->db->get($this->_table)->row();
 
-    	$row ['qty_current'] = ($result->quantity) ? $result->quantity : 0;
+    	$row['qty_current'] = ($result->quantity) ? $result->quantity : 0;
 
     	return $row;
     }

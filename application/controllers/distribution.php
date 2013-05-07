@@ -61,14 +61,23 @@ class Distribution extends MY_Controller {
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{	
+			$this->db->trans_start();
+
 			//Inserts into databse and reports outcome
-			if($warehouse_id = $this->whr->insert($_POST))
+			$warehouse_id = $this->whr->insert($_POST);
+			
+			$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
+
+			$this->db->trans_complete();
+
+			if($this->db->trans_status() === false)
 			{
-				$this->_inventory_use($warehouse_id, $_POST['prodname_fk'], $_POST['quantity']);
-				air::flash('add','distribution/inbounds');
-			}		
-			else
 				air::flash('error','distribution/inbounds');
+			}
+			else
+			{
+				air::flash('add','distribution/inbounds');
+			}			
 		}
 
 		//Heading
@@ -98,6 +107,7 @@ class Distribution extends MY_Controller {
 			 * in the model side
 			 */
 			$_POST['is_out'] = 1;
+			$_POST['is_return'] = null;
 			
 			//Inserts into databse and reports outcome
 			if($this->whr->insert($_POST))
@@ -195,24 +205,38 @@ class Distribution extends MY_Controller {
 		//Check if form has been submited
 		if ($this->form_validation->run())
 		{	
-			//Inserts into databse and reports outcome
-			if($this->whr->update($_POST['id'],$_POST,$page))
+			//Sets is_out flag
+			if($page === 'out')
 			{
-				/*
-				 * If an inbound entry has been modified,
-				 * and the qty has changed, recalculates all
-				 * inventory deductions again for the new quantity
-				 * according to the Bill of Materials
-				 */
-				if($page === 'in')
-				{
-					$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
-				}
-				
-				air::flash('add','distribution/'.$redirect);
+				$_POST['is_out'] = 1;
+			}
+
+			$this->db->trans_start();
+
+			//Inserts into databse
+			$this->whr->update($_POST['id'],$_POST);
+
+			/*
+			 * If an inbound entry has been modified,
+			 * and the qty has changed, recalculates all
+			 * inventory deductions again for the new quantity
+			 * according to the Bill of Materials
+			 */
+			if($page === 'in')
+			{
+				$this->_inventory_use($_POST['id'], $_POST['prodname_fk'], $_POST['quantity']);
+			}
+
+			$this->db->trans_complete();
+
+			if($this->db->trans_status() === false)
+			{
+				air::flash('error','distribution/'.$redirect);
 			}
 			else
-				air::flash('error','distribution/'.$redirect);
+			{
+				air::flash('update','distribution/'.$redirect);
+			}	
 		}	
 	}
 	
