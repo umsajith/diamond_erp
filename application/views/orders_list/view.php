@@ -26,7 +26,7 @@
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
 			<?=uif::button('icon-save','primary','id="new-order" onClick="newOrder()"')?>
 		</div>
-		<table class="table table-condensed temp-table">
+		<table class="table table-condensed table-bordered temp-table">
 			<thead>
 		    	<tr>
 		    		<th>&nbsp;</th>
@@ -231,7 +231,7 @@
 			table.rows[i + 1].cells[1].innerHTML = products[i].prodname;
 			table.rows[i + 1].cells[2].innerHTML = products[i].quantity + " " + products[i].uname;
 			table.rows[i + 1].cells[3].innerHTML = products[i].returned_quantity + " " + products[i].uname;
-			table.rows[i + 1].cells[4].innerHTML = '<i class="icon-trash" onclick="removeRecord('+i+')"></i>';
+			table.rows[i + 1].cells[4].innerHTML = '<?=uif::button("icon-trash","danger btn-mini","onClick=removeRecord('+i+')")?>';
 		}
 	}
 
