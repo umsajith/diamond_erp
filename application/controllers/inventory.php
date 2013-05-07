@@ -383,7 +383,7 @@ class Inventory extends MY_Controller {
 		//Retreives ONE product from the database
 		$this->data['result'] = $this->inv->select_single($id);
 
-		if(!$this->data['result']) show_404();
+		if(!$this->data['result']) air::flash('void');
 					
 		//Defining Validation Rules	
 		$this->form_validation->set_rules('prodname_fk','product','trim|required');

@@ -20,53 +20,53 @@ class Inventory_model extends MY_Model {
 		$this->_location = $this->session->userdata('location');
     }
 	
-	public function select($options = array(),$limit=null,$offset=null)
-	{
-		$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
-							e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
+	// public function select($options = array(),$limit=null,$offset=null)
+	// {
+	// 	$this->db->select('i.*,p.prodname,pc.pcname,u.uname,t.company,p.code,p.id AS pid,
+	// 						e.fname,e.lname,emp.fname AS assignfname,emp.lname AS assignlname');
 		
-		$this->db->from($this->_table.' AS i');
+	// 	$this->db->from($this->_table.' AS i');
 		
-		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
-		$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
-		$this->db->join('exp_cd_employees AS e','e.id = i.received_by','LEFT');
-		$this->db->join('exp_cd_employees AS emp','emp.id = i.assigned_to','LEFT');
-		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
-		$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
+	// 	$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
+	// 	$this->db->join('exp_cd_partners AS t','t.id = i.partner_fk','LEFT');
+	// 	$this->db->join('exp_cd_employees AS e','e.id = i.received_by','LEFT');
+	// 	$this->db->join('exp_cd_employees AS emp','emp.id = i.assigned_to','LEFT');
+	// 	$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+	// 	$this->db->join('exp_cd_uom AS u','u.id = p.uname_fk','LEFT');
 
-		//Filter Qualifications
-		if(isset($options['prodname_fk']) AND $options['prodname_fk'] != '')
-			$this->db->where_in('i.prodname_fk',$options['prodname_fk']);
-		if(isset($options['partner_fk']) AND $options['partner_fk'] != '')
-			$this->db->where_in('i.partner_fk',$options['partner_fk']);
-		if(isset($options['pcname_fk']) AND $options['pcname_fk'] != '')
-			$this->db->where_in('p.pcname_fk',$options['pcname_fk']);
+	// 	//Filter Qualifications
+	// 	if(isset($options['prodname_fk']) AND $options['prodname_fk'] != '')
+	// 		$this->db->where_in('i.prodname_fk',$options['prodname_fk']);
+	// 	if(isset($options['partner_fk']) AND $options['partner_fk'] != '')
+	// 		$this->db->where_in('i.partner_fk',$options['partner_fk']);
+	// 	if(isset($options['pcname_fk']) AND $options['pcname_fk'] != '')
+	// 		$this->db->where_in('p.pcname_fk',$options['pcname_fk']);
 			
-		if(isset($options['job_order_fk']))
-		{
-			$this->db->where('i.job_order_fk',$options['job_order_fk']);
-			$this->db->where('i.is_use',1);
-		}
+	// 	if(isset($options['job_order_fk']))
+	// 	{
+	// 		$this->db->where('i.job_order_fk',$options['job_order_fk']);
+	// 		$this->db->where('i.is_use',1);
+	// 	}
 		
-		//Retreives Purchase Orders if Requested
-		if (isset($options['type']))
-			$this->db->where('i.type',$options['type']);
+	// 	//Retreives Purchase Orders if Requested
+	// 	if (isset($options['type']))
+	// 		$this->db->where('i.type',$options['type']);
 				
-		//Retreives deductions from Inventory if requested	
-		if (isset($options['is_use']))
-			$this->db->where('i.is_use',$options['is_use']);
+	// 	//Retreives deductions from Inventory if requested	
+	// 	if (isset($options['is_use']))
+	// 		$this->db->where('i.is_use',$options['is_use']);
 			
-		//Sort and Direction
-		if (!isset($options['sory_by']) AND !isset($options['sort_direction']))
-			$this->db->order_by('i.dateofentry','desc');
-		else
-			$this->db->order_by($options['sort_by'],$options['sort_direction']);
+	// 	//Sort and Direction
+	// 	if (!isset($options['sory_by']) AND !isset($options['sort_direction']))
+	// 		$this->db->order_by('i.dateofentry','desc');
+	// 	else
+	// 		$this->db->order_by($options['sort_by'],$options['sort_direction']);
 			
-		//Pagination Limit and Offset
-		$this->db->limit($limit , $offset);
+	// 	//Pagination Limit and Offset
+	// 	$this->db->limit($limit , $offset);
 		
-		return $this->db->get()->result();
-	}
+	// 	return $this->db->get()->result();
+	// }
 	
 	public function select_all($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{
@@ -117,9 +117,7 @@ class Inventory_model extends MY_Model {
 		$data['results'] = $this->db->get($this->_table.' AS i')->result();
 		
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
-		$this->db->select('COUNT(i.id) as count',false);
-		$this->db->join('exp_cd_products AS p','p.id = i.prodname_fk','LEFT');
-		$this->db->join('exp_cd_product_category AS pc','pc.id = p.pcname_fk','LEFT');
+		$this->db->select('COUNT(id) as count',false);
 		
 		if(strlen($query_array['prodname_fk']))
 			$this->db->where('prodname_fk',$query_array['prodname_fk']);
@@ -137,7 +135,7 @@ class Inventory_model extends MY_Model {
 
 		$this->db->where('type',$query_array['type']);
 		
-		$temp = $this->db->get($this->_table.' AS i')->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
@@ -293,8 +291,6 @@ class Inventory_model extends MY_Model {
 				
 		//Counts the TOTAL selected rows in the Table ---------------------------------------------------------
 		$this->db->select('prodname_fk, type, COUNT(id) as count',false);
-		$this->db->from($this->_table);
-
 		/**
 		 * If user has specific location set,
 		 * display inventory for that location only!
@@ -306,7 +302,7 @@ class Inventory_model extends MY_Model {
 		
 		$this->db->where('prodname_fk',$id);
 		
-		$temp = $this->db->get()->row();
+		$temp = $this->db->get($this->_table)->row();
 		$data['num_rows'] = $temp->count;
 		//--------------------------------------------------------------------------------------------
 		
