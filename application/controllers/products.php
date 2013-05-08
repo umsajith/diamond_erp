@@ -42,7 +42,7 @@ class Products extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'prodname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Артикли';
+		$this->data['heading'] = uif::lng('app.prod_prods');
 
 		// Generating dropdown menu's
 		$this->data['warehouses'] = $this->warehouse->dropdown('id', 'wname');
@@ -120,7 +120,7 @@ class Products extends MY_Controller {
 		$this->data['tax_rates']     = $this->tr->dropdown('id','rate');
 
 		//Heading
-		$this->data['heading'] = 'Нов Артикл';
+		$this->data['heading'] = uif::lng('app.prod_new');
 	}
 	
 	public function edit($id)
@@ -145,13 +145,13 @@ class Products extends MY_Controller {
 		$this->data['tax_rates']     = $this->tr->dropdown('id','rate');		
 
 		//Heading
-		$this->data['heading'] = 'Корекција на Артикл';
+		$this->data['heading'] = uif::lng('app.prod_edit');
 	}
 	
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Артикл';
+		$this->data['heading'] = uif::lng('app.prod_prod');
 
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->prod->select_single($id);

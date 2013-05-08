@@ -42,7 +42,7 @@ class Cproduct extends MY_Controller {
 	public function index($sort_by = 'pcname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Категории на Артикли';
+		$this->data['heading'] = uif::lng('app.pc_pcs');
 
 		$this->data['columns'] = array (	
 			'pcname'=>'Назив'
@@ -76,7 +76,7 @@ class Cproduct extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нова Категорија на Артикли';
+		$this->data['heading'] = uif::lng('app.pc_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('pcname','product category','trim|required');
@@ -98,7 +98,7 @@ class Cproduct extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Категорија на Артикли';
+		$this->data['heading'] = uif::lng('app.pc_edit');
 
 		$this->data['result'] = $this->cpr->get($id);
 		if(!$this->data['result'])

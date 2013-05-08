@@ -39,7 +39,7 @@ class Boms extends MY_Controller {
 	public function index($sort_by = 'name', $sort_order = 'asc', $offset = 0)
 	{			
 		//Heading
-		$this->data['heading'] = 'Нормативи';
+		$this->data['heading'] = uif::lng('app.bom_boms');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -95,7 +95,7 @@ class Boms extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Внес на Норматив';
+		$this->data['heading'] = uif::lng('app.bom_new');
 		
 		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
 	}
@@ -129,7 +129,7 @@ class Boms extends MY_Controller {
 		}
 		
 		//Heading
-		$this->data['heading'] = "Корекција на Норматив";
+		$this->data['heading'] = uif::lng('app.bom_edit');
 
 		$this->data['uoms'] = $this->uom->dropdown('id', 'uname');
 	}
@@ -188,7 +188,7 @@ class Boms extends MY_Controller {
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
 
 		//Heading
-		$this->data['heading'] = 'Норматив';
+		$this->data['heading'] = uif::lng('app.bom_bom');
 	}
 	
 	public function delete($id = false)

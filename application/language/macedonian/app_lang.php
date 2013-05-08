@@ -87,3 +87,27 @@ $lang['app_emp_emp']               = 'Работник';
 $lang['app_emp_emps']              = 'Работници';
 $lang['app_emp_new']               = 'Нов Работник';
 $lang['app_emp_edit']              = 'Корекција на Работник';
+
+//Products
+$lang['app_prod_prod']               = 'Артикл';
+$lang['app_prod_prods']              = 'Артикли';
+$lang['app_prod_new']               = 'Нов Артикл';
+$lang['app_prod_edit']              = 'Корекција на Артикл';
+
+//Bill of Materials
+$lang['app_bom_bom']               = 'Норматив';
+$lang['app_bom_boms']              = 'Нормативи';
+$lang['app_bom_new']               = 'Нов Норматив';
+$lang['app_bom_edit']              = 'Корекција на Норматив';
+
+//Product Types
+$lang['app_pt_pt']               = 'Tип на Артикл';
+$lang['app_pt_pts']              = 'Tипови на Артикли';
+$lang['app_pt_new']               = 'Нов Tип на Артикл';
+$lang['app_pt_edit']              = 'Корекција на Tип на Артикл';
+
+//Product Categories
+$lang['app_pc_pc']               = 'Категорија на Артикл';
+$lang['app_pc_pcs']              = 'Категории на Артикли';
+$lang['app_pc_new']               = 'Нова Категорија на Артикл';
+$lang['app_pc_edit']              = 'Корекција на Категорија на Артикл';

@@ -42,7 +42,7 @@ class Tproduct extends MY_Controller {
 	public function index($sort_by = 'ptname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Tипови на Артикли';
+		$this->data['heading'] = uif::lng('app.pt_pts');
 
 		$this->data['columns'] = array (	
 			'ptname'=>'Назив'
@@ -76,7 +76,7 @@ class Tproduct extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нов Тип на Артикл';
+		$this->data['heading'] = uif::lng('app.pt_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('ptname','product type name','trim|required');
@@ -96,7 +96,7 @@ class Tproduct extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Тип на Артикл';
+		$this->data['heading'] = uif::lng('app.pt_edit');
 
 		$this->data['result'] = $this->tpr->get($id);
 		if(!$this->data['result'])
