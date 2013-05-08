@@ -81,7 +81,7 @@ $autoload['helper'] = array('url','date','form','pagination');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('globals');
 
 
 /*

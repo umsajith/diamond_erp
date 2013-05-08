@@ -1,3 +1,3 @@
 <?php if(isset($pagination) AND strlen($pagination)):?>
-		<?=$pagination?>
+	<?=$pagination?>
 <?php endif;?>

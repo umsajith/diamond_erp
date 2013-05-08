@@ -13,7 +13,7 @@ class Air {
 	{
 		$CI =& get_instance();
 
-        $language = $CI->config->item('language');
+        $language = $CI->config->item('glLang');
 
         $CI->lang->load('air', $language);
 
