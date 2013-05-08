@@ -13,17 +13,21 @@ class Air {
 	{
 		$CI =& get_instance();
 
+        $language = $CI->config->item('language');
+
+        $CI->lang->load('air', $language);
+
         switch ($type) {
             case 'add':
-                $message = 'Ставката е успешно внесена!';
+                $message = $CI->lang->line('air_add');
                 $class = 'success';
                 break;
             case 'update':
-                $message = 'Ставката е успешно ажурирана!';
+                $message = $CI->lang->line('air_update');
                 $class = 'success';
                 break;
             case 'delete':
-                $message = 'Ставката е успешно избришана!';
+                $message = $CI->lang->line('air_delete');
                 $class = 'success';
                 break;
             case 'void':
@@ -34,12 +38,12 @@ class Air {
             case 'deny':
                 //$message = 'Забранет пристап!';
                 //$class = 'error';
-                $mesage = "<h1>403 Forbidden</h1><p>The action you tried to perform is forbidden.</p>";
+                $mesage = $CI->lang->line('air_deny');
                 show_error($mesage, 403);
                 break;
             case 'error':
             default:
-                $message = 'Неуспешно извршена операција!';
+                $message = $CI->lang->line('air_error');
                 $class = 'error';
                 break;
             }
