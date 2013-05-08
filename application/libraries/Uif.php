@@ -7,13 +7,6 @@
  */
 class UIF {
 
-	// protected $CI;
-
-	// public function __construct()
-	// {
-	// 	$this->CI =& get_instance();
-	// }
-
 	public static function contentHeader($mainTitle = '', $meta = '')
 	{
 		$out = '<div class="row-fluid"><div class="span6" id="content-main-title"><h4>'.$mainTitle.'</h4></div>';
@@ -182,7 +175,7 @@ class UIF {
 				$out .= form_password($name,set_value($name,($value) ? $value->$name : ''),$attributes);
 				break;
 			case 'dropdown':
-				$out .= form_dropdown($name,(isset($value[0])) ? self::ev($value[0]) : [],
+				$out .= form_dropdown($name,(isset($value[0])) ? self::_ev($value[0]) : [],
 					set_value($name,(isset($value[1])) ? $value[1]->$name : ''),$attributes);
 				break;
 			case 'textarea':
@@ -249,11 +242,6 @@ class UIF {
 		return $out;
 	}
 
-	private static function ev($array = [])
-	{
-		return [''=>''] + $array;
-	}
-
 	public static function controlGroup($type = '', $label = '', $name = '', $value = '', $attributes = '')
 	{
 		$out  = '<div class="control-group">';
@@ -310,10 +298,62 @@ class UIF {
 	}
 
 	/**
-	 * Helper Functions
+	 * Return language deifinition by provided
+	 * file.key construct
+	 * @param  string $fileKey [file].[key]
+	 * @return string
+	 */
+	public static function lng($fileKey = '')
+	{
+		$values = explode('.', $fileKey);
+
+		self::_loadLng($values[0]);
+
+		$CI =& get_instance();
+
+		return $CI->lang->line($values[0].'_'.$values[1]);
+	}
+
+	/////////////////////////////
+	// PRIVATE HELPER METHODS //
+	////////////////////////////
+	
+	/**
+	 * Checks if given array is associative
+	 * @param  Array  $arr
+	 * @return boolean
 	 */
 	private static function _isAssoc($arr)
 	{
 	    return (array_keys($arr) !== range(0, count($arr) - 1));
+	}
+
+	/**
+	 * Loads given language file, taking the
+	 * Global config language key
+	 * @param  string $file 
+	 */
+	private static function _loadLng($file = '')
+	{
+		$CI =& get_instance();
+
+		$language = $CI->config->item('glLang');
+
+		if(file_exists(APPPATH . 'language/'.$language.'/' . $file.'_lang.php'))
+		{
+        	$CI->lang->load($file, $language);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Adds empty key=>value pair to front of given array
+	 * @param  Array $array
+	 * @return Array
+	 */
+	private static function _ev($array = [])
+	{
+		return [''=>''] + $array;
 	}
 }

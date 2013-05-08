@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
-    <title><?=$G_title?></title> 
+    <title><?=$glAppTitle?></title> 
     <link rel="icon" type="image/png" href="<?=base_url('favicon.ico')?>">
     <link rel="stylesheet" href="<?=base_url('css/bootstrap.min.css')?>">
     <style>
@@ -28,15 +28,17 @@
 				<div class="shadow">
 					<div class="login-well">
 						<form action="<?=site_url('login')?>" method="post" id="loginForm">
-						<p class="text-center">Please enter your credentials to access the application</p>
+						<p class="text-center"><?=uif::lng('common.enter_credentials')?></p>
 						<hr>
-							<input type="text" name="username" id="username" class="input-block-level" placeholder="Username">
-							<input type="password" name="password" id="password" class="input-block-level" placeholder="Password">
+							<input type="text" name="username" id="username" class="input-block-level" placeholder="<?=uif::lng('common.username')?>">
+							<input type="password" name="password" id="password" class="input-block-level" placeholder=<?=uif::lng('common.password')?>>
 						<div class="alert alert-error login-alert"></div>
 						<?=uif::load('_validation')?>
 					</div>
 					<div class="form-actions login-actions">
-						<button type="submit" class="btn btn-primary input-medium pull-right"><strong>Login</strong></button>
+						<button type="submit" class="btn btn-primary input-medium pull-right">
+							<strong><?=uif::lng('common.login')?></strong>
+						</button>
 					</div>
 						</form>
 					</div>
@@ -60,12 +62,12 @@
 					alertBox = $(".alert");
 
 				if(username.val()==""){
-					alertBox.html('Please provide your Username!').fadeIn();
+					alertBox.html("<?=uif::lng('common.username_required')?>").fadeIn();
 					username.focus();
 				    return false;
 				}
 				if(password.val()==""){
-					alertBox.html('Please provide your Password!').fadeIn();
+					alertBox.html("<?=uif::lng('common.password_required')?>").fadeIn();
 					password.focus();
 				    return false;
 				}
@@ -79,7 +81,7 @@
 						document.location.href = data.redirect;
 					},
 					error : function() {
-						alertBox.html("Authentication Failed!").fadeIn();
+						alertBox.html("<?=uif::lng('common.login_failed')?>").fadeIn();
 						username.val("").focus();
 						password.val("");
 					}
