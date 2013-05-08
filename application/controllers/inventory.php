@@ -41,7 +41,7 @@ class Inventory extends MY_Controller {
 	public function index()
 	{	
 		//Heading
-		$this->data['heading'] = 'Магацин: Сировини';
+		$this->data['heading'] = uif::lng('app.inv_levels_heading');
 		
 		//Retreive data from Model
 		$this->data['results'] = $this->inv->levels();
@@ -50,14 +50,14 @@ class Inventory extends MY_Controller {
 	public function purchase_orders($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
-		$this->data['heading'] = 'Нарачки';
+		$this->data['heading'] = uif::lng('app.inv_pos');
 		
 		//Generate dropdown menu data
 		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
 		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'dateoforder'     =>'Нарачано',
 			'prodname_fk'     =>'Артикл',
 			'qty_current'     =>'Лагер',
@@ -66,7 +66,7 @@ class Inventory extends MY_Controller {
 			'purchase_method' =>'Начин',
 			'po_status'       =>'Статус',
 			'dateofentry'     =>'Внес'
-		);
+		];
 		
 		$this->input->load_query($query_id);
 		
@@ -116,7 +116,7 @@ class Inventory extends MY_Controller {
 	public function goods_receipts($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
-		$this->data['heading'] = 'Приемници';
+		$this->data['heading'] = uif::lng('app.inv_grs');
 				
 		//Generate dropdown menu data
 		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
@@ -184,7 +184,7 @@ class Inventory extends MY_Controller {
 	public function adjustments($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
-		$this->data['heading'] = 'Порамнување';
+		$this->data['heading'] = uif::lng('app.inv_adjs');
 		
 		//Generate dropdown menu data
 		$this->data['products']   = $this->prod->generateDropdown(['purchasable'=>1],true);
@@ -245,7 +245,7 @@ class Inventory extends MY_Controller {
 	public function digg($id, $offset = null)
 	{
 		//Heading
-		$this->data['heading'] = 'Картица';
+		$this->data['heading'] = uif::lng('app.inv_digg');
 		/*
 		 * If $id is not supplied, or does not exist
 		 * redirect to this controllers index
@@ -299,7 +299,7 @@ class Inventory extends MY_Controller {
 		$this->data['vendors'] = $this->par->generateDropdown();
 
 		//Heading
-		$this->data['heading'] = 'Внес на Приемница';
+		$this->data['heading'] = uif::lng('app.inv_gr_new');
 	}
 	
 	public function insert_po()
@@ -326,7 +326,7 @@ class Inventory extends MY_Controller {
 		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
 
 		//Heading
-		$this->data['heading'] = 'Внес на Нарачка';
+		$this->data['heading'] = uif::lng('app.inv_po_new');
 	}
 	
 	public function insert_adj()
@@ -351,7 +351,7 @@ class Inventory extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Внес на Порамнување';
+		$this->data['heading'] = uif::lng('app.inv_adj_new');
 	}
 	
 	public function edit($page,$id)
@@ -362,7 +362,7 @@ class Inventory extends MY_Controller {
 		
 		if($page == 'po')
 		{
-			$heading = 'Нарачка';
+			$heading = uif::lng('app.inv_po_edit');
 			$redirect = 'purchase_orders';
 			$this->view = 'inventory/edit_po';
 			
@@ -370,7 +370,7 @@ class Inventory extends MY_Controller {
 		}	
 		if($page == 'gr')
 		{
-			$heading = 'Приемница';
+			$heading = uif::lng('app.inv_gr_edit');
 			$redirect = 'goods_receipts';
 			$this->view = 'inventory/edit_gr';
 
@@ -401,7 +401,7 @@ class Inventory extends MY_Controller {
 		}
 		
 		//Heading
-		$this->data['heading'] = 'Корекција на ' . $heading;
+		$this->data['heading'] = $heading;
 		
 		$this->data['vendors'] = $this->par->generateDropdown();
 	}
@@ -420,17 +420,17 @@ class Inventory extends MY_Controller {
 			
 		if($page == 'po')
 		{
-			$heading = 'Нарачка';
+			$heading = uif::lng('app.inv_po');
 			$this->view = 'inventory/purchase_order';
 		}
 		if($page == 'gr')
 		{
-			$heading = 'Приемница';
+			$heading = uif::lng('app.inv_gr');
 			$this->view = 'inventory/goods_receipt';
 		}
 		if($page == 'adj')
 		{
-			$heading = 'Порамнување';
+			$heading = uif::lng('app.inv_adj');
 			$this->view = 'inventory/adjustment';
 		}
 		
