@@ -41,7 +41,7 @@ class Warehouses extends MY_Controller {
 	public function index($sort_by = 'wname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Магацини';
+		$this->data['heading'] = uif::lng('app.wh_whs');
 
 		$this->data['columns'] = array (	
 			'wname'=>'Назив'
@@ -75,7 +75,7 @@ class Warehouses extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нов на Магацин';
+		$this->data['heading'] = uif::lng('app.wh_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('wname','warehouse name','trim|required');
@@ -95,7 +95,7 @@ class Warehouses extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Магацин';
+		$this->data['heading'] = uif::lng('app.wh_edit');
 
 		$this->data['result'] = $this->whr->get($id);
 		if(!$this->data['result'])

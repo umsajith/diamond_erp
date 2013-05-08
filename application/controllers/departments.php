@@ -42,7 +42,7 @@ class Departments extends MY_Controller {
 	public function index($sort_by = 'department', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Сектори';
+		$this->data['heading'] = uif::lng('app.dpt_dpts');
 
 		$this->data['columns'] = array (	
 			'department'=>'Назив'
@@ -76,7 +76,7 @@ class Departments extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нов на Сектор';
+		$this->data['heading'] = uif::lng('app.dpt_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('department','department','trim|required');
@@ -98,7 +98,7 @@ class Departments extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Сектор';
+		$this->data['heading'] = uif::lng('app.dpt_edit');
 
 		$this->data['result'] = $this->dpt->get($id);
 		if(!$this->data['result'])

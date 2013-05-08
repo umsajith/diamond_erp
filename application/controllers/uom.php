@@ -42,7 +42,7 @@ class Uom extends MY_Controller {
 	public function index($sort_by = 'uname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Единици Мерки';
+		$this->data['heading'] = uif::lng('app.uom_uoms');
 
 		$this->data['columns'] = array (	
 			'uname'=>'Назив'
@@ -76,7 +76,7 @@ class Uom extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нова на ЕМ';
+		$this->data['heading'] = uif::lng('app.uom_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('uname','UOM name','trim|required');
@@ -96,7 +96,7 @@ class Uom extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на ЕМ';
+		$this->data['heading'] = uif::lng('app.uom_edit');
 
 		$this->data['result'] = $this->uom->get($id);
 		if(!$this->data['result'])

@@ -42,7 +42,7 @@ class Roles extends MY_Controller {
 	public function index($sort_by = 'name', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Кориснички Групи';
+		$this->data['heading'] = uif::lng('app.rl_rls');
 
 		$this->data['columns'] = array (	
 			'name'=>'Назив'
@@ -74,7 +74,7 @@ class Roles extends MY_Controller {
 	public function insert()
 	{
 		//Heading
-		$this->data['heading'] = 'Нова Корисничка Група';
+		$this->data['heading'] = uif::lng('app.rl_new');
 
 		//Defining Validation Rules
 		$this->form_validation->set_rules('name','user group name','trim|required');
@@ -98,7 +98,7 @@ class Roles extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Корисничка Група';
+		$this->data['heading'] = uif::lng('app.rl_edit');
 
 		$this->data['result'] = $this->rl->get($id);
 		if(!$this->data['result'])
@@ -121,7 +121,7 @@ class Roles extends MY_Controller {
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Преглед на Корисничка Група';
+		$this->data['heading'] = uif::lng('app.rl_rl');
 
 		$this->data['result'] = $this->rl->get($id);
 		

@@ -111,3 +111,27 @@ $lang['app_pc_pc']               = 'Категорија на Артикл';
 $lang['app_pc_pcs']              = 'Категории на Артикли';
 $lang['app_pc_new']               = 'Нова Категорија на Артикл';
 $lang['app_pc_edit']              = 'Корекција на Категорија на Артикл';
+
+//Warehouses
+$lang['app_wh_wh']               = 'Магацин';
+$lang['app_wh_whs']              = 'Магацини';
+$lang['app_wh_new']               = 'Нов Магацин';
+$lang['app_wh_edit']              = 'Корекција на Магацин';
+
+//Units of Measurment
+$lang['app_uom_uom']               = 'Единица Мерка';
+$lang['app_uom_uoms']              = 'Единици Мерки';
+$lang['app_uom_new']               = 'Нова Единица Мерка';
+$lang['app_uom_edit']              = 'Корекција на Единица Мерка';
+
+//Roles
+$lang['app_rl_rl']               = 'Корисничка Група';
+$lang['app_rl_rls']              = 'Кориснички Групи';
+$lang['app_rl_new']               = 'Нова Корисничка Група';
+$lang['app_rl_edit']              = 'Корекција на Корисничка Група';
+
+//Departments
+$lang['app_dpt_dpt']               = 'Сектор';
+$lang['app_dpt_dpts']              = 'Сектори';
+$lang['app_dpt_new']               = 'Нов Сектор';
+$lang['app_dpt_edit']              = 'Корекција на Сектор';
