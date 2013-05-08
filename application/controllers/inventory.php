@@ -70,12 +70,12 @@ class Inventory extends MY_Controller {
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->get('prodname_fk'),
 			'pcname_fk'   => $this->input->get('pcname_fk'),
 			'partner_fk'  => '',
 			'type'        => 'po'
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';

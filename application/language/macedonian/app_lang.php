@@ -17,3 +17,10 @@ $lang['app_inv_gr_edit'] = 'Корекција на Приемница';
 $lang['app_inv_adj'] = 'Порамнување';
 $lang['app_inv_adjs'] = 'Порамнувања';
 $lang['app_inv_adj_new'] = 'Ново Порамнувањe';
+
+//Job Orders
+$lang['app_job_job'] = 'Работен Налог';
+$lang['app_job_jobs'] = 'Работни Налози';
+$lang['app_job_new'] = 'Нов Работен Налог';
+$lang['app_job_edit'] = 'Корекција на Работен Налог';
+$lang['app_job_production_report'] = 'Рипорт за Производство';

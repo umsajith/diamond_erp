@@ -39,8 +39,8 @@ class Job_orders extends MY_Controller {
 
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{		
-		//Page Title Segment and Heading
-		$this->data['heading'] = 'Работни Налози';
+		//Page Heading
+		$this->data['heading'] = uif::lng('app.job_jobs');
 		
 		//Generate dropdown menu data for Filters
 		$this->data['employees'] = $this->emp->generateDropdown();
@@ -135,7 +135,7 @@ class Job_orders extends MY_Controller {
 		$this->data['last'] = $this->jo->get_last();
 
 		//Heading
-		$this->data['heading'] = 'Нов Работен Налог';
+		$this->data['heading'] = uif::lng('app.job_new');
 	}
 	
 	public function edit($id)
@@ -189,7 +189,7 @@ class Job_orders extends MY_Controller {
 		]);
 		
 		//Heading
-		$this->data['heading'] = 'Корекција на Работен Налог';
+		$this->data['heading'] = uif::lng('app.job_edit');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class Job_orders extends MY_Controller {
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Работен Налог';
+		$this->data['heading'] = uif::lng('app.job_job');
 
 		//Retreives data from MASTER Model //Gets the ID of the selected entry from the URL
 		$this->data['master'] = $this->jo->select_single($id);
@@ -246,7 +246,7 @@ class Job_orders extends MY_Controller {
 		$this->data['tasks']     = $this->tsk->dropdown('id','taskname');
 		
 		//Heading
-		$this->data['heading'] = 'Рипорт на Производство';
+		$this->data['heading'] = uif::lng('app.job_production_report');
 	}
 	
 	public function report_pdf()
