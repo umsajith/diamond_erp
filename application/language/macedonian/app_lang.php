@@ -43,3 +43,47 @@ $lang['app_par_par']               = 'Партнер';
 $lang['app_par_pars']              = 'Партнери';
 $lang['app_par_new']               = 'Нов Партнер';
 $lang['app_par_edit']              = 'Корекција на Партнер';
+
+//Distribution
+$lang['app_dis_levels_heading']    = 'Магацин: Готови Производи';
+$lang['app_dis_digg']              = 'Картица';
+
+$lang['app_dis_in']                = 'Приемница';
+$lang['app_dis_ins']               = 'Приемници';
+$lang['app_dis_in_new']            = 'Нова Приемница';
+$lang['app_dis_in_edit']           = 'Корекција на Приемница';
+
+$lang['app_dis_out']               = 'Испратница';
+$lang['app_dis_outs']              = 'Испратници';
+$lang['app_dis_out_new']           = 'Нова Испратница';
+$lang['app_dis_out_edit']          = 'Корекција на Испратница';
+
+$lang['app_dis_ret']               = 'Повратница';
+$lang['app_dis_rets']              = 'Повратници';
+$lang['app_dis_ret_new']           = 'Нова Повратница';
+$lang['app_dis_ret_edit']          = 'Корекција на Повратница';
+
+//Payroll
+$lang['app_pay_pay']               = 'Плата';
+$lang['app_pay_pays']              = 'Плати';
+$lang['app_pay_calculate']         = 'Калкулација на Плата';
+$lang['app_pay_payroll_report']    = 'Рипорт за Плати';
+
+//Payroll Extras
+$lang['app_paye_exts']             = 'Додатоци';
+$lang['app_paye_ext_new']          = 'Нов Додаток';
+
+
+$lang['app_paye_exps']             = 'Трошоци';
+$lang['app_paye_exp_new']          = 'Нов Трошок';
+
+$lang['app_paye_conts']            = 'Придонеси';
+$lang['app_paye_cont_new']         = 'Нов Придонес';
+
+$lang['app_paye_edit']             = 'Корекција';
+
+//Employees
+$lang['app_emp_emp']               = 'Работник';
+$lang['app_emp_emps']              = 'Работници';
+$lang['app_emp_new']               = 'Нов Работник';
+$lang['app_emp_edit']              = 'Корекција на Работник';

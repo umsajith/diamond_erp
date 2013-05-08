@@ -44,7 +44,7 @@ class Employees extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'employee', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Вработени';
+		$this->data['heading'] = uif::lng('app.emp_emps');
 		
 		// Generating dropdown menu's
 		$this->data['possitions'] = $this->pos->dropdown('id', 'position');	
@@ -151,7 +151,7 @@ class Employees extends MY_Controller {
 		$this->data['locations']   = $this->loc->dropdown('id', 'name');	
 
 		//Heading
-		$this->data['heading'] = 'Нов Работник';
+		$this->data['heading'] = uif::lng('app.emp_new');
 	}
 	
 	public function edit($id)
@@ -205,7 +205,7 @@ class Employees extends MY_Controller {
 		$this->data['locations']   = $this->loc->dropdown('id', 'name');
 
 		//Heading
-		$this->data['heading'] = 'Корекција на Работник';
+		$this->data['heading'] = uif::lng('app.emp_edit');
 	}
 	
 	public function view($id)
@@ -215,7 +215,7 @@ class Employees extends MY_Controller {
 		if(!$this->data['master']) air::flash('void');	
 
 		//Heading
-		$this->data['heading'] = 'Работник';
+		$this->data['heading'] = uif::lng('app.emp_emp');
 		
 		//Retreives data from MASTER Model
 		$this->data['assigned_tasks'] = $this->empt->select($id);

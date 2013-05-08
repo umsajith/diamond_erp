@@ -43,7 +43,7 @@ class Payroll extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Преглед на Плати';
+		$this->data['heading'] = uif::lng('app.pay_pays');
 		
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->emp->generateDropdown();
@@ -174,7 +174,7 @@ class Payroll extends MY_Controller {
 		$this->data['extras_minus'] = $this->pem->select_by_payroll($id,1);
 		
 		//Heading
-		$this->data['heading'] = 'Плата';
+		$this->data['heading'] = uif::lng('app.pay_pay');
 	}
 	
 	public function payroll_pdf($id)
@@ -421,7 +421,7 @@ class Payroll extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Калкулација на Плата';
+		$this->data['heading'] = uif::lng('app.pay_calculate');
 		
 		$this->data['employees'] = $this->emp->generateDropdown();
 	}
@@ -455,7 +455,7 @@ class Payroll extends MY_Controller {
 		$this->data['employees'] = $this->emp->generateDropdown();
 		
 		//Heading
-		$this->data['heading'] = 'Рипорт на Плати';
+		$this->data['heading'] = uif::lng('app.pay_payroll_report');
 	}
 
 	public function report_pdf()

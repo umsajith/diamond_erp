@@ -39,7 +39,7 @@ class Payroll_extra extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Додатоци';
+		$this->data['heading'] = uif::lng('app.paye_exts');
 		
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->emp->generateDropdown();
@@ -101,7 +101,7 @@ class Payroll_extra extends MY_Controller {
 	public function expenses($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Трошоци';
+		$this->data['heading'] = uif::lng('app.paye_exps');
 		
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->emp->generateDropdown();
@@ -163,28 +163,28 @@ class Payroll_extra extends MY_Controller {
 	public function social_contributions($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Придонеси';
+		$this->data['heading'] = uif::lng('app.paye_conts');
 		
 		// Generating dropdown menu's
 		$this->data['employees'] = $this->emp->generateDropdown();
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'employee'             =>'Работник',
 			'payroll_extra_cat_fk' =>'Категорија',
 			'amount'               =>'Износ',
 			'for_date'             =>'Датум',
 			'dateofentry'          =>'Внес'
-		);
+		];
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'employee_fk'          => $this->input->get('employee_fk'),
 			'payroll_extra_cat_fk' => $this->input->get('payroll_extra_cat_fk'),
 			'is_expense'           => 0,
 			'is_contribution'      => 1
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -223,8 +223,8 @@ class Payroll_extra extends MY_Controller {
 	public function insert_bonus()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Додатоци';
-	
+		$this->data['heading'] = uif::lng('app.paye_ext_new');
+
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
 		$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
@@ -250,7 +250,7 @@ class Payroll_extra extends MY_Controller {
 	public function insert_expense()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Трошоци';
+		$this->data['heading'] = uif::lng('app.paye_exp_new');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
@@ -279,7 +279,7 @@ class Payroll_extra extends MY_Controller {
 	public function insert_social_contribution()
 	{
 		//Heading
-		$this->data['heading'] = 'Внес на Придонеси';
+		$this->data['heading'] = uif::lng('app.paye_cont_new');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('employee_fk','employee','trim|required');
@@ -305,7 +305,7 @@ class Payroll_extra extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Корекција на Додатоци/Трошоци';
+		$this->data['heading'] = uif::lng('app.paye_edit');
 		
 		//Retreives ONE product from the database
 		$this->data['payroll_extra'] = $this->pre->select_single($id);
@@ -358,7 +358,8 @@ class Payroll_extra extends MY_Controller {
 	{
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->pre->select_single($id);
-		if(!$this->data['master']) show_404();
+
+		if(!$this->data['master']) air::flash('void');
 		
 		//Heading
 		$this->data['heading'] = $this->data['master']->name;

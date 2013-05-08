@@ -39,7 +39,7 @@ class Distribution extends MY_Controller {
 	public function index()
 	{
 		//Heading
-		$this->data['heading'] = 'Магацин: Готови Производи';
+		$this->data['heading'] = uif::lng('app.dis_levels_heading');
 		
 		$this->data['results'] = $this->whr->levels();
 	}
@@ -81,7 +81,7 @@ class Distribution extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Влез во Магацин';
+		$this->data['heading'] = uif::lng('app.dis_in_new');
 	}
 	
 	public function insert_outbound()
@@ -117,7 +117,7 @@ class Distribution extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Излез од Магацин';
+		$this->data['heading'] = uif::lng('app.dis_out_new');
 
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 	}
@@ -149,7 +149,7 @@ class Distribution extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = 'Повраток во Магацин';
+		$this->data['heading'] = uif::lng('app.dis_ret_new');
 		
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 	}
@@ -172,25 +172,25 @@ class Distribution extends MY_Controller {
 		$this->data['result'] = $this->whr->select_single($id);
 		if(!$this->data['result']) air::flash('void');
 		
+		if($page == 'in')
+		{
+			$this->data['heading'] = uif::lng('app.dis_in_edit');
+			$redirect = 'inbounds';
+			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+
+		}
+
 		if($page == 'out')
 		{
-			$this->data['heading'] = 'Корекција на Испратница';
+			$this->data['heading'] = uif::lng('app.dis_out_edit');
 			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'outbounds';
 			$this->form_validation->set_rules('quantity','quantity','required');
 		}
 		
-		if($page == 'in')
-		{
-			$this->data['heading'] = 'Корекција на Приемница';
-			$redirect = 'inbounds';
-			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-
-		}
-		
 		if($page == 'ret')
 		{
-			$this->data['heading'] = 'Корекција на Повратница';
+			$this->data['heading'] = uif::lng('app.dis_ret_edit');
 			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'returns';
 			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
@@ -243,7 +243,7 @@ class Distribution extends MY_Controller {
 	public function digg($id, $offset = null)
 	{
 		//Heading
-		$this->data['heading'] = 'Картица';
+		$this->data['heading'] = uif::lng('app.dis_digg');
 
 		/*
 		 * If $id is not supplied, or does not exist
@@ -299,14 +299,14 @@ class Distribution extends MY_Controller {
 		{
 			$this->load->model('procurement/inventory_model','inv');
 			$this->data['details'] = $this->inv->select_use('warehouse_fk',$this->data['master']->id);
-			$this->data['heading'] = 'Приемница';
+			$this->data['heading'] = uif::lng('app.dis_in');
 		}
 		
 		if($page == 'out')
-			$this->data['heading'] = 'Испратница';
+			$this->data['heading'] = uif::lng('app.dis_out');
 		
 		if($page == 'ret')
-			$this->data['heading'] = 'Повратница';		
+			$this->data['heading'] = uif::lng('app.dis_ret');
 	}
 	
 	public function inbounds($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
@@ -317,7 +317,7 @@ class Distribution extends MY_Controller {
 		 */
 			
 		//Heading
-		$this->data['heading'] = 'Влез во Магацин';
+		$this->data['heading'] = uif::lng('app.dis_ins');
 		
 		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
 		
@@ -377,7 +377,7 @@ class Distribution extends MY_Controller {
 		 */
 		
 		//Heading
-		$this->data['heading'] = 'Излез од Магацин';
+		$this->data['heading'] = uif::lng('app.dis_outs');
 		
 		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
@@ -444,7 +444,7 @@ class Distribution extends MY_Controller {
 		 */
 			
 		//Heading
-		$this->data['heading'] = 'Повраток во Магацин';
+		$this->data['heading'] = uif::lng('app.dis_rets');
 		
 		$this->data['products'] = $this->prod->generateDropdown(['salable'=>1],true);
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
