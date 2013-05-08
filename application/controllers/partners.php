@@ -38,7 +38,7 @@ class Partners extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'company', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Партнери';
+		$this->data['heading'] = uif::lng('app.par_pars');
 		
 		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
 		
@@ -129,7 +129,7 @@ class Partners extends MY_Controller {
 		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
-		$this->data['heading'] = 'Внес на Партнер';
+		$this->data['heading'] = uif::lng('app.par_new');
 	}
 	
 	public function edit($id)
@@ -173,13 +173,13 @@ class Partners extends MY_Controller {
 		$this->data['customers'] = $this->par->generateDropdown(['is_mother' => 1]);
 
 		//Heading
-		$this->data['heading'] = 'Корекција на Партнер';
+		$this->data['heading'] = uif::lng('app.par_edit');
 	}
 	
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Партнер';
+		$this->data['heading'] = uif::lng('app.par_par');
 
 		//Load Models
 		$this->load->model('orders/co_model','co');

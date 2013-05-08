@@ -4,10 +4,10 @@
 
 Fully featured Enterprise Resource Planning for SMB.
 
-Version 2.0.1 - Development
+Version 2.0.2 ALPHA - Development
 
 ### TODO:
 - Implementation of Bootstrap (DONE)
 - Custom UI Factory creating Bootstrap ready Elements (DONE)
-- Extracting hard coded values to external config files
-- Multilingual support
+- Extracting hard coded values to external config files (IN PROGRESS)
+- Multilingual support (DONE)

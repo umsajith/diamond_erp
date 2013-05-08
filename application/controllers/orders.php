@@ -43,7 +43,7 @@ class Orders extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'dateshipped', $sort_order = 'desc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = "Налози за Продажба";
+		$this->data['heading'] = uif::lng('app.or_ors');
 		
 		//Generate dropdown menu data
 		$this->data['postalcodes'] = $this->pcode->generateDropdown();	
@@ -199,7 +199,7 @@ class Orders extends MY_Controller {
 		}
 
 		//Heading
-		$this->data['heading'] = "Корекција на Налог за Продажба";
+		$this->data['heading'] = uif::lng('app.or_edit');
 		
 		//Dropdown Menus
 		$this->data['customers'] = $this->par->dropdown('id','company');
@@ -217,7 +217,7 @@ class Orders extends MY_Controller {
 		$this->data['details'] = $this->cod->select(['id'=>$id]);
 
 		//Heading
-		$this->data['heading'] = "Налог за Продажба";
+		$this->data['heading'] = uif::lng('app.or_or');
 	}
 
 	public function reportByOrderList($id = '')
@@ -234,7 +234,7 @@ class Orders extends MY_Controller {
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Heading
-		$this->data['heading'] = 'Рипорт на Продажба';
+		$this->data['heading'] = uif::lng('app.or_sales_report');
 
 		$this->view = 'orders/report';
 	}
@@ -264,7 +264,7 @@ class Orders extends MY_Controller {
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Heading
-		$this->data['heading'] = 'Рипорт на Продажба';
+		$this->data['heading'] = uif::lng('app.or_sales_report');
 	}
 	
 	public function report_pdf()

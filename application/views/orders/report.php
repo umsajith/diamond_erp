@@ -27,7 +27,7 @@
 			    	<th>Производ</th>
 			    	<th>Земено</th>
 			    	<th>Вратено</th>   
-			    	<th>% Вратено</th>    	
+			    	<th>Вратено (%)</th>    	
 		    	</tr>
 		    </thead>
 		    <tbody>
@@ -36,7 +36,7 @@
 					<td><?=$row->prodname?></td>
 					<td><?=$row->quantity.' '.$row->uname?></td>
 					<td><?=$row->returned_quantity.' '.$row->uname?></td>
-					<td><?=round($row->returned_quantity/$row->quantity,3).' %'?></td>
+					<td><?=($row->quantity > 0) ? round($row->returned_quantity / $row->quantity,2) : '0'?></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

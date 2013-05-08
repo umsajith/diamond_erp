@@ -40,7 +40,7 @@ class Orders_list extends MY_Controller {
 	public function index($query_id = 0,$sort_by = 'date', $sort_order = 'desc', $offset = 0)
 	{
 		//Heading
-		$this->data['heading'] = "Извештаи за Продажба";
+		$this->data['heading'] = uif::lng('app.ol_ols');
 
 		//Dropdown Menus
 		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
@@ -99,7 +99,7 @@ class Orders_list extends MY_Controller {
 
 	public function insert()
 	{
-		$this->data['heading'] = "Внес на Извештај";
+		$this->data['heading'] = uif::lng('app.ol_new');
 		//Dropdown Menus
 		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
@@ -116,7 +116,7 @@ class Orders_list extends MY_Controller {
 	public function edit($id)
 	{
 		//Heading
-		$this->data['heading'] = "Корекција на Извештај";
+		$this->data['heading'] = uif::lng('app.ol_edit');
 
 		//Dropdown Menus
 		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
@@ -143,7 +143,7 @@ class Orders_list extends MY_Controller {
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = "Преглед на Извештај";
+		$this->data['heading'] =  uif::lng('app.ol_ol');
 
 		$this->data['master'] = $this->col->select_one($id);
 
