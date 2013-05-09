@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('text','Назив','department')?>
+		<?=uif::controlGroup('text',':attr.name','department')?>
 		<?=form_close()?>
 	</div>
 </div>

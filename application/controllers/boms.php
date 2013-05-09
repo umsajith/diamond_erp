@@ -42,12 +42,12 @@ class Boms extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.bom_boms');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'name'       => uif::lng('attr.name'),
 			'quantity'   => uif::lng('attr.quantity'),
 			'prodname'   => uif::lng('attr.item'),
 			'conversion' => uif::lng('attr.conversion')
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';

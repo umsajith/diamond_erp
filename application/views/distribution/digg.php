@@ -4,14 +4,14 @@
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
-			<th>Датум</th>
-			<th>Линк</th>
-			<th>Старо Салдо</th>
-			<th>Влез</th>
-			<th>Излез</th>
-			<th>Документ</th>
+			<th><?=uif::lng('attr.date')?></th>
+			<th><?=uif::lng('attr.link')?></th>
+			<th><?=uif::lng('attr.previous_stock')?></th>
+			<th><?=uif::lng('attr.in')?></th>
+			<th><?=uif::lng('attr.out')?></th>
+			<th><?=uif::lng('attr.document')?></th>
 			<?php if($this->session->userdata('admin')):?>
-				<th>Оператор</i></th>
+				<th><?=uif::lng('attr.operator')?></i></th>
 			<?php endif;?>
 		</tr>
 	</thead>

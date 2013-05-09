@@ -53,10 +53,10 @@ class Distribution extends MY_Controller {
 		 */
 		
 		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('ext_doc','external document','trim');
-		$this->form_validation->set_rules('note','comments','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
+		$this->form_validation->set_rules('ext_doc',uif::lng('attr.document'),'trim');
+		$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -92,11 +92,11 @@ class Distribution extends MY_Controller {
 		 * eg. Distributor reservations,direct sales,deduction etc.
 		 */
 		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','required');
-		$this->form_validation->set_rules('distributor_fk','distributor','numeric|trim');
-		$this->form_validation->set_rules('ext_doc','external document','trim');
-		$this->form_validation->set_rules('note','comments','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'required');
+		$this->form_validation->set_rules('distributor_fk',uif::lng('attr.distributor'),'numeric|trim');
+		$this->form_validation->set_rules('ext_doc',uif::lng('attr.document'),'trim');
+		$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -130,10 +130,10 @@ class Distribution extends MY_Controller {
 		 * eg. Storing finished goods
 		 */
 		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('ext_doc','external document','trim');
-		$this->form_validation->set_rules('note','comments','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
+		$this->form_validation->set_rules('ext_doc',uif::lng('attr.document'),'trim');
+		$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -176,7 +176,7 @@ class Distribution extends MY_Controller {
 		{
 			$this->data['heading'] = uif::lng('app.dis_in_edit');
 			$redirect = 'inbounds';
-			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+			$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
 
 		}
 
@@ -185,7 +185,7 @@ class Distribution extends MY_Controller {
 			$this->data['heading'] = uif::lng('app.dis_out_edit');
 			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'outbounds';
-			$this->form_validation->set_rules('quantity','quantity','required');
+			$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'required');
 		}
 		
 		if($page == 'ret')
@@ -193,14 +193,14 @@ class Distribution extends MY_Controller {
 			$this->data['heading'] = uif::lng('app.dis_ret_edit');
 			$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 			$redirect = 'returns';
-			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+			$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
 		}
 		
 		//Defining Validation Rules
-		$this->form_validation->set_rules('id','product','required');
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('note','comments','trim');
-		$this->form_validation->set_rules('ext_doc','external document','trim');
+		$this->form_validation->set_rules('id',uif::lng('attr.item'),'required');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
+		$this->form_validation->set_rules('ext_doc',uif::lng('attr.document'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -250,6 +250,7 @@ class Distribution extends MY_Controller {
 		 * redirect to this controllers index
 		 */	
 		$temp = $this->whr->select_item($id,$this->limit,$offset);
+		
 		if(!$temp) air::flash('void');
 				
 		//Get product name to be displayed in heading
@@ -323,11 +324,11 @@ class Distribution extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'dateoforigin' =>'Датум',
-			'prodname_fk'  =>'Производ',
-			'qty_current'  =>'Старо Салдо',
-			'quantity'     =>'Влез',
-			'dateofentry'  =>'Внес'
+			'dateoforigin' => uif::lng('attr.date'),
+			'prodname_fk'  => uif::lng('attr.item'),
+			'qty_current'  => uif::lng('attr.previous_stock'),
+			'quantity'     => uif::lng('attr.in'),
+			'dateofentry'  => uif::lng('attr.doe')
 		];
 		
 		$this->input->load_query($query_id);
@@ -383,27 +384,27 @@ class Distribution extends MY_Controller {
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'dateoforigin'   =>'Датум',
-			'prodname_fk'    =>'Производ',
-			'qty_current'    =>'Старо Салдо',
-			'quantity'       =>'Излез',
-			'distributor_fk' =>'Дистрибутер',
-			'ext_doc'        =>'Документ',
-			'dateofentry'    =>'Внес'
-		);
+		$this->data['columns'] = [
+			'dateoforigin'   => uif::lng('attr.date'),
+			'prodname_fk'    => uif::lng('attr.item'),
+			'qty_current'    => uif::lng('attr.previous_stock'),
+			'quantity'       => uif::lng('attr.out'),
+			'distributor_fk' => uif::lng('attr.distributor'),
+			'ext_doc'        => uif::lng('attr.document'),
+			'dateofentry'    => uif::lng('attr.doe')	
+		];
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk'    => $this->input->get('prodname_fk'),
 			'distributor_fk' => $this->input->get('distributor_fk')
-		);
+		];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('dateoforigin','prodname_fk','quantity','qty_current',
-								'qty_new','distributor_fk','ext_doc','dateofentry');
+		$sort_by_array = ['dateoforigin','prodname_fk','quantity','qty_current',
+								'qty_new','distributor_fk','ext_doc','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
@@ -450,26 +451,26 @@ class Distribution extends MY_Controller {
 		$this->data['distributors']  = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'dateoforigin'   =>'Датум',
-			'prodname_fk'    =>'Производ',
-			'qty_current'    =>'Старо Салдо',
-			'quantity'       =>'Влез',
-			'distributor_fk' =>'Дистрибутер',
-			'dateofentry'    =>'Внес'
-		);
+		$this->data['columns'] = [
+			'dateoforigin'   => uif::lng('attr.date'),
+			'prodname_fk'    => uif::lng('attr.item'),
+			'qty_current'    => uif::lng('attr.previous_stock'),
+			'quantity'       => uif::lng('attr.out'),
+			'distributor_fk' => uif::lng('attr.distributor'),
+			'dateofentry'    => uif::lng('attr.doe')	
+		];
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk'    => $this->input->get('prodname_fk'),
 			'distributor_fk' => $this->input->get('distributor_fk')
-		);
+		];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('dateoforigin','prodname_fk','quantity','qty_current',
-								'qty_new','distributor_fk','dateofentry');
+		$sort_by_array = ['dateoforigin','prodname_fk','quantity','qty_current',
+								'qty_new','distributor_fk','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
@@ -495,7 +496,7 @@ class Distribution extends MY_Controller {
 	public function return_search()
 	{
 		$query_array = array(
-			'prodname_fk'    => $this->input->post('prodname_fk'),
+			'prodname_fk'    =>	$this->input->post('prodname_fk'),
 			'distributor_fk' => $this->input->post('distributor_fk')
 		);	
 		$query_id = $this->input->save_query($query_array);

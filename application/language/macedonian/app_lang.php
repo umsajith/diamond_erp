@@ -53,6 +53,8 @@ $lang['app_dis_ins']               = 'Приемници';
 $lang['app_dis_in_new']            = 'Нова Приемница';
 $lang['app_dis_in_edit']           = 'Корекција на Приемница';
 
+$lang['app_used_components']           = 'Употребени Репро-Материјали';
+
 $lang['app_dis_out']               = 'Испратница';
 $lang['app_dis_outs']              = 'Испратници';
 $lang['app_dis_out_new']           = 'Нова Испратница';

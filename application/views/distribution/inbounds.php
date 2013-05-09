@@ -44,6 +44,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=prodname_fk]","Артикл");
+		cd.dd("select[name=prodname_fk]","<?=uif::lng('attr.item')?>");
 	});	
 </script>

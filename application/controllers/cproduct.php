@@ -44,9 +44,9 @@ class Cproduct extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.pc_pcs');
 
-		$this->data['columns'] = array (	
-			'pcname'=>'Назив'
-		);
+		$this->data['columns'] = [
+			'pcname' => uif::lng('attr.name')
+		];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -79,7 +79,7 @@ class Cproduct extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pc_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('pcname','product category','trim|required');
+		$this->form_validation->set_rules('pcname',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -101,11 +101,11 @@ class Cproduct extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pc_edit');
 
 		$this->data['result'] = $this->cpr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','cproduct');
+
+		if(!$this->data['result']) air::flash('void');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('pcname','product category name','trim|required');
+		$this->form_validation->set_rules('pcname',uif::lng('attr.name'),'trim|required');
 				
 		if ($this->form_validation->run())
 		{
@@ -121,8 +121,8 @@ class Cproduct extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['result'] = $this->cpr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','cproduct');
+
+		if(!$this->data['result']) air::flash('void');
 
 		if($this->cpr->delete($this->data['result']->id))
 			air::flash('delete','cproduct');

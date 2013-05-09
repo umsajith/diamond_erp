@@ -5,14 +5,14 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','dateoforigin',uif::today())?>
-		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[],'id="products"')?>
-		<?=uif::controlGroup('text','Количина','quantity')?>
-		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
-		<?=uif::controlGroup('text','Категорија','','','id="category" disabled')?>
-		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_fk',[$distributors])?>
-		<?=uif::controlGroup('text','Документ','ext_doc')?>
-		<?=uif::controlGroup('textarea','Белешка','note')?>
+		<?=uif::controlGroup('datepicker',':attr.date','dateoforigin',uif::today())?>
+		<?=uif::controlGroup('dropdown',':attr.item','prodname_fk',[],'id="products"')?>
+		<?=uif::controlGroup('text',':attr.quantity','quantity')?>
+		<?=uif::controlGroup('text',':attr.uom','','','id="uom" disabled')?>
+		<?=uif::controlGroup('text',':attr.category','','','id="category" disabled')?>
+		<?=uif::controlGroup('dropdown',':attr.distributor','distributor_fk',[$distributors])?>
+		<?=uif::controlGroup('text',':attr.document','ext_doc')?>
+		<?=uif::controlGroup('textarea',':attr.note','note')?>
 		<?=form_hidden('inserted_by',$this->session->userdata('userid'))?>
 	<?=form_close()?>
 	</div>
@@ -21,7 +21,7 @@
 	$(function() {
 		cd.datepicker("input[name=dateoforigin]");
 		$("select").select2();
-		var args = {salable: 1};
-		cd.dropdownProducts("<?=site_url('products/ajxGetProducts')?>",args);	
+		var options = {select : "#products", aux1 : "#uom", aux2 : "#category", args: {salable : 1}};
+        cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options); 		
 	});
 </script>

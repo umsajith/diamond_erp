@@ -44,13 +44,13 @@ class Tproduct extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.pt_pts');
 
-		$this->data['columns'] = array (	
-			'ptname'=>'Назив'
-		);
+		$this->data['columns'] = [
+			'ptname' => uif::lng('attr.name')
+		];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('ptname');
+		$sort_by_array = ['ptname'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'ptname';
 
 		$this->data['results'] = $this->tpr->limit($this->limit, $offset)
@@ -66,7 +66,7 @@ class Tproduct extends MY_Controller {
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
 	}
 	/**
@@ -79,7 +79,7 @@ class Tproduct extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pt_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('ptname','product type name','trim|required');
+		$this->form_validation->set_rules('ptname',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -99,11 +99,11 @@ class Tproduct extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pt_edit');
 
 		$this->data['result'] = $this->tpr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','tproduct');
+
+		if(!$this->data['result']) air::flash('void');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('ptname','product type name','trim|required');
+		$this->form_validation->set_rules('ptname',uif::lng('attr.name'),'trim|required');
 				
 		if ($this->form_validation->run())
 		{
@@ -119,8 +119,8 @@ class Tproduct extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['result'] = $this->tpr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','tproduct');
+
+		if(!$this->data['result']) air::flash('void');
 
 		if($this->tpr->delete($this->data['result']->id))
 			air::flash('delete','tproduct');

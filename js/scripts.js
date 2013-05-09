@@ -205,11 +205,11 @@ var cd = (function(){
 		products.on("change",function(e) {
 			products.val($(this).val());
 			if(e.val !== ''){
-				uom.html(data[this.selectedIndex-1].uname);
-				category.html(data[this.selectedIndex-1].pcname);
+				uom.html(data[this.selectedIndex-1].uname).val(data[this.selectedIndex-1].uname);
+				category.html(data[this.selectedIndex-1].pcname).val(data[this.selectedIndex-1].pcname);
 			} else {
-				uom.html('');
-				category.html('');
+				uom.html('').val('');
+				category.html('').val('');
 			}
 		});
 	}

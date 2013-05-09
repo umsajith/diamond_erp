@@ -44,13 +44,11 @@ class Departments extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.dpt_dpts');
 
-		$this->data['columns'] = array (	
-			'department'=>'Назив'
-		);
+		$this->data['columns'] = ['department' => uif::lng('attr.name')];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('department');
+		$sort_by_array = ['department'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'department';
 
 		$this->data['results'] = $this->dpt->limit($this->limit, $offset)
@@ -79,7 +77,7 @@ class Departments extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.dpt_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('department','department','trim|required');
+		$this->form_validation->set_rules('department',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -101,8 +99,8 @@ class Departments extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.dpt_edit');
 
 		$this->data['result'] = $this->dpt->get($id);
-		if(!$this->data['result'])
-			air::flash('void','departments');
+
+		if(!$this->data['result']) air::flash('void');
 	
 		//Defining Validation Rules
 		$this->form_validation->set_rules('department','department','trim|required');
@@ -123,8 +121,8 @@ class Departments extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['result'] = $this->dpt->get($id);
-		if(!$this->data['result'])
-			air::flash('void','departments');
+
+		if(!$this->data['result']) air::flash('void');
 		
 		if($this->dpt->delete($this->data['result']->id))
 			air::flash('delete','departments');

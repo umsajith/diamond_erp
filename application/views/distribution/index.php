@@ -12,9 +12,9 @@
 	<thead> 
 		<tr>
 			<th>&nbsp;</th>
-			<th>Производ</th>
-			<th>Салдо</th>
-			<th>Последна Промена</th>
+			<th><?=uif::lng('attr.item')?></th>
+			<th><?=uif::lng('attr.stock')?></th>
+			<th><?=uif::lng('attr.last_change')?></th>
 		</tr>
 	</thead>
 	<tbody>
