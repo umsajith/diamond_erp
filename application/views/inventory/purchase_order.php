@@ -5,30 +5,30 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-			<dt>Артикл:</dt>
+			<dt><?=uif::lng('attr.item')?>:</dt>
 			<dd><?=$master->prodname?></dd>
-			<dt>Количина:</dt>
+			<dt><?=uif::lng('attr.quantity')?>:</dt>
 			<dd><?=$master->quantity .' '.  $master->uname;?></dd>
-			<dt>Добавувач:</dt>
+			<dt><?=uif::lng('attr.vendor')?>:</dt>
 			<dd><?=($master->company) ? $master->company : '-' ?></dd>
-			<dt>Начин:</dt>
+			<dt><?=uif::lng('attr.payment_method')?>:</dt>
 		    <dd>
 		    	<?php 
 					switch ($master->purchase_method) 
 					{
 					    case 'cash':
-					        echo 'Готовина';
+					        echo uif::lng('attr.cash');
 					        break;
 					   	case 'invoice':
-					        echo 'Фактура';
+					        echo uif::lng('attr.invoice');
 					        break;
 					    default:
-					       echo '-';
+					       	echo '-';
 					        break;
 					}
 				?>
 			</dd>
-		    <dt>Задолжение:</dt>
+		    <dt><?=uif::lng('attr.duty')?>:</dt>
 		    <dd><?=(!is_null($master->assigned_to)) ? $master->assignfname.' '.$master->assignlname:'-'?></dd>
 		    <?php 
 				switch ($master->po_status) 
@@ -44,14 +44,14 @@
 				   		break;
 				}
 			?>
-		    <dt>Статус:</dt>
+		    <dt><?=uif::lng('attr.status')?>:</dt>
 			<dd><?=$status?></dd>
-		    <dt>Нарачано:</dt>
+		    <dt><?=uif::lng('attr.ordered')?>:</dt>
 			<dd><?=uif::isNull($master->dateoforder)?></dd>
-			<dt>Белешка:</dt>
+			<dt><?=uif::lng('attr.note')?>:</dt>
 			<dd><?=uif::isNull($master->comments)?></dd>
 			<?php if($this->session->userdata('admin')):?>
-		        <dt>Оператор:</dt>
+		        <dt><?=uif::lng('attr.operator')?>:</dt>
 		        <dd><?=$master->fname. ' '.$master->lname?></dd>
 		    <?php endif;?>
 		</dl>

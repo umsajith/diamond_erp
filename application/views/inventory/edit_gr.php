@@ -5,19 +5,19 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>	
-		<?=uif::controlGroup('dropdown','Добавувач','partner_fk',[$vendors,$result])?>
-		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[	],'id="products"')?>
-		<?=uif::controlGroup('text','Количина','quantity',$result)?>
-		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
-		<?=uif::controlGroup('text','Категорија','','','id="category" disabled')?>
-		<?=uif::controlGroup('dropdown','Начин','purchase_method',
-		[['0'=>'Непознато','cash'=>'Готовина','invoice'=>'Фактура'],$result])?>
-		<?=uif::controlGroup('text','Документ','ext_doc',$result)?>
-		<?=uif::controlGroup('text','Цена (без ДДВ)','price',$result)?>
-		<?=uif::controlGroup('datepicker','Нарачано','dateoforder',$result)?>
-		<?=uif::controlGroup('datepicker','Примено','datereceived',$result)?>
-		<?=uif::controlGroup('datepicker','Траење','dateofexpiration',$result)?>
-		<?=uif::controlGroup('textarea','Белешка','comments',$result)?>
+		<?=uif::controlGroup('dropdown',':attr.vendor','partner_fk',[$vendors,$result])?>
+		<?=uif::controlGroup('dropdown',':attr.item','prodname_fk',[],'id="products"')?>
+		<?=uif::controlGroup('text',':attr.quantity','quantity',$result)?>
+		<?=uif::controlGroup('text',':attr.uom','','','id="uom" disabled')?>
+		<?=uif::controlGroup('text',':attr.category','','','id="category" disabled')?>
+		<?=uif::controlGroup('dropdown',':attr.payment_method','purchase_method',
+		[['0'=>uif::lng('attr.unknown'),'cash'=>uif::lng('attr.cash'),'invoice'=>uif::lng('attr.invoice')],$result])?>
+		<?=uif::controlGroup('text',':attr.document','ext_doc',$result)?>
+		<?=uif::controlGroup('text',':attr.price_wo_vat','price',$result)?>
+		<?=uif::controlGroup('datepicker',':attr.ordered','dateoforder',$result)?>
+		<?=uif::controlGroup('datepicker',':attr.received','datereceived',$result)?>
+		<?=uif::controlGroup('datepicker',':attr.expires','dateofexpiration',$result)?>
+		<?=uif::controlGroup('textarea',':attr.note','comments',$result)?>
 		<?=form_hidden('prodname_fk',$result->prodname_fk)?>
 		<?=form_hidden('id',$result->id)?>
 	<?=form_close()?>

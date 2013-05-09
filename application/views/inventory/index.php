@@ -10,23 +10,23 @@
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
-			<th>Артикл</th>
-			<th>Категорија</th>
-			<th>Лагер</th>
-			<th>Мин.Цена</th>
-			<th>Макс.Цена</th>
-			<th>Последна Промена</th>
+			<th><?=uif::lng('attr.item')?></th>
+			<th><?=uif::lng('attr.category')?></th>
+			<th><?=uif::lng('attr.stock')?></th>
+			<th><?=uif::lng('attr.price_min')?></th>
+			<th><?=uif::lng('attr.price_max')?></th>
+			<th><?=uif::lng('attr.last_change')?></th>
 		</tr>
 	</thead> 
 	<tbody>
 		<?php foreach($results as $row):?>
 		<tr <?=($row->alert_quantity >= $row->quantity) ? ' class="warning" '  : ''?>>
-			<td><?=uif::linkIcon('inventory/digg/'.$row->pid,'icon-folder-open')?></td>
+			<td><?=uif::linkIcon("inventory/digg/{$row->pid}",'icon-folder-open')?></td>
 			<td><?=$row->prodname?></td>
 			<td><?=$row->pcname?></td>
 			<td><?=$row->quantity.' '.$row->uname?></td>
-			<td><?=round($row->price,3).$G_currency?></td>
-			<td><?=round($row->maxprice,3).$G_currency?></td>
+			<td><?=round($row->price,3).$glCurrSh?></td>
+			<td><?=round($row->maxprice,3).$glCurrSh?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 		</tr>
 		<?php endforeach;?>

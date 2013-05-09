@@ -41,10 +41,10 @@
 					switch ($row->purchase_method) 
 					{
 					    case 'cash':
-					    	echo 'Г';
+					    	echo uif::lng('attr.cash_sh');
 					    	break;
 					   	case 'invoice':
-					   		echo 'Ф';
+					   		echo uif::lng('attr.invoice_sh');
 					   		break;
 					   	default:
 					   		echo '-';
@@ -52,10 +52,10 @@
 					}
 				?>
 			</td>
-			<td><?=uif::isNull($row->price,$G_currency)?></td>
+			<td><?=uif::isNull($row->price,$glCurrSh)?></td>
 			<td><?=uif::date($row->dateoforder)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
-			<td><?=($row->quantity*$row->price==0)?'-':round($row->quantity*$row->price,2).$G_currency;?></td>
+			<td><?=($row->quantity*$row->price==0)?'-':round($row->quantity*$row->price,2).$glCurrSh;?></td>
 			<td><?=uif::actionGroup('inventory',$row->id,'edit/gr','delete/gr')?></td>
 		</tr>
 	<?php endforeach;?>
@@ -66,8 +66,8 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=prodname_fk]",'Артикл');
-		cd.dd("select[name=partner_fk]",'Партнер');
-		cd.dd("select[name=pcname_fk]",'Категорија');
+		cd.dd("select[name=prodname_fk]","<?=uif::lng('attr.item')?>");
+		cd.dd("select[name=partner_fk]","<?=uif::lng('attr.vendor')?>");
+		cd.dd("select[name=pcname_fk]","<?=uif::lng('attr.category')?>");
 	});
 </script>

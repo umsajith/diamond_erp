@@ -58,14 +58,14 @@ class Inventory extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'dateoforder'     =>'Нарачано',
-			'prodname_fk'     =>'Артикл',
-			'qty_current'     =>'Лагер',
-			'quantity'        =>'Количина',
-			'partner_fk'      =>'Добавувач',
-			'purchase_method' =>'Начин',
-			'po_status'       =>'Статус',
-			'dateofentry'     =>'Внес'
+			'dateoforder'     => uif::lng('attr.ordered'),
+			'prodname_fk'     => uif::lng('attr.item'),
+			'qty_current'     => uif::lng('attr.stock'),
+			'quantity'        => uif::lng('attr.quantity'),
+			'partner_fk'      => uif::lng('attr.vendor'),
+			'purchase_method' => uif::lng('attr.payment_method'),
+			'po_status'       => uif::lng('attr.status'),
+			'dateofentry'     => uif::lng('attr.doe'),
 		];
 		
 		$this->input->load_query($query_id);
@@ -105,10 +105,10 @@ class Inventory extends MY_Controller {
 	
 	public function po_search()
 	{
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->post('prodname_fk'),
 			'pcname_fk'   => $this->input->post('pcname_fk')
-		);	
+		];	
 		$query_id = $this->input->save_query($query_array);
 		redirect("inventory/purchase_orders/{$query_id}");
 	}
@@ -119,35 +119,35 @@ class Inventory extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.inv_grs');
 				
 		//Generate dropdown menu data
-		$this->data['products'] = $this->prod->generateDropdown(['purchasable'=>1],true);
+		$this->data['products']   = $this->prod->generateDropdown(['purchasable'=>1],true);
 		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
-		$this->data['vendors'] = $this->par->generateDropdown();
+		$this->data['vendors']    = $this->par->generateDropdown();
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [
-			'datereceived'    =>'Примено',
-			'prodname_fk'     =>'Артикл',
-			'partner_fk'      =>'Добавувач',
-			'quantity'        =>'Количина',
-			'purchase_method' =>'Начин',
-			'price'           =>'Цена(без ДДВ)',	
-			'dateoforder'     =>'Нарачано',
-			'dateofentry'     =>'Внес'
+			'datereceived'    => uif::lng('attr.received'),
+			'prodname_fk'     => uif::lng('attr.item'),
+			'partner_fk'      => uif::lng('attr.vendor'),
+			'quantity'        => uif::lng('attr.quantity'),
+			'purchase_method' => uif::lng('attr.payment_method'),
+			'price'           => uif::lng('attr.price_wo_vat'),	
+			'dateoforder'     => uif::lng('attr.ordered'),
+			'dateofentry'     => uif::lng('attr.doe'),
 		];
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->get('prodname_fk'),
 			'partner_fk'  => $this->input->get('partner_fk'),
 			'pcname_fk'   => $this->input->get('pcname_fk'),
 			'type'        => 'gr'
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('datereceived','prodname_fk','partner_fk','quantity',
-								'price','purchase_method','dateoforder','dateofentry');
+		$sort_by_array = ['datereceived','prodname_fk','partner_fk','quantity',
+								'price','purchase_method','dateoforder','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
@@ -191,25 +191,25 @@ class Inventory extends MY_Controller {
 		$this->data['categories'] = $this->cat->dropdown('id', 'pcname');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (
-			'dateofentry' =>'Внес',	
-			'prodname_fk' =>'Артикл',
-			'pcname_fk'   =>'Категорија',
-			'quantity'    =>'Количина'
-		);
+		$this->data['columns'] = [
+			'dateofentry' => uif::lng('attr.doe'),	
+			'prodname_fk' => uif::lng('attr.item'),
+			'pcname_fk'   => uif::lng('attr.category'),
+			'quantity'    => uif::lng('attr.quantity')
+		];
 		
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->get('prodname_fk'),
 			'pcname_fk'   => $this->input->get('pcname_fk'),
 			'partner_fk'  => '',
 			'type'        => 'adj'
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('prodname_fk','pcname_fk','quantity','dateofentry');
+		$sort_by_array = ['prodname_fk','pcname_fk','quantity','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 		
 		//Retreive data from Model
@@ -234,10 +234,10 @@ class Inventory extends MY_Controller {
 	
 	public function adj_search()
 	{
-		$query_array = array(
+		$query_array = [
 			'prodname_fk' => $this->input->post('prodname_fk'),
 			'pcname_fk'   => $this->input->post('pcname_fk')
-		);	
+		];	
 		$query_id = $this->input->save_query($query_array);
 		redirect("inventory/adjustments/{$query_id}");
 	}
@@ -251,8 +251,8 @@ class Inventory extends MY_Controller {
 		 * redirect to this controllers index
 		 */		
 		$temp = $this->inv->select_item($id,$this->limit,$offset);
-		if(!$temp)
-			air::flash('void','inventory');
+		
+		if(!$temp) air::flash('void','inventory');
 				
 		//Retreive data from Model
 		$this->data['product'] = $this->prod->select_single($id);
@@ -273,15 +273,15 @@ class Inventory extends MY_Controller {
 	public function insert_gr()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('partner_fk','vendor','trim|required');
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('purchase_method','purchase method','trim|required');
-		$this->form_validation->set_rules('price','price','trim|numeric');
-		$this->form_validation->set_rules('datereceived','date received','trim|required');
-		$this->form_validation->set_rules('dateoforder','date of order','trim');
-		$this->form_validation->set_rules('dateofexpiration','date of expiration','trim');
-		$this->form_validation->set_rules('comments','comments','trim');
+		$this->form_validation->set_rules('partner_fk',uif::lng('attr.vendor'),'trim|required');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
+		$this->form_validation->set_rules('purchase_method',uif::lng('attr.purchase_method'),'trim|required');
+		$this->form_validation->set_rules('price',uif::lng('attr.price'),'trim|numeric');
+		$this->form_validation->set_rules('datereceived',uif::lng('attr.received'),'trim|required');
+		$this->form_validation->set_rules('dateoforder',uif::lng('attr.ordered'),'trim');
+		$this->form_validation->set_rules('dateofexpiration',uif::lng('attr.expires'),'trim');
+		$this->form_validation->set_rules('comments',uif::lng('attr.note'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -305,10 +305,10 @@ class Inventory extends MY_Controller {
 	public function insert_po()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('price','price','trim|numeric');
-		$this->form_validation->set_rules('dateoforder','date of order','trim');
-		$this->form_validation->set_rules('comments','comments','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('price',uif::lng('attr.price'),'trim|numeric');
+		$this->form_validation->set_rules('dateoforder',uif::lng('attr.ordered'),'trim');
+		$this->form_validation->set_rules('comments',uif::lng('attr.note'),'trim');
 
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -332,10 +332,10 @@ class Inventory extends MY_Controller {
 	public function insert_adj()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
-		$this->form_validation->set_rules('comments','comment','trim|required');
-		$this->form_validation->set_rules('is_use','is use','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
+		$this->form_validation->set_rules('comments',uif::lng('attr.note'),'trim|required');
+		$this->form_validation->set_rules('is_use','','trim');
 
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -374,8 +374,8 @@ class Inventory extends MY_Controller {
 			$redirect = 'goods_receipts';
 			$this->view = 'inventory/edit_gr';
 
-			$this->form_validation->set_rules('partner_fk','vendor','trim|required');
-			$this->form_validation->set_rules('quantity','quantity','greater_than[0]|required');
+			$this->form_validation->set_rules('partner_fk',uif::lng('attr.vendor'),'trim|required');
+			$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
 		}
 		
 		//Retreives ONE product from the database
@@ -384,11 +384,11 @@ class Inventory extends MY_Controller {
 		if(!$this->data['result']) air::flash('void');
 					
 		//Defining Validation Rules	
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('price','price','trim|numeric');
-		$this->form_validation->set_rules('dateoforder','date of order','trim');
-		$this->form_validation->set_rules('dateofexpiration','date of expiration','trim');
-		$this->form_validation->set_rules('comments','comment','trim');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('price',uif::lng('attr.price'),'trim|numeric');
+		$this->form_validation->set_rules('dateoforder',uif::lng('attr.ordered'),'trim');
+		$this->form_validation->set_rules('dateofexpiration',uif::lng('attr.expires'),'trim');
+		$this->form_validation->set_rules('comments',uif::lng('attr.note'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())

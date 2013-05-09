@@ -5,19 +5,19 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('dropdown','Добавувач','partner_fk',[$vendors])?>
-		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[],'id="products"')?>
-		<?=uif::controlGroup('text','Количина','quantity')?>
-		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
-		<?=uif::controlGroup('text','Категорија','','','id="category" disabled')?>
-		<?=uif::controlGroup('dropdown','Начин','purchase_method',
-		[['0'=>'Непознато','cash'=>'Готовина','invoice'=>'Фактура']])?>
-		<?=uif::controlGroup('text','Документ','ext_doc')?>
-		<?=uif::controlGroup('text','Цена (без ДДВ)','price')?>
-		<?=uif::controlGroup('datepicker','Нарачано','dateoforder')?>
-		<?=uif::controlGroup('datepicker','Примено','datereceived',uif::today())?>
-		<?=uif::controlGroup('datepicker','Траење','dateofexpiration')?>
-		<?=uif::controlGroup('textarea','Белешка','comments')?>
+		<?=uif::controlGroup('dropdown',':attr.vendor','partner_fk',[$vendors])?>
+		<?=uif::controlGroup('dropdown',':attr.item','prodname_fk',[],'id="products"')?>
+		<?=uif::controlGroup('text',':attr.quantity','quantity')?>
+		<?=uif::controlGroup('text',':attr.uom','','','id="uom" disabled')?>
+		<?=uif::controlGroup('text',':attr.category','','','id="category" disabled')?>
+		<?=uif::controlGroup('dropdown',':attr.payment_method','purchase_method',
+		[['0'=>uif::lng('attr.unknown'),'cash'=>uif::lng('attr.cash'),'invoice'=>uif::lng('attr.invoice')]])?>
+		<?=uif::controlGroup('text',':attr.document','ext_doc')?>
+		<?=uif::controlGroup('text',':attr.price_wo_vat','price')?>
+		<?=uif::controlGroup('datepicker',':attr.ordered','dateoforder')?>
+		<?=uif::controlGroup('datepicker',':attr.received','datereceived',uif::today())?>
+		<?=uif::controlGroup('datepicker',':attr.expires','dateofexpiration')?>
+		<?=uif::controlGroup('textarea',':attr.note','comments')?>
 	<?=form_close()?>
 	</div>
 </div>

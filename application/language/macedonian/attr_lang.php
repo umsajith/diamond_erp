@@ -21,6 +21,36 @@ $lang['attr_bom']                 = 'Норматив';
 
 $lang['attr_document']            = 'Документ';
 $lang['attr_distributor']         = 'Дистрибутер';
+$lang['attr_partner']             = 'Партнер';
+$lang['attr_vendor']              = 'Добавувач';
+$lang['attr_customer']            = 'Купувач';
+$lang['attr_duty']            = 'Задолжение';
+
+$lang['attr_ordered']             = 'Нарачано';
+$lang['attr_received']            = 'Примено';
+$lang['attr_expires']             = 'Истекува';
+
+$lang['attr_deduct']             = 'Минусирај';
+
+$lang['attr_pending']             = 'Во Исчекување';
+$lang['attr_approved']             = 'Оддобрено';
+$lang['attr_rejected']             = 'Одбиено';
+
+
+$lang['attr_price']               = 'Цена';
+$lang['attr_price_wo_vat']        = 'Цена (без ДДВ)';
+$lang['attr_price_w_vat']         = 'Цена (со ДДВ)';
+$lang['attr_price_min']           = 'Мин.Цена';
+$lang['attr_price_max']           = 'Макс.Цена';
+$lang['attr_vat']                 = 'ДДВ';
+$lang['attr_tax']                 = 'Данок';
+
+$lang['attr_payment_method']      = 'Плаќање';
+$lang['attr_unknown']                = 'Непознато';
+$lang['attr_cash']                = 'Готовина';
+$lang['attr_cash_sh']             = 'Г';
+$lang['attr_invoice']             = 'Фактура';
+$lang['attr_invoice_sh']          = 'Ф';
 
 $lang['attr_link']                = 'Врска';
 $lang['attr_in']                  = 'Влез';

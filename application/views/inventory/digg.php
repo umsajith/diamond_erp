@@ -4,13 +4,13 @@
 	<thead>
 		<tr>
 			<th colspan="2">&nbsp;</th>
-			<th>Линк</th>
-			<th>Старо Салдо</th>
-			<th>Влез</th>
-			<th>Излез</th>
-			<th>Внес</th>
+			<th><?=uif::lng('attr.link')?></th>
+			<th><?=uif::lng('attr.previous_stock')?></th>
+			<th><?=uif::lng('attr.in')?></th>
+			<th><?=uif::lng('attr.out')?></th>
+			<th><?=uif::lng('attr.doe')?></th>
 			<?php if($this->session->userdata('admin')):?>
-				<th>Oператор</th>
+				<th><?=uif::lng('attr.operator')?></th>
 			<?php endif;?>
 		</tr>
 	</thead>
@@ -25,11 +25,11 @@
 			<td>
 			<?php 	
 				if(is_null($row->job_order_fk) AND is_null($row->warehouse_fk) )
-					echo uif::linkIcon("inventory/view/$row->type/$row->id",'icon-link');
+					echo uif::linkIcon("inventory/view/$row->type/{$row->id}",'icon-link');
 				elseif($row->warehouse_fk)
-					echo uif::linkIcon("distribution/view/in/$row->warehouse_fk",'icon-link');
+					echo uif::linkIcon("distribution/view/in/{$row->warehouse_fk}",'icon-link');
 				else
-					echo uif::linkIcon("job_orders/view/$row->job_order_fk",'icon-link');
+					echo uif::linkIcon("job_orders/view/{$row->job_order_fk}",'icon-link');
 			?>
 			</td>	
 			<td><?=$row->qty_current.' '.$row->uname?></td>
