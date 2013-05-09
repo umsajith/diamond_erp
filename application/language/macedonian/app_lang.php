@@ -53,7 +53,7 @@ $lang['app_dis_ins']               = 'Приемници';
 $lang['app_dis_in_new']            = 'Нова Приемница';
 $lang['app_dis_in_edit']           = 'Корекција на Приемница';
 
-$lang['app_used_components']           = 'Употребени Репро-Материјали';
+$lang['app_used_components']       = 'Употребени Репро-Материјали';
 
 $lang['app_dis_out']               = 'Испратница';
 $lang['app_dis_outs']              = 'Испратници';
@@ -102,8 +102,8 @@ $lang['app_bom_boms']              = 'Нормативи';
 $lang['app_bom_new']               = 'Нов Норматив';
 $lang['app_bom_edit']              = 'Корекција на Норматив';
 
-$lang['app_add_item_to_bom']              = 'Додавање сировини и репро-материјали на норматив';
-$lang['app_items_in_bom']              = 'Сировини и репро-материјали во овој норматив';
+$lang['app_add_item_to_bom']       = 'Додавање сировини и репро-материјали на норматив';
+$lang['app_items_in_bom']          = 'Сировини и репро-материјали во овој норматив';
 
 
 //Product Types

@@ -48,19 +48,19 @@ class Employees extends MY_Controller {
 		
 		// Generating dropdown menu's
 		$this->data['possitions'] = $this->pos->dropdown('id', 'position');	
-		$this->data['roles'] = $this->rol->dropdown('id', 'name');
+		$this->data['roles']      = $this->rol->dropdown('id', 'name');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'employee'        =>'Работник',
-			'comp_mobile'     =>'Мобилен',
-			'position'        =>'Работно Место',
-			'department'      =>'Сектор',
-			'fixed_wage_only' =>'С.Нето',
-			'is_manager'      =>'Менаџер',
-			'is_distributer'  =>'Дистрибутер',
-			'fixed_wage'      =>'Нето',
-			'status'          =>'Статус'
+			'employee'        => uif::lng('attr.employee'),
+			'comp_mobile'     => uif::lng('attr.company_mobile'),
+			'position'        => uif::lng('attr.position'),
+			'department'      => uif::lng('attr.department'),
+			'fixed_wage_only' => uif::lng('attr.fixed'),
+			'is_manager'      => uif::lng('attr.manager'),
+			'is_distributer'  => uif::lng('attr.distributor'),
+			'fixed_wage'      => uif::lng('attr.net'),
+			'status'          => uif::lng('attr.status'),
 		];
 
 		$this->input->load_query($query_id);
@@ -107,31 +107,29 @@ class Employees extends MY_Controller {
 	public function insert()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('fname','first name','trim|required');
-		$this->form_validation->set_rules('lname','last name','trim|required');
-
-		$this->form_validation->set_rules('code','code','trim|max_lenth[5]');
-		$this->form_validation->set_rules('ssn','SSN','trim|required|exact_length[13]|numeric');
-
-		$this->form_validation->set_rules('dateofbirth','date of birth','trim|required');
-		$this->form_validation->set_rules('username','username','min_length[5]|max_lenth[15]');
-		$this->form_validation->set_rules('password','password','min_length[6]');
-		$this->form_validation->set_rules('email','email','trim|valid_email');
-		$this->form_validation->set_rules('phone','phone','trim|numeric');
-		$this->form_validation->set_rules('mobile','mobile','trim|numeric');
-		$this->form_validation->set_rules('comp_mobile','company mobile','trim|numeric');
-		$this->form_validation->set_rules('comp_mobile_sub','company mobile subvention','trim|numeric');
-		$this->form_validation->set_rules('bank','bank','trim');
-		$this->form_validation->set_rules('account_no','account number','trim|numeric');
-		$this->form_validation->set_rules('fixed_wage','fixed wage','trim|numeric');
-		$this->form_validation->set_rules('social_cont','social contribution','trim|numeric');
-		$this->form_validation->set_rules('address','address','trim');
-		$this->form_validation->set_rules('note','note','trim');
-		$this->form_validation->set_rules('postcode_fk','city','trim|required');
-		$this->form_validation->set_rules('poss_fk','possition','trim|required');
-		$this->form_validation->set_rules('name_fk','user group','trim');
-		$this->form_validation->set_rules('start_date','start date','trim');
-		$this->form_validation->set_rules('stop_date','stop date','trim');
+		$this->form_validation->set_rules('fname',uif::lng('attr.first_name'),'trim|required');
+		$this->form_validation->set_rules('lname',uif::lng('attr.last_name'),'trim|required');
+		$this->form_validation->set_rules('dateofbirth',uif::lng('attr.dob'),'trim|required');
+		$this->form_validation->set_rules('postcode_fk',uif::lng('attr.city'),'trim|required');
+		$this->form_validation->set_rules('poss_fk',uif::lng('attr.position'),'trim|required');
+		$this->form_validation->set_rules('code',uif::lng('attr.code'),'trim|max_lenth[5]');
+		$this->form_validation->set_rules('ssn',uif::lng('attr.ssn'),'trim|required|exact_length[13]|numeric');
+		$this->form_validation->set_rules('username',uif::lng('common.username'),'min_length[5]|max_lenth[15]');
+		$this->form_validation->set_rules('password',uif::lng('common.password'),'min_length[6]');
+		$this->form_validation->set_rules('email',uif::lng('attr.email'),'trim|valid_email');
+		$this->form_validation->set_rules('phone',uif::lng('attr.phone'),'trim|numeric');
+		$this->form_validation->set_rules('mobile',uif::lng('attr.mobile'),'trim|numeric');
+		$this->form_validation->set_rules('comp_mobile',uif::lng('attr.company_mobile'),'trim|numeric');
+		$this->form_validation->set_rules('comp_mobile_sub',uif::lng('attr.subvention'),'trim|numeric');
+		$this->form_validation->set_rules('bank',uif::lng('attr.bank'),'trim');
+		$this->form_validation->set_rules('account_no',uif::lng('attr.account_number'),'trim|numeric');
+		$this->form_validation->set_rules('fixed_wage',uif::lng('attr.fixed'),'trim|numeric');
+		$this->form_validation->set_rules('social_cont',uif::lng('attr.social_contribution'),'trim|numeric');
+		$this->form_validation->set_rules('address',uif::lng('attr.address'),'trim');
+		$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
+		$this->form_validation->set_rules('name_fk',uif::lng('attr.role'),'trim');
+		$this->form_validation->set_rules('start_date',uif::lng('attr.date_start'),'trim');
+		$this->form_validation->set_rules('stop_date',uif::lng('attr.date_end'),'trim');
 		
 		//Check if form has passed validation
 		if ($this->form_validation->run())
@@ -165,26 +163,29 @@ class Employees extends MY_Controller {
 		//If Submit has been posted (EDIT form Submitted), runs the code below
 		if($_POST)
 		{
-			//Defining Validation Rules
-			$this->form_validation->set_rules('fname','first name','trim|required');
-			$this->form_validation->set_rules('lname','last name','trim|required');
-			$this->form_validation->set_rules('code','code','trim|max_lenth[5]');
-			$this->form_validation->set_rules('ssn','SSN','trim|required|exact_length[13]|numeric');
-			$this->form_validation->set_rules('dateofbirth','date of birth','trim');
-			$this->form_validation->set_rules('username','username','min_length[5]|max_lenth[15]');
-			$this->form_validation->set_rules('password','password','min_length[6]');
-			$this->form_validation->set_rules('email','email','trim|valid_email');
-			$this->form_validation->set_rules('phone','phone','trim|numeric');
-			$this->form_validation->set_rules('mobile','mobile','trim|numeric');
-			$this->form_validation->set_rules('postcode_fk','city','trim|required');
-			$this->form_validation->set_rules('comp_mobile','company mobile','trim|numeric');
-			$this->form_validation->set_rules('comp_mobile_sub','company mobile subvention','trim|numeric');
-			$this->form_validation->set_rules('fixed_wage','fixed wage','trim|numeric');
-			$this->form_validation->set_rules('social_cont','social contribution','trim|numeric');
-			$this->form_validation->set_rules('bank','bank','trim');
-			$this->form_validation->set_rules('account_no','account number','trim|numeric');
-			$this->form_validation->set_rules('start_date','start date','trim');
-			$this->form_validation->set_rules('stop_date','stop date','trim');
+			$this->form_validation->set_rules('fname',uif::lng('attr.first_name'),'trim|required');
+			$this->form_validation->set_rules('lname',uif::lng('attr.last_name'),'trim|required');
+			$this->form_validation->set_rules('dateofbirth',uif::lng('attr.dob'),'trim|required');
+			$this->form_validation->set_rules('postcode_fk',uif::lng('attr.city'),'trim|required');
+			$this->form_validation->set_rules('poss_fk',uif::lng('attr.position'),'trim|required');
+			$this->form_validation->set_rules('code',uif::lng('attr.code'),'trim|max_lenth[5]');
+			$this->form_validation->set_rules('ssn',uif::lng('attr.ssn'),'trim|required|exact_length[13]|numeric');
+			$this->form_validation->set_rules('username',uif::lng('common.username'),'min_length[5]|max_lenth[15]');
+			$this->form_validation->set_rules('password',uif::lng('common.password'),'min_length[6]');
+			$this->form_validation->set_rules('email',uif::lng('attr.email'),'trim|valid_email');
+			$this->form_validation->set_rules('phone',uif::lng('attr.phone'),'trim|numeric');
+			$this->form_validation->set_rules('mobile',uif::lng('attr.mobile'),'trim|numeric');
+			$this->form_validation->set_rules('comp_mobile',uif::lng('attr.company_mobile'),'trim|numeric');
+			$this->form_validation->set_rules('comp_mobile_sub',uif::lng('attr.subvention'),'trim|numeric');
+			$this->form_validation->set_rules('bank',uif::lng('attr.bank'),'trim');
+			$this->form_validation->set_rules('account_no',uif::lng('attr.account_number'),'trim|numeric');
+			$this->form_validation->set_rules('fixed_wage',uif::lng('attr.fixed'),'trim|numeric');
+			$this->form_validation->set_rules('social_cont',uif::lng('attr.social_contribution'),'trim|numeric');
+			$this->form_validation->set_rules('address',uif::lng('attr.address'),'trim');
+			$this->form_validation->set_rules('note',uif::lng('attr.note'),'trim');
+			$this->form_validation->set_rules('name_fk',uif::lng('attr.role'),'trim');
+			$this->form_validation->set_rules('start_date',uif::lng('attr.date_start'),'trim');
+			$this->form_validation->set_rules('stop_date',uif::lng('attr.date_end'),'trim');
 			
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
@@ -226,6 +227,9 @@ class Employees extends MY_Controller {
 	
 	public function delete($id)
 	{
+		//Only Administrator can delete employees
+		if(!$this->session->userdata('admin')) air::flash('deny');
+
 		$employee = $this->emp->get($id);
 
 		if(!$employee) air::flash('void');
@@ -243,8 +247,8 @@ class Employees extends MY_Controller {
 	{
 		if(!$_POST) show_404();
 
-		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('task_fk','tasks','trim|required');
+		$this->form_validation->set_rules('employee_fk',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('task_fk',uif::lng('attr.task'),'trim|required');
 
 		if ($this->form_validation->run())
 		{
