@@ -5,53 +5,52 @@
 <div class="row-fluid">
 	<div class="span6">
 			<?=uif::load('_validation')?>
-		<div class="legend">Основни Информации</div>
-			<?=uif::controlGroup('text','Име','fname',$employee)?>
-			<?=uif::controlGroup('text','Презиме','lname',$employee)?>
-			<?=uif::controlGroup('datepicker','ДНР','dateofbirth',$employee)?>
-			<?=uif::controlGroup('text','ЕМБ','ssn',$employee)?>
-			<?=uif::controlGroup('dropdown','Брачна Состојба','mstatus',
-			[[''=>'','single'=>'Слободен/а','married'=>'Во Брак','divorced'=>'Разведен/а'],$employee])?>
-			<?=uif::controlGroup('radio','Пол','gender',[['m'=>'Машко','f'=>'Женско'],$employee])?>
-		<div class="legend">Контакт Информации</div>	
-			<?=uif::controlGroup('text','Адреса','address',$employee)?>
-			<?=uif::controlGroup('dropdown','Град','postcode_fk',[$postalcodes,$employee])?>
-			<?=uif::controlGroup('text','Службен Мобилен','comp_mobile',$employee)?>
-			<?=uif::controlGroup('text','Мобилен','mobile',$employee)?>
-			<?=uif::controlGroup('text','Телефон','phone',$employee)?>
-			<?=uif::controlGroup('text','Е-Меил','email',$employee)?>
-		<div class="legend">Логин Инфомации</div>
-			<?=uif::controlGroup('dropdown','Корисничка Група','role_id',[$roles,$employee])?>
-			<?=uif::controlGroup('checkbox','Логирање','can_login',[1,$employee])?>
-			<?=uif::controlGroup('text','Корисничко Име','username',$employee)?>
-			<?=uif::controlGroup('password','Лозинка','password')?>
+		<div class="legend"><?=uif::lng('attr.general_info')?></div>
+			<?=uif::controlGroup('text',':attr.first_name','fname',$employee)?>
+			<?=uif::controlGroup('text',':attr.last_name','lname',$employee)?>
+			<?=uif::controlGroup('datepicker',':attr.dob','dateofbirth',$employee)?>
+			<?=uif::controlGroup('text',':attr.ssn','ssn',$employee)?>
+			<?=uif::controlGroup('dropdown',':attr.marital_status','mstatus',
+			[[''=>'','single'=>uif::lng('attr.ms_single'),
+			'married'=>uif::lng('attr.ms_married'),
+			'divorced'=>uif::lng('attr.ms_divorced')],$employee])?>
+			<?=uif::controlGroup('radio','Пол','gender',
+			[['m'=>uif::lng('attr.sex_male'),'f'=>uif::lng('attr.sex_female')],$employee])?>
+		<div class="legend"><?=uif::lng('attr.contact_info')?></div>	
+			<?=uif::controlGroup('text',':attr.address','address',$employee)?>
+			<?=uif::controlGroup('dropdown',':attr.city','postcode_fk',[$postalcodes,$employee])?>
+			<?=uif::controlGroup('text',':attr.company_mobile','comp_mobile',$employee)?>
+			<?=uif::controlGroup('text',':attr.mobile','mobile',$employee)?>
+			<?=uif::controlGroup('text',':attr.phone','phone',$employee)?>
+			<?=uif::controlGroup('text',':attr.email','email',$employee)?>
+		<div class="legend"><?=uif::lng('attr.login_info')?></div>
+			<?=uif::controlGroup('dropdown',':attr.role','role_id',[$roles,$employee])?>
+			<?=uif::controlGroup('checkbox',':attr.can_login','can_login',[1,$employee])?>
+			<?=uif::controlGroup('text',':common.username','username',$employee)?>
+			<?=uif::controlGroup('password',':common.password','password')?>
 	</div>
 	<div class="span6">
-		<div class="legend">Финансиски Информации</div>
-			<?=uif::controlGroup('text','Банка','bank',$employee)?>		
-			<?=uif::controlGroup('text','Број на Сметка','account_no',$employee)?>		
-			<?=uif::controlGroup('checkbox','Само Фиксна Плата','fixed_wage_only',[1,$employee])?>		
-			<?=uif::controlGroup('text','Фиксна Плата','fixed_wage',$employee)?>		
-			<?=uif::controlGroup('text','Придонеси','social_cont',$employee)?>		
-			<?=uif::controlGroup('text','Служ.Моб.Субвенција','comp_mobile_sub',$employee)?>	
-		<div class="legend">Информации за Работнен Однос</div>
-			<?=uif::controlGroup('dropdown','Работно Место','poss_fk',[$positions,$employee])?>
-			<?=uif::controlGroup('dropdown','Менаџер','manager_fk',[$managers,$employee])?>
-			<?=uif::controlGroup('checkbox','Дистрибутер','is_distributer',[1,$employee])?>		
-			<?=uif::controlGroup('checkbox','Менаџер','is_manager',[1,$employee])?>
-			<?=uif::controlGroup('dropdown','Локација','location_id',[$locations,$employee])?>
-			<?=uif::controlGroup('datepicker','Почеток','start_date',$employee)?>	
-			<?=uif::controlGroup('datepicker','Крај','stop_date',$employee)?>	
-			<?=uif::controlGroup('dropdown','Статус','status',
-				[['active'=>'Активен','inactive'=>'Неактивен'],$employee])?>
-	</div>
-</div>
-<div class="row-fluid">
-	<div class="span12">
-		<div class="legend">Белешка</div>
-		<?=uif::formElement('textarea','','note',$employee,'class="input-block-level"')?>
-		<?=form_hidden('id',$employee->id)?>
-		<?=form_close()?>
+		<div class="legend"><?=uif::lng('attr.financial_info')?></div>
+			<?=uif::controlGroup('text',':attr.bank','bank',$employee)?>		
+			<?=uif::controlGroup('text',':attr.account_number','account_no',$employee)?>		
+			<?=uif::controlGroup('checkbox',':attr.fixed','fixed_wage_only',[1,$employee])?>		
+			<?=uif::controlGroup('text',':attr.fixed_wage','fixed_wage',$employee)?>		
+			<?=uif::controlGroup('text',':attr.social_contribution','social_cont',$employee)?>		
+			<?=uif::controlGroup('text',':attr.subvention','comp_mobile_sub',$employee)?>	
+		<div class="legend"><?=uif::lng('attr.work_info')?></div>
+			<?=uif::controlGroup('dropdown',':attr.position','poss_fk',[$positions,$employee])?>
+			<?=uif::controlGroup('dropdown',':attr.manager','manager_fk',[$managers,$employee])?>
+			<?=uif::controlGroup('checkbox',':attr.distributor','is_distributer',[1,$employee])?>		
+			<?=uif::controlGroup('checkbox',':attr.manager','is_manager',[1,$employee])?>
+			<?=uif::controlGroup('dropdown',':attr.location','location_id',[$locations,$employee])?>
+			<?=uif::controlGroup('datepicker',':attr.date_start','start_date',$employee)?>	
+			<?=uif::controlGroup('datepicker',':attr.date_end','stop_date',$employee)?>	
+			<?=uif::controlGroup('dropdown',':attr.status','status',
+				[['active'=>uif::lng('attr.status_active'),'inactive'=>uif::lng('attr.status_inactive')],$employee])?>
+			<div class="legend"><?=uif::lng('attr.note')?></div>
+			<?=uif::formElement('textarea','','note',$employee,'class="input-block-level"')?>
+			<?=form_hidden('id',$employee->id)?>
+	<?=form_close()?>
 	</div>
 </div>
 <script>

@@ -5,74 +5,80 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Име и Презиме:</dt>
+            <dt><?=uif::lng('attr.first_name').' '.uif::lng('attr.last_name')?>:</dt>
             <dd><?=$master->fname. ' '. $master->lname?></dd>
-            <dt>ДНР:</dt>
+            <dt><?=uif::lng('attr.dob')?>:</dt>
             <dd><?=uif::date($master->dateofbirth)?></dd>
-            <dt>ЕМБ:</dt>
+            <dt><?=uif::lng('attr.ssn')?>:</dt>
             <dd><?=$master->ssn?></dd>
-            <dt>Брачна Состојба:</dt>
-            <dd><?=$master->mstatus?></dd>
-            <dt>Пол:</dt>
-            <dd><?=($master->gender == 'm' ? 'Машки' : 'Женски')?></dd>
-            <dt>Адреса:</dt>
+            <dt><?=uif::lng('attr.marital_status')?>:</dt>
+            <dd>
+                <?php 
+                    if($master->mstatus == 'single') echo uif::lng('attr.ms_single');
+                    if($master->mstatus == 'married') echo uif::lng('attr.ms_married');
+                    if($master->mstatus == 'divorced') echo uif::lng('attr.ms_divorced');
+                ?>
+            </dd>
+            <dt><?=uif::lng('attr.sex')?>:</dt>
+            <dd><?=($master->gender == 'm' ? uif::lng('attr.sex_male') : uif::lng('attr.sex_female'))?></dd>
+            <dt><?=uif::lng('attr.address')?>:</dt>
             <dd><?=uif::isNull($master->address)?></dd>
-            <dt>Град:</dt>
+            <dt><?=uif::lng('attr.city')?>:</dt>
             <dd><?=uif::isNull($master->name)?></dd>
-            <dt>Поштенски Код:</dt>
+            <dt><?=uif::lng('attr.postal_code')?>:</dt>
             <dd><?=uif::isNull($master->postalcode)?></dd>
-            <dt>Службен Мобилен:</dt>
+            <dt><?=uif::lng('attr.company_mobile')?>:</dt>
             <dd><?=uif::isNull($master->comp_mobile)?></dd>
-            <dt>Мобилен:</dt>
+            <dt><?=uif::lng('attr.mobile')?>:</dt>
             <dd><?=uif::isNull($master->mobile)?></dd>
-            <dt>Телефон:</dt>
+            <dt><?=uif::lng('attr.phone')?>:</dt>
             <dd><?=uif::isNull($master->phone)?></dd>
-            <dt>Е-Меил:</dt>
+            <dt><?=uif::lng('attr.email')?>:</dt>
             <dd><?=uif::isNull($master->email)?></dd>
-            <dt>Корисничка Група:</dt>
+            <dt><?=uif::lng('attr.role')?>:</dt>
             <dd><?=uif::isNull($master->role_name)?></dd>
-            <dt>Корисничко Име:</dt>
+            <dt><?=uif::lng('common.username')?>:</dt>
             <dd><?=uif::isNull($master->username)?></dd>
-            <dt>Банка:</dt>
+            <dt><?=uif::lng('attr.bank')?>:</dt>
             <dd><?=uif::isNull($master->bank)?></dd>
-            <dt>Број на Сметка:</dt>
+            <dt><?=uif::lng('attr.account_number')?>:</dt>
             <dd><?=uif::isNull($master->account_no)?></dd>
-            <dt>Само Фиксна Плата:</dt>
+            <dt><?=uif::lng('attr.fixed')?>:</dt>
             <dd><?=($master->fixed_wage_only) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Фиксна Плата:</dt>
+            <dt><?=uif::lng('attr.fixed_wage')?>:</dt>
             <dd><?=uif::isNull($master->fixed_wage)?></dd>
-            <dt>Придонеси:</dt>
+            <dt><?=uif::lng('attr.social_contribution')?>:</dt>
             <dd><?=uif::isNull($master->social_cont)?></dd>
-            <dt>Тел.Субвенција:</dt>
+            <dt><?=uif::lng('attr.subvention')?>:</dt>
             <dd><?=uif::isNull($master->comp_mobile_sub)?></dd>
-            <dt>Работно Место:</dt>
+            <dt><?=uif::lng('attr.position')?>:</dt>
             <dd><?=uif::isNull($master->position)?></dd>
-            <dt>Дистрибутер:</dt>
+            <dt><?=uif::lng('attr.distributor')?>:</dt>
             <dd><?=($master->is_distributer) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Менаџер:</dt>
+            <dt><?=uif::lng('attr.manager')?>:</dt>
             <dd><?=($master->is_manager) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>            
-            <dt>Почеток:</dt>
+            <dt><?=uif::lng('attr.date_start')?>:</dt>
             <dd><?=uif::isNull($master->start_date)?></dd>
-            <dt>Крај:</dt>
+            <dt><?=uif::lng('attr.date_end')?>:</dt>
             <dd><?=uif::isNull($master->stop_date)?></dd>                  	
-            <dt>Белешка:</dt>
+            <dt><?=uif::lng('attr.note')?>:</dt>
             <dd><?=uif::isNull($master->note)?></dd>   
         </dl>
     </div>
     <div class="span7">
         <?php if(isset($payrolls) AND count($payrolls)):?>
-        <div class="legend">Последни 6 Плати</div>
+        <div class="legend"><?=uif::lng('app.last_payrolls_of_employee')?></div>
         <table class="table table-condensed assigned-tasks">
             <thead>
                 <tr>
-                    <th>Линк</th>
-                    <th>Месец</th>
-                    <th>Учинок</th>
-                    <th>Бруто</th>
-                    <th>Доплата</th>
+                    <th><?=uif::lng('attr.link')?></th>
+                    <th><?=uif::lng('attr.month')?></th>
+                    <th><?=uif::lng('attr.accumulated')?></th>
+                    <th><?=uif::lng('attr.gross')?></th>
+                    <th><?=uif::lng('attr.paid')?></th>
                 </tr>
             </thead>
             <tbody>
@@ -89,7 +95,7 @@
         </table>
         <?php endif;?>
          <hr>
-        <div class="legend">Доделување работни задачи</div>
+        <div class="legend"><?=uif::lng('app.assigning_tasks')?></div>
         <?=form_open("employees/assignTask")?>
             <div class="well well-small form-horizontal">
                 <?=uif::formElement('dropdown','','task_fk',[$tasks],"id='task' class='input-xlarge'")?>
@@ -98,11 +104,11 @@
             </div>  
         <?=form_close()?>
         <?php if(isset($assigned_tasks) AND count($assigned_tasks)):?>
-        <div class="legend">Доделени работни задачи</div>
+        <div class="legend"><?=uif::lng('app.assigned_tasks')?></div>
         <table class="table table-condensed assigned-tasks">
             <thead>
                 <tr>
-                    <th>Работна Задача</th>
+                    <th><?=uif::lng('attr.task')?></th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -120,12 +126,12 @@
 </div>
 <script>
     $(function(){
-        cd.dd("select[name=task_fk]",'Работна Задача');
+        cd.dd("select[name=task_fk]","<?=uif::lng('attr.task')?>");
 
         $("#assign-task").on("click",function(){
             var task = $("#task option:selected");
             if(task.val() == ''){
-                alert("Изберете работна задача.");
+                cd.notify("<?=uif::lng('air.pick_task')?>");
                 $("#task").focus();
                 return false;
             }
