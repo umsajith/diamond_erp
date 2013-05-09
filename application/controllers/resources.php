@@ -32,7 +32,7 @@ class Resources extends MY_Controller {
 	public function index()
 	{	
 		//Heading
-		$this->data['heading'] = 'Resources';
+		$this->data['heading'] = uif::lng('app.res_ress');
 		
 		//Retreive data from Model
 		$this->data['results'] = $this->Resources_model->get_all_resources();	
@@ -57,7 +57,7 @@ class Resources extends MY_Controller {
 		$this->data['parents'] = $this->Resources_model->dropdown_master();
 
 		//Heading
-		$this->data['heading'] = 'Create New Resource';
+		$this->data['heading'] = uif::lng('app.res_new');
 	}
     
 	public function edit($id)
@@ -87,7 +87,7 @@ class Resources extends MY_Controller {
 		$this->data['parents'] = $this->Resources_model->dropdown_master();
 
 		//Heading
-		$this->data['heading'] = 'Edit Resource';
+		$this->data['heading'] = uif::lng('app.res_edit');
 	}
     
 	public function delete($id)

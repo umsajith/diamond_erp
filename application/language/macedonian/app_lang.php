@@ -89,10 +89,10 @@ $lang['app_emp_new']               = 'Нов Работник';
 $lang['app_emp_edit']              = 'Корекција на Работник';
 
 //Products
-$lang['app_prod_prod']               = 'Артикл';
-$lang['app_prod_prods']              = 'Артикли';
-$lang['app_prod_new']               = 'Нов Артикл';
-$lang['app_prod_edit']              = 'Корекција на Артикл';
+$lang['app_prod_prod']             = 'Артикл';
+$lang['app_prod_prods']            = 'Артикли';
+$lang['app_prod_new']              = 'Нов Артикл';
+$lang['app_prod_edit']             = 'Корекција на Артикл';
 
 //Bill of Materials
 $lang['app_bom_bom']               = 'Норматив';
@@ -101,22 +101,22 @@ $lang['app_bom_new']               = 'Нов Норматив';
 $lang['app_bom_edit']              = 'Корекција на Норматив';
 
 //Product Types
-$lang['app_pt_pt']               = 'Tип на Артикл';
-$lang['app_pt_pts']              = 'Tипови на Артикли';
-$lang['app_pt_new']               = 'Нов Tип на Артикл';
-$lang['app_pt_edit']              = 'Корекција на Tип на Артикл';
+$lang['app_pt_pt']                 = 'Tип на Артикл';
+$lang['app_pt_pts']                = 'Tипови на Артикли';
+$lang['app_pt_new']                = 'Нов Tип на Артикл';
+$lang['app_pt_edit']               = 'Корекција на Tип на Артикл';
 
 //Product Categories
-$lang['app_pc_pc']               = 'Категорија на Артикл';
-$lang['app_pc_pcs']              = 'Категории на Артикли';
-$lang['app_pc_new']               = 'Нова Категорија на Артикл';
-$lang['app_pc_edit']              = 'Корекција на Категорија на Артикл';
+$lang['app_pc_pc']                 = 'Категорија на Артикл';
+$lang['app_pc_pcs']                = 'Категории на Артикли';
+$lang['app_pc_new']                = 'Нова Категорија на Артикл';
+$lang['app_pc_edit']               = 'Корекција на Категорија на Артикл';
 
 //Warehouses
-$lang['app_wh_wh']               = 'Магацин';
-$lang['app_wh_whs']              = 'Магацини';
-$lang['app_wh_new']               = 'Нов Магацин';
-$lang['app_wh_edit']              = 'Корекција на Магацин';
+$lang['app_wh_wh']                 = 'Магацин';
+$lang['app_wh_whs']                = 'Магацини';
+$lang['app_wh_new']                = 'Нов Магацин';
+$lang['app_wh_edit']               = 'Корекција на Магацин';
 
 //Units of Measurment
 $lang['app_uom_uom']               = 'Единица Мерка';
@@ -125,13 +125,31 @@ $lang['app_uom_new']               = 'Нова Единица Мерка';
 $lang['app_uom_edit']              = 'Корекција на Единица Мерка';
 
 //Roles
-$lang['app_rl_rl']               = 'Корисничка Група';
-$lang['app_rl_rls']              = 'Кориснички Групи';
-$lang['app_rl_new']               = 'Нова Корисничка Група';
-$lang['app_rl_edit']              = 'Корекција на Корисничка Група';
+$lang['app_rl_rl']                 = 'Корисничка Група';
+$lang['app_rl_rls']                = 'Кориснички Групи';
+$lang['app_rl_new']                = 'Нова Корисничка Група';
+$lang['app_rl_edit']               = 'Корекција на Корисничка Група';
 
 //Departments
 $lang['app_dpt_dpt']               = 'Сектор';
 $lang['app_dpt_dpts']              = 'Сектори';
 $lang['app_dpt_new']               = 'Нов Сектор';
 $lang['app_dpt_edit']              = 'Корекција на Сектор';
+
+//Tasks
+$lang['app_tsk_tsk']               = 'Работна Задача';
+$lang['app_tsk_tsks']              = 'Работни Задачи';
+$lang['app_tsk_new']               = 'Нова Работна Задача';
+$lang['app_tsk_edit']              = 'Корекција на Работна Задача';
+
+//Positions
+$lang['app_pos_pos']               = 'Работно Место';
+$lang['app_pos_poss']              = 'Работни Места';
+$lang['app_pos_new']               = 'Новo Работно Место';
+$lang['app_pos_edit']              = 'Корекција на Работно Место';
+
+//Resources
+$lang['app_res_res']               = 'Ресурс';
+$lang['app_res_ress']              = 'Ресурси';
+$lang['app_res_new']               = 'Нов Ресурс';
+$lang['app_res_edit']              = 'Корекција на Ресурс';

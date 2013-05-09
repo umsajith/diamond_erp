@@ -39,7 +39,7 @@ class Tasks extends MY_Controller {
 	public function index($sort_by = 'taskname', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Работни Задачи';
+		$this->data['heading'] = uif::lng('app.tsk_tsks');
 
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -98,7 +98,7 @@ class Tasks extends MY_Controller {
 		$this->data['boms'] = $this->bom->dropdown('id','name');
 
 		//Heading
-		$this->data['heading'] = 'Нова Работна Задача';
+		$this->data['heading'] = uif::lng('app.tsk_new');
 	}
     
 	public function edit($id)
@@ -128,7 +128,7 @@ class Tasks extends MY_Controller {
 		$this->data['boms'] = $this->bom->dropdown('id','name');
 
 		//Heading
-		$this->data['heading'] = 'Корекција на Работна Задача';
+		$this->data['heading'] = uif::lng('app.tsk_edit');
 	}
 	
 	public function view($id)
@@ -138,7 +138,7 @@ class Tasks extends MY_Controller {
 			air::flash('void','tasks');
 
 		//Heading
-		$this->data['heading'] = 'Работна Задача';
+		$this->data['heading'] = uif::lng('app.tsk_tsk');
 	}
     
 	public function delete($id)

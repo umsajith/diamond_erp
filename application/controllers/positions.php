@@ -38,7 +38,7 @@ class Positions extends MY_Controller {
 	public function index($sort_by = 'position', $sort_order = 'asc', $offset = 0)
 	{	
 		//Heading
-		$this->data['heading'] = 'Работни Места';
+		$this->data['heading'] = uif::lng('app.pos_poss');
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
@@ -99,7 +99,7 @@ class Positions extends MY_Controller {
 		$this->data['departments'] = $this->dept->dropdown('id', 'department');
 
 		//Heading
-		$this->data['heading'] = 'Ново Работно Место';
+		$this->data['heading'] = uif::lng('app.pos_new');
 	}
 	
 	public function edit($id)
@@ -130,13 +130,13 @@ class Positions extends MY_Controller {
 		$this->data['departments'] = $this->dept->dropdown('id', 'department');
 
 		//Heading
-		$this->data['heading'] = 'Корекција на Работно Место';
+		$this->data['heading'] = uif::lng('app.pos_edit');
 	}
 	
 	public function view($id)
 	{
 		//Heading
-		$this->data['heading'] = 'Работно Место';
+		$this->data['heading'] = uif::lng('app.pos_pos');
 
 		$this->data['master'] = $this->pos->select_single($id);
 		if(!$this->data['master'])
