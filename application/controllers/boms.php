@@ -43,10 +43,10 @@ class Boms extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'name'       =>'Назив',
-			'quantity'   =>'Количина',
-			'prodname'   =>'Производ',
-			'conversion' => 'Конверзија'
+			'name'       => uif::lng('attr.name'),
+			'quantity'   => uif::lng('attr.quantity'),
+			'prodname'   => uif::lng('attr.item'),
+			'conversion' => uif::lng('attr.conversion')
 		);
 		
 		//Validates Sort by and Sort Order
@@ -76,12 +76,12 @@ class Boms extends MY_Controller {
 	public function insert()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('name','name','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','trim|required');
-		$this->form_validation->set_rules('prodname_fk','product','trim');
-		$this->form_validation->set_rules('uname_fk','uom','trim|required');
-		$this->form_validation->set_rules('conversion','conversion','trim');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('name',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'trim|required');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim');
+		$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required');
+		$this->form_validation->set_rules('conversion',uif::lng('attr.conversion'),'trim');
+		$this->form_validation->set_rules('description',uif::lng('attr.description'),'trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -112,11 +112,12 @@ class Boms extends MY_Controller {
 		
 		if($_POST)
 		{
-			//Defining Validation Rules
-			$this->form_validation->set_rules('prodname_fk','product','trim|required');
-			$this->form_validation->set_rules('quantity','quantity','trim|required');
-			$this->form_validation->set_rules('description','description','trim');
-			
+			$this->form_validation->set_rules('name',uif::lng('attr.name'),'trim|required');
+			$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'trim|required');
+			$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim');
+			$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required');
+			$this->form_validation->set_rules('conversion',uif::lng('attr.conversion'),'trim');
+			$this->form_validation->set_rules('description',uif::lng('attr.description'),'trim');
 			
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
@@ -137,9 +138,9 @@ class Boms extends MY_Controller {
 	//AJAX - Adds New Product in Bom Details
 	public function addProduct()
 	{
-		$this->form_validation->set_rules('bom_fk','bom fk','trim|required');
-		$this->form_validation->set_rules('prodname_fk','product','trim|required');
-		$this->form_validation->set_rules('quantity','quantity','trim|required');
+		$this->form_validation->set_rules('bom_fk',uif::lng('attr.bom'),'trim|required');
+		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
+		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'trim|required');
 
 		if ($this->form_validation->run())
 		{
@@ -167,7 +168,7 @@ class Boms extends MY_Controller {
 
 		if (($_POST['value'] < 0) OR (!$this->form_validation->run()))
 		{
-			$this->output->set_status_header(500,'Внесете валидна вредност');
+			$this->output->set_status_header(500,uif::lng('air.insert_valid_quantity'));
 		}
 		else
 		{
@@ -181,8 +182,8 @@ class Boms extends MY_Controller {
 	{
 		//Retreives data from MASTER Model
 		$this->data['master'] = $this->bom->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void','boms');
+
+		if(!$this->data['master']) air::flash('void');
 
 		//Retreives data from DETAIL Model
 		$this->data['details'] = $this->bomd->select_by_bom_id($id);
@@ -193,8 +194,7 @@ class Boms extends MY_Controller {
 	
 	public function delete($id = false)
 	{
-		if(!$this->bom->select_single($id))
-			air::flash('void','boms');
+		if(!$this->bom->get($id)) air::flash('void','boms');
 		
 		if($this->bom->delete($id))
 			air::flash('delete','boms');

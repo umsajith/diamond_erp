@@ -52,8 +52,8 @@ class Auth extends CI_Controller {
 		if(!$this->input->is_ajax_request()) $isAjax = false;			
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('username','username','trim|required|xss_clean');
-		$this->form_validation->set_rules('password','password','trim|required|xss_clean');
+		$this->form_validation->set_rules('username',uif::lng('common.username'),'trim|required|xss_clean');
+		$this->form_validation->set_rules('password',uif::lng('common.password'),'trim|required|xss_clean');
 		
 		if($this->form_validation->run())
 		{
@@ -88,6 +88,8 @@ class Auth extends CI_Controller {
 			
 			}		
 		}
+		
+		$this->load->view('login_view');
 	}
 
 	private function authenticate($user)

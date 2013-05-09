@@ -5,25 +5,25 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Назив:</dt>
+            <dt><?=uif::lng('attr.name')?>:</dt>
             <dd><?=$master->name;?></dd>
-            <dt>Количина:</dt>
+            <dt><?=uif::lng('attr.quantity')?>:</dt>
             <dd><?=$master->quantity.' '.$master->uname2;?></dd>
-            <dt>Конверзија:</dt>
+            <dt><?=uif::lng('attr.conversion')?>:</dt>
             <dd><?=$master->quantity.' '.$master->uname2.' = '.$master->quantity * $master->conversion.' '.$master->uname;?></dd>
-            <dt>Артикл:</dt>
+            <dt><?=uif::lng('attr.item')?>:</dt>
             <dd><?=uif::isNull($master->prodname)?></dd>
-            <dt>Статус:</dt>
-            <dd><?=($master->is_active == 1) ? 'Активен' : 'Неактивен' ;?></dd>      
+            <dt><?=uif::lng('attr.status')?>:</dt>
+            <dd><?=($master->is_active == 1) ? uif::lng('attr.status_active') : uif::lng('attr.status_inactive') ;?></dd>      
 	   </dl>
     </div>
     <div class="span7">
          <?=form_open('boms/addProduct','id="add-product-form"')?>
-                <div class="legend">Додавање сировини и репро-материјали на норматив</div>
+                <div class="legend"><?=uif::lng('app.add_item_to_bom')?></div>
             <div class="well well-small form-horizontal">
-                    <?=uif::formElement('dropdown','Артикл','prodname_fk',[],'id="products" class="input-large"')?>
+                    <?=uif::formElement('dropdown','','prodname_fk',[],'id="products" class="input-large"')?>
                 <div class="input-append">
-                    <?=uif::formElement('text','','quantity','','placeholder="Количина" class="input-medium"')?>
+                    <?=uif::formElement('text','','quantity','','placeholder="'.uif::lng('attr.quantity').'" class="input-medium"')?>
                     <span class="add-on uom"></span>
                     <?=form_hidden('bom_fk',$master->id)?>
                     <?=uif::button('icon-plus-sign','success','onClick="cd.submit(#add-product-form);"')?>
@@ -31,14 +31,14 @@
             </div>  
         <?=form_close()?>
         <?php if (isset($details) AND is_array($details) AND count($details)):?>
-            <div class="legend">Сировини и репро-материјали во овој норматив</div>
+            <div class="legend"><?=uif::lng('app.items_in_bom')?></div>
         <table class="table table-condensed">
             <thead>
             <tr>
-                <th>Артикл</th>
-                <th>Категорија</th>
-                <th>Количина</th>
-                <th>ЕМ</th>
+                <th><?=uif::lng('attr.item')?></th>
+                <th><?=uif::lng('attr.category')?></th>
+                <th><?=uif::lng('attr.quantity')?></th>
+                <th><?=uif::lng('attr.uom')?></th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
@@ -66,7 +66,7 @@
             type: 'text',
             url: "<?=site_url('boms/ajxEditQty')?>"
         });
-        var options = {select : "#products",aux1 : "span.uom", placeholder:'Артикл'};
+        var options = {select : "#products",aux1 : "span.uom", placeholder:"<?=uif::lng('attr.item')?>"};
         cd.ddProducts("<?=site_url('products/ajxGetProducts')?>",options); 
     });
 </script>

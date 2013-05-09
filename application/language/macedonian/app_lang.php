@@ -100,6 +100,10 @@ $lang['app_bom_boms']              = 'Нормативи';
 $lang['app_bom_new']               = 'Нов Норматив';
 $lang['app_bom_edit']              = 'Корекција на Норматив';
 
+$lang['app_add_item_to_bom']              = 'Додавање сировини и репро-материјали на норматив';
+$lang['app_items_in_bom']              = 'Сировини и репро-материјали во овој норматив';
+
+
 //Product Types
 $lang['app_pt_pt']                 = 'Tип на Артикл';
 $lang['app_pt_pts']                = 'Tипови на Артикли';

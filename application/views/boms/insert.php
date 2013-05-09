@@ -5,14 +5,14 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('text','Назив','name')?>
-		<?=uif::controlGroup('text','Количина','quantity')?>
-		<?=uif::controlGroup('dropdown','ЕМ','uname_fk',[$uoms])?>
-		<?=uif::controlGroup('text','Конверзија','conversion')?>
-		<?=uif::controlGroup('dropdown','Артикл','prodname_fk',[],'id="products"')?>
-		<?=uif::controlGroup('text','ЕМ','','','id="uom" disabled')?>
-		<?=uif::controlGroup('text','Категорија','','','id="category" disabled')?>
-		<?=uif::controlGroup('textarea','Белешка','description')?>
+		<?=uif::controlGroup('text',':attr.name','name')?>
+		<?=uif::controlGroup('text',':attr.quantity','quantity')?>
+		<?=uif::controlGroup('dropdown',':attr.uom','uname_fk',[$uoms])?>
+		<?=uif::controlGroup('text',':attr.conversion','conversion')?>
+		<?=uif::controlGroup('dropdown',':attr.item','prodname_fk',[],'id="products"')?>
+		<?=uif::controlGroup('text',':attr.uom','','','id="uom" disabled')?>
+		<?=uif::controlGroup('text',':attr.category','','','id="category" disabled')?>
+		<?=uif::controlGroup('textarea',':attr.description','description')?>
 	<?=form_close()?>
 	</div>
 </div>

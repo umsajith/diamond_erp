@@ -248,6 +248,13 @@ class UIF {
 		
 		if($label != '')
 		{
+			//If Language fetch character has been passed,
+			//return language definition by supplied file.key construct
+			if($label[0] === ':')
+			{
+				$label = self::lng(substr($label, 1));
+			}
+
 			$out .= '<label class="control-label">'.$label.'</label>';
 		}
 
