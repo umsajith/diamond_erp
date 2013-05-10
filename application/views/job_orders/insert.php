@@ -5,15 +5,15 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','datedue')?>
-		<?=uif::controlGroup('dropdown','Работник','assigned_to',[$employees],'id="employee"')?>
-		<?=uif::controlGroup('dropdown','Работна Задача','task_fk',[],'id="tasks" disabled')?>
-		<?=uif::controlGroup('text','Количина','assigned_quantity')?>
-		<?=uif::controlGroup('text','Растур','defect_quantity')?>
-		<?=uif::controlGroup('text','ЕМ','','','id="uname" disabled')?>
-		<?=uif::controlGroup('text','Работни Часови','work_hours')?>
-		<?=uif::controlGroup('radio','Смена','shift',[[1,2,3]])?>
-		<?=uif::controlGroup('textarea','Забелешка','description')?>
+		<?=uif::controlGroup('datepicker',':attr.date','datedue')?>
+		<?=uif::controlGroup('dropdown',':attr.employee','assigned_to',[$employees],'id="employee"')?>
+		<?=uif::controlGroup('dropdown',':attr.task','task_fk',[],'id="tasks" disabled')?>
+		<?=uif::controlGroup('text',':attr.quantity','assigned_quantity')?>
+		<?=uif::controlGroup('text',':attr.spill','defect_quantity')?>
+		<?=uif::controlGroup('text',':attr.uom','','','id="uname" disabled')?>
+		<?=uif::controlGroup('text',':attr.work_hours','work_hours')?>
+		<?=uif::controlGroup('radio',':attr.shift','shift',[[1,2,3]])?>
+		<?=uif::controlGroup('textarea',':attr.note','description')?>
 		<?=form_hidden('task_fk')?>
 	<?=form_close()?>
 	</div>

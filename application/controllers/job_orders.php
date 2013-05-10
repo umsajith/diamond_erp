@@ -102,9 +102,21 @@ class Job_orders extends MY_Controller {
 	}
 
 	public function insert()
-	{		
-		if($_POST)
-		{
+	{	
+		//Defining Validation Rules
+		$this->form_validation->set_rules('datedue',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('assigned_to',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('task_fk',uif::lng('attr.task'),'trim|required');
+		$this->form_validation->set_rules('assigned_quantity',uif::lng('attr.quantity'),'trim|required|numeric|greater_than[0]');
+		$this->form_validation->set_rules('work_hours',uif::lng('attr.work_hours'),'numeric|greater_than[0]');
+		$this->form_validation->set_rules('defect_quantity',uif::lng('attr.spill'),'numeric|greater_than[0]');
+		$this->form_validation->set_rules('shift','','trim');
+		$this->form_validation->set_rules('ext_doc','','trim');
+		$this->form_validation->set_rules('is_completed','','trim');
+		$this->form_validation->set_rules('description','','trim');
+		
+		if($this->form_validation->run())
+		{	
 			if($job_order_id = $this->jo->insert($_POST))
 			{
 				/*
@@ -123,6 +135,7 @@ class Job_orders extends MY_Controller {
 			 * @todo Check if insert failed AND there are no validation errors,
 			 * then trwo 500 intenral error message with redirect
 			 */
+			air::flash('error','job_orders');
 		}
 		
 		//Generate dropdown menu data
@@ -151,22 +164,23 @@ class Job_orders extends MY_Controller {
 		 * Prevents from editing locked record
 		 */
 		if($this->data['job_order']->locked) air::flash('deny','job_orders');
+
+		//Defining Validation Rules
+		$this->form_validation->set_rules('datedue',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('assigned_to',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('task_fk',uif::lng('attr.task'),'trim|required');
+		$this->form_validation->set_rules('assigned_quantity',uif::lng('attr.quantity'),'trim|required|numeric|greater_than[0]');
+		$this->form_validation->set_rules('work_hours',uif::lng('attr.work_hours'),'numeric|greater_than[0]');
+		$this->form_validation->set_rules('defect_quantity',uif::lng('attr.spill'),'numeric|greater_than[0]');
+		$this->form_validation->set_rules('shift','','trim');
+		$this->form_validation->set_rules('ext_doc','','trim');
+		$this->form_validation->set_rules('is_completed','','trim');
+		$this->form_validation->set_rules('description','','trim');
 		
-		if($_POST)
+		if($this->form_validation->run())
 		{
 			if($this->jo->update($_POST['id'],$_POST))
 			{
-				// $found = $this->inv->get_many_by(['job_order_fk'=>$_POST['id']]);
-				// if(!empty($found))
-				// {
-				// 	$ids = [];
-				// 	foreach ($found as $row) 
-				// 	{
-				// 		array_push($ids,$row->id);
-				// 	}
-				// 	$this->inv->delete_many($ids);
-				// }
-				
 				/*
 				 * Check if this task is production and has
 				 * assigned BOM
@@ -180,6 +194,7 @@ class Job_orders extends MY_Controller {
 
 				air::flash('update','job_orders');
 			}
+			air::flash('error','job_orders');
 		}
 		
 		//Generate dropdown menu data
@@ -197,9 +212,9 @@ class Job_orders extends MY_Controller {
 	 */
 	public function ajxComplete()
 	{	
-		if($this->jo->update_many(json_decode($_POST['ids']),['is_completed'=>1],true))
+		if($this->jo->update_many(json_decode($_POST['ids']),['is_completed'=>1]))
 			echo 1;
-		exit;	
+		exit;
 	}
 	
 	public function view($id)
@@ -222,9 +237,9 @@ class Job_orders extends MY_Controller {
 		if($_POST)
 		{
 			//Defining Validation Rules
-			$this->form_validation->set_rules('datefrom','date from','trim|required');
-			$this->form_validation->set_rules('dateto','date to','trim|required');
-			$this->form_validation->set_rules('shift[]','shift','trim');
+			$this->form_validation->set_rules('datefrom',uif::lng('attr.date_from'),'trim|required');
+			$this->form_validation->set_rules('dateto',uif::lng('attr.date_to'),'trim|required');
+			$this->form_validation->set_rules('shift[]','','trim');
 			
 			if ($this->form_validation->run())
 			{

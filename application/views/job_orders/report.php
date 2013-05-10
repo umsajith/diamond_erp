@@ -16,7 +16,7 @@
 			<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
 			<?=uif::controlGroup('dropdown','','assigned_to',[$employees])?>
 			<?=uif::controlGroup('dropdown','','task_fk',[$tasks])?>
-			<?=uif::controlGroup('checkbox','Смена','shift[]',[[1,2,3]])?>
+			<?=uif::controlGroup('checkbox',':attr.shift','shift[]',[[1,2,3]])?>
 		<?=form_close()?>
 	</div>
 	<div class="span8">
@@ -24,12 +24,12 @@
 		<table class="table table-stripped table-condensed table-hover tablesorter" id="report-table">
 			<thead>
 				<tr>
-			    	<th>Работна Задача</th>
-			    	<th>Вкупно</th>
-			    	<th>Просек</th>
-			    	<th>Максимум</th>
-			    	<th>Минимум</th>
-			    	<th>Р.Налози</th>    	
+			    	<th><?=uif::lng('attr.task')?></th>
+			    	<th><?=uif::lng('attr.total')?></th>
+			    	<th><?=uif::lng('attr.average')?></th>
+			    	<th><?=uif::lng('attr.max')?></th>
+			    	<th><?=uif::lng('attr.min')?></th>
+			    	<th><?=uif::lng('app.job_jobs')?></th>    	
 		    	</tr>
 		    </thead>
 		    <tbody>
@@ -51,8 +51,8 @@
 <script>
 	$(function() {
 
-		cd.dd("select[name=assigned_to]",'Работник');
-		cd.dd("select[name=task_fk]",'Работна Задача');
+		cd.dd("select[name=assigned_to]","<?=uif::lng('attr.employee')?>");
+		cd.dd("select[name=task_fk]","<?=uif::lng('attr.task')?>");
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 

@@ -7,7 +7,7 @@ $lang['attr_month']               = 'Месец';
 $lang['attr_doe']                 = 'Внес';
 $lang['attr_last_change']         = 'Последна Промена';
 $lang['attr_date_from']           = 'Од';
-$lang['attr_date_from']           = 'Од';
+$lang['attr_date_to']             = 'До';
 $lang['attr_date_start']          = 'Почеток';
 $lang['attr_date_end']            = 'Крај';
 
@@ -41,7 +41,11 @@ $lang['attr_price']               = 'Цена';
 $lang['attr_price_wo_vat']        = 'Цена (без ДДВ)';
 $lang['attr_price_w_vat']         = 'Цена (со ДДВ)';
 $lang['attr_subtotal']            = 'Вкупно (без ДДВ)';
-$lang['attr_total']               = 'Вкупно (со ДДВ)';
+$lang['attr_total_w_vat']         = 'Вкупно (со ДДВ)';
+$lang['attr_total']               = 'Вкупно';
+$lang['attr_average']             = 'Просек';
+$lang['attr_min']                 = 'Минимум';
+$lang['attr_max']                 = 'Максимум';
 $lang['attr_price_min']           = 'Мин.Цена';
 $lang['attr_price_max']           = 'Макс.Цена';
 $lang['attr_vat']                 = 'ДДВ';
@@ -67,6 +71,10 @@ $lang['attr_code']                = 'Шифра';
 
 $lang['attr_shift']               = 'Смена';
 $lang['attr_work_hours']          = 'Работни Часови';
+$lang['attr_spill']               = 'Растур';
+
+$lang['attr_unit_price']          = 'Единечна Цена';
+$lang['attr_locked']              = 'Заклучен';
 
 $lang['attr_first_name']          = 'Име';
 $lang['attr_last_name']           = 'Презиме';

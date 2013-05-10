@@ -54,8 +54,8 @@
 
 <script>
 	$(function(){
-		cd.dd("select[name=task_fk]",'Работна Задача');
-		cd.dd("select[name=assigned_to]",'Работник');
-		cd.dd("select[name=shift]",'Смена');
+		cd.dd("select[name=task_fk]","<?=uif::lng('attr.task')?>");
+		cd.dd("select[name=assigned_to]","<?=uif::lng('attr.employee')?>");
+		cd.dd("select[name=shift]","<?=uif::lng('attr.shift')?>");
 	});	
 </script>

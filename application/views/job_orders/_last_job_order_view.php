@@ -1,17 +1,17 @@
 <?php if(isset($last)): ?>
-	<h4 class="text-center">Последен Работен Налог</h4>
+	<h4 class="text-center"><?=uif::lng('attr.last_job_order')?></h4>
     <dl class="dl-horizontal">
-        <dt>Датум:</dt>
+        <dt><?=uif::lng('attr.date')?>:</dt>
         <dd><?=($last->datedue==null?'-':$last->datedue)?></dd>
-        <dt>Работник:</dt>
+        <dt><?=uif::lng('attr.employee')?>:</dt>
         <dd><?=$last->fname.' '.$last->lname?></dd>
-        <dt>Работна Задача:</dt>
+        <dt><?=uif::lng('attr.task')?>:</dt>
         <dd><?=$last->taskname?></dd>
-        <dt>Количина</dt>
+        <dt><?=uif::lng('attr.quantity')?></dt>
         <dd><?=$last->assigned_quantity.' '.$last->uname?></dd>
-        <dt>Работни Часови:</dt>
+        <dt><?=uif::lng('attr.work_hours')?>:</dt>
         <dd><?=($last->work_hours==null ?'-':$last->work_hours.' час/а')?></dd>
-        <dt>Смена:</dt>
+        <dt><?=uif::lng('attr.shift')?>:</dt>
         <dd><?=($last->shift==null?'-':$last->shift)?></dd>
         <dt>&nbsp;</dt>
     	<dd><?=uif::actionGroup('job_orders',$last->id)?></dd>

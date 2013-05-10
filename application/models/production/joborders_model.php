@@ -9,19 +9,6 @@ class Joborders_model extends MY_Model {
 
 	public $before_update = ['setNull','processUpdate'];
 
-	public $validate = [
-        [ 'field' => 'datedue', 	'label' => 'date due','rules' => 'required'],
-		[ 'field' => 'assigned_to', 'label' => 'employee','rules' => 'required'],
-		[ 'field' => 'task_fk', 	'label' => 'task','rules' => 'required'],
-		[ 'field' => 'assigned_quantity', 	'label' => 'assigned quantity',
-			'rules' => 'trim|required|greater_than[0]'],
-		[ 'field' => 'work_hours',			'label' => '','rules' => 'trim'],
-		[ 'field' => 'defect_quantity', 	'label' => '','rules' => 'trim'],
-		[ 'field' => 'shift', 		'label' => '','rules' => 'trim'],
-		[ 'field' => 'ext_doc', 'label' => '','rules' => 'trim'],
-		[ 'field' => 'is_completed', 'label' => '','rules' => 'trim']
-    ];
-
 	public function __construct()
 	{
 		parent::__construct();

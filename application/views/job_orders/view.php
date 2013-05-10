@@ -10,45 +10,45 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Датум:</dt>
+            <dt><?=uif::lng('attr.date')?>:</dt>
             <dd><?=uif::date($master->datedue)?></dd>
-            <dt>Работник:</dt>
+            <dt><?=uif::lng('attr.employee')?>:</dt>
             <dd><?=$master->fname.' '.$master->lname;?></dd>
-            <dt>Работна Задача:</dt>
+            <dt><?=uif::lng('attr.task')?>:</dt>
             <dd><?=$master->taskname;?></dd>
             <?php if ($master->calculation_rate): ?>
-                <dt>Основна Цена:</dt>
+                <dt><?=uif::lng('attr.unit_price')?>:</dt>
                 <dd><?=$master->calculation_rate.' / '.$master->uname;?></dd>
             <?php endif; ?>
-            <dt>Количина:</dt>
+            <dt><?=uif::lng('attr.quantity')?>:</dt>
             <dd><?=$master->assigned_quantity.' '.$master->uname ;?></dd>
-            <dt>Растур:</dt>
+            <dt><?=uif::lng('attr.spill')?>:</dt>
             <dd><?=uif::isNull($master->defect_quantity)?></dd>
-            <dt>Работни Часови:</dt>
+            <dt><?=uif::lng('attr.work_hours')?>:</dt>
             <dd><?=uif::isNull($master->work_hours)?></dd>            
-            <dt>Смена:</dt>
+            <dt><?=uif::lng('attr.shift')?>:</dt>
             <dd><?=uif::isNull($master->shift)?></dd>            
-            <dt>Забелешка:</dt>
+            <dt><?=uif::lng('attr.note')?>:</dt>
             <dd><?=uif::isNull($master->description)?></dd> 
             <?php if($master->is_completed):?>
-                <dt>Заклучен:</dt>
+                <dt><?=uif::lng('attr.locked')?>:</dt>
                 <dd><?=uif::staticIcon('icon-ok')?></dd>  
             <?php endif;?>           
             <?php if($this->session->userdata('admin')):?>
-                <dt>Оператор:</dt>
+                <dt><?=uif::lng('attr.operator')?>:</dt>
                 <dd><?=$master->operator;?></dd>  
             <?php endif;?>
         </dl>
     </div>
     <div class="span7">
     <?php if (isset($details) AND is_array($details) AND count($details)):?>
-        <div class="legend">Употребени Сировини</div>
+        <div class="legend"><?=uif::lng('app.used_raw_materials')?></div>
         <table class="table table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th>Артикл</th>
-                    <th>Категорија</th>
-                    <th>Количина</th>
+                    <th><?=uif::lng('attr.item')?></th>
+                    <th><?=uif::lng('attr.category')?></th>
+                    <th><?=uif::lng('attr.quantity')?></th>
                 </tr>
             </thead>
             <tbody>
@@ -65,10 +65,9 @@
     <?php if($master->payroll_fk):?>
         <div class="alert">
             <i class="icon-lock"></i>
-            <strong>Овој работен налог е заклучен по калкулација за плата #
+            <strong><?=uif::lng('app.job_order_locked_by_payroll')?>
             <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk);?></strong>
         </div>
     <?php endif;?>  
     </div>
 </div>
-

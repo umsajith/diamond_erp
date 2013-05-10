@@ -43,7 +43,7 @@
 		    <dd><?=($master->price == null ? '-' : $net_total);?></dd>
 		    <dt><?=uif::lng('attr.vat')?> (<?=$master->rate.'%'; ?>):</dt>
 		    <dd><?=(!isset($vat)) ? '-' : $vat; ?></dd>
-		    <dt><?=uif::lng('attr.total')?>:</dt>
+		    <dt><?=uif::lng('attr.total_w_vat')?>:</dt>
 		    <dd><?=(!isset($gross_total)) ? '-' : $gross_total; ?></dd>    
 		    <dt><?=uif::lng('attr.ordered')?>:</dt>
 		    <dd><?=uif::date($master->dateoforder)?></dd>
