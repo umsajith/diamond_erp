@@ -4,14 +4,14 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Артикл:</dt>
+            <dt><?=uif::lng('attr.item')?>:</dt>
             <dd><?=$master->prodname?></dd>
-            <dt>Количина:</dt>
+            <dt><?=uif::lng('attr.quantity')?>:</dt>
             <dd><?=$master->quantity .' '.  $master->uname?></dd>
-            <dt>Причина:</dt>
+            <dt><?=uif::lng('attr.note')?>:</dt>
             <dd><?=$master->comments?></dd> 
             <?php if($this->session->userdata('admin')):?>
-                <dt>Оператор:</dt>
+                <dt><?=uif::lng('attr.operator')?>:</dt>
                 <dd><?=$master->fname. ' '.$master->lname?></dd>
             <?php endif;?>
         </dl>

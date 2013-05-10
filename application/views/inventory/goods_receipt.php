@@ -5,30 +5,30 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-		    <dt>Добавувач:</dt>
+		    <dt><?=uif::lng('attr.vendor')?>:</dt>
 		    <dd><?=uif::isNull($master->company);?></dd>   
-		    <dt>Артикл:</dt>
+		    <dt><?=uif::lng('attr.item')?>:</dt>
 		    <dd><?=$master->prodname;?></dd>
-		    <dt>Количина:</dt>
+		    <dt><?=uif::lng('attr.quantity')?>:</dt>
 		    <dd><?=$master->quantity .' '.  $master->uname;?></dd> 
-		    <dt>Плаќање:</dt>
+		    <dt><?=uif::lng('attr.payment_method')?>:</dt>
 		    <dd>
 		    	<?php 
 					switch ($master->purchase_method) 
 					{
-					    case '0':
-					       echo '-';
-					        break;
 					    case 'cash':
-					        echo 'Готовина';
+					        echo uif::lng('attr.cash');
 					        break;
 					   	case 'invoice':
-					        echo 'Фактура';
+					        echo uif::lng('attr.invoice');
+					        break;
+					    default:
+					       	echo '-';
 					        break;
 					}
 				?>
 			</dd>
-		    <dt>Документ:</dt>
+		    <dt><?=uif::lng('attr.document')?>:</dt>
 		    <dd><?=($master->ext_doc) ? $master->ext_doc:'-';?></dd>
 			<?php 
 				if($master->price) { 
@@ -37,24 +37,24 @@
 					$gross_total = $net_total + $vat;
 				}
 			?>
-		    <dt>Цена (без ДДВ):</dt>
+		    <dt><?=uif::lng('attr.price_wo_vat')?>:</dt>
 		    <dd><?=($master->price == null ? '-' : $master->price.' / '.$master->uname);?></dd>
-		    <dt>Вкупно (без ДДВ):</dt>
+		    <dt><?=uif::lng('attr.subtotal')?>:</dt>
 		    <dd><?=($master->price == null ? '-' : $net_total);?></dd>
-		    <dt>ДДВ (<?=$master->rate.'%'; ?>):</dt>
+		    <dt><?=uif::lng('attr.vat')?> (<?=$master->rate.'%'; ?>):</dt>
 		    <dd><?=(!isset($vat)) ? '-' : $vat; ?></dd>
-		    <dt>Вкупно (со ДДВ):</dt>
+		    <dt><?=uif::lng('attr.total')?>:</dt>
 		    <dd><?=(!isset($gross_total)) ? '-' : $gross_total; ?></dd>    
-		    <dt>Нарачано:</dt>
+		    <dt><?=uif::lng('attr.ordered')?>:</dt>
 		    <dd><?=uif::date($master->dateoforder)?></dd>
-		    <dt>Примено:</dt>
+		    <dt><?=uif::lng('attr.received')?>:</dt>
 		    <dd><?=uif::date($master->datereceived)?></dd>
-		    <dt>Траење:</dt>
+		    <dt><?=uif::lng('attr.expires')?>:</dt>
 		    <dd><?=uif::date($master->dateofexpiration)?></dd>
-		    <dt>Белешка:</dt>
+		    <dt><?=uif::lng('attr.note')?>:</dt>
 		    <dd><?=uif::isNull($master->comments)?></dd>
 		    <?php if($this->session->userdata('admin')):?>
-		        <dt>Оператор:</dt>
+		        <dt><?=uif::lng('attr.operator')?>:</dt>
 		        <dd><?=$master->fname. ' '.$master->lname;?></dd>
 		    <?php endif;?>
 		</dl>
