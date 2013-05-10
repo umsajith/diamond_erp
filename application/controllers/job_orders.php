@@ -49,13 +49,13 @@ class Job_orders extends MY_Controller {
 
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'datedue'           =>'Датум',
-			'assigned_to'       =>'Работник',
-			'task_fk'           =>'Работна Задача',
-			'assigned_quantity' =>'Кол./Траење',
-			'work_hours'        =>'Раб.Часови',
-			'shift'             =>'Смена',
-			'dateofentry'       =>'Внес'
+			'datedue'           => uif::lng('attr.date'),
+			'assigned_to'       => uif::lng('attr.employee'),
+			'task_fk'           => uif::lng('attr.task'),
+			'assigned_quantity' => uif::lng('attr.quantity'),
+			'work_hours'        => uif::lng('attr.work_hours'),
+			'shift'             => uif::lng('attr.shift'),
+			'dateofentry'       => uif::lng('attr.doe')
 		];
 
 		$this->input->load_query($query_id);

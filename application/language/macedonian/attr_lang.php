@@ -65,6 +65,9 @@ $lang['attr_note']                = 'Белешка';
 
 $lang['attr_code']                = 'Шифра';
 
+$lang['attr_shift']               = 'Смена';
+$lang['attr_work_hours']          = 'Работни Часови';
+
 $lang['attr_first_name']          = 'Име';
 $lang['attr_last_name']           = 'Презиме';
 $lang['attr_dob']                 = 'ДНР';
