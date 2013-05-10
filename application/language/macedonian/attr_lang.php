@@ -28,6 +28,7 @@ $lang['attr_duty']                = 'Задолжение';
 
 $lang['attr_ordered']             = 'Нарачано';
 $lang['attr_received']            = 'Примено';
+$lang['attr_shipped']             = 'Испорачано';
 $lang['attr_expires']             = 'Истекува';
 
 $lang['attr_deduct']              = 'Минусирај';
@@ -35,6 +36,10 @@ $lang['attr_deduct']              = 'Минусирај';
 $lang['attr_pending']             = 'Во Исчекување';
 $lang['attr_approved']            = 'Оддобрено';
 $lang['attr_rejected']            = 'Одбиено';
+$lang['attr_delivered']           = 'Испорачанo';
+
+$lang['attr_taken']               = 'Земено';
+$lang['attr_returned']            = 'Вратено';
 
 
 $lang['attr_price']               = 'Цена';
@@ -57,6 +62,8 @@ $lang['attr_cash']                = 'Готовина';
 $lang['attr_cash_sh']             = 'Г';
 $lang['attr_invoice']             = 'Фактура';
 $lang['attr_invoice_sh']          = 'Ф';
+
+$lang['attr_order_list']          = 'Извештај';
 
 $lang['attr_link']                = 'Врска';
 $lang['attr_in']                  = 'Влез';

@@ -12,8 +12,8 @@
 	<div class="span4 well">
 		<?=form_open('orders/report',"id='report'")?>
 			<?=uif::load('_validation')?>
-			<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
-			<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
+			<?=uif::controlGroup('datepicker','','datefrom','','placeholder="'.uif::lng('attr.date_from').'"')?>
+			<?=uif::controlGroup('datepicker','','dateto','','placeholder="'.uif::lng('attr.date_to').'"')?>
 			<?=uif::controlGroup('dropdown','','distributor_fk',[$distributors])?>
 			<?=uif::controlGroup('dropdown','','partner_fk',[$customers])?>
 			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$modes_payment])?>
@@ -24,10 +24,10 @@
 		<table class="table table-stripped table-condensed table-hover tablesorter" id="report-table">
 			<thead>
 				<tr>
-			    	<th>Производ</th>
-			    	<th>Земено</th>
-			    	<th>Вратено</th>   
-			    	<th>Вратено (%)</th>    	
+			    	<th><?=uif::lng('attr.item')?></th>
+			    	<th><?=uif::lng('attr.taken')?></th>
+			    	<th><?=uif::lng('attr.returned')?></th>   
+			    	<th><?=uif::lng('attr.returned')?> (%)</th>    	
 		    	</tr>
 		    </thead>
 		    <tbody>
@@ -43,7 +43,7 @@
 			</table>
 			<?php if(isset($order_list_id)):?>
 			<div class="alert alert-info">
-				<i class="icon-info-sign"></i> Прегледувате рипорт за извештај # 
+				<i class="icon-info-sign"></i> <?=uif::lng('app.you_are_viewing_order_list_report')?> 
 				<strong><?=anchor("orders_list/view/{$order_list_id}",$order_list_id)?></strong> 
 			</div>
 			<?php endif;?>
@@ -55,9 +55,9 @@
 
 		$("#generate-pdf").hide();
 		
-		cd.dd("select[name=distributor_fk]",'Дистрибутер');
-		cd.dd("select[name=partner_fk]",'Партнер');
-		cd.dd("select[name=payment_mode_fk]",'Плаќање');
+		cd.dd("select[name=distributor_fk]","<?=uif::lng('attr.distributor')?>");
+		cd.dd("select[name=partner_fk]","<?=uif::lng('attr.partner')?>");
+		cd.dd("select[name=payment_mode_fk]","<?=uif::lng('attr.payment_method')?>");
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 

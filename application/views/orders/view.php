@@ -7,46 +7,46 @@
 <div class="row-fluid">
 	<div class="span5 well well-small">
 		<dl class="dl-horizontal">
-	        <dt>Датум</dt>
+	        <dt><?=uif::lng('attr.date')?>:</dt>
 	        <dd><?=uif::date($master->dateshipped)?></dd>
-	        <dt>Купувач:</dt>
+	        <dt><?=uif::lng('attr.customer')?>:</dt>
 	        <dd><?=anchor("partners/view/$master->pid",$master->company)?></dd>
-	        <dt>Дистрибутер:</dt>
+	        <dt><?=uif::lng('attr.distributor')?>:</dt>
 	        <dd><?=$master->lname . ' ' . $master->fname?></dd>
-	        <dt>Извештај:</dt>
+	        <dt><?=uif::lng('attr.order_list')?>:</dt>
 	        <dd><?=($master->order_list_id) ?
 	        	anchor("orders_list/view/{$master->order_list_id}",'#'.$master->order_list_id) : '-' ; ?></dd>
-	       	<dt>Плаќање:</dt>
+	       	<dt><?=uif::lng('attr.payment_method')?>:</dt>
 	        <dd><?=uif::isNull($master->name)?></dd>
-	        <dt>Белешка:</dt>
+	        <dt><?=uif::lng('attr.note')?>:</dt>
 	        <dd><?=uif::isNull($master->comments)?></dd>     
 		</dl>
 	</div>
 	<div class="span7">
 		<?php if(!$master->locked):?>
-		<div class="legend">Додавање артикл</div>
+		<div class="legend"><?=uif::lng('app.adding_item')?></div>
 		<div class="well well-small form-inline text-right">
 			<?=uif::formElement('dropdown','','prodname_fk',[],' class="input-large"')?>
 			<div class="input-append">
-				<?=uif::formElement('text','','quantity','','placeholder="Земено" class="input-medium"')?>
+				<?=uif::formElement('text','','quantity','','placeholder="'.uif::lng('attr.taken').'" class="input-medium"')?>
 				<span class="add-on uom"></span>
 			</div>
 			<div class="input-append">
-				<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено" class="input-small"')?>
+				<?=uif::formElement('text','','returned_quantity','','placeholder="'.uif::lng('attr.returned').'" class="input-small"')?>
 				<?=uif::button('icon-plus-sign','success','onClick="addProduct();"')?>
 			</div>
 		</div>
 		<?php endif;?>
 		<?php if (isset($details) AND is_array($details) AND count($details)):?>
-		<div class="legend">Артикли во овој Налог за Продажба</div>
+		<div class="legend"><?=uif::lng('app.items_in_order')?></div>
 		<table class="table table-condensed ordered-products">
 			<thead>
 			    <tr>
 			    	<th>&nbsp;</th>
-			    	<th>Производ</th>
-			    	<th>Категорија</th>
-			    	<th>Земено</th>
-			    	<th>Вратено</th>
+			    	<th><?=uif::lng('attr.item')?></th>
+			    	<th><?=uif::lng('attr.category')?></th>
+			    	<th><?=uif::lng('attr.taken')?></th>
+			    	<th><?=uif::lng('attr.returned')?></th>
 			    	<th>&nbsp;</th>
 			    </tr>
 		    </thead>
@@ -58,7 +58,7 @@
 					<td><?=$row->pcname?></td>
 					<td>
 						<?php if(!$master->locked):?>
-							<a href="#" class="editable" data-original-title="Земено" 
+							<a href="#" class="editable" data-original-title="<?=uif::lng('attr.taken')?>" 
 							data-name="quantity" data-pk="<?=$row->id?>"><?=$row->quantity?></a>
 						<?php else:?>
 							<?=$row->quantity?>
@@ -66,7 +66,7 @@
 					</td>
 					<td>
 						<?php if(!$master->locked):?>
-							<a href="#" class="editable" data-original-title="Вратено" 
+							<a href="#" class="editable" data-original-title="<?=uif::lng('attr.returned')?>" 
 							data-name="returned_quantity" data-pk="<?=$row->id?>"><?=$row->returned_quantity?></a>
 						<?php else:?>
 							<?=$row->returned_quantity?>
@@ -84,7 +84,7 @@
 		<?php if($master->payroll_fk):?>
         <div class="alert">
             <i class="icon-lock"></i>
-            <strong>Овој налог за продажба е заклучен по калкулација за плата #
+            <strong><?=uif::lng('app.order_locked_by_payroll')?>
             <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk)?></strong>
         </div>
     <?php endif;?>
@@ -100,7 +100,7 @@
 
 		var options = {
 			select : "select[name=prodname_fk]",
-			placeholder : 'Артикл',
+			placeholder : "<?=uif::lng('attr.item')?>",
 			aux1 : "span.uom",
 			args : {
 				salable : 1
@@ -132,19 +132,19 @@
 		if(returned_quantity == '') returned_quantity = 0;
 
 		if (product.val() == ''){
-			cd.notify('Изберете производ.','error');
+			cd.notify("<?=uif::lng('air.pick_item')?>",'error');
 			product.focus();
 			return false;
 		}
 
 		if (!cd.isNumber(quantity) || quantity == 0){
-			cd.notify('Внесете валидна количина.','error');
+			cd.notify("<?=uif::lng('air.insert_valid_quantity')?>",'error');
 			qty.focus();
 			return false;
 		}
 
 		if (!cd.isNumber(returned_quantity)){
-			cd.notify('Внесете валидна количина.','error');
+			cd.notify("<?=uif::lng('air.insert_valid_quantity')?>",'error');
 			rqty.focus();
 			return false;
 		}
@@ -160,7 +160,7 @@
 		});
 
 		if(exists) {
-			cd.notify("Артиклот веќе постои. Aжурирајте ја количината.");
+			cd.notify("<?=uif::lng('air.item_exists_edit_quantity')?>");
 			product.select2('data','').focus();
 			qty.val('');
 			rqty.val('');

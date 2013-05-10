@@ -52,23 +52,23 @@ class Orders extends MY_Controller {
 		$this->data['modes_payment'] = $this->pmm->dropdown('id','name');
 
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'dateshipped'     =>'Датум',
-			'partner_fk'      =>'Купувач',
-			'distributor_fk'  =>'Дистрибутер',
-			'payment_mode_fk' =>'Плаќање',
-			'dateofentry'     =>'Внес',
-			'order_list_id'   =>'Извештај'
-		);
+		$this->data['columns'] = [	
+			'dateshipped'     => uif::lng('attr.date'),
+			'partner_fk'      => uif::lng('attr.customer'),
+			'distributor_fk'  => uif::lng('attr.distributor'),
+			'payment_mode_fk' => uif::lng('attr.payment_method'),
+			'dateofentry'     => uif::lng('attr.doe'),
+			'order_list_id'   => uif::lng('attr.order_list')
+		];
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'partner_fk'      => $this->input->get('partner_fk'),
 			'postalcode_fk'   => $this->input->get('postalcode_fk'),
 			'distributor_fk'  => $this->input->get('distributor_fk'),
 			'payment_mode_fk' => $this->input->get('payment_mode_fk')
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -146,7 +146,8 @@ class Orders extends MY_Controller {
 		// 	'dateshipped' => $lastRecord->dateshipped,
 		// 	'dateofentry' => $lastRecord->dateofentry
 		// ];
-		//header('Content-Type: application/json');
+		// header('Content-Type: application/json');
+		// echo json_encode($out);
 
 		$this->db->trans_complete();
 
@@ -181,11 +182,11 @@ class Orders extends MY_Controller {
 		if($_POST)
 		{	
 			//Defining Validation Rules
-			$this->form_validation->set_rules('partner_fk','partner','trim|required');
-			$this->form_validation->set_rules('distributor_fk','distributor','trim|required');
-			$this->form_validation->set_rules('dateshipped','date shipped','trim|required');
-			$this->form_validation->set_rules('comments','comments','trim');
-			$this->form_validation->set_rules('payment_mode_fk','payment mode','trim|required');
+			$this->form_validation->set_rules('partner_fk',uif::lng('attr.customer'),'trim|required');
+			$this->form_validation->set_rules('distributor_fk',uif::lng('attr.distributor'),'trim|required');
+			$this->form_validation->set_rules('dateshipped',uif::lng('attr.date'),'trim|required');
+			$this->form_validation->set_rules('comments',uif::lng('attr.note'),'trim');
+			$this->form_validation->set_rules('payment_mode_fk',uif::lng('attr.payment_method'),'trim|required');
 
 			//Check if updated form has passed validation
 			if ($this->form_validation->run())
@@ -244,8 +245,8 @@ class Orders extends MY_Controller {
 		if($_POST)
 		{
 			//Defining Validation Rules
-			$this->form_validation->set_rules('datefrom','date from','trim|required');
-			$this->form_validation->set_rules('dateto','date to','trim|required');
+			$this->form_validation->set_rules('datefrom',uif::lng('attr.date_from'),'trim|required');
+			$this->form_validation->set_rules('dateto',uif::lng('attr.date_to'),'trim|required');
 			
 			if ($this->form_validation->run())
 			{

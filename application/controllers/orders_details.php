@@ -54,7 +54,7 @@ class Orders_details extends MY_Controller {
 
 		if (($_POST['value'] < 0) OR (!$this->form_validation->run()))
 		{
-			$this->output->set_status_header(500,'Внесете валидна вредност');
+			$this->output->set_status_header(500,uif::lng('air.insert_valid_quantity'));
 		}
 		else
 		{

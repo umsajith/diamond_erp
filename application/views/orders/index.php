@@ -47,9 +47,9 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=distributor_fk]",'Дистрибутер');
-		cd.dd("select[name=partner_fk]",'Партнер');
-		cd.dd("select[name=payment_mode_fk]",'Плаќање');
-		cd.dd("select[name=postalcode_fk]",'Град');
+		cd.dd("select[name=distributor_fk]","<?=uif::lng('attr.distributor')?>");
+		cd.dd("select[name=partner_fk]","<?=uif::lng('attr.partner')?>");
+		cd.dd("select[name=payment_mode_fk]","<?=uif::lng('attr.payment_method')?>");
+		cd.dd("select[name=postalcode_fk]","<?=uif::lng('attr.city')?>");
 	});	
 </script>

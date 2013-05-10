@@ -5,13 +5,13 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','dateshipped',$master)?>
-		<?=uif::controlGroup('dropdown','Купувач','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
-		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
-		<?=uif::controlGroup('dropdown','Плаќање','payment_mode_fk',[$modes_payment,$master],'placeholder="Плаќање"')?>	
-		<?=uif::controlGroup('dropdown','Статус','ostatus',
-		[['pending'=>'Примена','completed'=>'Испорачана','rejected'=>'Одбиена'],$master],'placeholder="Статус"')?>	
-		<?=uif::controlGroup('textarea','Белешка','comments',$master,'placeholder="Белешка"')?>	
+		<?=uif::controlGroup('datepicker',':attr.date','dateshipped',$master)?>
+		<?=uif::controlGroup('dropdown',':attr.customer','partner_fk',[$customers,$master],'placeholder="Купувач"')?>
+		<?=uif::controlGroup('dropdown',':attr.distributor','distributor_fk',[$distributors,$master],'placeholder="Дистрибутер"')?>
+		<?=uif::controlGroup('dropdown',':attr.payment_method','payment_mode_fk',[$modes_payment,$master],'placeholder="Плаќање"')?>	
+		<?=uif::controlGroup('dropdown',':attr.status','ostatus',
+		[['pending' => uif::lng('attr.pending'),'completed' => uif::lng('attr.delivered'),'rejected' => uif::lng('attr.rejected')],$master])?>	
+		<?=uif::controlGroup('textarea',':attr.note','comments',$master)?>	
 		<?=form_hidden('id',$master->id)?>
 	<?=form_close()?>
 	</div>

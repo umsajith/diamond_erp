@@ -46,13 +46,13 @@ class Orders_list extends MY_Controller {
 		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'date'           =>'Датум',
-			'distributor_id' =>'Дистрибутер',
-			'ext_doc'        =>'Документ',
-			'code'           =>'Код',
-			'dateofentry'    =>'Внес'
-		);
+		$this->data['columns'] = [
+			'date'           => uif::lng('attr.date'),
+			'distributor_id' => uif::lng('attr.distributor'),
+			'ext_doc'        => uif::lng('attr.document'),
+			'code'           => uif::lng('attr.code'),
+			'dateofentry'    => uif::lng('attr.doe')
+		];
 
 		$this->input->load_query($query_id);
 		
@@ -103,13 +103,18 @@ class Orders_list extends MY_Controller {
 		//Dropdown Menus
 		$this->data['distributors'] = $this->emp->generateDropdown(['is_distributer' => 1]);
 		
-		//Check if form has been submited
-		if ($_POST)
-		{
+		$this->form_validation->set_rules('date',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('distributor_id',uif::lng('attr.distributor'),'trim|required');
+		$this->form_validation->set_rules('ext_doc','','trim');
+		$this->form_validation->set_rules('note','','trim');
+		
+		if($this->form_validation->run())
+		{	
 			if($order_id = $this->col->insert($_POST))
 			{
 				air::flash('add',"orders_list/view/{$order_id}");
 			}
+			air::flash('error',"orders_list/insert");
 		}
 	}
 
@@ -130,13 +135,18 @@ class Orders_list extends MY_Controller {
 		 */
 		if($this->data['master']->locked) air::flash('deny','orders_list');
 		
-		//Check if form has been submited
-		if ($_POST)
+		$this->form_validation->set_rules('date',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('distributor_id',uif::lng('attr.distributor'),'trim|required');
+		$this->form_validation->set_rules('ext_doc','','trim');
+		$this->form_validation->set_rules('note','','trim');
+		
+		if($this->form_validation->run())
 		{
 			if($this->col->update($_POST['id'],$_POST))
 			{
 				air::flash('update','orders_list');
 			}
+			air::flash('error',"orders_list/edit/{$id}");
 		}
 	}
 
