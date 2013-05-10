@@ -5,50 +5,50 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Назив:</dt>
+            <dt><?=uif::lng('attr.company')?>:</dt>
             <dd><?=$master->company;?></dd>
-            <dt>Контакт Лице:</dt>
+            <dt><?=uif::lng('attr.contact_person')?>:</dt>
             <dd><?=uif::isNull($master->contperson)?></dd>
-            <dt>HQ:</dt>
+            <dt><?=uif::lng('attr.hq')?>:</dt>
             <dd><?=($master->is_mother) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Код:</dt>
+            <dt><?=uif::lng('attr.code')?>:</dt>
             <dd><?=uif::isNull($master->id)?></dd>
-            <dt>Адреса:</dt>
+            <dt><?=uif::lng('attr.address')?>:</dt>
             <dd><?=uif::isNull($master->address)?></dd>
-            <dt>Град:</dt>
+            <dt><?=uif::lng('attr.city')?>:</dt>
             <dd><?=$master->name;?></dd>
-            <dt>Поштенски Код:</dt>
+            <dt><?=uif::lng('attr.postal_code')?>:</dt>
             <dd><?=$master->postalcode;?></dd>
-            <dt>Телефон:</dt>
+            <dt><?=uif::lng('attr.phone')?>:</dt>
             <dd><?=uif::isNull($master->phone1)?></dd>
-            <dt>Телефон 2:</dt>
+            <dt><?=uif::lng('attr.phone')?>:</dt>
             <dd><?=uif::isNull($master->phone2)?></dd>
-            <dt>Факс:</dt>
+            <dt><?=uif::lng('attr.fax')?>:</dt>
             <dd><?=uif::isNull($master->fax)?></dd>
-            <dt>Мобилен:</dt>
+            <dt><?=uif::lng('attr.mobile')?>:</dt>
             <dd><?=uif::isNull($master->mobile)?></dd>
-            <dt>Е-Меил:</dt>
+            <dt><?=uif::lng('attr.email')?>:</dt>
             <dd><?=uif::isNull($master->email)?></dd>
-            <dt>WWW:</dt>
+            <dt><?=uif::lng('attr.web')?>:</dt>
             <dd><?=uif::isNull($master->web)?></dd>
-            <dt>Банка:</dt>
+            <dt><?=uif::lng('attr.bank')?>:</dt>
             <dd><?=uif::isNull($master->bank)?></dd>
-            <dt>Број на Сметка:</dt>
+            <dt><?=uif::lng('attr.account_number')?>:</dt>
             <dd><?=uif::isNull($master->account_no)?></dd>
-            <dt>ДБ:</dt>
+            <dt><?=uif::lng('attr.tax_number')?>:</dt>
             <dd><?=uif::isNull($master->tax_no)?></dd>
 	   </dl>
     </div>
     <div class="span7">
         <?php if (isset($subs) AND is_array($subs) AND count($subs)):?>
-        <div class="legend">Подружници кои припаѓаат на <?=$master->company;?></div>
+        <div class="legend"><?=uif::lng('app.companies_belong_to_partner')?> <?=$master->company;?></div>
         <table class="table table-condensed">
             <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <th>Купувач</th>
-                    <th>Град</th>
+                    <th><?=uif::lng('attr.name')?></th>
+                    <th><?=uif::lng('attr.city')?></th>
                 </tr>
             </thead> 
             <tbody>
@@ -64,15 +64,15 @@
         <?php endif;?>
 
         <?php if (isset($orders) AND is_array($orders) AND count($orders)):?>
-        <div class="legend">Последни 10 Нарачки од <?=$master->company;?></div>
+        <div class="legend"><?=uif::lng('app.last_order_by_partner')?> <?=$master->company;?></div>
         <table class="table table-condensed"> 
             <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <th>Испорачано</th>
-                    <th>Дистрибутер</th>
-                    <th>Плаќање</th>
-                    <th>Внес</th>
+                    <th><?=uif::lng('attr.date')?></th>
+                    <th><?=uif::lng('attr.distributor')?></th>
+                    <th><?=uif::lng('attr.payment_method')?></th>
+                    <th><?=uif::lng('attr.doe')?></th>
                     <th>&nbsp;</th>
                 </tr>
             </thead> 

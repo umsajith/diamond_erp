@@ -44,12 +44,12 @@ class Partners extends MY_Controller {
 		
 		//------------
 		//Columns which can be sorted by
-		$this->data['columns'] = array (
-			'id'            =>'Код',	
-			'company'       =>'Фирма',
-			'contperson'    =>'Контакт Лице',
-			'postalcode_fk' => 'Град'
-		);
+		$this->data['columns'] = [
+			'id'            => uif::lng('attr.code'),	
+			'company'       => uif::lng('attr.company'),
+			'contperson'    => uif::lng('attr.contact_person'),
+			'postalcode_fk' => uif::lng('attr.city')
+		];
 
 		$this->input->load_query($query_id);
 		
@@ -97,19 +97,19 @@ class Partners extends MY_Controller {
 		if($_POST)
 		{				
 			//Defining Validation Rules
-			$this->form_validation->set_rules('company','company','trim|required');
-			$this->form_validation->set_rules('contperson','contact person','trim');
-			$this->form_validation->set_rules('postalcode_fk','city','trim|required');
-			$this->form_validation->set_rules('code','code','trim');
-			$this->form_validation->set_rules('email','email','trim|valid_email');
-			$this->form_validation->set_rules('web','web','trim|valid_website');
-			$this->form_validation->set_rules('phone1','phone 1','trim|numeric');
-			$this->form_validation->set_rules('phone2','phone 2','trim|numeric');
-			$this->form_validation->set_rules('mobile','mobile','trim|numeric');
-			$this->form_validation->set_rules('fax','fax','trim|numeric');
-			$this->form_validation->set_rules('bank','bank','trim');
-			$this->form_validation->set_rules('account_no','account number','trim|numeric');
-			$this->form_validation->set_rules('address','address','trim');
+			$this->form_validation->set_rules('company',uif::lng('attr.company'),'trim|required');
+			$this->form_validation->set_rules('contperson',uif::lng('attr.contact_person'),'trim');
+			$this->form_validation->set_rules('postalcode_fk',uif::lng('attr.city'),'trim|required');
+			$this->form_validation->set_rules('email',uif::lng('attr.email'),'trim|valid_email');
+			$this->form_validation->set_rules('web',uif::lng('attr.web'),'trim|valid_website');
+			$this->form_validation->set_rules('phone1',uif::lng('attr.phone'),'trim|numeric');
+			$this->form_validation->set_rules('phone2',uif::lng('attr.phone'),'trim|numeric');
+			$this->form_validation->set_rules('mobile',uif::lng('attr.mobile'),'trim|numeric');
+			$this->form_validation->set_rules('fax',uif::lng('attr.fax'),'trim|numeric');
+			$this->form_validation->set_rules('code','','trim');
+			$this->form_validation->set_rules('bank','','trim');
+			$this->form_validation->set_rules('account_no','','trim');
+			$this->form_validation->set_rules('address','','trim');
 			$this->form_validation->set_rules('is_mother','','trim');
 			
 			//Check if form has passed validation
@@ -141,18 +141,19 @@ class Partners extends MY_Controller {
 		if($_POST)
 		{
 			//Defining Validation Rules
-			$this->form_validation->set_rules('company','company','trim|required');
-			$this->form_validation->set_rules('contperson','contact person','trim');
-			$this->form_validation->set_rules('code','code','trim');
-			$this->form_validation->set_rules('email','email','trim|valid_email');
-			$this->form_validation->set_rules('web','web','trim|valid_website');
-			$this->form_validation->set_rules('phone','phone','trim|numeric');
-			$this->form_validation->set_rules('phone2','phone 2','trim|numeric');
-			$this->form_validation->set_rules('mobile','mobile','trim|numeric');
-			$this->form_validation->set_rules('fax','fax','trim|numeric');
-			$this->form_validation->set_rules('bank','bank','trim');
-			$this->form_validation->set_rules('account_no','account number','trim|numeric');
-			$this->form_validation->set_rules('address','address','trim');
+			$this->form_validation->set_rules('company',uif::lng('attr.company'),'trim|required');
+			$this->form_validation->set_rules('contperson',uif::lng('attr.contact_person'),'trim');
+			$this->form_validation->set_rules('postalcode_fk',uif::lng('attr.city'),'trim|required');
+			$this->form_validation->set_rules('email',uif::lng('attr.email'),'trim|valid_email');
+			$this->form_validation->set_rules('web',uif::lng('attr.web'),'trim|valid_website');
+			$this->form_validation->set_rules('phone1',uif::lng('attr.phone'),'trim|numeric');
+			$this->form_validation->set_rules('phone2',uif::lng('attr.phone'),'trim|numeric');
+			$this->form_validation->set_rules('mobile',uif::lng('attr.mobile'),'trim|numeric');
+			$this->form_validation->set_rules('fax',uif::lng('attr.fax'),'trim|numeric');
+			$this->form_validation->set_rules('code','','trim');
+			$this->form_validation->set_rules('bank','','trim');
+			$this->form_validation->set_rules('account_no','','trim');
+			$this->form_validation->set_rules('address','','trim');
 			$this->form_validation->set_rules('is_mother','','trim');
 			
 			//Check if updated form has passed validation

@@ -55,6 +55,9 @@ $lang['app_par_pars']                          = 'Партнери';
 $lang['app_par_new']                           = 'Нов Партнер';
 $lang['app_par_edit']                          = 'Корекција на Партнер';
 
+$lang['app_companies_belong_to_partner']       = 'Подружници кои припаѓаат на';
+$lang['app_last_order_by_partner']             = 'Последни Нарачки од';
+
 //Distribution
 $lang['app_dis_levels_heading']                = 'Магацин: Готови Производи';
 $lang['app_dis_digg']                          = 'Картица';

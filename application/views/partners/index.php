@@ -5,7 +5,7 @@
 	</div>
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('partners/search','class="form-inline"')?>
-			<?=uif::formElement('text','','q','','placeholder="Пребарувај по Код/Фирма"')?>
+			<?=uif::formElement('text','','q','','placeholder="'.uif::lng('attr.search_by_company_code').'"')?>
 			<?=uif::formElement('dropdown','','postalcode_fk',[$postalcodes])?>
 			<?=uif::filterButton()?>
     	<?=form_close()?>
@@ -23,8 +23,8 @@
 			(($sort_order=='desc' AND $sort_by==$col_name)?'asc':'desc'),$col_display);?>
 	    </th>
 	    <?php endforeach;?>
-	    <th>Телефон</th>
-	    <th>Седиште</th>
+	    <th><?=uif::lng('attr.phone')?></th>
+	    <th><?=uif::lng('attr.hq')?></th>
 		<th>&nbsp;</th>
 	</tr>
 	</thead>
@@ -38,7 +38,7 @@
 			<td><?=uif::isNull($row->contperson)?></td>			
 			<td><?=$row->name?></td>
 			<td><?=uif::isNull($row->phone1)?></td>	
-			<td><?=($row->mother_name)?uif::linkIcon("partners/view/{$row->mother_id}",'icon-link'):'-';?></td>
+			<td><?=($row->mother_name)?uif::linkIcon("partners/view/{$row->mother_id}",'icon-building'):'-';?></td>
 			<td><?=uif::actionGroup('partners',$row->id)?></td>
 		</tr>
 	<?php endforeach;?>
@@ -49,6 +49,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=postalcode_fk]",'Град');
+		cd.dd("select[name=postalcode_fk]","<?=uif::lng('attr.city')?>");
 	});	
 </script>

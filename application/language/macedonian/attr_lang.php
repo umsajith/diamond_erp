@@ -83,6 +83,10 @@ $lang['attr_spill']                   = 'Растур';
 $lang['attr_unit_price']              = 'Единечна Цена';
 $lang['attr_locked']                  = 'Заклучен';
 
+$lang['attr_company']                 = 'Фирма';
+$lang['attr_hq']                      = 'Седиште';
+$lang['attr_contact_person']          = 'Контакт Лице';
+
 $lang['attr_first_name']              = 'Име';
 $lang['attr_last_name']               = 'Презиме';
 $lang['attr_dob']                     = 'ДНР';
@@ -99,8 +103,10 @@ $lang['attr_address']                 = 'Адреса';
 $lang['attr_city']                    = 'Град';
 $lang['attr_postal_code']             = 'Поштенски Број';
 $lang['attr_email']                   = 'И-Меил';
+$lang['attr_web']                     = 'Веб Сајт';
 
 $lang['attr_phone']                   = 'Телефон';
+$lang['attr_fax']                     = 'Факс';
 $lang['attr_mobile']                  = 'Мобилен';
 $lang['attr_company_mobile']          = 'Службен Мобилен';
 $lang['attr_subvention']              = 'Служ.Моб.Субвенција';
@@ -117,6 +123,7 @@ $lang['attr_can_login']               = 'Логирање';
 
 $lang['attr_bank']                    = 'Банка';
 $lang['attr_account_number']          = 'Број на Сметка';
+$lang['attr_tax_number']              = 'ЕДБ';
 
 $lang['attr_gross']                   = 'Бруто';
 $lang['attr_net']                     = 'Нето';
@@ -136,6 +143,7 @@ $lang['attr_operator']                = 'Оператор';
 
 
 $lang['attr_search_by_document_code'] = 'Пребарувај по Документ/Код';
+$lang['attr_search_by_company_code']  = 'Пребарувај по Фирма/Код';
 
 /////////////////////////////
 // Fieldset Legend Headers //
