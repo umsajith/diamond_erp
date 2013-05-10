@@ -9,7 +9,7 @@
 	</div>	
 	<div class="span9 text-right" id="content-main-filters">
 		<?=form_open('orders_list/search','class="form-inline"')?>
-			<?=uif::formElement('text','','q','','placeholder="Пребарувај по Документ/Код"')?>
+			<?=uif::formElement('text','','q','','placeholder="'.uif::lng('attr.search_by_document_code').'"')?>
 			<?=uif::formElement('dropdown','','distributor_id',[$distributors])?>
 			<?=uif::filterButton()?>
     	<?=form_close()?>
@@ -53,6 +53,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=distributor_id]","Дистрибутер");
+		cd.dd("select[name=distributor_id]","<?=uif::lng('attr.distributor')?>");
 	});	
 </script>

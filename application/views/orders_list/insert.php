@@ -5,10 +5,10 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','Датум','date')?>
-		<?=uif::controlGroup('dropdown','Дистрибутер','distributor_id',[$distributors],'id="distributors"')?>
-		<?=uif::controlGroup('text','Документ','ext_doc')?>
-		<?=uif::controlGroup('textarea','Белешка','note')?>
+		<?=uif::controlGroup('datepicker',':attr.date','date')?>
+		<?=uif::controlGroup('dropdown',':attr.distributor','distributor_id',[$distributors],'id="distributors"')?>
+		<?=uif::controlGroup('text',':attr.document','ext_doc')?>
+		<?=uif::controlGroup('textarea',':attr.note','note')?>
 		<?=form_close()?>
 	</div>
 </div>

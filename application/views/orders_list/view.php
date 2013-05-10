@@ -11,18 +11,18 @@
 <div class="row-fluid">
 <?php if(!$master->locked):?>
     <div class="span5 well well-small">
-		<div class="legend">Нов налог за продажба</div>	
-			<?=uif::controlGroup('text','','customer','','placeholder="Купувач"')?>
+		<div class="legend"><?=uif::lng('app.or_new')?></div>	
+			<?=uif::controlGroup('text','','customer','','placeholder="'.uif::lng('attr.customer').'"')?>
 			<?=form_hidden('partner_fk')?>
-			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$pmodes],'data-placeholder="Плаќање"')?>
+			<?=uif::controlGroup('dropdown','','payment_mode_fk',[$pmodes],'data-placeholder="'.uif::lng('attr.payment_method').'"')?>
 		<hr>
 			<?=uif::controlGroup('dropdown','','prodname_fk',[])?>	
 		<div class="input-append">
-			<?=uif::formElement('text','','quantity','','placeholder="Земено"')?>
+			<?=uif::formElement('text','','quantity','','placeholder="'.uif::lng('attr.taken').'"')?>
 			<span class="add-on uom"></span>
 		</div>
 		<div class="input-append">
-			<?=uif::formElement('text','','returned_quantity','','placeholder="Вратено"')?>
+			<?=uif::formElement('text','','returned_quantity','','placeholder="'.uif::lng('attr.returned').'"')?>
 			<?=uif::button('icon-plus-sign','success','id="add-product"')?>
 			<?=uif::button('icon-save','primary','id="new-order" onClick="newOrder()"')?>
 		</div>
@@ -30,9 +30,9 @@
 			<thead>
 		    	<tr>
 		    		<th>&nbsp;</th>
-		    		<th>Производ</th>
-		    		<th>Земено</th>
-		    		<th>Вратено</th>
+		    		<th><?=uif::lng('attr.item')?></th>
+		    		<th><?=uif::lng('attr.taken')?></th>
+		    		<th><?=uif::lng('attr.returned')?></th>
 		    		<th>&nbsp;</th>
 		    	</tr>
 	    	</thead>
@@ -43,10 +43,10 @@
 		<?php if($master->locked == 1):?>
 			<div class="alert">
 				<i class="icon-lock"></i>
-				<strong>Овој Извештај е заклучен! Потребно е да го отклучите за натамошна работа.</strong>
+				<strong><?=uif::lng('app.this_order_list_is_locked')?></strong>
 			</div>
 		<?php endif;?>
-		<div class="legend">Налози за продажба во овој Извештај</div>
+		<div class="legend"><?=uif::lng('app.or_ors')?></div>
 			<div class="text-center">
 				<div class="span2"><i class="icon-calendar"> </i> <?=uif::date($master->date)?></div>
 				<div class="span4"><i class="icon-user"> </i> <?=$master->distributor?></div>
@@ -58,9 +58,9 @@
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
-					<th>Купувач</th>
-					<th>Плаќање</th>
-					<th>Внес</th>
+					<th><?=uif::lng('attr.customer')?></th>
+					<th><?=uif::lng('attr.payment_method')?></th>
+					<th><?=uif::lng('attr.doe')?></th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -88,7 +88,7 @@
 
 		$(".temp-table").hide();
 
-		$("select[name=payment_mode_fk]").select2({placeholder:"Плаќање"});
+		$("select[name=payment_mode_fk]").select2({placeholder:"<?=uif::lng('attr.payment_method')?>"});
 
 		//Typeahead Configuration
 
@@ -126,7 +126,7 @@
 
 		var options = {
 			select : "select[name=prodname_fk]",
-			placeholder : 'Артикл',
+			placeholder : "<?=uif::lng('attr.item')?>",
 			aux1 : "span.uom",
 			args : {
 				salable : 1
@@ -149,13 +149,13 @@
 		var uom = $("span.uom").html();
 
 		if (partner_fk == ''){
-			cd.notify('Полето Купувач е задожително.','error');
+			cd.notify("<?=uif::lng('air.customer_required')?>",'error');
 			$("input[name=customer]").focus();
 			return false;
 		}
 
 		if (payment_mode_fk == ''){
-			cd.notify('Полето Плаќање е задожително.','error');
+			cd.notify("<?=uif::lng('air.payment_method_required')?>",'error');
 			$("select[name=payment_mode_fk]").focus();
 			return false;
 		}
@@ -164,19 +164,19 @@
 	  	if(returned_quantity == '') returned_quantity = 0;
 
 		if (prodname_fk == ''){
-			cd.notify('Изберете производ.','error');
+			cd.notify("<?=uif::lng('air.pick_item')?>",'error');
 			$("select[name=prodname_fk]").focus();
 			return false;
 		}
 
 		if (!cd.isNumber(quantity) || quantity == 0){
-			cd.notify('Внесете валидна количина.','error');
+			cd.notify("<?=uif::lng('air.insert_valid_quantity')?>",'error');
 			$("input[name=quantity]").focus();
 			return false;
 		}
 
 		if (!cd.isNumber(returned_quantity)){
-			cd.notify('Внесете валидна количина.','error');
+			cd.notify("<?=uif::lng('air.insert_valid_quantity')?>",'error');
 			$("input[name=returned_quantity]").focus();
 			return false;
 		}
