@@ -305,18 +305,25 @@ class UIF {
 	}
 
 	/**
-	 * Return language deifinition by provided
-	 * file.key construct
-	 * @param  string $fileKey [file].[key]
-	 * @return string
+	 * Labels Provider, fetches language definition
+	 * by using file.key construct
+	 * @param  string $fileKey
+	 * @param  string $case
+	 * @return [type]
 	 */
-	public static function lng($fileKey = '')
+	public static function lng($fileKey = '', $case = '')
 	{
 		$values = explode('.', $fileKey);
 
 		self::_loadLng($values[0]);
 
 		$CI =& get_instance();
+
+		//Converts string case by provided MB_CASE in $case
+		if($case !== '')
+		{
+			return mb_convert_case($CI->lang->line($values[0].'_'.$values[1]), $case, "UTF-8");
+		}
 
 		return $CI->lang->line($values[0].'_'.$values[1]);
 	}

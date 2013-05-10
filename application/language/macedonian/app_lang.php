@@ -85,6 +85,9 @@ $lang['app_pay_pays']                          = 'Плати';
 $lang['app_pay_calculate']                     = 'Калкулација на Плата';
 $lang['app_pay_payroll_report']                = 'Рапорт за Плати';
 
+$lang['app_values_expressed_in_curreny']       = 'Вредностите се изразени во парична единица:';
+$lang['app_payroll_detailed_view']       = 'Детален преглед на калкулација за плата';
+
 //Payroll Extras
 $lang['app_paye_exts']                         = 'Додатоци';
 $lang['app_paye_ext_new']                      = 'Нов Додаток';

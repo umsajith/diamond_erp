@@ -50,30 +50,30 @@ class Payroll extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'employee'    =>'Работник',
-			'date_from'   =>'Од',
-			'date_to'     =>'До',
-			'acc_wage'    =>'Учинок',
-			'bonuses'     =>'Бонуси',
-			'gross_wage'  =>'Бруто',
-			'fixed_wage'  =>'Нето',
-			'expenses'    =>'Трошоци',
-			'paid_wage'   =>'Доплата',
-			'dateofentry' =>'Внес'
+			'employee'    => uif::lng('attr.employee'),
+			'date_from'   => uif::lng('attr.date_from'),
+			'date_to'     => uif::lng('attr.date_to'),
+			'acc_wage'    => uif::lng('attr.accumulated'),
+			'bonuses'     => uif::lng('attr.bonuses'),
+			'gross_wage'  => uif::lng('attr.gross'),
+			'fixed_wage'  => uif::lng('attr.net'),
+			'expenses'    => uif::lng('attr.expenses'),
+			'paid_wage'   => uif::lng('attr.paid'),
+			'dateofentry' => uif::lng('attr.doe')
 		];
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'employee_fk' => $this->input->get('employee_fk'),
 			'for_month'   => $this->input->get('for_month')
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','for_month','date_from','date_to',
+		$sort_by_array = ['employee','for_month','date_from','date_to',
 								'acc_wage','social_cont','comp_mobile_sub','bonuses',
-								'gross_wage','fixed_wage','expenses','paid_wage','dateofentry');
+								'gross_wage','fixed_wage','expenses','paid_wage','dateofentry'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model
@@ -108,22 +108,22 @@ class Payroll extends MY_Controller {
 		if(!$_POST) show_404();
 		
 		//Defining Validation Rules
-		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('date_from','date from','trim|required');
-		$this->form_validation->set_rules('date_to','date to','trim|required');
+		$this->form_validation->set_rules('employee_fk','','trim|required');
+		$this->form_validation->set_rules('date_from','','trim|required');
+		$this->form_validation->set_rules('date_to','','trim|required');
 		
-		$this->form_validation->set_rules('acc_wage','accumulated wage','trim|required|numeric');
-		$this->form_validation->set_rules('social_cont','social contribution','trim|required|numeric');
-		$this->form_validation->set_rules('comp_mobile_sub','company mobile subsidy','trim|required|numeric');
-		$this->form_validation->set_rules('bonuses','bonuses','trim|required|numeric');
-		$this->form_validation->set_rules('gross_wage','gross_wage','trim|required|numeric');
+		$this->form_validation->set_rules('acc_wage','','trim|required|numeric');
+		$this->form_validation->set_rules('social_cont','','trim|required|numeric');
+		$this->form_validation->set_rules('comp_mobile_sub','','trim|required|numeric');
+		$this->form_validation->set_rules('bonuses','','trim|required|numeric');
+		$this->form_validation->set_rules('gross_wage','','trim|required|numeric');
 		
-		$this->form_validation->set_rules('fixed_wage','fixed wage','trim|required|numeric');
-		$this->form_validation->set_rules('expenses','expenses','trim|required|numeric');
-		$this->form_validation->set_rules('paid_wage','paid wage','trim|required|numeric');
+		$this->form_validation->set_rules('fixed_wage','','trim|required|numeric');
+		$this->form_validation->set_rules('expenses','','trim|required|numeric');
+		$this->form_validation->set_rules('paid_wage','','trim|required|numeric');
 		
-		$this->form_validation->set_rules('fixed_wage_only','fixed wage only','trim|required|numeric');
-		$this->form_validation->set_rules('is_distributer','distributer','trim|required|numeric');
+		$this->form_validation->set_rules('fixed_wage_only','','trim|required|numeric');
+		$this->form_validation->set_rules('is_distributer','','trim|required|numeric');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -228,9 +228,9 @@ class Payroll extends MY_Controller {
 			 */
 		
 			//Defining Validation Rules
-			$this->form_validation->set_rules('employee','employee','trim|required');
-			$this->form_validation->set_rules('datefrom','date from','trim|required');
-			$this->form_validation->set_rules('dateto','date to','trim|required');
+			$this->form_validation->set_rules('employee',uif::lng('attr.employee'),'trim|required');
+			$this->form_validation->set_rules('datefrom',uif::lng('attr.date_from'),'trim|required');
+			$this->form_validation->set_rules('dateto',uif::lng('attr.date_to'),'trim|required');
 			
 			
 			if($this->form_validation->run())
@@ -433,8 +433,8 @@ class Payroll extends MY_Controller {
 		if($_POST)
 		{
 			//Defining Validation Rules
-			$this->form_validation->set_rules('date_from','date from','trim|required');
-			$this->form_validation->set_rules('date_to','date to','trim|required');
+			$this->form_validation->set_rules('date_from',uif::lng('attr.date_from'),'trim|required');
+			$this->form_validation->set_rules('date_to',uif::lng('attr.date_to'),'trim|required');
 			
 			if ($this->form_validation->run())
 			{
@@ -496,8 +496,7 @@ class Payroll extends MY_Controller {
 	 */
 	public function delete($id)
 	{
-		if(!$this->pr->select_single($id))
-			air::flash('void','payroll');
+		if(!$this->pr->get($id)) air::flash('void','payroll');
 			
 		if($this->pr->delete($id))
 			air::flash('delete','payroll');

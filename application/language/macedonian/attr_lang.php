@@ -42,6 +42,7 @@ $lang['attr_taken']                   = 'Земено';
 $lang['attr_returned']                = 'Вратено';
 
 
+$lang['attr_amount']                  = 'Износ';
 $lang['attr_price']                   = 'Цена';
 $lang['attr_price_wo_vat']            = 'Цена (без ДДВ)';
 $lang['attr_price_w_vat']             = 'Цена (со ДДВ)';
@@ -81,6 +82,7 @@ $lang['attr_work_hours']              = 'Работни Часови';
 $lang['attr_spill']                   = 'Растур';
 
 $lang['attr_unit_price']              = 'Единечна Цена';
+$lang['attr_commision']              = 'Провизија';
 $lang['attr_locked']                  = 'Заклучен';
 
 $lang['attr_company']                 = 'Фирма';
@@ -132,6 +134,10 @@ $lang['attr_paid']                    = 'Доплата';
 $lang['attr_fixed']                   = 'Фиксно';
 $lang['attr_fixed_wage']              = 'Фиксна Плата';
 $lang['attr_social_contribution']     = 'Придонес';
+$lang['attr_health_insurance']        = 'ЗО';
+
+$lang['attr_bonuses']                 = 'Бонуси';
+$lang['attr_expenses']                = 'Трошоци';
 
 $lang['attr_location']                = 'Локација';
 

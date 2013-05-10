@@ -11,25 +11,26 @@
 	<div class="span4 well">
 	<?=form_open('payroll/calculate')?>
 		<?=uif::load('_validation')?>
-		<?=uif::controlGroup('datepicker','','datefrom','','placeholder="Од"')?>
-		<?=uif::controlGroup('datepicker','','dateto','','placeholder="До"')?>
+		<?=uif::controlGroup('datepicker','','datefrom','','placeholder="'.uif::lng('attr.date_from').'"')?>
+			<?=uif::controlGroup('datepicker','','dateto','','placeholder="'.uif::lng('attr.date_to').'"')?>
 		<?=uif::controlGroup('dropdown','','employee',[$employees])?>
 		<?=uif::button('icon-cog btn-large','success','type="submit"');?>
 	<?=form_close()?>
 	</div>
-	<!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 	<div class="span8">
+	<div class="legend"><?=uif::lng('app.payroll_detailed_view')?></div>
+	<!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 	<?php if(isset($fixed_wage_only) AND !$fixed_wage_only):?>
 		<?php if (isset($job_orders) AND is_array($job_orders) AND count($job_orders)):?>
 		<table class="table table-condensed">
 			<thead>
 				<tr>
-					<th>Работна Задача</th>
-					<th>Работни Налози</th>
-					<th>Вкупно</th>
-					<th>Просек</th>
-					<th>Цена</th>
-					<th>Вкупно</th>
+					<th><?=uif::lng('attr.task')?></th>
+					<th><?=uif::lng('app.job_jobs')?></th>
+					<th><?=uif::lng('attr.total')?></th>
+					<th><?=uif::lng('attr.average')?></th>
+					<th><?=uif::lng('attr.unit_price')?></th>
+					<th><?=uif::lng('attr.amount')?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -47,7 +48,7 @@
 	<!-- JOB ORDERS WAGE CALCUALTION -->
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
-				<strong>ПЛАТА ПО УЧИНОК:</strong>
+				<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
 			</div>
 		</div>
@@ -60,7 +61,7 @@
 		<?php if(isset($fixed_wage)):?>
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
-				<strong>ФИКСНА ПЛАТА:</strong>
+				<strong><?=uif::lng('attr.fixed_wage', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($fixed_wage)?></strong>
 			</div>
 		</div>	
@@ -71,11 +72,11 @@
 		<table class="table table-condensed">
 			<thead>
 			<tr>
-				<th>Производ</th>
-				<th>Категорија</th>
-				<th>Вкупна Количина</th>
-				<th>&nbsp;</th>
-				<th>Вкупно</th>
+				<th><?=uif::lng('attr.item')?></th>
+				<th><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.quantity')?></th>
+				<th><?=uif::lng('attr.commision')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -93,7 +94,7 @@
 		<!-- ACCUMULATIVE WAGE CALCUATION -->
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
-				<strong>ПЛАТА ПО УЧИНОК:</strong>
+				<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
 			</div>
 		</div>	
@@ -105,8 +106,8 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Категорија</th>
-				<th>Износ</th>
+				<th class="span11"><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 	<?php endif; ?>
@@ -114,17 +115,15 @@
 		<tbody>
 		<?php if(isset($social_cont) AND $social_cont>0 ):?>
 			<tr>
-				<td>Придонеси + Здравствено Осигурување</td>
-
+				<td><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?></td>
 				<td><?=$social_cont;?></td>
-				<td></td>
 			</tr>
 		<?php endif;?>
 
 		<!-- COMPANY MOBILE SUBSIDY -->
 		<?php if(isset($comp_mobile_sub) AND $comp_mobile_sub>0):?>
 			<tr>
-				<td>Телефонска Субвенција</td>
+				<td><?=uif::lng('attr.subvention')?></td>
 				<td><?=$comp_mobile_sub;?></td>	
 			</tr>	
 		<?php endif;?>
@@ -140,12 +139,21 @@
 		<?php endif;?>
 		</tbody>	
 	</table>
+	<!-- TOTAL BONUSES -->
+	<?php if(isset($bonuses)):?>
+	<div class="row-fluid">
+		<div class="span12 alert">
+			<strong><?=uif::lng('attr.bonuses', MB_CASE_UPPER)?>:</strong>
+			<strong class="pull-right"><?=uif::cf($bonuses + $comp_mobile_sub + $social_cont)?></strong>
+		</div>
+	</div>
+	<?php endif;?>
 
 	<!-- BRUTO WAGE CALCUALTION -->
 	<?php if(isset($gross_wage)): ?>
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
-			<strong>БРУТО ПЛАТА:</strong>
+			<strong><?=uif::lng('attr.gross', MB_CASE_UPPER)?>:</strong>
 			<strong class="pull-right"><?=uif::cf($gross_wage)?></strong>
 		</div>
 	</div>
@@ -156,8 +164,8 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Категорија</th>
-				<th>Износ</th>
+				<th class="span11"><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 	<?php endif; ?>
@@ -165,7 +173,7 @@
 		<tbody>
 		<?php if(isset($fixed_wage) AND $fixed_wage > 0 AND !$fixed_wage_only):?>
 		<tr>
-			<td>Фиксна Плата на Сметка</td>
+			<td><?=uif::lng('attr.fixed_wage')?></td>
 			<td><?='-'.$fixed_wage;?></td>		
 		</tr>
 		<?php endif;?>
@@ -173,7 +181,7 @@
 	<!-- SOCIAL CONTRIBUTION -->
 		<?php if(isset($social_cont) AND $social_cont > 0):?>
 		<tr>
-			<td>Придонеси + Здравствено Осигурување</td>
+			<td><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?></td>
 			<td><?='-' . $social_cont;?></td>
 		</tr>
 		<?php endif;?>
@@ -193,7 +201,7 @@
 	<?php if(isset($gross_exp)):?>
 	<div class="row-fluid">
 		<div class="span12 alert">
-			<strong>ТРОШОЦИ:</strong>
+			<strong><?=uif::lng('attr.expenses', MB_CASE_UPPER)?>:</strong>
 			<strong class="pull-right"><?=uif::cf($gross_exp)?></strong>
 		</div>
 	</div>
@@ -203,7 +211,7 @@
 	<?php if(isset($paid_wage)):?>
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
-				<strong>ДОПЛАТА:</strong>
+				<strong><?=uif::lng('attr.paid', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($paid_wage)?></strong>
 			</div>
 		</div>
@@ -234,7 +242,7 @@
 <script>
 	$(function() 
 	{
-		cd.dd("select[name=employee]","Работник");
+		cd.dd("select[name=employee]","<?=uif::lng('attr.employee')?>");
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 		if(<?=$submited?>){ $("#insert-payroll").prop('disabled', false); }
 	});

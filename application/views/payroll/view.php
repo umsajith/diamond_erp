@@ -3,60 +3,60 @@
     <?=uif::linkButton("payroll/payroll_pdf/{$master->id}",'icon-print','info')?>
 	<hr>
 <div class="row-fluid">
-	<div class="span5 well well-small">
+	<div class="span4 well well-small">
 		<dl class="dl-horizontal">
-			<dt>Работник:</dt>
+			<dt><?=uif::lng('attr.employee')?>:</dt>
 			<dd><?=anchor("employees/view/{$master->eid}",$master->fname . ' ' . $master->lname)?></dd>
-			<dt>Месец:</dt>
+			<dt><?=uif::lng('attr.month')?>:</dt>
 			<dd><?=uif::date($master->date_from,'%m/%Y')?></dd>
-			<dt>Од Датум:</dt>
+			<dt><?=uif::lng('attr.date_from')?>:</dt>
 			<dd><?=uif::date($master->date_from)?></dd>
-			<dt>До Датум:</dt>
+			<dt><?=uif::lng('attr.date_to')?>:</dt>
 			<dd><?=uif::date($master->date_to)?></dd>
 			<?php if($master->acc_wage != 0):?>
-				<dt>Учинок:</dt>
+				<dt><?=uif::lng('attr.accumulated')?>:</dt>
 				<dd><strong><?=$master->acc_wage?></strong></dd>
 			<?php endif;?>
 			<?php if($master->fixed_wage_only == 1):?>
-				<dt>Фиксна Плата:</dt>
+				<dt><?=uif::lng('attr.fixed_wage')?>:</dt>
 				<dd><?='+'.$master->fixed_wage?></dd>
 			<?php endif;?>
-			<dt>Придонеси + Здр.:</dt>
+			<dt><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?>:</dt>
 			<dd><?='+' . $master->social_cont?></dd>
-			<dt>Тел.Субвенција:</dt>
+			<dt><?=uif::lng('attr.subvention')?>:</dt>
 			<dd><?='+'.$master->comp_mobile_sub?></dd>
-			<dt>Бонуси:</dt>
+			<dt><?=uif::lng('attr.bonuses')?>:</dt>
 			<dd><?='+'.$master->bonuses?></dd>
-			<dt>Бруто:</dt>
+			<dt><?=uif::lng('attr.gross')?>:</dt>
 			<dd><strong><?=$master->gross_wage?></strong></dd>
 			<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
-				<dt>Плата на сметка:</dt>
+				<dt><?=uif::lng('attr.fixed')?>:</dt>
 				<dd><?='-'.$master->fixed_wage?></dd>
 			<?php endif;?>
 			<?php if($master->social_cont):?>
-				<dt>Придонеси + Здр.:</dt>
+				<dt><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?>:</dt>
 				<dd><?='-'.$master->social_cont?></dd>
 			<?php endif;?>
-			<dt>Трошоци:</dt>
+			<dt><?=uif::lng('attr.expenses')?>:</dt>
 			<dd><?=$master->expenses?></dd>
-			<dt>Доплата:</dt>
+			<dt><?=uif::lng('attr.paid')?>:</dt>
 			<dd><strong><?=$master->paid_wage?></strong></dd>
-			<dt>Код:</dt>
+			<dt><?=uif::lng('attr.code')?>:</dt>
 			<dd><?=$master->code;?></dd>
 		</dl>
 	</div>
+<div class="span8">
+	<div class="legend"><?=uif::lng('app.payroll_detailed_view')?></div>
 <!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
-<div class="span7">
-	<div class="legend">Детален преглед на калкулација за плата</div>
 	<?php if (isset($results) AND is_array($results) AND count($results)):?>
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Работна Задача</th>
-				<th>Работни Налози</th>
-				<th>Вкупно</th>
-				<th>Цена</th>
-				<th>Износ</th>
+				<th><?=uif::lng('attr.task')?></th>
+				<th><?=uif::lng('app.job_jobs')?></th>
+				<th><?=uif::lng('attr.total')?></th>
+				<th><?=uif::lng('attr.unit_price')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -74,7 +74,7 @@
 <!-- JOB ORDERS WAGE CALCUALTION -->
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
-			<strong>ПЛАТА ПО УЧИНОК:</strong>
+			<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
 			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
 		</div>
 	</div>
@@ -87,7 +87,7 @@
 		<?php if(isset($master->fixed_wage)):?>
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
-				<strong>ФИКСНА ПЛАТА:</strong>
+				<strong><?=uif::lng('attr.fixed_wage', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($master->fixed_wage)?></strong>
 			</div>
 		</div>	
@@ -98,11 +98,11 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Производ</th>
-				<th>Категорија</th>
-				<th>Вкупно</th>
-				<th>Провизија</th>
-				<th>Износ</th>
+				<th><?=uif::lng('attr.item')?></th>
+				<th><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.quantity')?></th>
+				<th><?=uif::lng('attr.commision')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -111,7 +111,7 @@
 				<td><?=$row->prodname;?></td>
 				<td><?=$row->pcname;?></td>
 				<td><?=$row->quantity . ' ' . $row->uname;?></td>
-				<td><?=$row->commision_rate.$G_currency;?></td>
+				<td><?=$row->commision_rate.$glCurrSh;?></td>
 				<td><?=round($row->quantity * $row->commision_rate,2);?></td>
 			</tr>
 		<?php endforeach;?>
@@ -120,7 +120,7 @@
 	<!-- ACCUMULATIVE WAGE CALCUATION -->
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
-			<strong>ПЛАТА ПО УЧИНОК:</strong>
+			<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
 			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
 		</div>
 	</div>
@@ -132,22 +132,22 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Категорија</th>
-				<th>Износ</th>
+				<th class="span11"><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 <!-- SOCIAL CONTRIBUTION -->
 		<tbody>
 		<?php if($master->social_cont>0):?>
 			<tr>
-				<td>Придонеси + Здравствено Осигурување</td>
+				<td><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?></td>
 				<td><?=$master->social_cont?></td>
 			</tr>
 		<?php endif;?>
 <!-- COMPANY MOBILE SUBSIDY -->
 		<?php if($master->comp_mobile_sub>0):?>
 			<tr>
-				<td>Телефонска Субвенција</td>
+				<td><?=uif::lng('attr.subvention')?></td>
 				<td><?=$master->comp_mobile_sub;?></td>		
 			</tr>
 		<?php endif;?>
@@ -162,11 +162,20 @@
 		</tbody>
 	<?php endif;?>
 	</table>
+	<!-- TOTAL BONUSES -->
+	<?php if(isset($master->bonuses)):?>
+	<div class="row-fluid">
+		<div class="span12 alert">
+			<strong><?=uif::lng('attr.bonuses', MB_CASE_UPPER)?>:</strong>
+			<strong class="pull-right"><?=uif::cf($master->bonuses + $master->comp_mobile_sub + $master->social_cont)?></strong>
+		</div>
+	</div>
+	<?php endif;?>
 <?php endif;?>
 <!-- BRUTO WAGE CALCUALTION -->
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
-			<strong>БРУТО ПЛАТА:</strong>
+			<strong>Б<?=uif::lng('attr.gross', MB_CASE_UPPER)?>:</strong>
 			<strong class="pull-right"><?=uif::cf($master->gross_wage)?></strong>
 		</div>
 	</div>	
@@ -176,15 +185,15 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th>Категорија</th>
-				<th>Износ</th>
+				<th class="span11"><?=uif::lng('attr.category')?></th>
+				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
 		</thead>
 <!-- FIXED WAGE -->
 	<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
 		<tbody>
 			<tr>
-				<td>Фиксна Плата на Сметка</td>
+				<td><?=uif::lng('attr.fixed_wage')?></td>
 				<td><?='-'.$master->fixed_wage;?></td>
 			</tr>
 	<?php endif;?>
@@ -192,7 +201,7 @@
 <!-- SOCIAL CONTRIBUTION -->
 	<?php if($master->social_cont>0):?>
 		<tr>
-			<td>Придонеси + Здравствено Осигурување</td>
+			<td><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?></td>
 			<td><?='-' . $master->social_cont;?></td>
 		</tr>
 	<?php endif;?>
@@ -210,7 +219,7 @@
 	<?php if (isset($master->fixed_wage) OR isset($master->expenses)):?>
 	<div class="row-fluid">
 		<div class="span12 alert">
-			<strong>ТРОШОЦИ:</strong>
+			<strong><?=uif::lng('attr.expenses', MB_CASE_UPPER)?>:</strong>
 			<?php 
 				$gross_exp = $master->expenses;
 				if(!$master->fixed_wage_only)
@@ -227,7 +236,7 @@
 	<?php if (isset($master->paid_wage)):?>
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
-				<strong>ДОПЛАТА:</strong>
+				<strong><?=uif::lng('attr.paid', MB_CASE_UPPER)?>:</strong>
 				<strong class="pull-right"><?=uif::cf($master->paid_wage)?></strong>
 			</div>
 		</div>

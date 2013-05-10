@@ -48,6 +48,6 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=employee_fk]",'Работник');
+		cd.dd("select[name=employee_fk]","<?=uif::lng('attr.employee')?>");
 	});	
 </script>
