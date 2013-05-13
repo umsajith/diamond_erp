@@ -37,7 +37,7 @@ $config['G_currency'] = ' ден.';
  * Diamond ERP Global Settings
  */
 $config['glAppTitle']   = 'Diamond ERP';
-$config['glAppVersion'] = '2.0.2 ALPHA';
+$config['glAppVersion'] = '2.0.3 BETA';
 $config['glAppEnv']     = 'development';
 
 $availableLanguages     = ['macedonian','english'];
