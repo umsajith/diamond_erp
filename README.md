@@ -4,7 +4,7 @@
 
 Fully featured Enterprise Resource Planning for SMB.
 
-Version 2.0.2 ALPHA - Development
+Version 2.0.3 BETA - Development
 
 ### TODO:
 + Implementation of Bootstrap (DONE)
