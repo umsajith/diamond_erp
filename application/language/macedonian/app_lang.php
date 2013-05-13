@@ -23,7 +23,7 @@ $lang['app_job_job']                             = 'Работен Налог';
 $lang['app_job_jobs']                            = 'Работни Налози';
 $lang['app_job_new']                             = 'Нов Работен Налог';
 $lang['app_job_edit']                            = 'Корекција на Работен Налог';
-$lang['app_job_production_report']               = 'Рапорт за Производство';
+$lang['app_job_production_report']               = 'Рипорт за Производство';
 
 $lang['app_used_raw_materials']                  = 'Употребени Сировини';
 $lang['app_last_job_order']                      = 'Последен Работен Налог';
@@ -43,7 +43,7 @@ $lang['app_or_or']                               = 'Налог за Продаж
 $lang['app_or_ors']                              = 'Налози за Продажба';
 $lang['app_or_new']                              = 'Нов Налог за Продажба';
 $lang['app_or_edit']                             = 'Корекција на Налог за Продажба';
-$lang['app_or_sales_report']                     = 'Рапорт за Продажба';
+$lang['app_or_sales_report']                     = 'Рипорт за Продажба';
 
 $lang['app_items_in_order']                      = 'Артикли во овој Налог за Продажба';
 $lang['app_adding_item']                         = 'Додавање нов артикл';
@@ -83,7 +83,7 @@ $lang['app_dis_ret_edit']                        = 'Корекција на По
 $lang['app_pay_pay']                             = 'Плата';
 $lang['app_pay_pays']                            = 'Плати';
 $lang['app_pay_calculate']                       = 'Калкулација на Плата';
-$lang['app_pay_payroll_report']                  = 'Рапорт за Плати';
+$lang['app_pay_payroll_report']                  = 'Рипорт за Плати';
 
 $lang['app_values_expressed_in_curreny']         = 'Вредностите се изразени во парична единица:';
 $lang['app_payroll_detailed_view']               = 'Детален преглед на калкулација за плата';

@@ -335,7 +335,7 @@ class Warehouse_model extends MY_Model {
     {
     	if(!isset($row['dateoforigin'])) $row['dateoforigin'] = mdate('%Y-%m-%d');
 
-		if(!strlen($row['distributor_fk'])) $row['distributor_fk'] = null;
+		if(isset($row['distributor_fk']) AND !strlen($row['distributor_fk'])) $row['distributor_fk'] = null;
 
 		/*
 		 * Sets all outbound warehouse entries to
