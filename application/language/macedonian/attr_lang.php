@@ -184,6 +184,6 @@ $lang['attr_search_by_company_code']  = 'Пребарувај по Фирма/К
 
 $lang['attr_general_info']            = 'Основни Информации';
 $lang['attr_contact_info']            = 'Контакт Информации';
-$lang['attr_login_info']              = 'Логин Инфомации';
+$lang['attr_login_info']              = 'Логин Информации';
 $lang['attr_financial_info']          = 'Финансиски Информации';
 $lang['attr_work_info']               = 'Информации за Работнен Однос';

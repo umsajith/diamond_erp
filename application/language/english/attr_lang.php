@@ -1,189 +1,189 @@
 <?php
 
-$lang['attr_name']                    = 'Назив';
+$lang['attr_name']                    = 'Name';
 
-$lang['attr_date']                    = 'Датум';
-$lang['attr_month']                   = 'Месец';
-$lang['attr_doe']                     = 'Внес';
-$lang['attr_last_change']             = 'Последна Промена';
-$lang['attr_date_from']               = 'Од';
-$lang['attr_date_to']                 = 'До';
-$lang['attr_date_start']              = 'Почеток';
-$lang['attr_date_end']                = 'Крај';
+$lang['attr_date']                    = 'Date';
+$lang['attr_month']                   = 'Month';
+$lang['attr_doe']                     = 'DOE';
+$lang['attr_last_change']             = 'Last Update';
+$lang['attr_date_from']               = 'From';
+$lang['attr_date_to']                 = 'To';
+$lang['attr_date_start']              = 'Start';
+$lang['attr_date_end']                = 'End';
 
-$lang['attr_item']                    = 'Артикл';
-$lang['attr_type']                    = 'Тип';
-$lang['attr_category']                = 'Категорија';
-$lang['attr_quantity']                = 'Количина';
-$lang['attr_conversion']              = 'Конверзија';
-$lang['attr_uom']                     = 'EM';
-$lang['attr_warehouse']               = 'Магацин';
-$lang['attr_alert_quantity']          = 'Мин.Кол.';
-$lang['attr_retail_price']            = 'МПЦ';
-$lang['attr_wholesale_price']         = 'ГПЦ';
+$lang['attr_item']                    = 'Item';
+$lang['attr_type']                    = 'Type';
+$lang['attr_category']                = 'Category';
+$lang['attr_quantity']                = 'Quantity';
+$lang['attr_conversion']              = 'Conversion';
+$lang['attr_uom']                     = 'UOM';
+$lang['attr_warehouse']               = 'Warehouse';
+$lang['attr_alert_quantity']          = 'Alert Qty';
+$lang['attr_retail_price']            = 'RP';
+$lang['attr_wholesale_price']         = 'WSP';
 
-$lang['attr_base_unit']               = 'Основна Единица';
-$lang['attr_salable']                 = 'Се Продава';
-$lang['attr_purchasable']             = 'Се Купува';
-$lang['attr_stockable']               = 'Состојба';
+$lang['attr_base_unit']               = 'Base Unit';
+$lang['attr_salable']                 = 'Saleable';
+$lang['attr_purchasable']             = 'Purchasable';
+$lang['attr_stockable']               = 'Stockable';
 
-$lang['attr_bom']                     = 'Норматив';
+$lang['attr_bom']                     = 'BOM';
 
-$lang['attr_document']                = 'Документ';
-$lang['attr_distributor']             = 'Дистрибутер';
-$lang['attr_partner']                 = 'Партнер';
-$lang['attr_vendor']                  = 'Добавувач';
-$lang['attr_customer']                = 'Купувач';
-$lang['attr_duty']                    = 'Задолжение';
+$lang['attr_document']                = 'Document';
+$lang['attr_distributor']             = 'Distirbutor';
+$lang['attr_partner']                 = 'Partner';
+$lang['attr_vendor']                  = 'Vendor';
+$lang['attr_customer']                = 'Customer';
+$lang['attr_duty']                    = 'Assigned To';
 
-$lang['attr_ordered']                 = 'Нарачано';
-$lang['attr_received']                = 'Примено';
-$lang['attr_shipped']                 = 'Испорачано';
-$lang['attr_expires']                 = 'Истекува';
+$lang['attr_ordered']                 = 'Ordered';
+$lang['attr_received']                = 'Received';
+$lang['attr_shipped']                 = 'Shipped';
+$lang['attr_expires']                 = 'Expires';
 
-$lang['attr_deduct']                  = 'Минусирај';
-$lang['attr_production']              = 'Производство';
+$lang['attr_deduct']                  = 'Deduct';
+$lang['attr_production']              = 'Production';
 
-$lang['attr_pending']                 = 'Во Исчекување';
-$lang['attr_approved']                = 'Оддобрено';
-$lang['attr_rejected']                = 'Одбиено';
-$lang['attr_delivered']               = 'Испорачанo';
+$lang['attr_pending']                 = 'Pending';
+$lang['attr_approved']                = 'Approved';
+$lang['attr_rejected']                = 'Rejected';
+$lang['attr_delivered']               = 'Delivered';
 
-$lang['attr_taken']                   = 'Земено';
-$lang['attr_returned']                = 'Вратено';
+$lang['attr_taken']                   = 'Taken';
+$lang['attr_returned']                = 'Returned';
 
-$lang['attr_amount']                  = 'Износ';
-$lang['attr_price']                   = 'Цена';
-$lang['attr_price_wo_vat']            = 'Цена (без ДДВ)';
-$lang['attr_price_w_vat']             = 'Цена (со ДДВ)';
-$lang['attr_subtotal']                = 'Вкупно (без ДДВ)';
-$lang['attr_total_w_vat']             = 'Вкупно (со ДДВ)';
-$lang['attr_total']                   = 'Вкупно';
-$lang['attr_average']                 = 'Просек';
-$lang['attr_min']                     = 'Минимум';
-$lang['attr_max']                     = 'Максимум';
-$lang['attr_price_min']               = 'Мин.Цена';
-$lang['attr_price_max']               = 'Макс.Цена';
-$lang['attr_vat']                     = 'ДДВ';
-$lang['attr_tax']                     = 'Данок';
-$lang['attr_price_per_uom']           = 'Цена/ЕМ';
-$lang['attr_price_plus_per_uom']      = 'Цена+/ЕМ';
+$lang['attr_amount']                  = 'Amount';
+$lang['attr_price']                   = 'Price';
+$lang['attr_price_wo_vat']            = 'Price wo/ VAT';
+$lang['attr_price_w_vat']             = 'Price w/ VAT';
+$lang['attr_subtotal']                = 'Subtotal';
+$lang['attr_total_w_vat']             = 'Total w/ VAT';
+$lang['attr_total']                   = 'Grand Total';
+$lang['attr_average']                 = 'Average';
+$lang['attr_min']                     = 'Min.';
+$lang['attr_max']                     = 'Max.';
+$lang['attr_price_min']               = 'Min.Price';
+$lang['attr_price_max']               = 'Max.Price';
+$lang['attr_vat']                     = 'VAT';
+$lang['attr_tax']                     = 'Tax';
+$lang['attr_price_per_uom']           = 'Price/UOM';
+$lang['attr_price_plus_per_uom']      = 'Price+/UOM';
 
-$lang['attr_payment_method']          = 'Плаќање';
-$lang['attr_unknown']                 = 'Непознато';
-$lang['attr_cash']                    = 'Готовина';
-$lang['attr_cash_sh']                 = 'Г';
-$lang['attr_invoice']                 = 'Фактура';
-$lang['attr_invoice_sh']              = 'Ф';
+$lang['attr_payment_method']          = 'Payment';
+$lang['attr_unknown']                 = 'Unknown';
+$lang['attr_cash']                    = 'Cash';
+$lang['attr_cash_sh']                 = 'C';
+$lang['attr_invoice']                 = 'Invoice';
+$lang['attr_invoice_sh']              = 'I';
 
-$lang['attr_order_list']              = 'Извештај';
+$lang['attr_order_list']              = 'SOL';
 
-$lang['attr_link']                    = 'Врска';
-$lang['attr_in']                      = 'Влез';
-$lang['attr_out']                     = 'Излез';
-$lang['attr_previous_stock']          = 'Старо Салдо';
-$lang['attr_stock']                   = 'Салдо';
+$lang['attr_link']                    = 'Link';
+$lang['attr_in']                      = 'In';
+$lang['attr_out']                     = 'Out';
+$lang['attr_previous_stock']          = 'Prev.Stock';
+$lang['attr_stock']                   = 'Stock';
 
-$lang['attr_description']             = 'Опис';
-$lang['attr_note']                    = 'Белешка';
+$lang['attr_description']             = 'Description';
+$lang['attr_note']                    = 'Note';
 
-$lang['attr_code']                    = 'Шифра';
+$lang['attr_code']                    = 'Code';
 
-$lang['attr_shift']                   = 'Смена';
-$lang['attr_work_hours']              = 'Работни Часови';
-$lang['attr_spill']                   = 'Растур';
+$lang['attr_shift']                   = 'Shift';
+$lang['attr_work_hours']              = 'Work Hours';
+$lang['attr_spill']                   = 'Spill';
 
-$lang['attr_unit_price']              = 'Единечна Цена';
-$lang['attr_commision']               = 'Провизија';
-$lang['attr_locked']                  = 'Заклучен';
+$lang['attr_unit_price']              = 'Unit Price';
+$lang['attr_commision']               = 'Commision';
+$lang['attr_locked']                  = 'Locked';
 
-$lang['attr_company']                 = 'Фирма';
-$lang['attr_hq']                      = 'Седиште';
-$lang['attr_contact_person']          = 'Контакт Лице';
+$lang['attr_company']                 = 'Company';
+$lang['attr_hq']                      = 'HQ';
+$lang['attr_contact_person']          = 'Contact Person';
 
-$lang['attr_first_name']              = 'Име';
-$lang['attr_last_name']               = 'Презиме';
-$lang['attr_dob']                     = 'ДНР';
-$lang['attr_ssn']                     = 'ЕМБГ';
-$lang['attr_sex']                     = 'Пол';
-$lang['attr_sex_male']                = 'Машки';
-$lang['attr_sex_female']              = 'Женски';
-$lang['attr_marital_status']          = 'Брачна Состојба';
-$lang['attr_ms_single']               = 'Слободен/а';
-$lang['attr_ms_married']              = 'Во Брак';
-$lang['attr_ms_divorced']             = 'Разведен/а';
+$lang['attr_first_name']              = 'First Name';
+$lang['attr_last_name']               = 'Last Name';
+$lang['attr_dob']                     = 'DOB';
+$lang['attr_ssn']                     = 'SSN';
+$lang['attr_sex']                     = 'Sex';
+$lang['attr_sex_male']                = 'Male';
+$lang['attr_sex_female']              = 'Female';
+$lang['attr_marital_status']          = 'Marital Status';
+$lang['attr_ms_single']               = 'Single';
+$lang['attr_ms_married']              = 'Married';
+$lang['attr_ms_divorced']             = 'Divorced';
 
-$lang['attr_address']                 = 'Адреса';
-$lang['attr_city']                    = 'Град';
-$lang['attr_postal_code']             = 'Поштенски Број';
-$lang['attr_email']                   = 'И-Меил';
-$lang['attr_web']                     = 'Веб Сајт';
+$lang['attr_address']                 = 'Address';
+$lang['attr_city']                    = 'City';
+$lang['attr_postal_code']             = 'Postal Code';
+$lang['attr_email']                   = 'E-Mail';
+$lang['attr_web']                     = 'Web Site';
 
-$lang['attr_phone']                   = 'Телефон';
-$lang['attr_fax']                     = 'Факс';
-$lang['attr_mobile']                  = 'Мобилен';
-$lang['attr_company_mobile']          = 'Службен Мобилен';
-$lang['attr_subvention']              = 'Служ.Моб.Субвенција';
+$lang['attr_phone']                   = 'Phone';
+$lang['attr_fax']                     = 'Fax';
+$lang['attr_mobile']                  = 'Mobile';
+$lang['attr_company_mobile']          = 'Company Mobile';
+$lang['attr_subvention']              = 'Subvention';
 
-$lang['attr_employee']                = 'Работник';
-$lang['attr_position']                = 'Работно Место';
-$lang['attr_department']              = 'Сектор';
-$lang['attr_manager']                 = 'Менаџер';
+$lang['attr_employee']                = 'Employee';
+$lang['attr_position']                = 'Position';
+$lang['attr_department']              = 'Department';
+$lang['attr_manager']                 = 'Manager';
 
-$lang['attr_task']                    = 'Работна Задача';
+$lang['attr_task']                    = 'Task';
 
-$lang['attr_resource']                = 'Ресурс';
-$lang['attr_role']                    = 'Корисничка Група';
-$lang['attr_permission']              = 'Одобрување';
-$lang['attr_allow']                   = 'Дозволено';
-$lang['attr_deny']                    = 'Забрането';
-$lang['attr_can_login']               = 'Логирање';
+$lang['attr_resource']                = 'Resource';
+$lang['attr_role']                    = 'Role';
+$lang['attr_permission']              = 'Permission';
+$lang['attr_allow']                   = 'Allow';
+$lang['attr_deny']                    = 'Deny';
+$lang['attr_can_login']               = 'Login';
 
-$lang['attr_bank']                    = 'Банка';
-$lang['attr_account_number']          = 'Број на Сметка';
-$lang['attr_tax_number']              = 'ЕДБ';
+$lang['attr_bank']                    = 'Bank';
+$lang['attr_account_number']          = 'Account No.';
+$lang['attr_tax_number']              = 'Tax No.';
 
-$lang['attr_gross']                   = 'Бруто';
-$lang['attr_net']                     = 'Нето';
-$lang['attr_accumulated']             = 'Учинок';
-$lang['attr_paid']                    = 'Доплата';
-$lang['attr_fixed']                   = 'Фиксно';
-$lang['attr_wage']                    = 'Плата';
-$lang['attr_fixed_wage']              = 'Фиксна Плата';
-$lang['attr_social_contribution']     = 'Придонес';
-$lang['attr_health_insurance']        = 'ЗО';
+$lang['attr_gross']                   = 'Gross';
+$lang['attr_net']                     = 'Net';
+$lang['attr_accumulated']             = 'Accumulated';
+$lang['attr_paid']                    = 'Additional Pay';
+$lang['attr_fixed']                   = 'Fixed';
+$lang['attr_wage']                    = 'Wage';
+$lang['attr_fixed_wage']              = 'Fixed Wage';
+$lang['attr_social_contribution']     = 'Social Contribution';
+$lang['attr_health_insurance']        = 'Health Insurance';
 
-$lang['attr_bonus']                   = 'Бонус';
-$lang['attr_bonuses']                 = 'Бонуси';
-$lang['attr_expenses']                = 'Трошоци';
+$lang['attr_bonus']                   = 'Bonus';
+$lang['attr_bonuses']                 = 'Bonuses';
+$lang['attr_expenses']                = 'Expenses';
 
-$lang['attr_qualifications']          = 'Квалификации';
+$lang['attr_qualifications']          = 'Qualifications';
 
-$lang['attr_location']                = 'Локација';
+$lang['attr_location']                = 'Location';
 
-$lang['attr_status']                  = 'Статус';
-$lang['attr_status_active']           = 'Активен';
-$lang['attr_status_inactive']         = 'Неактивен';
+$lang['attr_status']                  = 'Status';
+$lang['attr_status_active']           = 'Active';
+$lang['attr_status_inactive']         = 'Inactive';
 
-$lang['attr_operator']                = 'Оператор';
-$lang['attr_parent']                  = 'Родител';
-$lang['attr_folder']                  = 'Фолдер';
-$lang['attr_controller']              = 'Контролер';
-$lang['attr_method']                  = 'Метод';
-$lang['attr_order']                   = 'Редослед';
-$lang['attr_permalink']               = 'Пермалинк';
-$lang['attr_visible']                 = 'Се Гледа';
+$lang['attr_operator']                = 'Operator';
+$lang['attr_parent']                  = 'Parent';
+$lang['attr_folder']                  = 'Folder';
+$lang['attr_controller']              = 'Controller';
+$lang['attr_method']                  = 'Method';
+$lang['attr_order']                   = 'Order';
+$lang['attr_permalink']               = 'Permalink';
+$lang['attr_visible']                 = 'Visible';
 
 
-$lang['attr_search_by_document_code'] = 'Пребарувај по Документ/Код';
-$lang['attr_search_by_company_code']  = 'Пребарувај по Фирма/Код';
+$lang['attr_search_by_document_code'] = 'Search by Document/Code';
+$lang['attr_search_by_company_code']  = 'Search by Company/Code';
 
 /////////////////////////////
 // Fieldset Legend Headers //
 /////////////////////////////
 
-$lang['attr_general_info']            = 'Основни Информации';
-$lang['attr_contact_info']            = 'Контакт Информации';
-$lang['attr_login_info']              = 'Логин Инфомации';
-$lang['attr_financial_info']          = 'Финансиски Информации';
-$lang['attr_work_info']               = 'Информации за Работнен Однос';
+$lang['attr_general_info']            = 'General Information';
+$lang['attr_contact_info']            = 'Contact Information';
+$lang['attr_login_info']              = 'Login Information';
+$lang['attr_financial_info']          = 'Financial Information';
+$lang['attr_work_info']               = 'Work Related Information';
