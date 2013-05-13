@@ -76,10 +76,46 @@
     <script src="<?=base_url('js/scripts.js')?>"></script> 
     <!-- END OF JAVASCRIPT LOADING -->
 
+    <script>
+        //Populating various variables used by CD global object
+        cd.air = {
+            app_title : "<?=$glAppTitle?>",
+            select_at_least_one : "<?=uif::lng('air.select_at_least_one')?>",
+            unsuccessful_action : "<?=uif::lng('air.error')?>",
+            locale : "<?=$glLocale?>"
+        };
+    </script>
+
     <?php if(strlen($this->session->flashdata('message'))): ?>
        <script>
+            //Listens for flash data and displays notifications with appropriate color flag
             cd.notify("<?=$this->session->flashdata('message')?>","<?=$this->session->flashdata('type')?>");                
        </script>
     <?php endif; ?>
+
+    <script>
+        //Delete Dialog
+        $(document).on("click",".confirm-delete", function(e) {
+            var okBtn = "<?=uif::lng('common.ok')?>";
+            var cnlBtn = "<?=uif::lng('common.cancel')?>";
+            var text = "\
+                    <h4 class='text-error'><?=uif::lng('common.warning')?></h4>\
+                    <hr>\
+                <div class='alert alert-error'>\
+                    <i class='icon-warning-sign'></i>\
+                    <?=uif::lng('common.action_irreversible')?>\
+                </div>";
+            bootbox.animate(false); 
+            bootbox.confirm(text, cnlBtn, okBtn, function(result) {
+                targetLink = e.target.href;
+                if(targetLink === undefined){
+                    targetLink = $(e.target).data('link');
+                }
+                if(result){window.location.href = targetLink;}
+            });
+            return false;
+        });
+    </script>
+
 </body>
 </html>

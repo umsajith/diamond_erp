@@ -42,7 +42,7 @@ $lang['attr_shipped']                 = 'Испорачано';
 $lang['attr_expires']                 = 'Истекува';
 
 $lang['attr_deduct']                  = 'Минусирај';
-$lang['attr_production']                  = 'Производство';
+$lang['attr_production']              = 'Производство';
 
 $lang['attr_pending']                 = 'Во Исчекување';
 $lang['attr_approved']                = 'Оддобрено';

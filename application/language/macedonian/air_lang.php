@@ -14,3 +14,5 @@ $lang['air_insert_valid_quantity']     = "Внесете валидна коли
 $lang['air_pick_task']                 = "Изберете работна задача";
 $lang['air_pick_item']                 = "Изберете артикл";
 $lang['air_item_exists_edit_quantity'] = "Артиклот веќе постои. Aжурирајте ја количината";
+
+$lang['air_select_at_least_one']       = "Потребно е да селектирате барем една ставка";

@@ -40,3 +40,4 @@ $config['glAppTitle']   = 'Diamond ERP';
 $config['glAppVersion'] = '2.0.2 ALPHA';
 $config['glAppEnv']     = 'development';
 $config['glLang'] = config_item('language');
+$config['glLocale'] = 'mk';

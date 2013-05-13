@@ -11,28 +11,6 @@
 	$(document).on("click",".check-all", function(e) {
 		$(this).closest('table.data-grid').find('input[type=checkbox]').prop('checked', this.checked);
 	});
-
-	$(document).on("click",".confirm-delete", function(e) {
-		var okBtn = "Продолжи";
-		var cnlBtn = "Откажи";
-		var text = '\
-				<h4 class="text-error">Внимание!</h4>\
-				<hr>\
-			<div class="alert alert-error">\
-				<i class="icon-warning-sign"></i>\
-				Ставката која сакате да ја избришете <strong>НЕМОЖЕ</strong> да биде повратена!\
-			</div>';
-
-		bootbox.animate(false);	
-	    bootbox.confirm(text, cnlBtn, okBtn, function(result) {
-	    	targetLink = e.target.href;
-	    	if(targetLink === undefined){
-	    		targetLink = $(e.target).data('link');
-	    	}
-	        if(result){window.location.href = targetLink;}
-	    });
-	    return false;
-	});
 		
 	//Prevents Form re-submission
 	$('form').submit(function() {
@@ -51,9 +29,13 @@ var cd = (function(){
 
 	var obj = {};
 
+	//Various variables populated
+	//by PHP on runtime
+	obj.air = {};
+
 	obj.notify = function(text, type){
 
-		$.pnotify.defaults.title = "Diamond ERP";
+		$.pnotify.defaults.title = this.air.app_title;
 		$.pnotify.defaults.sticker = false;
 		$.pnotify.defaults.delay = 1750;
 
@@ -87,7 +69,7 @@ var cd = (function(){
 		} else ids = id;
 
 		if(ids.length == 0){
-			this.notify("Потребно е да селектирате барем една ставка");
+			this.notify(this.air.select_at_least_one);
 			return false;
 		}
 
@@ -108,7 +90,7 @@ var cd = (function(){
 		} else ids = id;
 
 		if(ids.length == 0){
-			this.notify("Потребно е да селектирате барем една ставка");
+			this.notify(this.air.select_at_least_one);
 			return false;
 		}
 
@@ -269,7 +251,7 @@ var cd = (function(){
 		} else ids = id;
 
 		if(ids.length == 0){
-			this.notify("Потребно е да селектирате барем една ставка");
+			this.notify(this.air.select_at_least_one);
 			return false;
 		}
 
@@ -286,7 +268,7 @@ var cd = (function(){
 		} else ids = id;
 
 		if(ids.length == 0){
-			this.notify("Потребно е да селектирате барем една ставка");
+			this.notify(this.air.select_at_least_one);
 			return false;
 		}
 
@@ -306,7 +288,7 @@ var cd = (function(){
 			if(data){
 				location.replace(data);
 			}else {
-				this.notify("Проблем при внесување на плата. Обидете се повторно.");
+				this.notify(this.air.unsuccessful_action);
 				location.reload(true);
 			}
 		});  
@@ -325,7 +307,7 @@ var cd = (function(){
 		var args = {
 			format: "yyyy-mm-dd",
 			autoclose: true,
-			language: 'mk',
+			language: this.air.locale,
 			weekStart: 1
 		};
 
@@ -344,7 +326,7 @@ var cd = (function(){
 		var f1 = $(field1).datepicker({
 			format: "yyyy-mm-dd",
 			autoclose: true,
-			language: 'mk',
+			language: this.air.locale,
 			weekStart: 1,
 			onRender: function(date) {
 				return date.valueOf() < now.valueOf() ? 'disabled' : '';
@@ -361,7 +343,7 @@ var cd = (function(){
 		var f2 = $(field2).datepicker({
 			format: "yyyy-mm-dd",
 			autoclose: true,
-			language: 'mk',
+			language: this.air.locale,
 			onRender: function(date) {
 				return date.valueOf() <= f1.date.valueOf() ? 'disabled' : '';
 			}

@@ -399,7 +399,7 @@ class Inventory_model extends MY_Model {
 			$row['datereceived'] = mdate("%Y-%m-%d",now());
 		}
 
-		if(!strlen($row['assigned_to'])) $row['assigned_to'] = null;
+		if(isset($row['assigned_to']) AND !strlen($row['assigned_to'])) $row['assigned_to'] = null;
 
 		/**
 		 * Sets operator inserting into Inventory
