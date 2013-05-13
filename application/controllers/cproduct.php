@@ -44,9 +44,7 @@ class Cproduct extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.pc_pcs');
 
-		$this->data['columns'] = [
-			'pcname' => uif::lng('attr.name')
-		];
+		$this->data['columns'] = ['pcname' => uif::lng('attr.name')];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';

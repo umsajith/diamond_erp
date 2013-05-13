@@ -44,9 +44,7 @@ class Tproduct extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.pt_pts');
 
-		$this->data['columns'] = [
-			'ptname' => uif::lng('attr.name')
-		];
+		$this->data['columns'] = ['ptname' => uif::lng('attr.name')];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';

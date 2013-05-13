@@ -46,13 +46,13 @@ class Payroll_extra extends MY_Controller {
 		$this->data['categories'] = $this->prc->dropdown('id', 'name');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
+		$this->data['columns'] = [	
 			'employee'             => uif::lng('attr.employee'),
 			'payroll_extra_cat_fk' => uif::lng('attr.category'),
 			'amount'               => uif::lng('attr.amount'),
 			'for_date'             => uif::lng('attr.date'),
 			'dateofentry'          => uif::lng('attr.doe')
-		);
+		];
 
 		$this->input->load_query($query_id);
 		
@@ -65,7 +65,7 @@ class Payroll_extra extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('employee','payroll_extra_cat_fk','amount','for_date','dateofentry');
+		$sort_by_array = array_keys($this->data['columns']);
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'dateofentry';
 
 		//Retreive data from Model

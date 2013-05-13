@@ -43,9 +43,7 @@ class Warehouses extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.wh_whs');
 
-		$this->data['columns'] = array (	
-			'wname'=>'Назив'
-		);
+		$this->data['columns'] = ['wname'=> uif::lng('attr.name')];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -78,7 +76,7 @@ class Warehouses extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.wh_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('wname','warehouse name','trim|required');
+		$this->form_validation->set_rules('wname',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -98,11 +96,11 @@ class Warehouses extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.wh_edit');
 
 		$this->data['result'] = $this->whr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','warehouses');
+
+		if(!$this->data['result']) air::flash('void');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('wname','warehouse name','trim|required');
+		$this->form_validation->set_rules('wname',uif::lng('attr.name'),'trim|required');
 				
 		if ($this->form_validation->run())
 		{
@@ -117,9 +115,7 @@ class Warehouses extends MY_Controller {
 	 */
 	public function delete($id)
 	{
-		$this->data['result'] = $this->whr->get($id);
-		if(!$this->data['result'])
-			air::flash('void','warehouses');
+		if(!$this->whr->get($id)) air::flash('void');
 
 		if($this->whr->delete($this->data['result']->id))
 			air::flash('delete','warehouses');

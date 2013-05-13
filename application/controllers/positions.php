@@ -51,7 +51,7 @@ class Positions extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = ['position','department','base_salary','bonus','commision'];
+		$sort_by_array = array_keys($this->data['columns']);
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'position';
 		
 		//Retreive data from Model

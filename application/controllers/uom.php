@@ -44,9 +44,7 @@ class Uom extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.uom_uoms');
 
-		$this->data['columns'] = array (	
-			'uname'=>'Назив'
-		);
+		$this->data['columns'] = ['uname'=> uif::lng('attr.name')];
 
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -79,7 +77,7 @@ class Uom extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.uom_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('uname','UOM name','trim|required');
+		$this->form_validation->set_rules('uname',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -99,11 +97,11 @@ class Uom extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.uom_edit');
 
 		$this->data['result'] = $this->uom->get($id);
-		if(!$this->data['result'])
-			air::flash('void','uom');
+
+		if(!$this->data['result']) air::flash('void','uom');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('uname','UOM name','trim|required');
+		$this->form_validation->set_rules('uname',uif::lng('attr.name'),'trim|required');
 				
 		if ($this->form_validation->run())
 		{
@@ -119,8 +117,8 @@ class Uom extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['result'] = $this->uom->get($id);
-		if(!$this->data['result'])
-			air::flash('void','uom');
+		
+		if(!$this->data['result']) air::flash('void','uom');
 		
 		if($this->uom->delete($this->data['result']->id))
 			air::flash('delete','uom');
