@@ -6,23 +6,6 @@ class Products_model extends MY_Model {
 	public $before_create = ['setNull'];
 
 	public $before_update = ['setNull'];
-
-	public $validate = [
-		[ 'field' => 'prodname', 'label' => 'product name','rules' => 'trim|required'],
-		[ 'field' => 'ptname_fk', 'label' => 'type','rules' => 'trim|required'],
-		[ 'field' => 'pcname_fk', 'label' => 'category','rules' => 'trim|required'],
-		[ 'field' => 'wname_fk', 'label' => 'warehouse','rules' => 'trim|required'],
-		[ 'field' => 'uname_fk', 'label' => 'uom','rules' => 'trim|required'],
-		[ 'field' => 'tax_rate_fk', 	'label' => 'tax','rules' => 'trim|required'],
-		[ 'field' => 'code', 		'label' => '','rules' => 'trim'],
-		[ 'field' => 'base_unit', 'label' => 'base unit','rules' => 'trim|numeric'],
-		[ 'field' => 'retail_price', 'label' => 'retail price','rules' => 'trim|numeric'],
-		[ 'field' => 'alert_quantity', 'label' => 'alert quantity','rules' => 'trim|numeric'],
-		[ 'field' => 'commision', 'label' => 'commision','rules' => 'trim|numeric'],
-		[ 'field' => 'salable', 'label' => 'salable','rules' => 'trim|numeric'],
-		[ 'field' => 'purchasable', 'label' => 'purchasable','rules' => 'trim|numeric'],
-		[ 'field' => 'stockable', 'label' => 'stockable','rules' => 'trim|numeric']
-    ];
 	
 	public function select($query_array, $sort_by, $sort_order, $limit=null, $offset=null)
 	{

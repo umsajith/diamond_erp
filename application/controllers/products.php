@@ -51,16 +51,16 @@ class Products extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [
-			'prodname'       =>'Назив',
-			'ptname_fk'      =>'Тип',
-			'pcname_fk'      =>'Категорија',
-			'wname_fk'       =>'Магацин',
-			'base_unit'      =>'Осн.ЕМ',
-			'alert_quantity' =>'Мин.Кол.',
-			'retail_price'   =>'МПЦ',
-			'whole_price1'   =>'ГПЦ1',
-			'commision'      =>'Рабат',
-			'tax_rate_fk'    =>'ДДВ'
+			'prodname'       => uif::lng('attr.name'),
+			'ptname_fk'      => uif::lng('attr.type'),
+			'pcname_fk'      => uif::lng('attr.category'),
+			'wname_fk'       => uif::lng('attr.warehouse'),
+			'base_unit'      => uif::lng('attr.uom'),
+			'alert_quantity' => uif::lng('attr.alert_quantity'),
+			'retail_price'   => uif::lng('attr.retail_price'),
+			'whole_price1'   => uif::lng('attr.wholesale_price'),
+			'commision'      => uif::lng('attr.commision'),
+			'tax_rate_fk'    => uif::lng('attr.vat')
 		];
 		
 		$this->input->load_query($query_id);
@@ -73,9 +73,7 @@ class Products extends MY_Controller {
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('prodname','ptname_fk','pcname_fk','wname_fk',
-								'base_unit','alert_quantity','retail_price','whole_price1',
-								'whole_price2','commision','tax_rate_fk');
+		$sort_by_array = array_keys($this->data['columns']);
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'prodname';
 		
 		//Retreive data from Model
@@ -109,8 +107,29 @@ class Products extends MY_Controller {
 	
 	public function insert()
 	{
+		$this->form_validation->set_rules('prodname',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('ptname_fk',uif::lng('attr.type'),'trim|required');
+		$this->form_validation->set_rules('pcname_fk',uif::lng('attr.category'),'trim|required');
+		$this->form_validation->set_rules('wname_fk',uif::lng('attr.warehouse'),'trim|required');
+		$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required');
+		$this->form_validation->set_rules('tax_rate_fk',uif::lng('attr.tax'),'trim|required');
+		$this->form_validation->set_rules('base_unit',uif::lng('attr.base_unit'),'trim|numeric');
+		$this->form_validation->set_rules('retail_price',uif::lng('attr.retail_price'),'trim|numeric');
+		$this->form_validation->set_rules('wholesale_price',uif::lng('attr.wholesale_price'),'trim|numeric');
+		$this->form_validation->set_rules('alert_quantity',uif::lng('attr.alert_quantity'),'trim|numeric');
+		$this->form_validation->set_rules('commision',uif::lng('attr.commision'),'trim|numeric');
+		$this->form_validation->set_rules('salable',uif::lng('attr.salable'),'trim|numeric');
+		$this->form_validation->set_rules('purchasable',uif::lng('attr.purchasable'),'trim|numeric');
+		$this->form_validation->set_rules('stockable',uif::lng('attr.stockable'),'trim|numeric');
+		$this->form_validation->set_rules('code','','trim');
 		//Successful validation insets into the DB
-		if($this->prod->insert($_POST)) air::flash('add','products');
+		if ($this->form_validation->run())
+		{
+			if($this->prod->insert($_POST)) 
+				air::flash('add','products');
+
+			air::flash('error','products');
+		}
 		
 		// Generating dropdown menu's
 		$this->data['warehouses']    = $this->warehouse->dropdown('id','wname');
@@ -130,11 +149,30 @@ class Products extends MY_Controller {
 		
 		//If there is nothing, redirects
 		if(!$this->data['product']) air::flash('void','products');
+
+		$this->form_validation->set_rules('prodname',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('ptname_fk',uif::lng('attr.type'),'trim|required');
+		$this->form_validation->set_rules('pcname_fk',uif::lng('attr.category'),'trim|required');
+		$this->form_validation->set_rules('wname_fk',uif::lng('attr.warehouse'),'trim|required');
+		$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required');
+		$this->form_validation->set_rules('tax_rate_fk',uif::lng('attr.tax'),'trim|required');
+		$this->form_validation->set_rules('base_unit',uif::lng('attr.base_unit'),'trim|numeric');
+		$this->form_validation->set_rules('retail_price',uif::lng('attr.retail_price'),'trim|numeric');
+		$this->form_validation->set_rules('wholesale_price',uif::lng('attr.wholesale_price'),'trim|numeric');
+		$this->form_validation->set_rules('alert_quantity',uif::lng('attr.alert_quantity'),'trim|numeric');
+		$this->form_validation->set_rules('commision',uif::lng('attr.commision'),'trim|numeric');
+		$this->form_validation->set_rules('salable',uif::lng('attr.salable'),'trim|numeric');
+		$this->form_validation->set_rules('purchasable',uif::lng('attr.purchasable'),'trim|numeric');
+		$this->form_validation->set_rules('stockable',uif::lng('attr.stockable'),'trim|numeric');
+		$this->form_validation->set_rules('code','','trim');
 		
 		//Proccesses the form with the new updated data
-		if($_POST)
+		if ($this->form_validation->run())
 		{
-			if($this->prod->update($id,$_POST)) air::flash('update','products');
+			if($this->prod->update($id,$_POST)) 
+				air::flash('update','products');
+
+			air::flash('error','products');
 		}
 		
 		// Generating dropdown menu's

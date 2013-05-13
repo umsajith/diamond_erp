@@ -50,8 +50,8 @@
 <?php endif;?>
 <script>
 	$(function(){
-		cd.dd("select[name=pcname_fk]",'Категорија');
-		cd.dd("select[name=ptname_fk]",'Тип');
-		cd.dd("select[name=wname_fk]",'Магацин');
+		cd.dd("select[name=pcname_fk]","<?=uif::lng('attr.category')?>");
+		cd.dd("select[name=ptname_fk]","<?=uif::lng('attr.type')?>");
+		cd.dd("select[name=wname_fk]","<?=uif::lng('attr.warehouse')?>");
 	});	
 </script>

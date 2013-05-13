@@ -12,10 +12,20 @@ $lang['attr_date_start']              = 'Почеток';
 $lang['attr_date_end']                = 'Крај';
 
 $lang['attr_item']                    = 'Артикл';
+$lang['attr_type']                    = 'Тип';
 $lang['attr_category']                = 'Категорија';
 $lang['attr_quantity']                = 'Количина';
 $lang['attr_conversion']              = 'Конверзија';
 $lang['attr_uom']                     = 'EM';
+$lang['attr_warehouse']               = 'Магацин';
+$lang['attr_alert_quantity']          = 'Мин.Кол.';
+$lang['attr_retail_price']            = 'МПЦ';
+$lang['attr_wholesale_price']         = 'ГПЦ';
+
+$lang['attr_base_unit']               = 'Основна Единица';
+$lang['attr_salable']                 = 'Се Продава';
+$lang['attr_purchasable']             = 'Се Купува';
+$lang['attr_stockable']               = 'Состојба';
 
 $lang['attr_bom']                     = 'Норматив';
 
@@ -137,11 +147,11 @@ $lang['attr_fixed_wage']              = 'Фиксна Плата';
 $lang['attr_social_contribution']     = 'Придонес';
 $lang['attr_health_insurance']        = 'ЗО';
 
-$lang['attr_bonus']                 = 'Бонус';
+$lang['attr_bonus']                   = 'Бонус';
 $lang['attr_bonuses']                 = 'Бонуси';
 $lang['attr_expenses']                = 'Трошоци';
 
-$lang['attr_qualifications']                = 'Квалификации';
+$lang['attr_qualifications']          = 'Квалификации';
 
 $lang['attr_location']                = 'Локација';
 

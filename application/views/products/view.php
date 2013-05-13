@@ -5,41 +5,39 @@
 <div class="row-fluid">
     <div class="span6 well well-small">  
         <dl class="dl-horizontal">
-            <dt>Назив:</dt>
+            <dt><?=uif::lng('attr.name')?>:</dt>
             <dd><?=$master->prodname?></dd>
-            <dt>Код:</dt>
+            <dt><?=uif::lng('attr.code')?>:</dt>
             <dd><?=uif::isNull($master->code)?></dd>
-            <dt>Тип:</dt>
+            <dt><?=uif::lng('attr.type')?>:</dt>
             <dd><?=$master->ptname?></dd>
-            <dt>Категорија:</dt>
+            <dt><?=uif::lng('attr.category')?>:</dt>
             <dd><?=$master->pcname?></dd>
-            <dt>Магацин:</dt>
+            <dt><?=uif::lng('attr.warehouse')?>:</dt>
             <dd><?=$master->wname?></dd>
-            <dt>ЕМ:</dt>
+            <dt><?=uif::lng('attr.uom')?>:</dt>
             <dd><?=$master->uname?></dd>
-            <dt>Основна Единица:</dt>
+            <dt><?=uif::lng('attr.base_unit')?>:</dt>
             <dd><?=uif::isNull($master->base_unit)?></dd>
-            <dt>МП Цена:</dt>
-            <dd><?=uif::isNull($master->retail_price)?></dd>
-            <dt>ГП Цена 1:</dt>
-            <dd><?=uif::isNull($master->whole_price1)?></dd>
-            <dt>ГП Цена 2:</dt>
-            <dd><?=uif::isNull($master->whole_price2)?></dd>
-            <dt>Данок (%):</dt>
+            <dt><?=uif::lng('attr.retail_price')?>:</dt>
+            <dd><?=uif::isNull($master->retail_price).$glCurrSh?></dd>
+            <dt><?=uif::lng('attr.wholesale_price')?>:</dt>
+            <dd><?=uif::isNull($master->whole_price1).$glCurrSh?></dd>
+            <dt><?=uif::lng('attr.tax')?>:</dt>
             <dd><?=$master->rate.'%'?></dd>
-            <dt>Провизија:</dt>
-            <dd><?=uif::isNull($master->commision)?></dd>
-            <dt>Мин. Количина:</dt>
+            <dt><?=uif::lng('attr.commision')?>:</dt>
+            <dd><?=uif::isNull($master->commision).$glCurrSh?></dd>
+            <dt><?=uif::lng('attr.alert_quantity')?>:</dt>
             <dd><?=uif::isNull($master->alert_quantity)?></dd>
-            <dt>Опис:</dt>
+            <dt><?=uif::lng('attr.note')?>:</dt>
             <dd><?=uif::isNull($master->description)?></dd>
-            <dt>Се Продава:</dt>
+            <dt><?=uif::lng('attr.salable')?>:</dt>
             <dd><?=($master->salable) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Се Купува:</dt>
+            <dt><?=uif::lng('attr.purchasable')?>:</dt>
             <dd><?=($master->purchasable) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
-            <dt>Состојба:</dt>
+            <dt><?=uif::lng('attr.stockable')?>:</dt>
             <dd><?=($master->stockable) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
         </dl>
