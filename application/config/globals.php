@@ -39,5 +39,9 @@ $config['G_currency'] = ' ден.';
 $config['glAppTitle']   = 'Diamond ERP';
 $config['glAppVersion'] = '2.0.2 ALPHA';
 $config['glAppEnv']     = 'development';
-$config['glLang'] = config_item('language');
-$config['glLocale'] = 'mk';
+
+$availableLanguages     = ['macedonian','english'];
+$availableLocales       = ['mk','en'];
+
+$config['glLang']       = in_array(config_item('language'),$availableLanguages) ? config_item('language') : 'macedonian';
+$config['glLocale']     = in_array(config_item('glLocale'),$availableLocales) ? config_item('glLocale') : 'mk';;

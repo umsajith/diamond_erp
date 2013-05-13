@@ -60,7 +60,7 @@ $config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
-| Default Language
+| Default Language & Locale
 |--------------------------------------------------------------------------
 |
 | This determines which set of language files should be used. Make sure
@@ -69,6 +69,8 @@ $config['url_suffix'] = '';
 |
 */
 $config['language']	= 'macedonian';
+
+$config['glLocale']	= 'mk';
 
 /*
 |--------------------------------------------------------------------------
