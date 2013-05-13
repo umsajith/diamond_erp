@@ -47,11 +47,11 @@ class Payroll_extra extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = array (	
-			'employee'             =>'Работник',
-			'payroll_extra_cat_fk' =>'Категорија',
-			'amount'               =>'Износ',
-			'for_date'             =>'Датум',
-			'dateofentry'          =>'Внес'
+			'employee'             => uif::lng('attr.employee'),
+			'payroll_extra_cat_fk' => uif::lng('attr.category'),
+			'amount'               => uif::lng('attr.amount'),
+			'for_date'             => uif::lng('attr.date'),
+			'dateofentry'          => uif::lng('attr.doe')
 		);
 
 		$this->input->load_query($query_id);
@@ -83,9 +83,9 @@ class Payroll_extra extends MY_Controller {
 		
 		$this->data['pagination'] = $this->pagination->create_links();
 		
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
-		$this->data['query_id'] = $query_id;
+		$this->data['query_id']   = $query_id;
 	}
 	
 	public function search()
@@ -104,26 +104,26 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.paye_exps');
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->emp->generateDropdown();
+		$this->data['employees']  = $this->emp->generateDropdown();
 		$this->data['categories'] = $this->prc->dropdown('id', 'name');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'employee'             =>'Работник',
-			'payroll_extra_cat_fk' =>'Категорија',
-			'amount'               =>'Износ',
-			'for_date'             =>'Датум',
-			'dateofentry'          =>'Внес'
-		);
+		$this->data['columns'] = [	
+			'employee'             => uif::lng('attr.employee'),
+			'payroll_extra_cat_fk' => uif::lng('attr.category'),
+			'amount'               => uif::lng('attr.amount'),
+			'for_date'             => uif::lng('attr.date'),
+			'dateofentry'          => uif::lng('attr.doe')
+		];
 
 		$this->input->load_query($query_id);
 		
-		$query_array = array(
+		$query_array = [
 			'employee_fk'          => $this->input->get('employee_fk'),
 			'payroll_extra_cat_fk' => $this->input->get('payroll_extra_cat_fk'),
 			'is_expense'           => 1,
 			'is_contribution'      => 0
-		);
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
@@ -170,11 +170,11 @@ class Payroll_extra extends MY_Controller {
 		
 		//Columns which can be sorted by
 		$this->data['columns'] = [	
-			'employee'             =>'Работник',
-			'payroll_extra_cat_fk' =>'Категорија',
-			'amount'               =>'Износ',
-			'for_date'             =>'Датум',
-			'dateofentry'          =>'Внес'
+			'employee'             => uif::lng('attr.employee'),
+			'payroll_extra_cat_fk' => uif::lng('attr.category'),
+			'amount'               => uif::lng('attr.amount'),
+			'for_date'             => uif::lng('attr.date'),
+			'dateofentry'          => uif::lng('attr.doe')
 		];
 
 		$this->input->load_query($query_id);
@@ -226,11 +226,11 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.paye_ext_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
-		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_date','date','trim|required');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('employee_fk',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('payroll_extra_cat_fk',uif::lng('attr.category'),'trim|required');
+		$this->form_validation->set_rules('amount',uif::lng('attr.amount'),'trim|required|greater_than[0]');
+		$this->form_validation->set_rules('for_date',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('description','','trim');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
@@ -243,7 +243,7 @@ class Payroll_extra extends MY_Controller {
 		}	
 
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->emp->generateDropdown();
+		$this->data['employees']  = $this->emp->generateDropdown();
 		$this->data['categories'] = $this->pre->dropdown('bonuses');
 	}
 	
@@ -253,11 +253,11 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.paye_exp_new');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
-		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_date','month','trim|required');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('employee_fk',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('payroll_extra_cat_fk',uif::lng('attr.category'),'trim|required');
+		$this->form_validation->set_rules('amount',uif::lng('attr.amount'),'trim|required|greater_than[0]');
+		$this->form_validation->set_rules('for_date',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('description','','trim');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
@@ -272,7 +272,7 @@ class Payroll_extra extends MY_Controller {
 		}	
 		
 		// Generating dropdown menu's
-		$this->data['employees'] = $this->emp->generateDropdown();
+		$this->data['employees']  = $this->emp->generateDropdown();
 		$this->data['categories'] = $this->pre->dropdown('expenses');	
 	}
 	
@@ -282,10 +282,10 @@ class Payroll_extra extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.paye_cont_new');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('employee_fk','employee','trim|required');
-		$this->form_validation->set_rules('amount','amount','trim|required|greater_than[0]');
-		$this->form_validation->set_rules('for_date','month','trim|required');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('employee_fk',uif::lng('attr.employee'),'trim|required');
+		$this->form_validation->set_rules('amount',uif::lng('attr.amount'),'trim|required|greater_than[0]');
+		$this->form_validation->set_rules('for_date',uif::lng('attr.date'),'trim|required');
+		$this->form_validation->set_rules('description','','trim');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
@@ -318,11 +318,11 @@ class Payroll_extra extends MY_Controller {
 		if($_POST)
 		{
 			//Defining Validation Rules
-			$this->form_validation->set_rules('employee_fk','employee','trim|required');
-			$this->form_validation->set_rules('payroll_extra_cat_fk','category','trim|required');
-			$this->form_validation->set_rules('amount','amount','trim|greater_than[0]|required');
-			$this->form_validation->set_rules('for_date','month','trim|required');
-			$this->form_validation->set_rules('description','description','trim');
+			$this->form_validation->set_rules('employee_fk',uif::lng('attr.employee'),'trim|required');
+			$this->form_validation->set_rules('payroll_extra_cat_fk',uif::lng('attr.category'),'trim|required');
+			$this->form_validation->set_rules('amount',uif::lng('attr.amount'),'trim|required|greater_than[0]');
+			$this->form_validation->set_rules('for_date',uif::lng('attr.date'),'trim|required');
+			$this->form_validation->set_rules('description','','trim');
 				
 			if ($this->form_validation->run())
 			{		

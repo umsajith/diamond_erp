@@ -47,7 +47,7 @@
 
 <script>
 	$(function(){
-		cd.dd("select[name=employee_fk]",'Работник');
-		cd.dd("select[name=payroll_extra_cat_fk]",'Категорија');
+		cd.dd("select[name=employee_fk]","<?=uif::lng('attr.employee')?>");
+		cd.dd("select[name=payroll_extra_cat_fk]","<?=uif::lng('attr.category')?>");
 	});	
 </script>

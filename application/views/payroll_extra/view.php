@@ -7,15 +7,15 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-	        <dt>Датум:</dt>
+	        <dt><?=uif::lng('attr.date')?>:</dt>
 	        <dd><?=$master->for_date?></dd>
-	        <dt>Работник:</dt>
+	        <dt><?=uif::lng('attr.employee')?>:</dt>
 	        <dd><?=$master->lname.' '.$master->fname?></dd>
-	        <dt>Категорија:</dt>
+	        <dt><?=uif::lng('attr.category')?>:</dt>
 	        <dd><?=$master->name?></dd>
-	        <dt>Износ:</dt>
+	        <dt><?=uif::lng('attr.amount')?>:</dt>
 	        <dd><?=$master->amount?></dd>
-	        <dt>Белешка:</dt>
+	        <dt><?=uif::lng('attr.note')?>:</dt>
 	        <dd><?=uif::isNull($master->description)?></dd>
 	 	</dl>
 	</div>
@@ -23,7 +23,7 @@
 		<?php if($master->payroll_fk):?>
         <div class="alert">
             <i class="icon-lock"></i>
-            <strong>Оваа ставка е вкалкулирана во калкулација плата #
+            <strong><?=uif::lng('app.payroll_extra_calculated_in_payroll')?>
             <?=anchor("payroll/view/{$master->payroll_fk}",$master->payroll_fk);?></strong>
         </div>
     	<?php endif;?>
