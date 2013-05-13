@@ -42,18 +42,17 @@ class Tasks extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.tsk_tsks');
 
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'taskname'            =>'Назив',
-			'is_production'       =>'Производство',
-			'base_unit'           =>'Основна Единица',
-			'rate_per_unit'       =>'Цена/ЕМ',
-			'rate_per_unit_bonus' =>'Цена/ЕМ Бонус'
-		);
+		$this->data['columns'] = [	
+			'taskname'            => uif::lng('attr.name'),
+			'is_production'       => uif::lng('attr.production'),
+			'base_unit'           => uif::lng('attr.base_unit'),
+			'rate_per_unit'       => uif::lng('attr.price_per_uom'),
+			'rate_per_unit_bonus' => uif::lng('attr.price_plus_per_uom')
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('taskname','is_production','base_unit',
-						'rate_per_unit','rate_per_unit_bonus');
+		$sort_by_array = array_keys($this->data['columns']);
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'taskname';
 		
 		//Retreive data from Model
@@ -76,12 +75,12 @@ class Tasks extends MY_Controller {
 	public function insert()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('taskname','task name','trim|required');
-		$this->form_validation->set_rules('rate_per_unit','unit rate','trim|required|numeric');
-		$this->form_validation->set_rules('rate_per_unit_bonus','unit rate bonus','trim|numeric');
-		$this->form_validation->set_rules('base_unit','base unit','trim|required|numeric');
-		$this->form_validation->set_rules('uname_fk','UOM','trim|required|numeric');
-		$this->form_validation->set_rules('description','description','trim|xss_clean');
+		$this->form_validation->set_rules('taskname',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('rate_per_unit',uif::lng('attr.price_per_uom'),'trim|required|numeric');
+		$this->form_validation->set_rules('rate_per_unit_bonus',uif::lng('attr.price_plus_per_uom'),'trim|numeric');
+		$this->form_validation->set_rules('base_unit',uif::lng('attr.base_unit'),'trim|required|numeric');
+		$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required|numeric');
+		$this->form_validation->set_rules('description','','trim|xss_clean');
 		
 		///Check if form has been submited
 		if ($this->form_validation->run())
@@ -104,15 +103,16 @@ class Tasks extends MY_Controller {
 	public function edit($id)
 	{
 		$this->data['task'] = $this->tsk->select_single($id);
-		if(!$this->data['task'])
-			air::flash('void','tasks');
+
+		if(!$this->data['task']) air::flash('void','tasks');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('taskname','task name','trim|required');
-		$this->form_validation->set_rules('rate_per_unit','unit rate','trim|required|numeric');
-		$this->form_validation->set_rules('rate_per_unit_bonus','unit rate bonus','trim|numeric');
-		$this->form_validation->set_rules('base_unit','base unit','trim|required|numeric');
-		$this->form_validation->set_rules('description','description','trim|xss_clean');
+		$this->form_validation->set_rules('taskname',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('rate_per_unit',uif::lng('attr.price_per_uom'),'trim|required|numeric');
+		$this->form_validation->set_rules('rate_per_unit_bonus',uif::lng('attr.price_plus_per_uom'),'trim|numeric');
+		$this->form_validation->set_rules('base_unit',uif::lng('attr.base_unit'),'trim|required|numeric');
+		$this->form_validation->set_rules('uname_fk',uif::lng('attr.uom'),'trim|required|numeric');
+		$this->form_validation->set_rules('description','','trim|xss_clean');
 			
 		if ($this->form_validation->run())
 		{
@@ -134,8 +134,8 @@ class Tasks extends MY_Controller {
 	public function view($id)
 	{
 		$this->data['master'] = $this->tsk->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void','tasks');
+
+		if(!$this->data['master']) air::flash('void','tasks');
 
 		//Heading
 		$this->data['heading'] = uif::lng('app.tsk_tsk');
@@ -143,8 +143,7 @@ class Tasks extends MY_Controller {
     
 	public function delete($id)
 	{
-		if(!$this->tsk->get($id))
-			air::flash('void','tasks');
+		if(!$this->tsk->get($id)) air::flash('void','tasks');
 
 		if($this->tsk->delete($id))
 			air::flash('delete','tasks');

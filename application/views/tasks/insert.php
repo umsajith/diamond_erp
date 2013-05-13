@@ -5,13 +5,13 @@
 <div class="row-fluid">
     <div class="span6">
         <?=uif::load('_validation')?>
-        <?=uif::controlGroup('text','Назив','taskname')?>
-        <?=uif::controlGroup('text','Основна Единица','base_unit')?>
-        <?=uif::controlGroup('dropdown','ЕМ','uname_fk',[$uoms])?>
-        <?=uif::controlGroup('dropdown','Норматив','bom_fk',[$boms])?>
-        <?=uif::controlGroup('text','Основна Цена','rate_per_unit')?>
-        <?=uif::controlGroup('text','Бонус Цена','rate_per_unit_bonus')?>
-        <?=uif::controlGroup('textarea','Белешка','description')?>
+        <?=uif::controlGroup('text',':attr.name','taskname')?>
+        <?=uif::controlGroup('text',':attr.base_unit','base_unit')?>
+        <?=uif::controlGroup('dropdown',':attr.uom','uname_fk',[$uoms])?>
+        <?=uif::controlGroup('dropdown',':attr.bom','bom_fk',[$boms])?>
+        <?=uif::controlGroup('text',':attr.price_per_uom','rate_per_unit')?>
+        <?=uif::controlGroup('text',':attr.price_plus_per_uom','rate_per_unit_bonus')?>
+        <?=uif::controlGroup('textarea',':attr.note','description')?>
         <?=form_close()?>
     </div>
 </div>

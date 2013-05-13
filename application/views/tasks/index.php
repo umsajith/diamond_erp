@@ -26,8 +26,8 @@
 				<td><?=$row->taskname;?></td>
 				<td><?=($row->is_production == 1) ? $row->name:'-'?></td>
 				<td><?=$row->base_unit.' '.$row->uname?></td>
-				<td><?=$row->rate_per_unit.$G_currency?></td>
-				<td><?=$row->rate_per_unit_bonus.$G_currency?></td>
+				<td><?=$row->rate_per_unit.$glCurrSh?></td>
+				<td><?=$row->rate_per_unit_bonus.$glCurrSh?></td>
 				<td><?=uif::actionGroup('tasks',$row->id)?></td>
 			</tr>
 		<?php endforeach;?>

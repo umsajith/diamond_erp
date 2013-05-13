@@ -42,6 +42,7 @@ $lang['attr_shipped']                 = 'Испорачано';
 $lang['attr_expires']                 = 'Истекува';
 
 $lang['attr_deduct']                  = 'Минусирај';
+$lang['attr_production']                  = 'Производство';
 
 $lang['attr_pending']                 = 'Во Исчекување';
 $lang['attr_approved']                = 'Оддобрено';
@@ -50,7 +51,6 @@ $lang['attr_delivered']               = 'Испорачанo';
 
 $lang['attr_taken']                   = 'Земено';
 $lang['attr_returned']                = 'Вратено';
-
 
 $lang['attr_amount']                  = 'Износ';
 $lang['attr_price']                   = 'Цена';
@@ -66,6 +66,8 @@ $lang['attr_price_min']               = 'Мин.Цена';
 $lang['attr_price_max']               = 'Макс.Цена';
 $lang['attr_vat']                     = 'ДДВ';
 $lang['attr_tax']                     = 'Данок';
+$lang['attr_price_per_uom']           = 'Цена/ЕМ';
+$lang['attr_price_plus_per_uom']      = 'Цена+/ЕМ';
 
 $lang['attr_payment_method']          = 'Плаќање';
 $lang['attr_unknown']                 = 'Непознато';

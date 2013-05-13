@@ -5,13 +5,13 @@
 <div class="row-fluid">
     <div class="span6">
         <?=uif::load('_validation')?>
-        <?=uif::controlGroup('text','Назив','taskname',$task)?>
-        <?=uif::controlGroup('text','Основна Единица','base_unit',$task)?>
-        <?=uif::controlGroup('dropdown','ЕМ','uname_fk',[$uoms,$task])?>
-        <?=uif::controlGroup('dropdown','Норматив','bom_fk',[$boms,$task])?>
-        <?=uif::controlGroup('text','Основна Цена','rate_per_unit',$task)?>
-        <?=uif::controlGroup('text','Бонус Цена','rate_per_unit_bonus',$task)?>
-        <?=uif::controlGroup('textarea','Белешка','description',$task)?>
+        <?=uif::controlGroup('text',':attr.name','taskname',$task)?>
+        <?=uif::controlGroup('text',':attr.base_unit','base_unit',$task)?>
+        <?=uif::controlGroup('dropdown',':attr.uom','uname_fk',[$uoms,$task])?>
+        <?=uif::controlGroup('dropdown',':attr.bom','bom_fk',[$boms,$task])?>
+        <?=uif::controlGroup('text',':attr.price_per_uom','rate_per_unit',$task)?>
+        <?=uif::controlGroup('text',':attr.price_plus_per_uom','rate_per_unit_bonus',$task)?>
+        <?=uif::controlGroup('textarea',':attr.note','description',$task)?>
         <?=form_hidden('id',$task->id)?>
         <?=form_close()?>
     </div>
