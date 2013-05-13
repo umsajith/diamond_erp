@@ -130,7 +130,11 @@ $lang['attr_manager']                 = 'Менаџер';
 
 $lang['attr_task']                    = 'Работна Задача';
 
+$lang['attr_resource']                = 'Ресурс';
 $lang['attr_role']                    = 'Корисничка Група';
+$lang['attr_permission']              = 'Одобрување';
+$lang['attr_allow']                   = 'Дозволено';
+$lang['attr_deny']                    = 'Забрането';
 $lang['attr_can_login']               = 'Логирање';
 
 $lang['attr_bank']                    = 'Банка';
@@ -161,7 +165,7 @@ $lang['attr_status_inactive']         = 'Неактивен';
 
 $lang['attr_operator']                = 'Оператор';
 $lang['attr_parent']                  = 'Родител';
-$lang['attr_folder']              = 'Фолдер';
+$lang['attr_folder']                  = 'Фолдер';
 $lang['attr_controller']              = 'Контролер';
 $lang['attr_method']                  = 'Метод';
 $lang['attr_order']                   = 'Редослед';

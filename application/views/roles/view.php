@@ -2,10 +2,10 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?=form_open('roles/assign_resource','class="form-horizontal" id="assign-resource"')?>
-                <div class="legend">Додавање Привилегии на Корисничка Група</div>
+                <div class="legend"><?=uif::lng('app.assigning_resources_to_role')?></div>
             <div class="well well-small">
-                    <?=uif::controlGroup('dropdown','Ресур','resource_id',[$dd_resources],'class="input-large"')?>
-                    <?=uif::controlGroup('dropdown','Привилегија','permission',[$dd_permissions],'class="input-large"')?>
+                    <?=uif::controlGroup('dropdown',':attr.resource','resource_id',[$dd_resources],'class="input-large"')?>
+                    <?=uif::controlGroup('dropdown',':attr.permission','permission',[$dd_permissions],'class="input-large"')?>
                     <?=form_hidden('role_id',$result->id)?>
                 	<div class="controls">
                 		<?=uif::button('icon-plus-sign btn-large','success','onClick="cd.submit(#assign-resource);"')?>
@@ -15,15 +15,15 @@
 	</div>
 </div>
 <?php if (isset($resources) AND is_array($resources) AND count($resources)):?>
-	<div class="legend">Привилегии кои оваа корисничка група ги поседува</div>
+	<div class="legend"><?=uif::lng('app.assigned_resources')?></div>
 	<table class="table table-condensed table-stripped data-grid">
 		<thead>
 			<tr>
 				<th>&nbsp;</th>
-				<th>Title</th>
-				<th>Parent</th>
-				<th>Controller</th>
-				<th>Permission</th>
+				<th><?=uif::lng('attr.name')?></th>
+				<th><?=uif::lng('attr.parent')?></th>
+				<th><?=uif::lng('attr.controller')?></th>
+				<th><?=uif::lng('attr.permission')?></th>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>

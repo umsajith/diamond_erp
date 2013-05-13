@@ -45,7 +45,7 @@ class Roles extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.rl_rls');
 
 		$this->data['columns'] = array (	
-			'name'=>'Назив'
+			'name'=> uif::lng('attr.name')
 		);
 
 		//Validates Sort by and Sort Order
@@ -77,7 +77,7 @@ class Roles extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.rl_new');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('name','user group name','trim|required');
+		$this->form_validation->set_rules('name',uif::lng('attr.name'),'trim|required');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -105,7 +105,7 @@ class Roles extends MY_Controller {
 			air::flash('void','roles');
 	
 		//Defining Validation Rules
-		$this->form_validation->set_rules('name','user group name','trim|required');
+		$this->form_validation->set_rules('name',uif::lng('attr.name'),'trim|required');
 				
 		if ($this->form_validation->run())
 		{
@@ -125,21 +125,20 @@ class Roles extends MY_Controller {
 
 		$this->data['result'] = $this->rl->get($id);
 		
-		if(!$this->data['result'])
-			air::flash('void','roles');
+		if(!$this->data['result']) air::flash('void','roles');
 
 		$this->data['resources'] = $this->Permissions_model->get_resources_by_role_id($id);
 
-		$this->data['dd_permissions'] = ['allow'=>'Allow','deny'=>'Deny'];
+		$this->data['dd_permissions'] = ['allow'=>uif::lng('attr.allow'),'deny'=>uif::lng('attr.deny')];
 
 		$this->data['dd_resources'] = $this->Resources_model->dropdown_all();
 	}
 
 	public function assign_resource()
 	{
-		$this->form_validation->set_rules('role_id','role','trim|required');
-		$this->form_validation->set_rules('resource_id','resource','trim|required');
-		$this->form_validation->set_rules('permission','permission','trim|required');
+		$this->form_validation->set_rules('role_id',uif::lng('attr.role'),'trim|required');
+		$this->form_validation->set_rules('resource_id',uif::lng('attr.resource'),'trim|required');
+		$this->form_validation->set_rules('permission',uif::lng('attr.permission'),'trim|required');
 
 		if($this->form_validation->run())
 		{
@@ -164,8 +163,8 @@ class Roles extends MY_Controller {
 	public function delete($id)
 	{
 		$this->data['result'] = $this->rl->get($id);
-		if(!$this->data['result'])
-			air::flash('void','roles');
+
+		if(!$this->data['result']) air::flash('void','roles');
 		
 		if($this->rl->delete($this->data['result']->id))
 			air::flash('delete','roles');
