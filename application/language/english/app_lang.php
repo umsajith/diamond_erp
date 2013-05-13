@@ -69,15 +69,15 @@ $lang['app_dis_in_edit']                         = 'Edit Goods Receipt';
 
 $lang['app_used_components']                     = 'Употребени Репро-Материјали';
 
-$lang['app_dis_out']                             = 'Испратница';
-$lang['app_dis_outs']                            = 'Испратници';
-$lang['app_dis_out_new']                         = 'New Испратница';
-$lang['app_dis_out_edit']                        = 'Edit Испратница';
+$lang['app_dis_out']                             = 'Dispatch Note';
+$lang['app_dis_outs']                            = 'Dispatch Notes';
+$lang['app_dis_out_new']                         = 'New Dispatch Note';
+$lang['app_dis_out_edit']                        = 'Edit Dispatch Note';
 
-$lang['app_dis_ret']                             = 'Повратница';
-$lang['app_dis_rets']                            = 'Повратници';
-$lang['app_dis_ret_new']                         = 'New Повратница';
-$lang['app_dis_ret_edit']                        = 'Edit Повратница';
+$lang['app_dis_ret']                             = 'Return Note';
+$lang['app_dis_rets']                            = 'Return Notes';
+$lang['app_dis_ret_new']                         = 'New Return Note';
+$lang['app_dis_ret_edit']                        = 'Edit Return Note';
 
 //Payroll
 $lang['app_pay_pay']                             = 'Payroll';
