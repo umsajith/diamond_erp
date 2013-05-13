@@ -160,6 +160,13 @@ $lang['attr_status_active']           = 'Активен';
 $lang['attr_status_inactive']         = 'Неактивен';
 
 $lang['attr_operator']                = 'Оператор';
+$lang['attr_parent']                  = 'Родител';
+$lang['attr_folder']              = 'Фолдер';
+$lang['attr_controller']              = 'Контролер';
+$lang['attr_method']                  = 'Метод';
+$lang['attr_order']                   = 'Редослед';
+$lang['attr_permalink']               = 'Пермалинк';
+$lang['attr_visible']                 = 'Се Гледа';
 
 
 $lang['attr_search_by_document_code'] = 'Пребарувај по Документ/Код';

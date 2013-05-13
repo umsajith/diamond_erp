@@ -9,12 +9,12 @@
 <table class="table table-stripped table-hover data-grid"> 
 	<thead>
 		<tr>
-			<th>Title</th>
-			<th>Parent</th>
-			<th>Controller</th>
-			<th>Method</th>
-			<th>Order</th>
-			<th>Permalink</th>
+			<th><?=uif::lng('attr.name')?></th>
+			<th><?=uif::lng('attr.parent')?></th>
+			<th><?=uif::lng('attr.controller')?></th>
+			<th><?=uif::lng('attr.method')?></th>
+			<th><?=uif::lng('attr.order')?></th>
+			<th><?=uif::lng('attr.permalink')?></th>
 			<th>&nbsp;</th>
 		</tr>
 	</thead> 
