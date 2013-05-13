@@ -5,19 +5,19 @@
 <div class="row-fluid">
     <div class="span5 well well-small">  
         <dl class="dl-horizontal">
-			<dt>Назив:</dt>
+			<dt><?=uif::lng('attr.name')?>:</dt>
 			<dd><?=$master->position;?></dd>
-			<dt>Сектор:</dt>
+			<dt><?=uif::lng('attr.department')?>:</dt>
 			<dd><?=$master->department;?></dd>
-			<dt>Основна Плата:</dt>
+			<dt><?=uif::lng('attr.wage')?>:</dt>
 			<dd><?=uif::isNull($master->base_salary)?></dd>
-			<dt>Бонус:</dt>
+			<dt><?=uif::lng('attr.bonus')?>:</dt>
 			<dd><?=uif::isNull($master->bonus,' %')?></dd>
-			<dt>Провизија:</dt>
+			<dt><?=uif::lng('attr.commision')?>:</dt>
 			<dd><?=uif::isNull($master->commision,' %')?></dd>
-			<dt>Квалификации:</dt>
+			<dt><?=uif::lng('attr.qualifications')?>:</dt>
 			<dd><?=uif::isNull($master->requirements)?></dd>
-			<dt>Белешка:</dt>
+			<dt><?=uif::lng('attr.note')?>:</dt>
 			<dd><?=uif::isNull($master->description)?></dd>   
 		</dl>
 	</div>

@@ -5,13 +5,13 @@
 <div class="row-fluid">
     <div class="span6">
         <?=uif::load('_validation')?>
-        <?=uif::controlGroup('text','Назив','position',$position)?>
-        <?=uif::controlGroup('dropdown','Сектор','dept_fk',[$departments,$position])?>
-        <?=uif::controlGroup('text','Основна Плата','base_salary',$position)?>
-        <?=uif::controlGroup('text','Бонус (%)','bonus',$position)?>
-        <?=uif::controlGroup('text','Провизија (%)','commision',$position)?>
-        <?=uif::controlGroup('textarea','Квалификации','requirements',$position)?>
-        <?=uif::controlGroup('textarea','Белешка','description',$position)?>
+        <?=uif::controlGroup('text',':attr.name','position',$position)?>
+        <?=uif::controlGroup('dropdown',':attr.department','dept_fk',[$departments,$position])?>
+        <?=uif::controlGroup('text',':attr.wage','base_salary',$position)?>
+        <?=uif::controlGroup('text',':attr.bonus','bonus',$position)?>
+        <?=uif::controlGroup('text',':attr.commision','commision',$position)?>
+        <?=uif::controlGroup('textarea',':attr.qualifications','requirements',$position)?>
+        <?=uif::controlGroup('textarea',':attr.note','description',$position)?>
         <?=form_hidden('id',$position->id)?>
         <?=form_close()?>
     </div>

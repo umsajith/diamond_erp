@@ -5,13 +5,13 @@
 <div class="row-fluid">
     <div class="span6">
         <?=uif::load('_validation')?>
-        <?=uif::controlGroup('text','Назив','position')?>
-        <?=uif::controlGroup('dropdown','Сектор','dept_fk',[$departments])?>
-        <?=uif::controlGroup('text','Основна Плата','base_salary')?>
-        <?=uif::controlGroup('text','Бонус (%)','bonus')?>
-        <?=uif::controlGroup('text','Провизија (%)','commision')?>
-        <?=uif::controlGroup('textarea','Квалификации','requirements')?>
-        <?=uif::controlGroup('textarea','Белешка','description')?>
+        <?=uif::controlGroup('text',':attr.name','position')?>
+        <?=uif::controlGroup('dropdown',':attr.department','dept_fk',[$departments])?>
+        <?=uif::controlGroup('text',':attr.wage','base_salary')?>
+        <?=uif::controlGroup('text',':attr.bonus','bonus')?>
+        <?=uif::controlGroup('text',':attr.commision','commision')?>
+        <?=uif::controlGroup('textarea',':attr.qualifications','requirements')?>
+        <?=uif::controlGroup('textarea',':attr.note','description')?>
         <?=form_close()?>
     </div>
 </div>

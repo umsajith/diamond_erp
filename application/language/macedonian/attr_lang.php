@@ -82,7 +82,7 @@ $lang['attr_work_hours']              = 'Работни Часови';
 $lang['attr_spill']                   = 'Растур';
 
 $lang['attr_unit_price']              = 'Единечна Цена';
-$lang['attr_commision']              = 'Провизија';
+$lang['attr_commision']               = 'Провизија';
 $lang['attr_locked']                  = 'Заклучен';
 
 $lang['attr_company']                 = 'Фирма';
@@ -132,12 +132,16 @@ $lang['attr_net']                     = 'Нето';
 $lang['attr_accumulated']             = 'Учинок';
 $lang['attr_paid']                    = 'Доплата';
 $lang['attr_fixed']                   = 'Фиксно';
+$lang['attr_wage']                    = 'Плата';
 $lang['attr_fixed_wage']              = 'Фиксна Плата';
 $lang['attr_social_contribution']     = 'Придонес';
 $lang['attr_health_insurance']        = 'ЗО';
 
+$lang['attr_bonus']                 = 'Бонус';
 $lang['attr_bonuses']                 = 'Бонуси';
 $lang['attr_expenses']                = 'Трошоци';
+
+$lang['attr_qualifications']                = 'Квалификации';
 
 $lang['attr_location']                = 'Локација';
 

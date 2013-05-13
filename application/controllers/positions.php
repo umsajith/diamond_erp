@@ -41,18 +41,17 @@ class Positions extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pos_poss');
 		
 		//Columns which can be sorted by
-		$this->data['columns'] = array (	
-			'position'    =>'Назив',
-			'department'  =>'Сектор',
-			'base_salary' =>'Основна Плата',
-			'bonus'       =>'Бонсу',
-			'commision'   =>'Провизија'
-		);
+		$this->data['columns'] = [
+			'position'    => uif::lng('attr.name'),
+			'department'  => uif::lng('attr.department'),
+			'base_salary' => uif::lng('attr.wage'),
+			'bonus'       => uif::lng('attr.bonus'),
+			'commision'   => uif::lng('attr.commision')
+		];
 		
 		//Validates Sort by and Sort Order
 		$sort_order = ($sort_order == 'desc') ? 'desc' : 'asc';
-		$sort_by_array = array('position','department','base_salary',
-						'bonus','commision');
+		$sort_by_array = ['position','department','base_salary','bonus','commision'];
 		$sort_by = (in_array($sort_by, $sort_by_array)) ? $sort_by : 'position';
 		
 		//Retreive data from Model
@@ -70,20 +69,20 @@ class Positions extends MY_Controller {
 		
 		$this->data['pagination'] = $this->pagination->create_links(); 
 				
-		$this->data['sort_by'] = $sort_by;
+		$this->data['sort_by']    = $sort_by;
 		$this->data['sort_order'] = $sort_order;
 	}
 	
 	public function insert()
 	{
 		//Defining Validation Rules
-		$this->form_validation->set_rules('position','position name','trim|required');
-		$this->form_validation->set_rules('dept_fk','department','required');
-		$this->form_validation->set_rules('base_salary','base salary','trim|numeric');
-		$this->form_validation->set_rules('bonus','bonus','trim|numeric');
-		$this->form_validation->set_rules('commision','commision','trim|numeric');
-		$this->form_validation->set_rules('requirements','requirements','trim');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('position',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('dept_fk',uif::lng('attr.department'),'trim|required');
+		$this->form_validation->set_rules('base_salary',uif::lng('attr.wage'),'trim|numeric');
+		$this->form_validation->set_rules('bonus',uif::lng('attr.bonus'),'trim|numeric');
+		$this->form_validation->set_rules('commision',uif::lng('attr.commision'),'trim|numeric');
+		$this->form_validation->set_rules('requirements','','trim');
+		$this->form_validation->set_rules('description','','trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -105,16 +104,17 @@ class Positions extends MY_Controller {
 	public function edit($id)
 	{
 		$this->data['position'] = $this->pos->select_single($id);
-		if(!$this->data['position'])
-			air::flash('void','positions');
+
+		if(!$this->data['position']) air::flash('void','positions');
 
 		//Defining Validation Rules
-		$this->form_validation->set_rules('position','position name','trim|required');
-		$this->form_validation->set_rules('base_salary','base salary','trim|numeric');
-		$this->form_validation->set_rules('bonus','bonus','trim|numeric');
-		$this->form_validation->set_rules('commision','commision','trim|numeric');
-		$this->form_validation->set_rules('requirements','requirements','trim');
-		$this->form_validation->set_rules('description','description','trim');
+		$this->form_validation->set_rules('position',uif::lng('attr.name'),'trim|required');
+		$this->form_validation->set_rules('dept_fk',uif::lng('attr.department'),'trim|required');
+		$this->form_validation->set_rules('base_salary',uif::lng('attr.wage'),'trim|numeric');
+		$this->form_validation->set_rules('bonus',uif::lng('attr.bonus'),'trim|numeric');
+		$this->form_validation->set_rules('commision',uif::lng('attr.commision'),'trim|numeric');
+		$this->form_validation->set_rules('requirements','','trim');
+		$this->form_validation->set_rules('description','','trim');
 		
 		//Check if form has been submited
 		if ($this->form_validation->run())
@@ -139,14 +139,13 @@ class Positions extends MY_Controller {
 		$this->data['heading'] = uif::lng('app.pos_pos');
 
 		$this->data['master'] = $this->pos->select_single($id);
-		if(!$this->data['master'])
-			air::flash('void','positions');
+
+		if(!$this->data['master']) air::flash('void','positions');
 	}
 
 	public function delete($id)
 	{
-		if(!$this->pos->get($id))
-			air::flash('void','positions');
+		if(!$this->pos->get($id)) air::flash('void','positions');
 
 		if($success = $this->pos->delete($id))
 			air::flash('delete','positions');
