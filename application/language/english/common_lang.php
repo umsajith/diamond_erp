@@ -9,6 +9,12 @@ $lang['common_username_required']   = 'Please provide your Username';
 $lang['common_password_required']   = 'Please provide your Password';
 $lang['common_login_failed']        = 'Authentication Failed!';
 
+//Pagiantion
+$lang['common_next']                = 'Next';
+$lang['common_previous']            = 'Previous';
+$lang['common_first']               = 'First';
+$lang['common_last']                = 'Last';
+
 //Delete Dialog
 $lang['common_ok']                  = 'OK';
 $lang['common_cancel']              = 'Cancel';

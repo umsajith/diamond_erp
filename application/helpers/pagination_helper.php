@@ -40,10 +40,10 @@ function paginate($url = '', $rows = 0, $limit = 0, $uriSegment = 0)
     $config['first_link'] = '';
     $config['last_link'] = '';
 
-    $config['first_link'] = '&laquo; Прва';
-    $config['last_link'] = 'Последна &raquo;';
-    $config['next_link'] = 'Следна &rarr;';
-    $config['prev_link'] = '&larr; Претходна';
+    $config['first_link'] = '&laquo; ' . uif::lng('common.first');
+    $config['last_link'] = uif::lng('common.last') . ' &raquo;';
+    $config['next_link'] = uif::lng('common.next') . ' &rarr;';
+    $config['prev_link'] = '&larr; ' . uif::lng('common.previous');
 
     $CI->pagination->initialize($config);
     

@@ -9,6 +9,12 @@ $lang['common_username_required']   = 'Корисничкото име е нео
 $lang['common_password_required']   = 'Лозинката е неопходна';
 $lang['common_login_failed']        = 'Неуспешна автентикација';
 
+//Pagiantion
+$lang['common_next']                = 'Следна';
+$lang['common_previous']            = 'Претходна';
+$lang['common_first']               = 'Прва';
+$lang['common_last']                = 'Последна';
+
 //Delete Dialog
 $lang['common_ok']                  = 'Продолжи';
 $lang['common_cancel']              = 'Откажи';

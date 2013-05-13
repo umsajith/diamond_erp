@@ -276,7 +276,7 @@ class Inventory extends MY_Controller {
 		$this->form_validation->set_rules('partner_fk',uif::lng('attr.vendor'),'trim|required');
 		$this->form_validation->set_rules('prodname_fk',uif::lng('attr.item'),'trim|required');
 		$this->form_validation->set_rules('quantity',uif::lng('attr.quantity'),'greater_than[0]|required');
-		$this->form_validation->set_rules('purchase_method',uif::lng('attr.purchase_method'),'trim|required');
+		$this->form_validation->set_rules('purchase_method',uif::lng('attr.payment_method'),'trim|required');
 		$this->form_validation->set_rules('price',uif::lng('attr.price'),'trim|numeric');
 		$this->form_validation->set_rules('datereceived',uif::lng('attr.received'),'trim|required');
 		$this->form_validation->set_rules('dateoforder',uif::lng('attr.ordered'),'trim');
