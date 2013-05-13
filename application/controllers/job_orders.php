@@ -119,11 +119,15 @@ class Job_orders extends MY_Controller {
 		{	
 			if($job_order_id = $this->jo->insert($_POST))
 			{
-				/*
+				/**
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
 				$production = $this->tsk->get($_POST['task_fk']);
+				/**
+				 * If Job Order is production and has assigned BOM,
+				 * calculated and deducts from Inventory accordingly
+				 */
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($job_order_id,$production->id,$_POST['assigned_quantity']);
@@ -181,12 +185,19 @@ class Job_orders extends MY_Controller {
 		{
 			if($this->jo->update($_POST['id'],$_POST))
 			{
-				/*
+				/**
+				 * Delete all inventory entries for this Job Order
+				 */
+				$this->inv->delete_by(['job_order_fk'=>$_POST['id']]);
+				/**
 				 * Check if this task is production and has
 				 * assigned BOM
 				 */
 				$production = $this->tsk->get($_POST['task_fk']);
-
+				/**
+				 * If Job Order is production and has assigned BOM,
+				 * calculated and deducts from Inventory accordingly
+				 */
 				if($production->is_production AND !is_null($production->bom_fk))
 				{
 					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
