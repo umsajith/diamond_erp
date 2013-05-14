@@ -38,9 +38,9 @@
 				}
 			?>
 		    <dt><?=uif::lng('attr.price_wo_vat')?>:</dt>
-		    <dd><?=($master->price == null ? '-' : $master->price.' / '.$master->uname);?></dd>
+		    <dd><?=($master->price == null ? '-' : $master->price.$glCurrSh.' / '.$master->uname);?></dd>
 		    <dt><?=uif::lng('attr.subtotal')?>:</dt>
-		    <dd><?=($master->price == null ? '-' : $net_total);?></dd>
+		    <dd><?=($master->price == null ? '-' : $net_total.$glCurrSh);?></dd>
 		    <dt><?=uif::lng('attr.vat')?> (<?=$master->rate.'%'; ?>):</dt>
 		    <dd><?=(!isset($vat)) ? '-' : $vat; ?></dd>
 		    <dt><?=uif::lng('attr.total_w_vat')?>:</dt>

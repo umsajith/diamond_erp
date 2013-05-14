@@ -47,11 +47,11 @@
             <dd><?=($master->fixed_wage_only) ? 
                 uif::staticIcon('icon-ok') : uif::staticIcon('icon-remove')?></dd>
             <dt><?=uif::lng('attr.fixed_wage')?>:</dt>
-            <dd><?=uif::isNull($master->fixed_wage)?></dd>
+            <dd><?=uif::isNull($master->fixed_wage).$glCurrSh?></dd>
             <dt><?=uif::lng('attr.social_contribution')?>:</dt>
-            <dd><?=uif::isNull($master->social_cont)?></dd>
+            <dd><?=uif::isNull($master->social_cont).$glCurrSh?></dd>
             <dt><?=uif::lng('attr.subvention')?>:</dt>
-            <dd><?=uif::isNull($master->comp_mobile_sub)?></dd>
+            <dd><?=uif::isNull($master->comp_mobile_sub).$glCurrSh?></dd>
             <dt><?=uif::lng('attr.position')?>:</dt>
             <dd><?=uif::isNull($master->position)?></dd>
             <dt><?=uif::lng('attr.distributor')?>:</dt>
@@ -86,9 +86,9 @@
                 <tr data-tid=<?=$row->id?>>
                     <td><?=anchor("payroll/view/{$row->id}",'#'.$row->id)?></td>
                     <td><?=uif::date($row->date_from,'%m/%Y')?></td>
-                    <td><?=$row->acc_wage?></td>
-                    <td><?=$row->gross_wage?></td>
-                    <td><?=$row->paid_wage?></td>
+                    <td><?=$row->acc_wage.$glCurrSh?></td>
+                    <td><?=$row->gross_wage.$glCurrSh?></td>
+                    <td><?=$row->paid_wage.$glCurrSh?></td>
                 </tr>
                 <?php endforeach;?>
             </tbody>

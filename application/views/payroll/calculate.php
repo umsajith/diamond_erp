@@ -18,9 +18,9 @@
 	<?=form_close()?>
 	</div>
 	<div class="span8">
-	<div class="legend"><?=uif::lng('app.payroll_detailed_view')?></div>
 	<!-- ======================================JOB ORDERS EMPLOYEES ONLY====================================== -->
 	<?php if(isset($fixed_wage_only) AND !$fixed_wage_only):?>
+	<div class="legend"><?=uif::lng('app.payroll_detailed_view')?></div>
 		<?php if (isset($job_orders) AND is_array($job_orders) AND count($job_orders)):?>
 		<table class="table table-condensed">
 			<thead>
@@ -40,8 +40,8 @@
 					<td><?=$row->count;?></td>
 					<td><?=$row->final_quantity.' '.$row->uname;?></td>
 					<td><?=round($row->final_quantity / $row->count,2).' '.$row->uname;?></td>
-					<td><?=$row->rate_per_unit;?></td>
-					<td><?=$row->rate_per_unit * $row->final_quantity;?></tr>
+					<td><?=$row->rate_per_unit.$glCurrSh?></td>
+					<td><?=round($row->rate_per_unit * $row->final_quantity,2)?></tr>
 			<?php endforeach;?>
 			</tbody>
 		</table>
@@ -49,7 +49,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($acc_wage).$glCurrSh?></strong>
 			</div>
 		</div>
 	<!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -57,12 +57,13 @@
 	<?php endif;?>
 	<!-- ======================================FIXED WAGE ONLY EMPLYOEES====================================== -->
 	<?php if(isset($fixed_wage_only) AND $fixed_wage_only):?>
+	<div class="legend"><?=uif::lng('app.payroll_detailed_view')?></div>
 		<!-- IF EMPLOYEE ON FIXED WAGE ONLY -->
 		<?php if(isset($fixed_wage)):?>
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong><?=uif::lng('attr.fixed_wage', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($fixed_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($fixed_wage).$glCurrSh?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -85,7 +86,7 @@
 					<td><?=$row->prodname?></td>
 					<td><?=$row->pcname?></td>
 					<td><?=$row->quantity . ' ' . $row->uname?></td>
-					<td><?=$row->commision?></td>
+					<td><?=$row->commision.$glCurrSh?></td>
 					<td><?=round($row->quantity * $row->commision,2)?></td>
 				</tr>
 			<?php endforeach;?>
@@ -95,7 +96,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($acc_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($acc_wage).$glCurrSh?></strong>
 			</div>
 		</div>	
 	<?php endif;?>
@@ -144,7 +145,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert">
 			<strong><?=uif::lng('attr.bonuses', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($bonuses + $comp_mobile_sub + $social_cont)?></strong>
+			<strong class="pull-right"><?=uif::cf($bonuses + $comp_mobile_sub + $social_cont).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -154,7 +155,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong><?=uif::lng('attr.gross', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($gross_wage)?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_wage).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -202,7 +203,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert">
 			<strong><?=uif::lng('attr.expenses', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($gross_exp)?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_exp).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -212,7 +213,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
 				<strong><?=uif::lng('attr.paid', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($paid_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($paid_wage).$glCurrSh?></strong>
 			</div>
 		</div>
 	<?php endif;?>

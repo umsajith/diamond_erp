@@ -33,7 +33,7 @@
 			<td><?=($row->locked) ? uif::staticIcon('icon-lock') : ''?></i></td>
 			<td><?=$row->fname . ' ' . $row->lname?></td>
 			<td><?=$row->name?></td>
-			<td><?=$row->amount?></td>
+			<td><?=$row->amount.$glCurrSh?></td>
 			<td><?=uif::date($row->for_date)?></td>
 			<td><?=uif::date($row->dateofentry)?></td>
 			<td><?=(!$row->locked) ? uif::actionGroup('payroll_extra',$row->id) : ''?></td>

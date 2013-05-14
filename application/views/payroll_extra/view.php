@@ -14,7 +14,7 @@
 	        <dt><?=uif::lng('attr.category')?>:</dt>
 	        <dd><?=$master->name?></dd>
 	        <dt><?=uif::lng('attr.amount')?>:</dt>
-	        <dd><?=$master->amount?></dd>
+	        <dd><?=$master->amount.$glCurrSh?></dd>
 	        <dt><?=uif::lng('attr.note')?>:</dt>
 	        <dd><?=uif::isNull($master->description)?></dd>
 	 	</dl>

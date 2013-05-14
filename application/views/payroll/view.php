@@ -15,11 +15,11 @@
 			<dd><?=uif::date($master->date_to)?></dd>
 			<?php if($master->acc_wage != 0):?>
 				<dt><?=uif::lng('attr.accumulated')?>:</dt>
-				<dd><strong><?=$master->acc_wage?></strong></dd>
+				<dd><strong><?=$master->acc_wage.$glCurrSh?></strong></dd>
 			<?php endif;?>
 			<?php if($master->fixed_wage_only == 1):?>
 				<dt><?=uif::lng('attr.fixed_wage')?>:</dt>
-				<dd><?='+'.$master->fixed_wage?></dd>
+				<dd><?='+'.$master->fixed_wage.$glCurrSh?></dd>
 			<?php endif;?>
 			<dt><?=uif::lng('attr.social_contribution')?> + <?=uif::lng('attr.health_insurance')?>:</dt>
 			<dd><?='+' . $master->social_cont?></dd>
@@ -28,7 +28,7 @@
 			<dt><?=uif::lng('attr.bonuses')?>:</dt>
 			<dd><?='+'.$master->bonuses?></dd>
 			<dt><?=uif::lng('attr.gross')?>:</dt>
-			<dd><strong><?=$master->gross_wage?></strong></dd>
+			<dd><strong><?=$master->gross_wage.$glCurrSh?></strong></dd>
 			<?php if($master->fixed_wage AND !$master->fixed_wage_only):?>
 				<dt><?=uif::lng('attr.fixed')?>:</dt>
 				<dd><?='-'.$master->fixed_wage?></dd>
@@ -40,7 +40,7 @@
 			<dt><?=uif::lng('attr.expenses')?>:</dt>
 			<dd><?=$master->expenses?></dd>
 			<dt><?=uif::lng('attr.paid')?>:</dt>
-			<dd><strong><?=$master->paid_wage?></strong></dd>
+			<dd><strong><?=$master->paid_wage.$glCurrSh?></strong></dd>
 			<dt><?=uif::lng('attr.code')?>:</dt>
 			<dd><?=$master->code;?></dd>
 		</dl>
@@ -55,6 +55,7 @@
 				<th><?=uif::lng('attr.task')?></th>
 				<th><?=uif::lng('app.job_jobs')?></th>
 				<th><?=uif::lng('attr.total')?></th>
+				<th><?=uif::lng('attr.average')?></th>
 				<th><?=uif::lng('attr.unit_price')?></th>
 				<th><?=uif::lng('attr.amount')?></th>
 			</tr>
@@ -65,8 +66,9 @@
 				<td><?=$row->taskname;?></td>
 				<td><?=$row->count;?></td>
 				<td><?=$row->final_quantity.' '.$row->uname;?></td>
-				<td><?=$row->calculation_rate;?></td>
-				<td><?=$row->calculation_rate * $row->final_quantity;?></td>	
+				<td><?=round($row->final_quantity / $row->count,2).' '.$row->uname;?></td>
+				<td><?=$row->calculation_rate.$glCurrSh?></td>
+				<td><?=$row->calculation_rate * $row->final_quantity?></td>	
 			</tr>
 		<?php endforeach;?>
 		</tbody>
@@ -75,7 +77,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
+			<strong class="pull-right"><?=uif::cf($master->acc_wage).$glCurrSh?></strong>
 		</div>
 	</div>
 <!-- JOB ORDERS WAGE CALCUALTION END -->
@@ -88,7 +90,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-info">
 				<strong><?=uif::lng('attr.fixed_wage', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($master->fixed_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($master->fixed_wage).$glCurrSh?></strong>
 			</div>
 		</div>	
 		<?php endif;?>
@@ -112,7 +114,7 @@
 				<td><?=$row->pcname;?></td>
 				<td><?=$row->quantity . ' ' . $row->uname;?></td>
 				<td><?=$row->commision_rate.$glCurrSh;?></td>
-				<td><?=round($row->quantity * $row->commision_rate,2);?></td>
+				<td><?=round($row->quantity * $row->commision_rate,2)?></td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>
@@ -121,7 +123,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong><?=uif::lng('attr.accumulated', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($master->acc_wage)?></strong>
+			<strong class="pull-right"><?=uif::cf($master->acc_wage).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -167,7 +169,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert">
 			<strong><?=uif::lng('attr.bonuses', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($master->bonuses + $master->comp_mobile_sub + $master->social_cont)?></strong>
+			<strong class="pull-right"><?=uif::cf($master->bonuses + $master->comp_mobile_sub + $master->social_cont).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -176,7 +178,7 @@
 	<div class="row-fluid">
 		<div class="span12 alert alert-info">
 			<strong>Б<?=uif::lng('attr.gross', MB_CASE_UPPER)?>:</strong>
-			<strong class="pull-right"><?=uif::cf($master->gross_wage)?></strong>
+			<strong class="pull-right"><?=uif::cf($master->gross_wage).$glCurrSh?></strong>
 		</div>
 	</div>	
 <!-- BRUTO WAGE CALCULATION END -->
@@ -228,7 +230,7 @@
 				}
 				$gross_exp -= $master->social_cont;
 			?>
-			<strong class="pull-right"><?=uif::cf($gross_exp)?></strong>
+			<strong class="pull-right"><?=uif::cf($gross_exp).$glCurrSh?></strong>
 		</div>
 	</div>
 	<?php endif;?>
@@ -237,7 +239,7 @@
 		<div class="row-fluid">
 			<div class="span12 alert alert-success">
 				<strong><?=uif::lng('attr.paid', MB_CASE_UPPER)?>:</strong>
-				<strong class="pull-right"><?=uif::cf($master->paid_wage)?></strong>
+				<strong class="pull-right"><?=uif::cf($master->paid_wage).$glCurrSh?></strong>
 			</div>
 		</div>
 	<?php endif;?>

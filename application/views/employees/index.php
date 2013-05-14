@@ -37,7 +37,7 @@
 			<td><?=($row->fixed_wage_only) ? uif::staticIcon('icon-ok'):'-'?></td>
 			<td><?=($row->is_manager) ? uif::staticIcon('icon-ok'):'-'?></td>
 			<td><?=($row->is_distributer) ? uif::staticIcon('icon-ok'):'-'?></td>
-			<td><?=uif::isNull($row->fixed_wage)?></td>
+			<td><?=uif::isNull($row->fixed_wage).$glCurrSh?></td>
 			<td><?=($row->status=='active') ? 
 				uif::staticIcon('icon-ok-sign text-success') : 
 				uif::staticIcon('icon-minus-sign text-error')?></td>
