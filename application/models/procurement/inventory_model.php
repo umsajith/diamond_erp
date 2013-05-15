@@ -7,7 +7,7 @@ class Inventory_model extends MY_Model {
 
 	public $before_create = ['setNull','setDefaults','cleanDuplicates','currentStock'];
 
-	public $before_update = ['setNull','processUpdate'];
+	public $before_update = ['setNull','processUpdate','currentStock'];
 
 	public function __construct()
 	{
