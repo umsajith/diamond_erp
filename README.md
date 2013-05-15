@@ -2,11 +2,11 @@
 
 Complete Enterprise Resource Planning for SMB.
 
-Version 2.1.3 RC
+Version 2.1.0 RC
 
-Build on [CodeIgniter](http://ellislab.com/codeigniter/) Copyright (c) 2008 - 2011, EllisLab, Inc.
+Build on [CodeIgniter](http://ellislab.com/codeigniter/) - Copyright (c) 2008 - 2011, EllisLab, Inc.
 
-- - -
+* * *
 
 Copyright (C) 2013  Marko Aleksic
 
