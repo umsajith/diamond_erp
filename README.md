@@ -2,6 +2,17 @@
 
 Fully featured Enterprise Resource Planning for SMB.
 
+### TODO:
++ Implementation of Bootstrap (DONE)
++ Custom UI Factory creating Bootstrap ready Elements (DONE)
++ Extracting hard coded values to external config files (DONE)
++ Multilingual support (DONE)
+- Write Installation Instructions (IN PROGRESS)
+
+Version 2.0.3 BETA - Development
+
+- - -
+
     Copyright (C) 2013  Marko Aleksic
 
     This program is free software: you can redistribute it and/or modify
@@ -16,12 +27,3 @@ Fully featured Enterprise Resource Planning for SMB.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-### TODO:
-+ Implementation of Bootstrap (DONE)
-+ Custom UI Factory creating Bootstrap ready Elements (DONE)
-+ Extracting hard coded values to external config files (DONE)
-+ Multilingual support (DONE)
-- Write Installation Instructions (IN PROGRESS)
-
-###Version 2.0.3 BETA - Development
