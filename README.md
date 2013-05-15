@@ -1,29 +1,24 @@
-# [Diamond ERP]() - ERP for SMB
+# [Diamond ERP]() - Complete ERP for SMB
 
-Fully featured Enterprise Resource Planning for SMB.
+Complete Enterprise Resource Planning for SMB.
 
-### TODO:
-+ Implementation of Bootstrap (DONE)
-+ Custom UI Factory creating Bootstrap ready Elements (DONE)
-+ Extracting hard coded values to external config files (DONE)
-+ Multilingual support (DONE)
-- Write Installation Instructions (IN PROGRESS)
+Version 2.1.3 RC
 
-Version 2.0.3 BETA - Development
+Build on [CodeIgniter](http://ellislab.com/codeigniter/) Copyright (c) 2008 - 2011, EllisLab, Inc.
 
 - - -
 
-    Copyright (C) 2013  Marko Aleksic
+Copyright (C) 2013  Marko Aleksic
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.

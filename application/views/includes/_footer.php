@@ -1,5 +1,4 @@
 <p class="text-right">
-	<?=$glAppTitle?> © 2011 - 2013.
-	<?=anchor('http://www.carniadesign.com','Carnia Design Studio')?>. All Rights Reserved.<br>
-	<?=$glAppTitle?> v<?=$glAppVersion?> | CodeIgniter v<?=CI_VERSION?>
+	Copyright &copy; 2013, <?=anchor('http://www.markoaleksic.com','Marko Aleksic')?>. License under <?=anchor('LICENSE','GPLv3')?><br>
+	<?=$glAppTitle?> v<?=$glAppVersion?> | Build on <?=anchor('http://ellislab.com/codeigniter','CodeIgniter')?> v<?=CI_VERSION?>
 </p>
