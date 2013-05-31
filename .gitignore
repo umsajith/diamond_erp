@@ -1,9 +1,6 @@
 *.sublime-project
 *.sublime-workspace
 
-
-.htaccess
-
 *.diff
 *.err
 *.orig
