@@ -125,7 +125,7 @@ class Payroll extends MY_Controller {
 		$this->form_validation->set_rules('fixed_wage_only','','trim|required|numeric');
 		$this->form_validation->set_rules('is_distributer','','trim|required|numeric');
 		
-		//Check if form has been submited
+		//Check if form has been submitted
 		if ($this->form_validation->run())
 		{
 			/*
@@ -207,9 +207,9 @@ class Payroll extends MY_Controller {
 		/*
 		 * By default, function opens
 		 * wage calculation before submission,
-		 * hence, its not submited
+		 * hence, its not submitted
 		 */
-		$this->data['submited'] = 0;
+		$this->data['submitted'] = false;
 		
 		/*
 		 * Calculates the payroll based on
@@ -241,7 +241,7 @@ class Payroll extends MY_Controller {
 				 */			
 				$this->data['datefrom'] = $_POST['datefrom'];	
 				$this->data['dateto']   = $_POST['dateto'];
-				$this->data['submited'] = 1;
+				$this->data['submitted'] = true;
 				
 				$this->data['employee_master'] = $this->emp->get($_POST['employee']);
 
@@ -428,7 +428,7 @@ class Payroll extends MY_Controller {
 
 	public function report()
 	{
-		$this->data['submitted'] = 0;
+		$this->data['submitted'] = false;
 		
 		if($_POST)
 		{
@@ -447,7 +447,9 @@ class Payroll extends MY_Controller {
 				$this->data['submitted']  = 1;
 
 				if(empty($this->data['results']))
-					$this->data['submitted'] = 0;
+				{
+					$this->data['submitted'] = true;
+				}
 			}			
 		}
 		

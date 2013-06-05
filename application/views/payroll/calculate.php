@@ -218,7 +218,7 @@
 		</div>
 	<?php endif;?>
 
-	<?php if($submited):?>
+	<?php if($submitted):?>
 	<?=form_open('','id="payroll-data"')?>
 		<?=form_hidden('employee_fk',set_value('employee_fk',$employee))?>
 		<?=form_hidden('date_from',set_value('date_from',$datefrom))?>
@@ -244,7 +244,11 @@
 	$(function() 
 	{
 		cd.dd("select[name=employee]","<?=uif::lng('attr.employee')?>");
+		
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
-		if(<?=$submited?>){ $("#insert-payroll").prop('disabled', false); }
+
+		<?php if($submitted): ?>
+			$("#insert-payroll").prop('disabled', false);
+		<?php endif; ?>
 	});
 </script>
