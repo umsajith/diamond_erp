@@ -1,7 +1,5 @@
-diamond-erp.sublime-project
-diamond-erp.sublime-workspace
-
-.htaccess
+*.sublime-project
+*.sublime-workspace
 
 *.diff
 *.err
@@ -35,6 +33,3 @@ dwsync.xml
 intermediate
 publish
 .idea
-*.sublime-project
-
-*.sublime-workspace
