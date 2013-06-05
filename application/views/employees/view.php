@@ -69,32 +69,6 @@
         </dl>
     </div>
     <div class="span7">
-        <?php if(isset($payrolls) AND count($payrolls)):?>
-        <div class="legend"><?=uif::lng('app.last_payrolls_of_employee')?></div>
-        <table class="table table-condensed assigned-tasks">
-            <thead>
-                <tr>
-                    <th><?=uif::lng('attr.link')?></th>
-                    <th><?=uif::lng('attr.month')?></th>
-                    <th><?=uif::lng('attr.accumulated')?></th>
-                    <th><?=uif::lng('attr.gross')?></th>
-                    <th><?=uif::lng('attr.paid')?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($payrolls as $row):?>
-                <tr data-tid=<?=$row->id?>>
-                    <td><?=anchor("payroll/view/{$row->id}",'#'.$row->id)?></td>
-                    <td><?=uif::date($row->date_from,'%m/%Y')?></td>
-                    <td><?=$row->acc_wage.$glCurrSh?></td>
-                    <td><?=$row->gross_wage.$glCurrSh?></td>
-                    <td><?=$row->paid_wage.$glCurrSh?></td>
-                </tr>
-                <?php endforeach;?>
-            </tbody>
-        </table>
-        <?php endif;?>
-         <hr>
         <div class="legend"><?=uif::lng('app.assigning_tasks')?></div>
         <?=form_open("employees/assignTask")?>
             <div class="well well-small form-horizontal">
@@ -117,6 +91,32 @@
                 <tr data-tid=<?=$task->id?>>
                     <td><?=$task->taskname?></td>
                     <td><?=uif::linkButton("employees/unassignTask/{$task->id}",'icon-trash','danger btn-mini')?></td>
+                </tr>
+                <?php endforeach;?>
+            </tbody>
+        </table>
+        <?php endif;?>
+        <hr>
+        <?php if(isset($payrolls) AND count($payrolls)):?>
+        <div class="legend"><?=uif::lng('app.last_payrolls_of_employee')?></div>
+        <table class="table table-condensed assigned-tasks">
+            <thead>
+                <tr>
+                    <th><?=uif::lng('attr.link')?></th>
+                    <th><?=uif::lng('attr.month')?></th>
+                    <th><?=uif::lng('attr.accumulated')?></th>
+                    <th><?=uif::lng('attr.gross')?></th>
+                    <th><?=uif::lng('attr.paid')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($payrolls as $row):?>
+                <tr data-tid=<?=$row->id?>>
+                    <td><?=anchor("payroll/view/{$row->id}",'#'.$row->id)?></td>
+                    <td><?=uif::date($row->date_from,'%m/%Y')?></td>
+                    <td><?=$row->acc_wage.$glCurrSh?></td>
+                    <td><?=$row->gross_wage.$glCurrSh?></td>
+                    <td><?=$row->paid_wage.$glCurrSh?></td>
                 </tr>
                 <?php endforeach;?>
             </tbody>
