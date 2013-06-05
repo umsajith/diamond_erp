@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * A base controller for CodeIgniter with view autoloading, layout support,
  * model, helper, and library loading, asides/partials and per-controller 404

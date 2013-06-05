@@ -8,6 +8,7 @@ class Air {
 	 * Notifications using CodeIgniter's flash session
 	 * @param  string  $type        Type of notification (info,success,error)
 	 * @param  string  $redirect_to Redirect destination
+     * @param  string  $redirect DEPRICATED 
 	 */
 	public static function flash($type = '', $redirect_to = '', $redirect = true)
 	{

@@ -36,7 +36,13 @@ class Job_orders extends MY_Controller {
 		$this->load->model('hr/task_model','tsk');
 		$this->load->model('hr/employees_model','emp');
     }
-
+    /**
+     * Display all job orders
+     * @param  integer $query_id   
+     * @param  string  $sort_by    
+     * @param  string  $sort_order 
+     * @param  integer $offset
+     */
 	public function index($query_id = 0,$sort_by = 'dateofentry', $sort_order = 'desc', $offset = 0)
 	{		
 		//Page Heading
@@ -100,7 +106,9 @@ class Job_orders extends MY_Controller {
 		$query_id = $this->input->save_query($query_array);
 		redirect("job_orders/index/{$query_id}");
 	}
-
+	/**
+	 * Create new job order
+	 */
 	public function insert()
 	{	
 		//Defining Validation Rules
@@ -135,10 +143,6 @@ class Job_orders extends MY_Controller {
 				
 				air::flash('add','job_orders');
 			}
-			/**
-			 * @todo Check if insert failed AND there are no validation errors,
-			 * then trwo 500 intenral error message with redirect
-			 */
 			air::flash('error','job_orders');
 		}
 		
@@ -154,7 +158,10 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.job_new');
 	}
-	
+	/**
+	 * Edit job order
+	 * @param  integer $id job order id
+	 */
 	public function edit($id)
 	{
 		/*
@@ -202,7 +209,6 @@ class Job_orders extends MY_Controller {
 				{
 					$this->_inventory_use($_POST['id'],$production->id,$_POST['assigned_quantity']);
 				}
-
 				air::flash('update','job_orders');
 			}
 			air::flash('error','job_orders');
@@ -217,17 +223,10 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.job_edit');
 	}
-
 	/**
-	 * Completes and prepares Job Orders for Payroll Calculation
+	 * Display single job order
+	 * @param  integer $id 
 	 */
-	public function ajxComplete()
-	{	
-		if($this->jo->update_many(json_decode($_POST['ids']),['is_completed'=>1]))
-			echo 1;
-		exit;
-	}
-	
 	public function view($id)
 	{
 		//Heading
@@ -241,6 +240,18 @@ class Job_orders extends MY_Controller {
 		$this->data['details'] = $this->inv->select_use('job_order_fk',$this->data['master']->id);		
 	}
 
+	/**
+	 * Completes and prepares Job Orders for Payroll Calculation
+	 */
+	public function ajxComplete()
+	{	
+		if($this->jo->update_many(json_decode($_POST['ids']),['is_completed'=>1]))
+			echo 1;
+		exit;
+	}
+	/**
+	 * Displays report of production
+	 */
 	public function report()
 	{
 		$this->data['submited'] = 0;
@@ -274,7 +285,10 @@ class Job_orders extends MY_Controller {
 		//Heading
 		$this->data['heading'] = uif::lng('app.job_production_report');
 	}
-	
+	/**
+	 * Creates PDF production report
+	 * @return PDF file
+	 */
 	public function report_pdf()
 	{
 		if(!$_POST) show_404();
@@ -312,7 +326,10 @@ class Job_orders extends MY_Controller {
 		}
 		exit;
 	}
-	
+	/**
+	 * Delete job order
+	 * @param  integer $id
+	 */
 	public function delete($id)
 	{
 		$this->data['job_order'] = $this->jo->get($id);
@@ -328,8 +345,17 @@ class Job_orders extends MY_Controller {
 		else
 			air::flash('error','job_orders');
 	}
-
-	private function _inventory_use($job_order_id,$task_id,$quantity)
+	//////////////////////
+	// PRIVATE METHODS //
+	//////////////////////
+	/**
+	 * Inserts inventory deduction according to Bill of Materials
+	 * for specific job order task
+	 * @param  integer $job_order_id
+	 * @param  integer $task_id     
+	 * @param  decimal $quantity    
+	 */
+	private function _inventory_use($job_order_id = 0,$task_id = 0,$quantity = 0.0)
 	{
 		//Loading Models
 		$this->load->model('production/bomdetails_model','bomd');

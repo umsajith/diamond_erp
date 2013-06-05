@@ -1,6 +1,14 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * Diamond ERP Extension of CI_Input
+ */
 class MY_Input extends CI_Input {
 
+    /**
+     * Saves query string into database
+     * @param  Array $query_array
+     * @return integer
+     */
     public function save_query($query_array)
     {
         $CI =& get_instance();
@@ -9,7 +17,11 @@ class MY_Input extends CI_Input {
 
         return $CI->db->insert_id();
     }
-
+    /**
+     * Loads query string by given query id,
+     * and stores it in $_GET variable
+     * @param  integer $query_id
+     */
     public function load_query($query_id)
     {
         $CI =& get_instance();
