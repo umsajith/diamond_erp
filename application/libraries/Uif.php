@@ -5,7 +5,7 @@
  * Twitter Bootstrap ready
  * @author Marko Aleksic <psybaron@gmail.com>
  */
-class UIF {
+class Uif {
 
 	public static function contentHeader($mainTitle = '', $meta = '')
 	{
