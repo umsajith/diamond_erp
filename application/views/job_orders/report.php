@@ -51,14 +51,16 @@
 <script>
 	$(function() {
 
+		$("#generate-pdf").hide();
+
 		cd.dd("select[name=assigned_to]","<?=uif::lng('attr.employee')?>");
 		cd.dd("select[name=task_fk]","<?=uif::lng('attr.task')?>");
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
-
-		var submited = '<?=$submited?>';
-		if(submited == 0){
-			$("#generate-pdf").hide();
-		}
+		
+		//If report form has been submitted, show PDF icon
+		<? if ($submitted):?>
+			$("#generate-pdf").show();
+		<? endif;?>
 	});
 </script>

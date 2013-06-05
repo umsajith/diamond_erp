@@ -428,7 +428,7 @@ class Payroll extends MY_Controller {
 
 	public function report()
 	{
-		$this->data['submited'] = 0;
+		$this->data['submitted'] = 0;
 		
 		if($_POST)
 		{
@@ -444,10 +444,10 @@ class Payroll extends MY_Controller {
 				$this->data['results']   = $this->pr->report($_POST);
 				$this->data['date_from'] = $_POST['date_from'];
 				$this->data['date_to']   = $_POST['date_to'];
-				$this->data['submited']  = 1;
+				$this->data['submitted']  = 1;
 
 				if(empty($this->data['results']))
-					$this->data['submited'] = 0;
+					$this->data['submitted'] = 0;
 			}			
 		}
 		

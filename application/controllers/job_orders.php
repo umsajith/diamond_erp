@@ -254,7 +254,7 @@ class Job_orders extends MY_Controller {
 	 */
 	public function report()
 	{
-		$this->data['submited'] = 0;
+		$this->data['submitted'] = 0;
 		
 		if($_POST)
 		{
@@ -271,10 +271,10 @@ class Job_orders extends MY_Controller {
 				$this->data['results']  = $this->jo->report($_POST);
 				$this->data['datefrom'] = $_POST['datefrom'];
 				$this->data['dateto']   = $_POST['dateto'];
-				$this->data['submited'] = 1;
+				$this->data['submitted'] = 1;
 
 				if(empty($this->data['results']))
-					$this->data['submited'] = 0;
+					$this->data['submitted'] = 0;
 			}			
 		}
 		

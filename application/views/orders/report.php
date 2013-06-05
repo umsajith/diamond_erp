@@ -50,6 +50,11 @@
 		<?php endif;?>
 	</div>
 </div>
+<div class="row-fluid">
+	<div class="span12">
+		<div id="taken-chart" style="height: 300px;"></div>
+	</div>
+</div>
 <script>
 	$(function() {
 
@@ -61,8 +66,22 @@
 
 		cd.dateRange('input[name=datefrom]','input[name=dateto]');
 
-		if("<?=(isset($results) AND is_array($results) AND count($results))?>"){
-			if("<?=!isset($order_list_id)?>") $("#generate-pdf").show();
+		<? if(isset($results) AND is_array($results) AND count($results)): ?>
+			takenChart(<?=json_encode($results)?>);
+			<? if (!isset($order_list_id)): ?>
+				$("#generate-pdf").show();
+			<? endif; ?>
+		<? endif;?>
+
+		function takenChart(outData) {
+			new Morris.Bar({
+			  element: 'taken-chart',
+			  data: outData,
+			  stacked: true,
+			  xkey: 'prodname',
+			  ykeys: ['quantity','returned_quantity'],
+			  labels: ["<?=uif::lng('attr.taken')?>","<?=uif::lng('attr.returned')?>"]
+			});
 		}
 	});
 </script>

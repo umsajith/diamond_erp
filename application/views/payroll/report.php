@@ -98,13 +98,15 @@
 <script>
 	$(function() {
 
+		$("#generate-pdf").hide();
+
 		cd.dd("select[name=employee_fk]","<?=uif::lng('attr.employee')?>");
 
 		cd.dateRange('input[name=date_from]','input[name=date_to]');
 
-		var submited = '<?=$submited?>';
-		if(submited == 0){
-			$("#generate-pdf").hide();
-		}
+		//If report form has been submitted, show PDF icon
+		<? if ($submitted):?>
+			$("#generate-pdf").show();
+		<? endif;?>
 	});
 </script>

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?=base_url('css/datepicker.css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/editable.css')?>" />
     <link rel="stylesheet" href="<?=base_url('css/pnotify.default.css')?>"/>
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
     <link rel="stylesheet" href="<?=base_url('css/main.css')?>" media="screen"/>
 </head>
 <body>
@@ -57,6 +58,8 @@
     <script src="<?=base_url('js/select2.js')?>"></script>
     <script src="<?=base_url('js/typeahead.min.js')?>"></script>
     <script src="<?=base_url('js/editable.min.js')?>"></script>
+    <script src="<?=base_url('js/raphael-min.js')?>"></script>
+    <script src="<?=base_url('js/morris.min.js')?>"></script>
     <script src="<?=base_url('js/plugins.js')?>"></script>
     <script src="<?=base_url('js/scripts.js')?>"></script> 
     <!-- END OF JAVASCRIPT LOADING -->
