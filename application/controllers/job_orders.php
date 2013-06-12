@@ -152,8 +152,11 @@ class Job_orders extends MY_Controller {
 			'fixed_wage_only' => 0
 		]);
 				
-		//Retreives the Last Inserted Job Order
-		$this->data['last'] = $this->jo->get_last();
+		//Get last inserted Job Order if present
+		if($hasLastJobOrder = $this->jo->get_last())
+		{
+			$this->data['last'] = $hasLastJobOrder;
+		}
 
 		//Heading
 		$this->data['heading'] = uif::lng('app.job_new');
